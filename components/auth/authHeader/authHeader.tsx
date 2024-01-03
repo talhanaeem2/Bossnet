@@ -4,10 +4,10 @@ const AuthHeader = () => {
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.iconContainer}>
-                <Image source={require('../assets/icons/back.png')} />
+                <Image source={require('../../../assets/icons/back.png')} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.iconContainer}>
-                <Image source={require('../assets/icons/close.png')} />
+                <Image source={require('../../../assets/icons/close.png')} />
             </TouchableOpacity>
         </View>
     )

@@ -10,9 +10,9 @@ import RootStackParamListInterface from "../../interaces/RootStackParamListInter
 import Dropdown from "../dropdown/dropdown";
 
 const SignUpForm = () => {
-    const userIcon = <Image style={styles.leftIcon} source={require('../assets/icons/user.png')} />;
-    const keyIcon = <Image style={styles.leftIcon} source={require('../assets/icons/key.png')} />;
-    const eyeIcon = <Image style={styles.rightIcon} source={require('../assets/icons/eye.png')} />;
+    const userIcon = <Image style={styles.leftIcon} source={require('../../assets/icons/user.png')} />;
+    const keyIcon = <Image style={styles.leftIcon} source={require('../../assets/icons/key.png')} />;
+    const eyeIcon = <Image style={styles.rightIcon} source={require('../../assets/icons/eye.png')} />;
 
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
 
@@ -69,7 +69,7 @@ const SignUpForm = () => {
                             <Text>I agree to the Terms of Service and Privacy Policy.</Text>
                         </View>
                         <TouchableOpacity style={styles.nextButton}>
-                            <Image source={require('../assets/icons/forward.png')} />
+                            <Image source={require('../../assets/icons/forward.png')} />
                         </TouchableOpacity>
                     </View>
                 </View>

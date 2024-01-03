@@ -10,9 +10,9 @@ import Dropdown from "../dropdown/dropdown"
 import RootStackParamListInterface from "../../interaces/RootStackParamListInterface";
 
 const SignInForm = () => {
-    const userIcon = <Image style={styles.leftIcon} source={require('../assets/icons/user.png')} />;
-    const keyIcon = <Image style={styles.leftIcon} source={require('../assets/icons/key.png')} />;
-    const eyeIcon = <Image style={styles.rightIcon} source={require('../assets/icons/eye.png')} />;
+    const userIcon = <Image style={styles.leftIcon} source={require('../../assets/icons/user.png')} />;
+    const keyIcon = <Image style={styles.leftIcon} source={require('../../assets/icons/key.png')} />;
+    const eyeIcon = <Image style={styles.rightIcon} source={require('../../assets/icons/eye.png')} />;
 
     const [isChecked, setChecked] = useState(false);
 
@@ -56,7 +56,7 @@ const SignInForm = () => {
                         <Text style={styles.createAcc}>Create an Account</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.nextButton}>
-                        <Image source={require('../assets/icons/forward.png')} />
+                        <Image source={require('../../assets/icons/forward.png')} />
                     </TouchableOpacity>
                     <Dropdown options={["English", "English", "English"]} onSelect={handleSelect} style={styles.languageDropdown} textStyle={styles.languageDropdownColor} />
                     <View style={styles.terms}>
