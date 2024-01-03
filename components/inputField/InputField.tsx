@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { TextInput, StyleSheet, View, TouchableOpacity } from "react-native"
 
-import inputFieldInterface from "../interaces/inputFieldInterface";
+import inputFieldInterface from "./interfaces/inputFieldInterface";
 
 const InputField = (props: inputFieldInterface) => {
     const [text, setText] = useState<string>('');

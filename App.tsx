@@ -1,11 +1,11 @@
-import SafeAreaViewComponent from './components/SafeAreaViewComponent';
 import * as Font from 'expo-font';
 import { useEffect, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 
-import SignIn from './screens/signIn';
-import SignUp from './screens/signup';
+import SafeAreaViewComponent from './components/SafeAreaViewComponent/SafeAreaViewComponent';
+import SignIn from './screens/signIn/signIn';
+import SignUp from './screens/signUp/signup';
 
 const customFonts = {
   'Lato-Bold': require('./assets/fonts/Lato-Bold.ttf'),

@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 
-import SafeAreaViewInterface from '../interaces/SafeAreaViewInterface';
+import SafeAreaViewInterface from './interfaces/SafeAreaViewInterface';
 
 const SafeAreaViewComponent = ({ children }: SafeAreaViewInterface) => {
     return (

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 
-import DropdownInterace from '../interaces/DropdownInterface';
+import DropdownInterace from './interfaces/DropdownInterface';
 
 const Dropdown = ({ options, onSelect, style, textStyle }: DropdownInterace) => {
     const [isOpen, setIsOpen] = useState(false);

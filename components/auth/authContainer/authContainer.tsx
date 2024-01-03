@@ -1,6 +1,6 @@
 import { View, StyleSheet } from 'react-native'
 
-import AuthContainerInterface from '../interaces/AuthContainerInterface';
+import AuthContainerInterface from './interfaces/AuthContainerInterface';
 
 const AuthContainer = ({ children }: AuthContainerInterface) => {
     return (

@@ -4,10 +4,10 @@ import Checkbox from 'expo-checkbox';
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
-import commonStyles from "../styles/commonStyles."
-import InputField from "./InputField"
-import Dropdown from "./dropdown"
-import RootStackParamListInterface from "../interaces/RootStackParamListInterface";
+import commonStyles from "../../styles/commonStyles."
+import InputField from "../inputField/InputField"
+import Dropdown from "../dropdown/dropdown"
+import RootStackParamListInterface from "../../interaces/RootStackParamListInterface";
 
 const SignInForm = () => {
     const userIcon = <Image style={styles.leftIcon} source={require('../assets/icons/user.png')} />;

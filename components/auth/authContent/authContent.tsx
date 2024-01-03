@@ -1,12 +1,10 @@
 import { View } from "react-native";
 
-import AuthHeader from "./authHeader";
-import AuthContentInterface from "../interaces/AuthContentInterface";
+import AuthContentInterface from "./interfaces/AuthContentInterface";
 
 const AuthContent = ({ spacing, children }: AuthContentInterface) => {
     return (
         <>
-            <AuthHeader />
             <View style={{ marginTop: spacing }}>
                 {children}
             </View>

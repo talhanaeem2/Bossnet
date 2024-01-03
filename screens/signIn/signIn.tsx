@@ -1,8 +1,8 @@
 import { ScrollView } from 'react-native'
 
-import AuthContainer from '../components/authContainer'
-import SignInForm from '../components/signInForm'
-import AuthContent from '../components/authContent'
+import AuthContainer from '../../components/auth/authContainer/authContainer'
+import SignInForm from '../../components/signInForm/signInForm'
+import AuthContent from '../../components/auth/authContent/authContent'
 
 const SignIn = () => {
   return (

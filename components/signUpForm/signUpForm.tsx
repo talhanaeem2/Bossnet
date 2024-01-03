@@ -4,10 +4,10 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
-import commonStyles from "../styles/commonStyles."
-import InputField from "./InputField"
-import RootStackParamListInterface from "../interaces/RootStackParamListInterface";
-import Dropdown from "./dropdown";
+import commonStyles from "../../styles/commonStyles."
+import InputField from "../inputField/InputField"
+import RootStackParamListInterface from "../../interaces/RootStackParamListInterface";
+import Dropdown from "../dropdown/dropdown";
 
 const SignUpForm = () => {
     const userIcon = <Image style={styles.leftIcon} source={require('../assets/icons/user.png')} />;
