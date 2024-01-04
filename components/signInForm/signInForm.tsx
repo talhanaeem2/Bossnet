@@ -3,11 +3,13 @@ import { useState } from "react";
 import Checkbox from 'expo-checkbox';
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { Picker } from '@react-native-picker/picker';
 
 import commonStyles from "../../styles/commonStyles."
 import InputField from "../inputField/InputField"
-import Dropdown from "../dropdown/dropdown"
 import RootStackParamListInterface from "../../interaces/RootStackParamListInterface";
+import messages from "../../constants/messages";
+import { languageOptions } from "../../constants/constants";
 
 const SignInForm = () => {
     const userIcon = <Image style={styles.leftIcon} source={require('../../assets/icons/user.png')} />;
@@ -22,21 +24,19 @@ const SignInForm = () => {
         navigation.navigate("SignUp");
     }
 
-    const handleSelect = (value: string) => {
-        console.log(`Selected option: ${value}`);
-    };
+    const [selectedLanguage, setSelectedLanguage] = useState();
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.container}>
                     <View>
-                        <Text style={commonStyles.heading}>Welcome to Bosnett</Text>
-                        <Text style={commonStyles.subHeading}>Sign in with your email & password</Text>
+                        <Text style={commonStyles.heading}>{messages.signInHeading}</Text>
+                        <Text style={commonStyles.subHeading}>{messages.signInSubHeading}</Text>
                     </View>
                     <View style={styles.fieldConainer}>
-                        <InputField placeholder="Name" leftIcon={userIcon} type="text" />
-                        <InputField placeholder="Password" leftIcon={keyIcon} rightIcon={eyeIcon} secureTextEntry={true} type="password" />
+                        <InputField placeholder={messages.name} leftIcon={userIcon} type="text" />
+                        <InputField placeholder={messages.password} leftIcon={keyIcon} rightIcon={eyeIcon} secureTextEntry={true} type="password" />
                     </View>
                     <View style={styles.checkboxContainer}>
                         <Checkbox
@@ -45,27 +45,41 @@ const SignInForm = () => {
                             onValueChange={setChecked}
                             color={isChecked ? '#000' : undefined}
                         />
-                        <Text style={styles.rememberText}>Remember Me</Text>
+                        <Text style={styles.rememberText}>{messages.rememberMe}</Text>
                     </View>
                     <View style={styles.buttonSpacing}>
                         <TouchableOpacity>
-                            <Text style={styles.forgotPass}>Forgot password?</Text>
+                            <Text style={styles.forgotPass}>{messages.forgotPass}</Text>
                         </TouchableOpacity>
                     </View>
                     <TouchableOpacity onPress={navigateToSignUp}>
-                        <Text style={styles.createAcc}>Create an Account</Text>
+                        <Text style={styles.createAcc}>{messages.createAcc}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.nextButton}>
                         <Image source={require('../../assets/icons/forward.png')} />
                     </TouchableOpacity>
-                    <Dropdown options={["English", "English", "English"]} onSelect={handleSelect} style={styles.languageDropdown} textStyle={styles.languageDropdownColor} />
+                    <View style={styles.languageDropdown}>
+                        <Picker
+                            mode="dropdown"
+                            dropdownIconColor="#FFFBFB"
+                            selectedValue={selectedLanguage}
+                            onValueChange={(itemValue) =>
+                                setSelectedLanguage(itemValue)
+                            }>
+                            {languageOptions.map((item, index) => {
+                                return (
+                                    <Picker.Item style={styles.dropdownText} key={index} label={item.label} value={item.value} />
+                                )
+                            })}
+                        </Picker>
+                    </View>
                     <View style={styles.terms}>
                         <TouchableOpacity>
-                            <Text style={styles.termsText}>Terms of Service</Text>
+                            <Text style={styles.termsText}>{messages.terms}</Text>
                         </TouchableOpacity>
-                        <Text style={styles.andText}> and </Text>
+                        <Text style={styles.andText}> {messages.and} </Text>
                         <TouchableOpacity>
-                            <Text style={styles.termsText}>Privacy Policy</Text>
+                            <Text style={styles.termsText}>{messages.privacy}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -155,11 +169,14 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: "#0000009E",
         opacity: .9,
-        alignSelf: "center",
         width: 135,
-        alignItems: "center"
+        height: 40,
+        alignSelf: "center",
+        justifyContent: "center"
     },
-    languageDropdownColor: {
-        color: "#FFFBFB"
+    dropdownText: {
+        // color: "#FFFBFB",
+        fontSize: 17,
+        fontFamily: "Roboto-Regular",
     }
 })

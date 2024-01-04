@@ -4,11 +4,9 @@ import AuthContentInterface from "./interfaces/AuthContentInterface";
 
 const AuthContent = ({ spacing, children }: AuthContentInterface) => {
     return (
-        <>
-            <View style={{ marginTop: spacing }}>
-                {children}
-            </View>
-        </>
+        <View style={{ marginTop: spacing }}>
+            {children}
+        </View>
     )
 }
 

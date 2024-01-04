@@ -3,11 +3,12 @@ import Checkbox from "expo-checkbox";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 
 import commonStyles from "../../styles/commonStyles."
 import InputField from "../inputField/InputField"
 import RootStackParamListInterface from "../../interaces/RootStackParamListInterface";
-import Dropdown from "../dropdown/dropdown";
+import messages from "../../constants/messages";
 
 const SignUpForm = () => {
     const userIcon = <Image style={styles.leftIcon} source={require('../../assets/icons/user.png')} />;
@@ -18,47 +19,59 @@ const SignUpForm = () => {
 
     const [isChecked, setChecked] = useState(false);
 
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [showDatePicker, setShowDatePicker] = useState(false);
+
+    const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+        setShowDatePicker(false);
+        if (selectedDate) {
+            setSelectedDate(selectedDate);
+        }
+    };
+
+    const showDatepicker = () => {
+        setShowDatePicker(true);
+    };
+
     const navigateToSignUp = () => {
         navigation.navigate("SignIn")
     }
-
-    const handleDay = (value: string) => {
-        console.log(`Selected option: ${value}`);
-    };
-
-    const handleMonth = (value: string) => {
-        console.log(`Selected option: ${value}`);
-    };
-
-    const handleYear = (value: string) => {
-        console.log(`Selected option: ${value}`);
-    };
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.container}>
                     <View>
-                        <Text style={commonStyles.heading}>Create an Account</Text>
+                        <Text style={commonStyles.heading}>{messages.createAcc}</Text>
                         <TouchableOpacity onPress={navigateToSignUp}>
-                            <Text style={styles.signInButton}>Or sign in</Text>
+                            <Text style={styles.signInButton}>{messages.signIn}</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.fieldConainer}>
-                        <InputField placeholder="Email" type="email" />
-                        <InputField placeholder="Confirm Email" type="email" />
-                        <InputField placeholder="Password" leftIcon={keyIcon} rightIcon={eyeIcon} secureTextEntry={true} type="password" />
-                        <InputField placeholder="Confirm Password" rightIcon={eyeIcon} secureTextEntry={true} type="password" />
-                        <InputField placeholder="Name" leftIcon={userIcon} type="text" />
-                        <InputField placeholder="Nickname" type="text" />
-                        <InputField placeholder="Lastname" type="text" />
+                        <InputField placeholder={messages.email} type="email" />
+                        <InputField placeholder={messages.confirmEmail} type="email" />
+                        <InputField placeholder={messages.password} leftIcon={keyIcon} rightIcon={eyeIcon} secureTextEntry={true} type="password" />
+                        <InputField placeholder={messages.cofirmPass} rightIcon={eyeIcon} secureTextEntry={true} type="password" />
+                        <InputField placeholder={messages.name} leftIcon={userIcon} type="text" />
+                        <InputField placeholder={messages.nick} type="text" />
+                        <InputField placeholder={messages.lastName} type="text" />
                         <View style={styles.dobContainer}>
-                            <Text>Birthday</Text>
-                            <Dropdown options={["DD", "2", "3"]} onSelect={handleDay} style={styles.dropdown} textStyle={styles.dropdownText} />
-                            <Dropdown options={["MM", "2", "3"]} onSelect={handleMonth} style={styles.dropdown} textStyle={styles.dropdownText} />
-                            <Dropdown options={["YY", "2", "3"]} onSelect={handleYear} style={styles.dropdown} textStyle={styles.dropdownText} />
+                            <Text style={styles.birthdayText}>{messages.birthday}</Text>
+                            <TouchableOpacity onPress={showDatepicker} style={styles.datePickerButton}>
+                                <Text style={styles.dateText}>{selectedDate.toDateString()}</Text>
+                            </TouchableOpacity>
+                            {showDatePicker && (
+                                <DateTimePicker
+                                    value={selectedDate}
+                                    mode="date"
+                                    is24Hour={true}
+                                    display="spinner"
+                                    onChange={handleDateChange}
+                                    style={{ height: 25 }}
+                                />
+                            )}
                         </View>
-                        <InputField placeholder="Address (optional)" type="text" />
+                        <InputField placeholder={messages.address} type="text" />
                         <View style={styles.termsContainer}>
                             <Checkbox
                                 style={styles.checkbox}
@@ -66,7 +79,7 @@ const SignUpForm = () => {
                                 onValueChange={setChecked}
                                 color={isChecked ? '#000' : undefined}
                             />
-                            <Text>I agree to the Terms of Service and Privacy Policy.</Text>
+                            <Text>{messages.agree}</Text>
                         </View>
                         <TouchableOpacity style={styles.nextButton}>
                             <Image source={require('../../assets/icons/forward.png')} />
@@ -108,19 +121,11 @@ const styles = StyleSheet.create({
     checkbox: {
         marginRight: 8,
     },
-    dropdown: {
-        width: 58,
-        height: 25,
-        padding: 6,
-        justifyContent: "center"
-    },
-    dropdownText: {
-        fontSize: 9
-    },
     dobContainer: {
         flexDirection: "row",
         gap: 15,
-        alignItems: "center"
+        alignItems: "center",
+        paddingLeft: 15
     },
     termsContainer: {
         flexDirection: "row",
@@ -137,4 +142,25 @@ const styles = StyleSheet.create({
         marginTop: 48,
         marginBottom: 37
     },
+    datePickerButton: {
+        borderWidth: 1,
+        borderRadius: 10,
+        paddingVertical: 4,
+        paddingHorizontal: 10,
+        marginTop: 10,
+        borderColor: "#6C6363"
+    },
+    birthdayText: {
+        fontSize: 14,
+        fontFamily: "Roboto-Regular",
+        fontWeight: "700",
+        color: "#000",
+        marginTop: 6
+    },
+    dateText: {
+        color: "#000",
+        fontWeight: "700",
+        fontSize: 14,
+        fontFamily: "Roboto-Regular",
+    }
 })

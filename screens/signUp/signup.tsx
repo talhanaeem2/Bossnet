@@ -6,7 +6,7 @@ import SignUpForm from "../../components/signUpForm/signUpForm"
 
 const SignUp = () => {
     return (
-        <ScrollView>
+        <ScrollView nestedScrollEnabled>
             <AuthContainer>
                 <AuthContent spacing={80} children={<SignUpForm />} />
             </AuthContainer>

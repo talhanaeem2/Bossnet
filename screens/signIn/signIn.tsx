@@ -6,7 +6,7 @@ import AuthContent from '../../components/auth/authContent/authContent'
 
 const SignIn = () => {
   return (
-    <ScrollView>
+    <ScrollView nestedScrollEnabled>
       <AuthContainer>
         <AuthContent spacing={100} children={<SignInForm />} />
       </AuthContainer>
