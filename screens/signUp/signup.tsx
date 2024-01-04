@@ -8,7 +8,7 @@ const SignUp = () => {
     return (
         <ScrollView nestedScrollEnabled>
             <AuthContainer>
-                <AuthContent spacing={80} children={<SignUpForm />} />
+                <AuthContent spacing={50} children={<SignUpForm />} />
             </AuthContainer>
         </ScrollView>
     )
