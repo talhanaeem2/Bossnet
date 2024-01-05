@@ -9,6 +9,7 @@ import messages from "../../constants/messages"
 import InputField from "../inputField/InputField"
 import RootStackParamListInterface from "../../interaces/RootStackParamListInterface"
 import { languageOptions } from "../../constants/constants"
+import { RFS, RPH, RPW } from "../../constants/utils"
 
 const AccountRecoveryForm = () => {
     const [selectedLanguage, setSelectedLanguage] = useState();
@@ -20,7 +21,7 @@ const AccountRecoveryForm = () => {
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.container}>
+                <View>
                     <View>
                         <Text style={commonStyles.heading}>{messages.accountRecoveryHeading}</Text>
                         <Text style={commonStyles.subHeading}>{messages.accountRecoverySubHeading}</Text>
@@ -71,54 +72,54 @@ const AccountRecoveryForm = () => {
 export default AccountRecoveryForm
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
     bottomContainer: {
-        marginTop: "70%",
+        marginTop: RPH(30),
         alignItems: "center"
     },
     fieldContainer: {
-        marginTop: 38
+        paddingTop: RPH(4),
     },
     signInButton: {
         color: "#385DFF",
         fontFamily: "Roboto-Regular",
-        fontSize: 12,
+        fontSize: RFS(12),
         fontWeight: "400",
     },
     requestText: {
         color: "#fff",
         fontFamily: "Roboto-Regular",
-        fontSize: 13,
+        fontSize: RFS(13),
         fontWeight: "700",
     },
     requestButton: {
         backgroundColor: "#385DFF",
         borderRadius: 10,
         color: "#fff",
-        paddingVertical: 8,
-        paddingHorizontal: 12
+        paddingVertical: RPH(.9),
+        paddingHorizontal: RPW(2.8)
     },
     buttonContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingHorizontal: 13
+        paddingHorizontal: RPW(2),
+        paddingTop: RPH(2)
     },
     terms: {
         flexDirection: "row",
-        marginTop: 40
+        marginTop: RPH(6),
+        justifyContent: "center",
+        alignItems: "center"
     },
     termsText: {
         color: "#5F6373",
-        fontSize: 15,
+        fontSize: RFS(15),
         fontWeight: "700",
         fontFamily: "Lato-Bold",
     },
     andText: {
         color: "#5F6373",
-        fontSize: 15,
+        fontSize: RFS(15),
         fontWeight: "400",
         fontFamily: "Lato-Regular",
     },
@@ -126,14 +127,14 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: "#0000009E",
         opacity: .9,
-        width: 135,
-        height: 40,
+        width: RPW(40),
+        height: RPH(5),
         alignSelf: "center",
         justifyContent: "center"
     },
     dropdownText: {
         // color: "#FFFBFB",
-        fontSize: 17,
+        fontSize: RFS(17),
         fontFamily: "Roboto-Regular",
     }
 })

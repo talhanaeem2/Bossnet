@@ -9,6 +9,7 @@ import commonStyles from "../../styles/commonStyles."
 import InputField from "../inputField/InputField"
 import RootStackParamListInterface from "../../interaces/RootStackParamListInterface";
 import messages from "../../constants/messages";
+import { RFS, RPH, RPW } from "../../constants/utils";
 
 const SignUpForm = () => {
     const userIcon = <Image style={styles.leftIcon} source={require('../../assets/icons/user.png')} />;
@@ -40,7 +41,7 @@ const SignUpForm = () => {
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.container}>
+                <View>
                     <View>
                         <Text style={commonStyles.heading}>{messages.createAcc}</Text>
                         <TouchableOpacity onPress={navigateToSignIn}>
@@ -67,7 +68,6 @@ const SignUpForm = () => {
                                     is24Hour={true}
                                     display="spinner"
                                     onChange={handleDateChange}
-                                    style={{ height: 25 }}
                                 />
                             )}
                         </View>
@@ -94,12 +94,9 @@ const SignUpForm = () => {
 export default SignUpForm
 
 const styles = StyleSheet.create({
-    container: {
-        paddingLeft: 22,
-    },
     fieldConainer: {
-        paddingTop: 36,
-        gap: 23
+        paddingTop: RPH(4),
+        gap: RPH(3)
     },
     leftIcon: {
         width: 19,
@@ -114,53 +111,51 @@ const styles = StyleSheet.create({
     signInButton: {
         color: "#385DFF",
         fontFamily: "Roboto-Regular",
-        fontSize: 12,
+        fontSize: RFS(12),
         fontWeight: "400",
         alignSelf: "flex-end"
     },
     checkbox: {
-        marginRight: 8,
+        marginRight: RPW(2),
+        alignSelf: "center"
     },
     dobContainer: {
         flexDirection: "row",
-        gap: 15,
+        gap: RPW(5),
         alignItems: "center",
-        paddingLeft: 15
+        paddingLeft: RPW(4)
     },
     termsContainer: {
         flexDirection: "row",
-        gap: 6
+        gap: RPW(2)
     },
     nextButton: {
         backgroundColor: "#385DFF",
         borderRadius: 10,
-        width: 45,
-        height: 45,
+        width: RPW(13),
+        height: RPH(6),
         alignItems: "center",
         justifyContent: "center",
         alignSelf: "center",
-        marginTop: 48,
-        marginBottom: 37
+        marginTop: RPH(6)
     },
     datePickerButton: {
         borderWidth: 1,
         borderRadius: 10,
-        paddingVertical: 4,
-        paddingHorizontal: 10,
-        marginTop: 10,
+        paddingVertical: RPH(.6),
+        paddingHorizontal: RPW(2),
         borderColor: "#6C6363"
     },
     birthdayText: {
-        fontSize: 14,
+        fontSize: RFS(14),
         fontFamily: "Roboto-Regular",
         fontWeight: "700",
-        color: "#000",
-        marginTop: 6
+        color: "#000"
     },
     dateText: {
         color: "#000",
         fontWeight: "700",
-        fontSize: 14,
+        fontSize: RFS(14),
         fontFamily: "Roboto-Regular",
     }
 })

@@ -10,6 +10,7 @@ import InputField from "../inputField/InputField"
 import RootStackParamListInterface from "../../interaces/RootStackParamListInterface";
 import messages from "../../constants/messages";
 import { languageOptions } from "../../constants/constants";
+import { RFS, RPH, RPW } from "../../constants/utils";
 
 const SignInForm = () => {
     const userIcon = <Image style={styles.leftIcon} source={require('../../assets/icons/user.png')} />;
@@ -33,7 +34,7 @@ const SignInForm = () => {
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.container}>
+                <View>
                     <View>
                         <Text style={commonStyles.heading}>{messages.signInHeading}</Text>
                         <Text style={commonStyles.subHeading}>{messages.signInSubHeading}</Text>
@@ -95,12 +96,9 @@ const SignInForm = () => {
 export default SignInForm
 
 const styles = StyleSheet.create({
-    container: {
-        paddingLeft: 22,
-    },
     fieldConainer: {
-        paddingTop: 36,
-        gap: 23
+        paddingTop: RPH(4),
+        gap: RPH(3)
     },
     leftIcon: {
         width: 19,
@@ -114,58 +112,58 @@ const styles = StyleSheet.create({
     },
     rememberText: {
         color: "#4F555E",
-        fontSize: 12,
+        fontSize: RFS(12),
         fontWeight: "400",
         fontFamily: "Roboto-Regular",
     },
     checkbox: {
-        marginRight: 8,
+        marginRight: RPW(2)
     },
     checkboxContainer: {
         flexDirection: "row",
         alignItems: "center",
-        marginTop: 25
+        marginVertical: RPH(4)
     },
     forgotPass: {
         color: "#4B3434",
-        fontSize: 13,
+        fontSize: RFS(13),
         fontWeight: "400",
         fontFamily: "Roboto-Regular"
     },
     createAcc: {
         color: "#385DFF",
-        fontSize: 13,
+        fontSize: RFS(13),
         fontWeight: "400",
         fontFamily: "Roboto-Regular"
     },
     buttonSpacing: {
-        marginTop: 27,
-        marginBottom: 14
+        marginBottom: RPH(2)
     },
     nextButton: {
         backgroundColor: "#385DFF",
         borderRadius: 10,
-        width: 45,
-        height: 45,
+        width: RPW(13),
+        height: RPH(6),
         alignItems: "center",
         justifyContent: "center",
         alignSelf: "center",
-        marginTop: 64,
-        marginBottom: 37
+        marginVertical: RPH(7)
     },
     terms: {
         flexDirection: "row",
-        marginTop: 40
+        marginTop: RPH(6),
+        justifyContent: "center",
+        alignItems: "center"
     },
     termsText: {
         color: "#5F6373",
-        fontSize: 15,
+        fontSize: RFS(15),
         fontWeight: "700",
-        fontFamily: "Lato-Bold",
+        fontFamily: "Lato-Bold"
     },
     andText: {
         color: "#5F6373",
-        fontSize: 15,
+        fontSize: RFS(15),
         fontWeight: "400",
         fontFamily: "Lato-Regular",
     },
@@ -173,14 +171,14 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: "#0000009E",
         opacity: .9,
-        width: 135,
-        height: 40,
+        width: RPW(40),
+        height: RPH(5),
         alignSelf: "center",
         justifyContent: "center"
     },
     dropdownText: {
         // color: "#FFFBFB",
-        fontSize: 17,
+        fontSize: RFS(17),
         fontFamily: "Roboto-Regular",
     }
 })

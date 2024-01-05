@@ -8,7 +8,7 @@ const AccountRecovery = () => {
     return (
         <ScrollView nestedScrollEnabled>
             <AuthContainer>
-                <AuthContent spacing={50} children={<AccountRecoveryForm />} />
+                <AuthContent spacing={4} children={<AccountRecoveryForm />} />
             </AuthContainer>
         </ScrollView>
     )

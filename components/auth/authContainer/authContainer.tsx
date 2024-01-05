@@ -1,6 +1,7 @@
 import { View, StyleSheet } from 'react-native'
 
 import AuthContainerInterface from './interfaces/AuthContainerInterface';
+import { RPH, RPW } from '../../../constants/utils';
 
 const AuthContainer = ({ children }: AuthContainerInterface) => {
     return (
@@ -16,10 +17,10 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#F8F8FB',
         flex: 1,
-        marginHorizontal: 20,
-        marginVertical: 25,
+        marginHorizontal: RPW(6.5),
+        marginVertical: RPH(3.5),
         borderRadius: 20,
-        paddingHorizontal: 24,
-        paddingVertical: 30
+        paddingHorizontal: RPW(10),
+        paddingVertical: RPH(4)
     },
 });
