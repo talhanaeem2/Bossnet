@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import SafeAreaViewComponent from './components/SafeAreaViewComponent/SafeAreaViewComponent';
 import SignIn from './screens/signIn/signIn';
 import SignUp from './screens/signUp/signup';
+import AccountRecovery from './screens/accountRecovery/accountRecovery';
 
 const customFonts = {
   'Lato-Bold': require('./assets/fonts/Lato-Bold.ttf'),
@@ -37,6 +38,7 @@ const App = () => {
         <Stack.Navigator initialRouteName='SignIn'>
           <Stack.Screen name='SignIn' component={SignIn} />
           <Stack.Screen name='SignUp' component={SignUp} />
+          <Stack.Screen name='AccountRecovery' component={AccountRecovery} />
         </Stack.Navigator>
       </SafeAreaViewComponent>
     </NavigationContainer>

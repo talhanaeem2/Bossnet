@@ -33,7 +33,7 @@ const SignUpForm = () => {
         setShowDatePicker(true);
     };
 
-    const navigateToSignUp = () => {
+    const navigateToSignIn = () => {
         navigation.navigate("SignIn")
     }
 
@@ -43,7 +43,7 @@ const SignUpForm = () => {
                 <View style={styles.container}>
                     <View>
                         <Text style={commonStyles.heading}>{messages.createAcc}</Text>
-                        <TouchableOpacity onPress={navigateToSignUp}>
+                        <TouchableOpacity onPress={navigateToSignIn}>
                             <Text style={styles.signInButton}>{messages.signIn}</Text>
                         </TouchableOpacity>
                     </View>

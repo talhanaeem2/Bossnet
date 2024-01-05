@@ -24,6 +24,10 @@ const SignInForm = () => {
         navigation.navigate("SignUp");
     }
 
+    const navigateToAccountRecovery = () => {
+        navigation.navigate("AccountRecovery")
+    }
+
     const [selectedLanguage, setSelectedLanguage] = useState();
 
     return (
@@ -48,7 +52,7 @@ const SignInForm = () => {
                         <Text style={styles.rememberText}>{messages.rememberMe}</Text>
                     </View>
                     <View style={styles.buttonSpacing}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={navigateToAccountRecovery}>
                             <Text style={styles.forgotPass}>{messages.forgotPass}</Text>
                         </TouchableOpacity>
                     </View>
