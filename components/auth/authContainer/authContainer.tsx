@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F8F8FB',
         flex: 1,
         marginHorizontal: RPW(6.5),
-        marginVertical: RPH(3.5),
+        marginVertical: RPH(6.5),
         borderRadius: 20,
         paddingHorizontal: RPW(10),
         paddingVertical: RPH(4)

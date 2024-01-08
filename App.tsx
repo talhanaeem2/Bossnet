@@ -7,6 +7,8 @@ import SafeAreaViewComponent from './components/SafeAreaViewComponent/SafeAreaVi
 import SignIn from './screens/signIn/signIn';
 import SignUp from './screens/signUp/signup';
 import AccountRecovery from './screens/accountRecovery/accountRecovery';
+import Home from './screens/home/home';
+import Menu from './screens/menu/menu';
 
 const customFonts = {
   'Lato-Bold': require('./assets/fonts/Lato-Bold.ttf'),
@@ -32,13 +34,17 @@ const App = () => {
     return null;
   }
 
+  const headerShow = { headerShown: false };
+
   return (
     <NavigationContainer>
       <SafeAreaViewComponent>
-        <Stack.Navigator initialRouteName='SignIn'>
-          <Stack.Screen name='SignIn' component={SignIn} />
-          <Stack.Screen name='SignUp' component={SignUp} />
-          <Stack.Screen name='AccountRecovery' component={AccountRecovery} />
+        <Stack.Navigator initialRouteName='Menu'>
+          <Stack.Screen options={headerShow} name='SignIn' component={SignIn} />
+          <Stack.Screen options={headerShow} name='SignUp' component={SignUp} />
+          <Stack.Screen options={headerShow} name='AccountRecovery' component={AccountRecovery} />
+          <Stack.Screen options={headerShow} name='Home' component={Home} />
+          <Stack.Screen options={headerShow} name='Menu' component={Menu} />
         </Stack.Navigator>
       </SafeAreaViewComponent>
     </NavigationContainer>
