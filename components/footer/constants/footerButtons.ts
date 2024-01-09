@@ -6,7 +6,7 @@ export const footerButtons: FooterButtonsInterface[] = [
         text: "Newsfeed"
     },
     {
-        url: require("../../../assets/icons/group.png"),
+        url: require("../../../assets/icons/friends.png"),
         text: "My friends"
     },
     {

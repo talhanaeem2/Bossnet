@@ -13,9 +13,9 @@ import { languageOptions } from "../../constants/constants";
 import { RFS, RPH, RPW } from "../../constants/utils";
 
 const SignInForm = () => {
-    const userIcon = <Image style={styles.leftIcon} source={require('../../assets/icons/user.png')} />;
-    const keyIcon = <Image style={styles.leftIcon} source={require('../../assets/icons/key.png')} />;
-    const eyeIcon = <Image style={styles.rightIcon} source={require('../../assets/icons/eye.png')} />;
+    const userIcon = <Image style={[styles.leftIcon, commonStyles.imageContain]} source={require('../../assets/icons/user.png')} />;
+    const keyIcon = <Image style={[styles.leftIcon, commonStyles.imageContain]} source={require('../../assets/icons/key.png')} />;
+    const eyeIcon = <Image style={[styles.rightIcon, commonStyles.imageContain]} source={require('../../assets/icons/eye.png')} />;
 
     const [isChecked, setChecked] = useState(false);
 
@@ -61,7 +61,7 @@ const SignInForm = () => {
                         <Text style={styles.createAcc}>{messages.createAcc}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.nextButton}>
-                        <Image source={require('../../assets/icons/forward.png')} />
+                        <Image style={commonStyles.imageContain} source={require('../../assets/icons/forward.png')} />
                     </TouchableOpacity>
                     <View style={styles.languageDropdown}>
                         <Picker

@@ -1,13 +1,14 @@
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import commonStyles from '../../../styles/commonStyles.';
 
 const AuthHeader = () => {
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.iconContainer}>
-                <Image source={require('../../../assets/icons/back.png')} />
+                <Image style={commonStyles.imageContain} source={require('../../../assets/icons/back.png')} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.iconContainer}>
-                <Image source={require('../../../assets/icons/close.png')} />
+                <Image style={commonStyles.imageContain} source={require('../../../assets/icons/close.png')} />
             </TouchableOpacity>
         </View>
     )

@@ -2,6 +2,7 @@ import { TouchableOpacity, View, Image, StyleSheet, Text, Platform } from "react
 
 import { RFS, RPH, RPW } from "../../constants/utils"
 import { footerButtons } from "./constants/footerButtons"
+import commonStyles from "../../styles/commonStyles."
 
 const Footer = () => {
     return (
@@ -9,7 +10,7 @@ const Footer = () => {
             {footerButtons.map((item, index) => {
                 return (
                     <TouchableOpacity key={index} style={styles.buttonContainer}>
-                        <Image source={item.url} />
+                        <Image style={commonStyles.imageContain} source={item.url} />
                         <Text style={styles.btnText}>{item.text}</Text>
                     </TouchableOpacity>
                 )

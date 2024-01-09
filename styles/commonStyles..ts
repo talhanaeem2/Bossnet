@@ -15,6 +15,9 @@ const commonStyles: CommonStylesInterface = StyleSheet.create({
         fontWeight: "400",
         fontSize: RFS(15),
         color: "#000",
+    },
+    imageContain: {
+        objectFit: "contain"
     }
 })
 

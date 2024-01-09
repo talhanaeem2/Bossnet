@@ -15,9 +15,9 @@ import { RFS, RPH, RPW } from "../../constants/utils";
 import FormValuesInterface from "./interfaces/signUpFormInterface";
 
 const SignUpForm = () => {
-    const userIcon = <Image style={styles.leftIcon} source={require('../../assets/icons/user.png')} />;
-    const keyIcon = <Image style={styles.leftIcon} source={require('../../assets/icons/key.png')} />;
-    const eyeIcon = <Image style={styles.rightIcon} source={require('../../assets/icons/eye.png')} />;
+    const userIcon = <Image style={[styles.leftIcon, commonStyles.imageContain]} source={require('../../assets/icons/user.png')} />;
+    const keyIcon = <Image style={[styles.leftIcon, commonStyles.imageContain]} source={require('../../assets/icons/key.png')} />;
+    const eyeIcon = <Image style={[styles.rightIcon, commonStyles.imageContain]} source={require('../../assets/icons/eye.png')} />;
 
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
 
@@ -258,7 +258,7 @@ const SignUpForm = () => {
                                     }
                                 </View>
                                 <TouchableOpacity onPress={(e: GestureResponderEvent) => handleSubmit()} style={styles.nextButton}>
-                                    <Image source={require('../../assets/icons/forward.png')} />
+                                    <Image style={commonStyles.imageContain} source={require('../../assets/icons/forward.png')} />
                                 </TouchableOpacity>
                             </View>
                         )}

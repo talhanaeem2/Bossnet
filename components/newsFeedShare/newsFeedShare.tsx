@@ -1,6 +1,7 @@
 import { View, StyleSheet, Image, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard } from "react-native"
 
 import { RFS, RPH, RPW } from "../../constants/utils"
+import commonStyles from "../../styles/commonStyles."
 
 const NewsFeedShare = () => {
     return (
@@ -9,11 +10,11 @@ const NewsFeedShare = () => {
                 <View>
                     <View style={styles.shareContainer}>
                         <TouchableOpacity>
-                            <Image source={require('../../assets/icons/userPlaceholder.png')} />
+                            <Image style={commonStyles.imageContain} source={require('../../assets/icons/userPlaceholder.png')} />
                         </TouchableOpacity>
                         <TextInput style={styles.input} placeholder="Share what's on your mind, Aldin Mahmutovic" />
                         <TouchableOpacity>
-                            <Image source={require('../../assets/icons/upload.png')} />
+                            <Image style={commonStyles.imageContain} source={require('../../assets/icons/upload.png')} />
                         </TouchableOpacity>
                     </View>
                 </View>

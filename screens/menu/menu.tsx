@@ -17,14 +17,14 @@ const Menu = () => {
                                 <View style={styles.rowContainer} key={index}>
                                     <View style={styles.btnContainer}>
                                         <TouchableOpacity>
-                                            <Image source={item.url} />
+                                            <Image style={commonStyles.imageContain} source={item.url} />
                                             <Text style={styles.btnText}>{item.text}</Text>
                                         </TouchableOpacity>
                                     </View>
                                     {index + 1 < menuButtons.length && (
                                         <View style={styles.btnContainer}>
                                             <TouchableOpacity>
-                                                <Image source={menuButtons[index + 1].url} />
+                                                <Image style={commonStyles.imageContain} source={menuButtons[index + 1].url} />
                                                 <Text style={styles.btnText}>{menuButtons[index + 1].text}</Text>
                                             </TouchableOpacity>
                                         </View>
@@ -36,7 +36,7 @@ const Menu = () => {
                     })}
                 </View>
                 <TouchableOpacity style={styles.logout}>
-                    <Image source={require('../../assets/icons/logout.png')} />
+                    <Image style={commonStyles.imageContain} source={require('../../assets/icons/logout.png')} />
                     <Text style={styles.logoutText}>Log out</Text>
                 </TouchableOpacity>
             </View>
@@ -66,33 +66,33 @@ const styles = StyleSheet.create({
         fontWeight: "700",
         fontSize: RFS(19),
         color: "#000",
-        paddingTop: 2
+        paddingTop: RPH(.2)
     },
     buttonsContainer: {
         borderRadius: 16,
         borderWidth: 1,
         borderColor: "#F7F6F5",
         backgroundColor: "#fff",
-        marginTop: 14,
-        marginHorizontal: 8,
+        marginTop: RPH(1.8),
+        marginHorizontal: RPW(2),
         flexDirection: "column",
-        paddingHorizontal: 11,
-        paddingTop: 16,
-        paddingBottom: 40
+        paddingHorizontal: RPW(2.7),
+        paddingTop: RPH(2),
+        paddingBottom: RPH(4.9)
     },
     rowContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        gap: 11,
+        gap: RPW(2.8),
     },
     btnContainer: {
         flex: 1,
         backgroundColor: '#FFF',
         borderRadius: 10,
         borderColor: "rgba(247, 246, 245, 0.16)",
-        paddingHorizontal: 8,
-        paddingVertical: 5,
-        marginTop: 16,
+        paddingHorizontal: RPW(2.1),
+        paddingVertical: RPH(.6),
+        marginTop: RPH(1.9),
         ...Platform.select({
             ios: {
                 shadowColor: 'rgba(0, 0, 0, 0.15)',
@@ -107,15 +107,15 @@ const styles = StyleSheet.create({
     },
     logout: {
         flexDirection: "row",
-        gap: 11,
+        gap: RPW(2.8),
         borderWidth: 0.5,
         borderColor: 'rgba(247, 246, 245, 0.16)',
         backgroundColor: '#E7E7E7',
-        marginHorizontal: 13,
-        paddingVertical: 9,
+        marginHorizontal: RPW(3),
+        paddingVertical: RPH(1.1),
         justifyContent: "center",
         borderRadius: 10,
-        marginVertical: 35
+        marginTop: RPH(4.3)
     },
     logoutText: {
         fontFamily: "Lato-Bold",
