@@ -1,15 +1,28 @@
 import { TouchableOpacity, View, Image, StyleSheet, Text, Platform } from "react-native"
+import { useNavigation } from "@react-navigation/native"
+import { StackNavigationProp } from "@react-navigation/stack"
+import RootStackParamListInterface from "../../interaces/RootStackParamListInterface"
 
 import { RFS, RPH, RPW } from "../../constants/utils"
 import { footerButtons } from "./constants/footerButtons"
 import commonStyles from "../../styles/commonStyles."
 
 const Footer = () => {
+    const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
+
+    const handlePress = (screenName: string) => {
+        navigation.navigate(screenName);
+    };
+
     return (
         <View style={styles.container}>
             {footerButtons.map((item, index) => {
                 return (
-                    <TouchableOpacity key={index} style={styles.buttonContainer}>
+                    <TouchableOpacity
+                        key={index}
+                        style={styles.buttonContainer}
+                        onPress={() => handlePress(item.screenName)}
+                    >
                         <Image style={commonStyles.imageContain} source={item.url} />
                         <Text style={styles.btnText}>{item.text}</Text>
                     </TouchableOpacity>

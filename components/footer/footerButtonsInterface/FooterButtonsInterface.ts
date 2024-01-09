@@ -1,6 +1,7 @@
-import { ImageProps } from "react-native"
+import { ImageSourcePropType } from "react-native"
 
 export default interface FooterButtonsInterface {
-    url: ImageProps;
+    url: ImageSourcePropType;
     text?: string;
+    screenName: string;
 }

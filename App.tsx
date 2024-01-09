@@ -39,7 +39,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <SafeAreaViewComponent>
-        <Stack.Navigator initialRouteName='Menu'>
+        <Stack.Navigator initialRouteName='Home'>
           <Stack.Screen options={headerShow} name='SignIn' component={SignIn} />
           <Stack.Screen options={headerShow} name='SignUp' component={SignUp} />
           <Stack.Screen options={headerShow} name='AccountRecovery' component={AccountRecovery} />

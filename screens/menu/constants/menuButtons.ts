@@ -1,6 +1,6 @@
-import FooterButtonsInterface from "../../../components/footer/footerButtonsInterface/FooterButtonsInterface";
+import menuButtonsInterface from "../interfaces/menuButtonsInterface";
 
-export const menuButtons: FooterButtonsInterface[] = [
+export const menuButtons: menuButtonsInterface[] = [
     {
         url: require("../../../assets/icons/forums.png"),
         text: "Forums"
