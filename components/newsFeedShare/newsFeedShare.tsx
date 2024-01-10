@@ -1,8 +1,8 @@
-import { View, StyleSheet, Image, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard } from "react-native"
+import { View, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard } from "react-native"
 
 import { RFS, RPH, RPW } from "../../constants/utils"
-import commonStyles from "../../styles/commonStyles."
 import Icons from "../../constants/icons"
+import messages from "../../constants/messages"
 
 const NewsFeedShare = () => {
     return (
@@ -13,7 +13,7 @@ const NewsFeedShare = () => {
                         <TouchableOpacity>
                             {Icons.userPlaceholderIcon}
                         </TouchableOpacity>
-                        <TextInput style={styles.input} placeholder="Share what's on your mind, Aldin Mahmutovic" />
+                        <TextInput style={styles.input} placeholder={messages.newsfeedPlaceholder} />
                         <TouchableOpacity>
                             {Icons.uploadIcon}
                         </TouchableOpacity>

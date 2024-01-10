@@ -1,12 +1,13 @@
 import LanguageOptionInterface from "../interaces/languageOptionInterface";
+import messages from "./messages";
 
 export const languageOptions: LanguageOptionInterface[] = [
     {
-        label: "English",
-        value: "English"
+        label: messages.english,
+        value: messages.english
     },
     {
-        label: "Bosnia",
-        value: "Bosnia"
+        label: messages.bosnia,
+        value: messages.bosnia
     }
 ];

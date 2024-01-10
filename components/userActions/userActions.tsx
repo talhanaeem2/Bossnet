@@ -1,8 +1,9 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native"
 
 import UserActionsInterface from "./interfaces/userActionsInterface";
-import { RFS } from "../../constants/utils";
+import { RFS, RPW } from "../../constants/utils";
 import icons from "../../constants/icons";
+import messages from "../../constants/messages";
 
 const UserActions = () => {
     const handleLike = () => {
@@ -20,17 +21,17 @@ const UserActions = () => {
     const userActions: UserActionsInterface[] = [
         {
             icon: icons.likeIcon,
-            text: 'Like',
+            text: messages.likeAction,
             onPress: handleLike
         },
         {
             icon: icons.commentIcon,
-            text: 'Comment',
+            text: messages.commentAction,
             onPress: handleComment
         },
         {
             icon: icons.shareIcon,
-            text: 'Share',
+            text: messages.shareAction,
             onPress: handleShare
         },
     ];
@@ -53,7 +54,7 @@ export default UserActions
 const styles = StyleSheet.create({
     userActions: {
         flexDirection: "row",
-        gap: 60,
+        gap: RPW(16.5),
         justifyContent: "center"
     },
     action: {
@@ -66,6 +67,6 @@ const styles = StyleSheet.create({
         fontFamily: "Lato-Regular",
         fontWeight: "400",
         alignContent: "center",
-        paddingLeft: 3
+        paddingLeft: RPW(.9)
     }
 })

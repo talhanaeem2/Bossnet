@@ -34,7 +34,7 @@ const AccountRecoveryForm = () => {
                             <Text style={styles.signInButton}>{messages.signIn}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.requestButton}>
-                            <Text style={styles.requestText}>Request Reset Link</Text>
+                            <Text style={styles.requestText}>{messages.requestReset}</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.bottomContainer}>

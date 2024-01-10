@@ -1,11 +1,11 @@
-import { View, StyleSheet, Text, Image } from "react-native"
+import { View, StyleSheet, Text } from "react-native"
 
 import UserActions from "../userActions/userActions"
-import { RFS, RPW } from "../../constants/utils"
+import { RFS, RPH, RPW } from "../../constants/utils"
 import Icons from "../../constants/icons"
+import messages from "../../constants/messages"
 
 const NewsFeed = () => {
-
     return (
         <View>
             <View style={styles.postContainer}>
@@ -14,7 +14,7 @@ const NewsFeed = () => {
                     <View style={styles.textContainer}>
                         <Text style={styles.postText}>
                             <Text style={styles.postTextTitle}>Aleksandar Marinov </Text>
-                            became a registered member
+                            {messages.newsfeedTitle}
                         </Text>
                         <Text style={styles.timeText}>2 hours ago</Text>
                     </View>
@@ -33,10 +33,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#F0F0F0",
         backgroundColor: "#fff",
-        paddingVertical: 16
+        paddingVertical: RPH(2.2)
     },
     post: {
-        paddingLeft: 26,
+        paddingLeft: RPW(7.2),
         flexDirection: "row"
     },
     postTextTitle: {
@@ -49,14 +49,15 @@ const styles = StyleSheet.create({
         fontFamily: "Lato-Regular",
         fontWeight: "400"
     },
-    timeText:{
-        color:"#5F6373",
-        fontSize:RFS(9),
+    timeText: {
+        color: "#5F6373",
+        fontSize: RFS(9),
         fontFamily: "Lato-Regular",
         fontWeight: "400"
     },
-    textContainer:{
-        justifyContent:"center",
-        paddingLeft:RPW(2.5)
+    textContainer: {
+        justifyContent: "center",
+        paddingLeft: RPW(2.5),
+        paddingBottom: RPH(1.8)
     }
 })

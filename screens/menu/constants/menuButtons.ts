@@ -1,53 +1,54 @@
 import Icons from "../../../constants/icons";
+import messages from "../../../constants/messages";
 import menuButtonsInterface from "../interfaces/menuButtonsInterface";
 
 export const menuButtons: menuButtonsInterface[] = [
     {
         icon: Icons.forumsIcon,
-        text: "Forums"
+        text: messages.forums
     },
     {
         icon: Icons.historyIcon,
-        text: "History"
+        text: messages.history
     },
     {
         icon: Icons.ebooksIcon,
-        text: "E-books"
+        text: messages.ebooks
     },
     {
         icon: Icons.photosIcon,
-        text: "My Photos"
+        text: messages.photos
     },
     {
         icon: Icons.accSettingsIcon,
-        text: "Account Settings"
+        text: messages.accSettings
     },
     {
         icon: Icons.timelineIcon,
-        text: "Timeline"
+        text: messages.timeline
     },
     {
         icon: Icons.profileIcon,
-        text: "Profile"
+        text: messages.profile
     },
     {
         icon: Icons.documentsIcon,
-        text: "Documents"
+        text: messages.documents
     },
     {
         icon: Icons.videosIcon,
-        text: "Videos"
+        text: messages.videos
     },
     {
         icon: Icons.emailIcon,
-        text: "Email Invites"
+        text: messages.emailInvites
     },
     {
         icon: Icons.membersIcon,
-        text: "Members"
+        text: messages.members
     },
     {
         icon: Icons.donateIcon,
-        text: "Donate"
+        text: messages.donate
     }
 ]

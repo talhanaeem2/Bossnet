@@ -2,14 +2,15 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native"
 import commonStyles from "../../styles/commonStyles."
 import { RFS, RPH, RPW } from "../../constants/utils"
 import Icons from "../../constants/icons"
+import messages from "../../constants/messages"
 
 const Header = () => {
     return (
         <View style={styles.container}>
             <View style={styles.headingsContainer}>
                 <View>
-                    <Text style={commonStyles.heading}>News Feed</Text>
-                    <Text style={styles.subHeading}>All Updates</Text>
+                    <Text style={commonStyles.heading}>{messages.headerTitle}</Text>
+                    <Text style={styles.subHeading}>{messages.headerSubTitle}</Text>
                 </View>
                 <View style={styles.imagesContainer}>
                     <TouchableOpacity>
