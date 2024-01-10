@@ -9,6 +9,7 @@ interface IconsInterface {
     groupsIcon:JSX.Element;
     notificationsIcon:JSX.Element;
     userPlaceholderIcon:JSX.Element;
+    userPlaceholderNewsfeedIcon:JSX.Element;
     searchIcon:JSX.Element;
     messagesIcon:JSX.Element;
     uploadIcon:JSX.Element;

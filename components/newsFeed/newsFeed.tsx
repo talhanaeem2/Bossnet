@@ -10,7 +10,7 @@ const NewsFeed = () => {
         <View>
             <View style={styles.postContainer}>
                 <View style={styles.post}>
-                    {Icons.userPlaceholderIcon}
+                    {Icons.userPlaceholderNewsfeedIcon}
                     <View style={styles.textContainer}>
                         <Text style={styles.postText}>
                             <Text style={styles.postTextTitle}>Aleksandar Marinov </Text>
