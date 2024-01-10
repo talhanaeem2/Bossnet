@@ -1,6 +1,6 @@
 import { ImageSourcePropType } from "react-native";
 
 export default interface menuButtonsInterface {
-    url: ImageSourcePropType;
+    icon: JSX.Element;
     text: string;
 }

@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet, Platform, Image, TouchableOpacity } from "react-native"
+import { View, Text, StyleSheet, Platform, TouchableOpacity } from "react-native"
 
 import commonStyles from "../../styles/commonStyles."
 import { RPW, RPH, RFS } from "../../constants/utils"
 import Footer from "../../components/footer/footer"
 import { menuButtons } from "./constants/menuButtons"
+import Icons from "../../constants/icons"
 
 const Menu = () => {
     return (
@@ -17,14 +18,14 @@ const Menu = () => {
                                 <View style={styles.rowContainer} key={index}>
                                     <View style={styles.btnContainer}>
                                         <TouchableOpacity>
-                                            <Image style={commonStyles.imageContain} source={item.url} />
+                                            {item.icon}
                                             <Text style={styles.btnText}>{item.text}</Text>
                                         </TouchableOpacity>
                                     </View>
                                     {index + 1 < menuButtons.length && (
                                         <View style={styles.btnContainer}>
                                             <TouchableOpacity>
-                                                <Image style={commonStyles.imageContain} source={menuButtons[index + 1].url} />
+                                                {menuButtons[index + 1].icon}
                                                 <Text style={styles.btnText}>{menuButtons[index + 1].text}</Text>
                                             </TouchableOpacity>
                                         </View>
@@ -36,7 +37,7 @@ const Menu = () => {
                     })}
                 </View>
                 <TouchableOpacity style={styles.logout}>
-                    <Image style={commonStyles.imageContain} source={require('../../assets/icons/logout.png')} />
+                    {Icons.logoutIcon}
                     <Text style={styles.logoutText}>Log out</Text>
                 </TouchableOpacity>
             </View>

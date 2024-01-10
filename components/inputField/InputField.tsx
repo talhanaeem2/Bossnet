@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     iconContainerLeft: {
         position: "absolute",
         left: RPW(3),
+        top:RPH(2)
     },
     iconContainerRight: {
         position: "absolute",

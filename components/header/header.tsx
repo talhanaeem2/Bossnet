@@ -1,6 +1,7 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native"
 import commonStyles from "../../styles/commonStyles."
 import { RFS, RPH, RPW } from "../../constants/utils"
+import Icons from "../../constants/icons"
 
 const Header = () => {
     return (
@@ -12,10 +13,10 @@ const Header = () => {
                 </View>
                 <View style={styles.imagesContainer}>
                     <TouchableOpacity>
-                        <Image style={commonStyles.imageContain} source={require('../../assets/icons/search.png')} />
+                        {Icons.searchIcon}
                     </TouchableOpacity>
                     <TouchableOpacity>
-                        <Image style={commonStyles.imageContain} source={require('../../assets/icons/messages.png')} />
+                        {Icons.messagesIcon}
                     </TouchableOpacity>
                 </View>
             </View>

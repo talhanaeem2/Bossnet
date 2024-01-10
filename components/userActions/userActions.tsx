@@ -2,7 +2,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native"
 
 import UserActionsInterface from "./interfaces/userActionsInterface";
 import { RFS } from "../../constants/utils";
-import { commentIcon, likeIcon, shareIcon } from "../../constants/svgs";
+import icons from "../../constants/icons";
 
 const UserActions = () => {
     const handleLike = () => {
@@ -19,17 +19,17 @@ const UserActions = () => {
 
     const userActions: UserActionsInterface[] = [
         {
-            icon: likeIcon,
+            icon: icons.likeIcon,
             text: 'Like',
             onPress: handleLike
         },
         {
-            icon: commentIcon,
+            icon: icons.commentIcon,
             text: 'Comment',
             onPress: handleComment
         },
         {
-            icon: shareIcon,
+            icon: icons.shareIcon,
             text: 'Share',
             onPress: handleShare
         },

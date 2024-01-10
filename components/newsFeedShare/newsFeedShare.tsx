@@ -2,6 +2,7 @@ import { View, StyleSheet, Image, TextInput, TouchableOpacity, KeyboardAvoidingV
 
 import { RFS, RPH, RPW } from "../../constants/utils"
 import commonStyles from "../../styles/commonStyles."
+import Icons from "../../constants/icons"
 
 const NewsFeedShare = () => {
     return (
@@ -10,11 +11,11 @@ const NewsFeedShare = () => {
                 <View>
                     <View style={styles.shareContainer}>
                         <TouchableOpacity>
-                            <Image style={commonStyles.imageContain} source={require('../../assets/icons/userPlaceholder.png')} />
+                            {Icons.userPlaceholderIcon}
                         </TouchableOpacity>
                         <TextInput style={styles.input} placeholder="Share what's on your mind, Aldin Mahmutovic" />
                         <TouchableOpacity>
-                            <Image style={commonStyles.imageContain} source={require('../../assets/icons/upload.png')} />
+                            {Icons.uploadIcon}
                         </TouchableOpacity>
                     </View>
                 </View>

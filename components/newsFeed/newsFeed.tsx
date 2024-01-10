@@ -2,6 +2,7 @@ import { View, StyleSheet, Text, Image } from "react-native"
 
 import UserActions from "../userActions/userActions"
 import { RFS } from "../../constants/utils"
+import Icons from "../../constants/icons"
 
 const NewsFeed = () => {
 
@@ -9,7 +10,7 @@ const NewsFeed = () => {
         <View>
             <View style={styles.postContainer}>
                 <View style={styles.post}>
-                    <Image style={styles.userPlacholder} source={require('../../assets/icons/userPlaceholder.png')} />
+                    {Icons.userPlaceholderIcon}
                     <View>
                         <Text style={styles.postText}>
                             <Text style={styles.postTextTitle}>Aleksandar Marinov </Text>

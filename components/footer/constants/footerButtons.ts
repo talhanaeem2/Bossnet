@@ -1,28 +1,29 @@
+import Icons from "../../../constants/icons";
 import FooterButtonsInterface from "../footerButtonsInterface/FooterButtonsInterface";
 
 export const footerButtons: FooterButtonsInterface[] = [
     {
-        url: require("../../../assets/icons/newsFeed.png"),
+        icon: Icons.newsFeedIcon,
         text: "Newsfeed",
         screenName: "Home"
     },
     {
-        url: require("../../../assets/icons/friends.png"),
+        icon: Icons.friendsIcon,
         text: "My friends",
         screenName: ""
     },
     {
-        url: require("../../../assets/icons/group.png"),
+        icon: Icons.groupsIcon,
         text: "Groups",
         screenName: ""
     },
     {
-        url: require("../../../assets/icons/notifications.png"),
+        icon: Icons.notificationsIcon,
         text: "Notification",
         screenName: ""
     },
     {
-        url: require("../../../assets/icons/userPlaceholder.png"),
+        icon: Icons.userPlaceholderIcon,
         screenName: "Menu"
     }
 ]

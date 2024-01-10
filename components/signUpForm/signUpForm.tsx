@@ -1,6 +1,6 @@
-import { StyleSheet, Text, Image, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, GestureResponderEvent } from "react-native"
+import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, GestureResponderEvent } from "react-native"
 import Checkbox from "expo-checkbox";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
@@ -13,11 +13,9 @@ import RootStackParamListInterface from "../../interaces/RootStackParamListInter
 import messages from "../../constants/messages";
 import { RFS, RPH, RPW } from "../../constants/utils";
 import FormValuesInterface from "./interfaces/signUpFormInterface";
+import Icons from "../../constants/icons";
 
 const SignUpForm = () => {
-    const userIcon = <Image style={[styles.leftIcon, commonStyles.imageContain]} source={require('../../assets/icons/user.png')} />;
-    const keyIcon = <Image style={[styles.leftIcon, commonStyles.imageContain]} source={require('../../assets/icons/key.png')} />;
-    const eyeIcon = <Image style={[styles.rightIcon, commonStyles.imageContain]} source={require('../../assets/icons/eye.png')} />;
 
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
 
@@ -136,8 +134,8 @@ const SignUpForm = () => {
                                 <View>
                                     <InputField
                                         placeholder={messages.password}
-                                        leftIcon={keyIcon}
-                                        rightIcon={eyeIcon}
+                                        leftIcon={Icons.keyIcon}
+                                        rightIcon={Icons.eyeIcon}
                                         secureTextEntry={true}
                                         type="password"
                                         onChangeText={handleChange('password')}
@@ -152,7 +150,7 @@ const SignUpForm = () => {
                                 <View>
                                     <InputField
                                         placeholder={messages.cofirmPass}
-                                        rightIcon={eyeIcon}
+                                        rightIcon={Icons.eyeIcon}
                                         secureTextEntry={true}
                                         type="password"
                                         onChangeText={handleChange('confirmPassword')}
@@ -167,7 +165,7 @@ const SignUpForm = () => {
                                 <View>
                                     <InputField
                                         placeholder={messages.name}
-                                        leftIcon={userIcon}
+                                        leftIcon={Icons.userIcon}
                                         type="text"
                                         onChangeText={handleChange('name')}
                                         onBlur={handleBlur('name')}
@@ -258,7 +256,7 @@ const SignUpForm = () => {
                                     }
                                 </View>
                                 <TouchableOpacity onPress={(e: GestureResponderEvent) => handleSubmit()} style={styles.nextButton}>
-                                    <Image style={commonStyles.imageContain} source={require('../../assets/icons/forward.png')} />
+                                    {Icons.forwardIcon}
                                 </TouchableOpacity>
                             </View>
                         )}

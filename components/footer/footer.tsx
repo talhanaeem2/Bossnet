@@ -5,7 +5,6 @@ import RootStackParamListInterface from "../../interaces/RootStackParamListInter
 
 import { RFS, RPH, RPW } from "../../constants/utils"
 import { footerButtons } from "./constants/footerButtons"
-import commonStyles from "../../styles/commonStyles."
 
 const Footer = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
@@ -23,7 +22,7 @@ const Footer = () => {
                         style={styles.buttonContainer}
                         onPress={() => handlePress(item.screenName)}
                     >
-                        <Image style={commonStyles.imageContain} source={item.url} />
+                        {item.icon}
                         <Text style={styles.btnText}>{item.text}</Text>
                     </TouchableOpacity>
                 )

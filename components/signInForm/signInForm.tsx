@@ -1,4 +1,4 @@
-import { StyleSheet, Text, Image, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, TextInput } from "react-native"
+import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from "react-native"
 import { useState } from "react";
 import Checkbox from 'expo-checkbox';
 import { useNavigation } from "@react-navigation/native";
@@ -11,12 +11,9 @@ import RootStackParamListInterface from "../../interaces/RootStackParamListInter
 import messages from "../../constants/messages";
 import { languageOptions } from "../../constants/constants";
 import { RFS, RPH, RPW } from "../../constants/utils";
+import Icons from "../../constants/icons";
 
 const SignInForm = () => {
-    const userIcon = <Image style={[styles.leftIcon, commonStyles.imageContain]} source={require('../../assets/icons/user.png')} />;
-    const keyIcon = <Image style={[styles.leftIcon, commonStyles.imageContain]} source={require('../../assets/icons/key.png')} />;
-    const eyeIcon = <Image style={[styles.rightIcon, commonStyles.imageContain]} source={require('../../assets/icons/eye.png')} />;
-
     const [isChecked, setChecked] = useState(false);
 
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
@@ -40,8 +37,8 @@ const SignInForm = () => {
                         <Text style={commonStyles.subHeading}>{messages.signInSubHeading}</Text>
                     </View>
                     <View style={styles.fieldConainer}>
-                        <InputField placeholder={messages.name} leftIcon={userIcon} type="text" />
-                        <InputField placeholder={messages.password} leftIcon={keyIcon} rightIcon={eyeIcon} secureTextEntry={true} type="password" />
+                        <InputField placeholder={messages.name} leftIcon={Icons.userIcon} type="text" />
+                        <InputField placeholder={messages.password} leftIcon={Icons.keyIcon} rightIcon={Icons.eyeIcon} secureTextEntry={true} type="password" />
                     </View>
                     <View style={styles.checkboxContainer}>
                         <Checkbox
@@ -61,7 +58,7 @@ const SignInForm = () => {
                         <Text style={styles.createAcc}>{messages.createAcc}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.nextButton}>
-                        <Image style={commonStyles.imageContain} source={require('../../assets/icons/forward.png')} />
+                        {Icons.forwardIcon}
                     </TouchableOpacity>
                     <View style={styles.languageDropdown}>
                         <Picker

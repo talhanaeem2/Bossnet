@@ -1,52 +1,53 @@
+import Icons from "../../../constants/icons";
 import menuButtonsInterface from "../interfaces/menuButtonsInterface";
 
 export const menuButtons: menuButtonsInterface[] = [
     {
-        url: require("../../../assets/icons/forums.png"),
+        icon: Icons.forumsIcon,
         text: "Forums"
     },
     {
-        url: require("../../../assets/icons/history.png"),
+        icon: Icons.historyIcon,
         text: "History"
     },
     {
-        url: require("../../../assets/icons/ebooks.png"),
+        icon: Icons.ebooksIcon,
         text: "E-books"
     },
     {
-        url: require("../../../assets/icons/photos.png"),
+        icon: Icons.photosIcon,
         text: "My Photos"
     },
     {
-        url: require("../../../assets/icons/accSettings.png"),
+        icon: Icons.accSettingsIcon,
         text: "Account Settings"
     },
     {
-        url: require("../../../assets/icons/timeline.png"),
+        icon: Icons.timelineIcon,
         text: "Timeline"
     },
     {
-        url: require("../../../assets/icons/profile.png"),
+        icon: Icons.profileIcon,
         text: "Profile"
     },
     {
-        url: require("../../../assets/icons/documents.png"),
+        icon: Icons.documentsIcon,
         text: "Documents"
     },
     {
-        url: require("../../../assets/icons/videos.png"),
+        icon: Icons.videosIcon,
         text: "Videos"
     },
     {
-        url: require("../../../assets/icons/emailInvites.png"),
+        icon: Icons.emailIcon,
         text: "Email Invites"
     },
     {
-        url: require("../../../assets/icons/members.png"),
+        icon: Icons.membersIcon,
         text: "Members"
     },
     {
-        url: require("../../../assets/icons/paypal.png"),
+        icon: Icons.donateIcon,
         text: "Donate"
     }
 ]
