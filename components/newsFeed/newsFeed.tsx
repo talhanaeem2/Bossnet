@@ -1,7 +1,7 @@
 import { View, StyleSheet, Text, Image } from "react-native"
 
 import UserActions from "../userActions/userActions"
-import { RFS } from "../../constants/utils"
+import { RFS, RPW } from "../../constants/utils"
 import Icons from "../../constants/icons"
 
 const NewsFeed = () => {
@@ -11,12 +11,12 @@ const NewsFeed = () => {
             <View style={styles.postContainer}>
                 <View style={styles.post}>
                     {Icons.userPlaceholderIcon}
-                    <View>
+                    <View style={styles.textContainer}>
                         <Text style={styles.postText}>
                             <Text style={styles.postTextTitle}>Aleksandar Marinov </Text>
                             became a registered member
                         </Text>
-                        <Text>2 hours ago</Text>
+                        <Text style={styles.timeText}>2 hours ago</Text>
                     </View>
                 </View>
                 <UserActions />
@@ -49,8 +49,14 @@ const styles = StyleSheet.create({
         fontFamily: "Lato-Regular",
         fontWeight: "400"
     },
-    userPlacholder: {
-        width: 30,
-        height: 30
+    timeText:{
+        color:"#5F6373",
+        fontSize:RFS(9),
+        fontFamily: "Lato-Regular",
+        fontWeight: "400"
+    },
+    textContainer:{
+        justifyContent:"center",
+        paddingLeft:RPW(2.5)
     }
 })
