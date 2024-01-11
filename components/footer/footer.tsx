@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native"
 import { StackNavigationProp } from "@react-navigation/stack"
 import RootStackParamListInterface from "../../interaces/RootStackParamListInterface"
 
-import { RFS, RPH, RPW } from "../../constants/utils"
+import { RFS, RLH, RPH, RPW } from "../../constants/utils"
 import { footerButtons } from "./constants/footerButtons"
 
 const Footer = () => {
@@ -22,6 +22,11 @@ const Footer = () => {
                         style={styles.buttonContainer}
                         onPress={() => handlePress(item.screenName)}
                     >
+                        {index === 3 &&
+                            <View style={styles.notificationActive}>
+                                <Text style={styles.notificationActiveText}>99</Text>
+                            </View>
+                        }
                         {item.icon}
                         <Text style={styles.btnText}>{item.text}</Text>
                     </TouchableOpacity>
@@ -67,5 +72,22 @@ const styles = StyleSheet.create({
         fontSize: RFS(10),
         fontWeight: "400",
         fontFamily: "Lato-Regular"
+    },
+    notificationActive: {
+        backgroundColor: "#FF0202",
+        width: 8,
+        height: 8,
+        borderRadius: 25,
+        justifyContent: "center",
+        alignItems: "center",
+        position: "absolute",
+        right: RPW(3)
+    },
+    notificationActiveText: {
+        fontSize: RFS(6),
+        fontFamily: "Lato-Bold",
+        fontWeight: "700",
+        color: "#fff",
+        lineHeight: RLH(RFS(6))
     }
 })
