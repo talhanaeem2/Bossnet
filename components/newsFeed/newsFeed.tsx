@@ -59,10 +59,9 @@ const NewsFeed = () => {
                     {Icons.userPlaceholderNewsfeedIcon}
                     <View style={styles.textContainer}>
                         <Text style={styles.postText}>
-                            <Text style={styles.postTextTitle}>Historija
-                            </Text>
+                            <Text style={styles.postTextTitle}>Osama</Text>
                             {messages.groupText}
-                            <Text style={styles.postTextTitle}>Bošnjače </Text>
+                            <Text style={styles.postTextTitle}>Juice fuel</Text>
                         </Text>
                         <Text style={styles.timeText}>2 hours ago</Text>
                     </View>
@@ -72,6 +71,22 @@ const NewsFeed = () => {
                 </View>
                 <View style={styles.imageContainer}>
                     <Image source={require("../../assets/dragon.png")} />
+                </View>
+                <UserActions />
+            </View>
+            <View style={styles.postContainer}>
+                <View style={styles.dotsContainer}>
+                    <PostDotMenu direction="right" />
+                </View>
+                <View style={styles.post}>
+                    {Icons.userPlaceholderNewsfeedIcon}
+                    <View style={styles.textContainer}>
+                        <Text style={styles.postText}>
+                            <Text style={styles.postTextTitle}>Aleksandar Marinov </Text>
+                            {messages.newsfeedTitle}
+                        </Text>
+                        <Text style={styles.timeText}>2 hours ago</Text>
+                    </View>
                 </View>
                 <UserActions />
             </View>
