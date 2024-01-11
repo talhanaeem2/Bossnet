@@ -49,7 +49,15 @@ const messages = {
     videos: "Videos",
     emailInvites: "Email Invites",
     members: "Members",
-    donate: "Donate"
+    donate: "Donate",
+    // post dots
+    delete: "Delete",
+    report: "Report",
+    pin: "Pin",
+    groupText: " posted an update in the group ",
+    // read more
+    readMore: "Read More",
+    readLess: "Read Less"
 }
 
 export default messages

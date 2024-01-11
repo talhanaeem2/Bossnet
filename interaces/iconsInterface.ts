@@ -30,6 +30,10 @@ interface IconsInterface {
     emailIcon:JSX.Element;
     membersIcon:JSX.Element;
     donateIcon:JSX.Element;
+    dotsIcon:JSX.Element;
+    deleteIcon:JSX.Element;
+    repostIcon:JSX.Element;
+    pinIcon:JSX.Element;
 }
 
 export default IconsInterface

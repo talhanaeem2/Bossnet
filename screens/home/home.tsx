@@ -24,6 +24,7 @@ export default Home
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: RPH(6.5)
+        marginTop: RPH(6.5),
+        backgroundColor:"#FFFDFA"
     }
 })
