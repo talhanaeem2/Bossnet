@@ -99,7 +99,8 @@ export default NewsFeed
 const styles = StyleSheet.create({
     container: {
         flexDirection: "column",
-        gap: RPH(1.2)
+        gap: RPH(1.2),
+        position: "relative"
     },
     readmoreContainer: {
         paddingHorizontal: RPW(6.4)

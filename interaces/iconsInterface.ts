@@ -34,6 +34,7 @@ interface IconsInterface {
     deleteIcon:JSX.Element;
     repostIcon:JSX.Element;
     pinIcon:JSX.Element;
+    newPostIcon:JSX.Element;
 }
 
 export default IconsInterface
