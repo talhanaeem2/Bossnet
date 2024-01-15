@@ -1,12 +1,12 @@
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, PanResponder, Animated, Image, ScrollView } from "react-native"
-import { useState } from "react";
-import * as ImagePicker from 'expo-image-picker';
-import { Path } from "react-native-svg";
+import { useState } from "react"
+import * as ImagePicker from 'expo-image-picker'
+import { Path } from "react-native-svg"
 
 import { RFS, RPH } from "../../constants/utils"
 import Icons from "../../constants/icons"
-import CreatePostProps from "./interfaces/createPostProps";
-import IconContainer from "../../components/iconContainer/iconContainer";
+import CreatePostProps from "./interfaces/createPostProps"
+import IconContainer from "../../components/iconContainer/iconContainer"
 
 const CreatePost = ({ closeModal }: CreatePostProps) => {
     const [images, setImages] = useState<string[]>([]);
