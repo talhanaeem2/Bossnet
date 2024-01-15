@@ -31,7 +31,7 @@ const CreatePost = ({ closeModal }: CreatePostProps) => {
                 quality: 1,
                 allowsMultipleSelection: true
             });
-            if (result && !result.canceled) {
+            if (!result.canceled) {
                 const selectedImages = result.assets.map((asset) => asset.uri);
                 setImages((prevImages) => [...prevImages, ...selectedImages]);
             }
@@ -43,7 +43,7 @@ const CreatePost = ({ closeModal }: CreatePostProps) => {
                 aspect: [4, 3],
                 quality: 1,
             });
-            if (result && !result.canceled) {
+            if (!result.canceled) {
                 const selectedImages = result.assets.map((asset) => asset.uri);
                 setImages((prevImages) => [...prevImages, ...selectedImages]);
             }
