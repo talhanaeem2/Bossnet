@@ -58,8 +58,12 @@ const messages = {
     // read more
     readMore: "Read More",
     readLess: "Read Less",
+    // Create Post
+    createPost: "Create post",
+    postBtn: "Post",
+    shareMind: "Share what's on your mind,",
     // Groups
-    myGroups:"My Groups",
+    myGroups: "My Groups",
 }
 
 export default messages

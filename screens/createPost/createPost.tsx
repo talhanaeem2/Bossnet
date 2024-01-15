@@ -7,6 +7,7 @@ import { RFS, RPH } from "../../constants/utils"
 import Icons from "../../constants/icons"
 import CreatePostProps from "./interfaces/createPostProps"
 import IconContainer from "../../components/iconContainer/iconContainer"
+import messages from "../../constants/messages"
 
 const CreatePost = ({ closeModal }: CreatePostProps) => {
     const [images, setImages] = useState<string[]>([]);
@@ -63,9 +64,9 @@ const CreatePost = ({ closeModal }: CreatePostProps) => {
     return (
         <Animated.View {...panResponder.panHandlers} style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.text}>Create post</Text>
+                <Text style={styles.text}>{messages.createPost}</Text>
                 <TouchableOpacity style={styles.btn}>
-                    <Text style={styles.btnText}>Post</Text>
+                    <Text style={styles.btnText}>{messages.postBtn}</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.body}>
@@ -81,7 +82,7 @@ const CreatePost = ({ closeModal }: CreatePostProps) => {
                     style={styles.input}
                     multiline={true}
                     numberOfLines={8}
-                    placeholder="Share what's on your mind, Aldin Mahmutovic"
+                    placeholder={`${messages.shareMind} Aldin Mahmutovic`}
                 />
             </View>
             <View style={styles.iconContainer}>
