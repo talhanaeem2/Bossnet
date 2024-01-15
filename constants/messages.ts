@@ -57,7 +57,9 @@ const messages = {
     groupText: " posted an update in the group ",
     // read more
     readMore: "Read More",
-    readLess: "Read Less"
+    readLess: "Read Less",
+    // Groups
+    myGroups:"My Groups",
 }
 
 export default messages
