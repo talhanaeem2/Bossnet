@@ -91,13 +91,13 @@ const CreatePost = ({ closeModal }: CreatePostProps) => {
                 <TouchableOpacity onPress={() => handleImagePicker("camera")}>
                     {Icons.cameraIcon}
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => { }}>
+                <TouchableOpacity>
                     {Icons.gifIcon}
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => { }}>
+                <TouchableOpacity>
                     {Icons.atIcon}
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => { }}>
+                <TouchableOpacity>
                     {Icons.emojiIcon}
                 </TouchableOpacity>
             </View>
