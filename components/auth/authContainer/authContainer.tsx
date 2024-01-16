@@ -15,7 +15,7 @@ export default AuthContainer
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#F8F8FB',
+        backgroundColor: '#E3E2E8',
         flex: 1,
         marginHorizontal: RPW(6.5),
         marginVertical: RPH(6.5),

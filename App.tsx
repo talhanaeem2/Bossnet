@@ -10,6 +10,7 @@ import AccountRecovery from './screens/accountRecovery/accountRecovery';
 import Home from './screens/home/home';
 import Menu from './screens/menu/menu';
 import Groups from './screens/groups/groups';
+import Friends from './screens/friends/friends';
 
 const customFonts = {
   'Lato-Bold': require('./assets/fonts/Lato-Bold.ttf'),
@@ -47,6 +48,7 @@ const App = () => {
           <Stack.Screen options={headerShow} name='Home' component={Home} />
           <Stack.Screen options={headerShow} name='Menu' component={Menu} />
           <Stack.Screen options={headerShow} name='Groups' component={Groups} />
+          <Stack.Screen options={headerShow} name='Friends' component={Friends} />
         </Stack.Navigator>
       </SafeAreaViewComponent>
     </NavigationContainer>

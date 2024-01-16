@@ -10,7 +10,7 @@ export const footerButtons: FooterButtonsInterface[] = [
     {
         icon: Icons.friendsIcon,
         text: "My friends",
-        screenName: ""
+        screenName: "Friends"
     },
     {
         icon: Icons.groupsIcon,
