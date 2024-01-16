@@ -64,6 +64,8 @@ const messages = {
     shareMind: "Share what's on your mind,",
     // Groups
     myGroups: "My Groups",
+    // Friends
+    myFriends: "Friends",
 }
 
 export default messages
