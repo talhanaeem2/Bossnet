@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Bossnet",
-    "slug": "Bossnet",
+    "slug": "bossnet",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,7 +27,13 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["CAMERA", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"]
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.talhanaeem2.bossnet"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -39,6 +45,12 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "dddcee9e-c33c-44ac-9d67-511381cfdbb2"
+      }
+    },
+    "owner": "talhanaeem2"
   }
 }
