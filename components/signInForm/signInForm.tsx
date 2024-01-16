@@ -57,7 +57,7 @@ const SignInForm = () => {
                     <TouchableOpacity onPress={navigateToSignUp}>
                         <Text style={styles.createAcc}>{messages.createAcc}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.nextButton}>
+                    <TouchableOpacity style={styles.nextButton} onPress={() => navigation.navigate("Home")}>
                         {Icons.forwardIcon}
                     </TouchableOpacity>
                     <View style={styles.languageDropdown}>
