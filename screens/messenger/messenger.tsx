@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, TouchableOpacity, TextInput, Image, ScrollView, ImageProps } from "react-native"
+import { View, StyleSheet, Text, TouchableOpacity, TextInput, Image, ScrollView } from "react-native"
 import Svg, { Path } from "react-native-svg"
 import { useState } from "react"
 
