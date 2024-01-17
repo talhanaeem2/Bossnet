@@ -1,48 +1,48 @@
 import { View, Text, StyleSheet, Platform, TouchableOpacity } from "react-native"
 
-import commonStyles from "../../styles/commonStyles."
 import { RPW, RPH, RFS } from "../../constants/utils"
-import Footer from "../../components/footer/footer"
 import { menuButtons } from "./constants/menuButtons"
 import Icons from "../../constants/icons"
+import MainWapper from "../../components/mainWrapper/mainWrapper"
+import messages from "../../constants/messages"
 
 const Menu = () => {
     return (
-        <View style={styles.container}>
-            <View style={styles.contentContainer}>
-                <Text style={[commonStyles.heading, styles.textSpacing]}>Menu</Text>
-                <View style={styles.buttonsContainer}>
-                    {menuButtons.map((item, index) => {
-                        if (index % 2 === 0) {
-                            return (
-                                <View style={styles.rowContainer} key={index}>
-                                    <View style={styles.btnContainer}>
-                                        <TouchableOpacity>
-                                            {item.icon}
-                                            <Text style={styles.btnText}>{item.text}</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    {index + 1 < menuButtons.length && (
+        <MainWapper headerText={messages.menu}>
+            <View style={styles.container}>
+                <View style={styles.contentContainer}>
+                    <View style={styles.buttonsContainer}>
+                        {menuButtons.map((item, index) => {
+                            if (index % 2 === 0) {
+                                return (
+                                    <View style={styles.rowContainer} key={index}>
                                         <View style={styles.btnContainer}>
                                             <TouchableOpacity>
-                                                {menuButtons[index + 1].icon}
-                                                <Text style={styles.btnText}>{menuButtons[index + 1].text}</Text>
+                                                {item.icon}
+                                                <Text style={styles.btnText}>{item.text}</Text>
                                             </TouchableOpacity>
                                         </View>
-                                    )}
-                                </View>
-                            );
-                        }
-                        return null;
-                    })}
+                                        {index + 1 < menuButtons.length && (
+                                            <View style={styles.btnContainer}>
+                                                <TouchableOpacity>
+                                                    {menuButtons[index + 1].icon}
+                                                    <Text style={styles.btnText}>{menuButtons[index + 1].text}</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        )}
+                                    </View>
+                                );
+                            }
+                            return null;
+                        })}
+                    </View>
+                    <TouchableOpacity style={styles.logout}>
+                        {Icons.logoutIcon}
+                        <Text style={styles.logoutText}>Log out</Text>
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.logout}>
-                    {Icons.logoutIcon}
-                    <Text style={styles.logoutText}>Log out</Text>
-                </TouchableOpacity>
             </View>
-            <Footer />
-        </View>
+        </MainWapper>
     )
 }
 
@@ -51,9 +51,10 @@ export default Menu
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: RPH(6.5),
+        paddingTop: RPH(1.6),
         flexDirection: "column",
         justifyContent: 'space-between',
+        backgroundColor: "#fff"
     },
     contentContainer: {
         flex: 1,
@@ -72,9 +73,8 @@ const styles = StyleSheet.create({
     buttonsContainer: {
         borderRadius: 16,
         borderWidth: 1,
-        borderColor: "#F7F6F5",
+        borderColor: "#E7E7E7",
         backgroundColor: "#fff",
-        marginTop: RPH(1.8),
         marginHorizontal: RPW(2),
         flexDirection: "column",
         paddingHorizontal: RPW(2.7),

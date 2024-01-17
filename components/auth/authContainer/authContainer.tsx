@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#E3E2E8',
         flex: 1,
         marginHorizontal: RPW(6.5),
-        marginVertical: RPH(6.5),
+        marginBottom: RPH(6.5),
+        marginTop: RPH(1.2),
         borderRadius: 20,
         paddingHorizontal: RPW(10),
         paddingVertical: RPH(4)

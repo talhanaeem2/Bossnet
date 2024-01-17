@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 
-import SafeAreaViewComponent from './components/SafeAreaViewComponent/SafeAreaViewComponent';
 import SignIn from './screens/signIn/signIn';
 import SignUp from './screens/signUp/signup';
 import AccountRecovery from './screens/accountRecovery/accountRecovery';
@@ -11,6 +10,7 @@ import Home from './screens/home/home';
 import Menu from './screens/menu/menu';
 import Groups from './screens/groups/groups';
 import Friends from './screens/friends/friends';
+import Messenger from './screens/messenger/messenger';
 
 const customFonts = {
   'Lato-Bold': require('./assets/fonts/Lato-Bold.ttf'),
@@ -40,17 +40,16 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <SafeAreaViewComponent>
-        <Stack.Navigator initialRouteName='SignUp'>
-          <Stack.Screen options={headerShow} name='SignIn' component={SignIn} />
-          <Stack.Screen options={headerShow} name='SignUp' component={SignUp} />
-          <Stack.Screen options={headerShow} name='AccountRecovery' component={AccountRecovery} />
-          <Stack.Screen options={headerShow} name='Home' component={Home} />
-          <Stack.Screen options={headerShow} name='Menu' component={Menu} />
-          <Stack.Screen options={headerShow} name='Groups' component={Groups} />
-          <Stack.Screen options={headerShow} name='Friends' component={Friends} />
-        </Stack.Navigator>
-      </SafeAreaViewComponent>
+      <Stack.Navigator initialRouteName='SignUp'>
+        <Stack.Screen options={headerShow} name='SignIn' component={SignIn} />
+        <Stack.Screen options={headerShow} name='SignUp' component={SignUp} />
+        <Stack.Screen options={headerShow} name='AccountRecovery' component={AccountRecovery} />
+        <Stack.Screen options={headerShow} name='Home' component={Home} />
+        <Stack.Screen options={headerShow} name='Menu' component={Menu} />
+        <Stack.Screen options={headerShow} name='Groups' component={Groups} />
+        <Stack.Screen options={headerShow} name='Friends' component={Friends} />
+        <Stack.Screen options={headerShow} name='Messenger' component={Messenger} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

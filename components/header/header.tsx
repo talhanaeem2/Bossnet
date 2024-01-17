@@ -1,10 +1,16 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native"
+import { useNavigation } from "@react-navigation/native"
+import { StackNavigationProp } from "@react-navigation/stack"
+import RootStackParamListInterface from "../../interaces/RootStackParamListInterface"
+
 import commonStyles from "../../styles/commonStyles."
 import { RFS, RPH, RPW } from "../../constants/utils"
 import Icons from "../../constants/icons"
 import messages from "../../constants/messages"
 
 const Header = () => {
+    const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>()
+
     return (
         <View style={styles.container}>
             <View style={styles.headingsContainer}>
@@ -16,7 +22,7 @@ const Header = () => {
                     <TouchableOpacity>
                         {Icons.searchIcon}
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate("Messenger")}>
                         {Icons.messagesIcon}
                     </TouchableOpacity>
                 </View>

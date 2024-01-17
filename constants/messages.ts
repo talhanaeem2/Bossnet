@@ -38,6 +38,7 @@ const messages = {
     english: "English",
     bosnia: "Bosnia",
     // menu
+    menu: "Menu",
     forums: "Forums",
     history: "History",
     ebooks: "E-books",
@@ -63,9 +64,12 @@ const messages = {
     postBtn: "Post",
     shareMind: "Share what's on your mind,",
     // Groups
-    myGroups: "My Groups",
+    myGroups: "Groups",
     // Friends
-    myFriends: "Friends",
+    friends: "Friends",
+    // Messenger
+    myFriends: "My Friends",
+    active: "Active"
 }
 
 export default messages

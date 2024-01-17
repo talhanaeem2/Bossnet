@@ -6,4 +6,7 @@ export default interface RootStackParamListInterface extends ParamListBase {
     AccountRecovery: undefined;
     Home: undefined;
     Menu: undefined;
+    Groups: undefined;
+    Friends: undefined;
+    Messenger: undefined;
 }

@@ -9,6 +9,7 @@ import { RPH, RPW } from "../../constants/utils"
 import NewsFeed from "../../components/newsFeed/newsFeed"
 import Icons from "../../constants/icons"
 import CreatePost from "../createPost/createPost"
+import SafeAreaViewComponent from "../../components/SafeAreaViewComponent/SafeAreaViewComponent";
 
 const { height } = Dimensions.get("window");
 
@@ -24,33 +25,35 @@ const Home = () => {
     };
 
     return (
-        <View style={styles.container}>
-            <Header />
-            <NewsFeedShare />
-            <ScrollView>
-                <NewsFeed />
-            </ScrollView>
-            <Footer />
-            <View style={styles.newpostContainer}>
-                <TouchableOpacity onPress={toggleCreatePostModal}>
-                    {Icons.newPostIcon}
-                </TouchableOpacity>
-            </View>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={isCreatePostModalVisible}
-                onRequestClose={toggleCreatePostModal}
-            >
-                <BlurView
-                    intensity={100}
-                    tint="dark"
-                    style={StyleSheet.absoluteFill}
+        <SafeAreaViewComponent>
+            <View style={styles.container}>
+                <Header />
+                <NewsFeedShare />
+                <ScrollView>
+                    <NewsFeed />
+                </ScrollView>
+                <Footer />
+                <View style={styles.newpostContainer}>
+                    <TouchableOpacity onPress={toggleCreatePostModal}>
+                        {Icons.newPostIcon}
+                    </TouchableOpacity>
+                </View>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={isCreatePostModalVisible}
+                    onRequestClose={toggleCreatePostModal}
                 >
-                    <CreatePost closeModal={closeModal} />
-                </BlurView>
-            </Modal>
-        </View>
+                    <BlurView
+                        intensity={100}
+                        tint="dark"
+                        style={StyleSheet.absoluteFill}
+                    >
+                        <CreatePost closeModal={closeModal} />
+                    </BlurView>
+                </Modal>
+            </View>
+        </SafeAreaViewComponent>
     )
 }
 
@@ -59,7 +62,7 @@ export default Home
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: RPH(6.5),
+        paddingTop: RPH(.8),
         backgroundColor: "#FFFDFA",
         position: "relative"
     },

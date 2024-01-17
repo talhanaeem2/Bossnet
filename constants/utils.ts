@@ -23,3 +23,11 @@ export const RFS = (fontSize: number) => {
 // Responsive Line Height
 export const RLH = (fontSize: number, lineHeightMultiplier = 1.2): number =>
     Math.round(fontSize * lineHeightMultiplier);
+
+// Truncate Text
+export const truncateText = (str: string, maxLength: number) => {
+    if (str.length > maxLength) {
+        return str.slice(0, maxLength) + '...';
+    }
+    return str;
+};

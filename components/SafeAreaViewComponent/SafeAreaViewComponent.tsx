@@ -1,20 +1,17 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 
 import SafeAreaViewInterface from './interfaces/SafeAreaViewInterface';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const SafeAreaViewComponent = ({ children }: SafeAreaViewInterface) => {
+    const insets = useSafeAreaInsets();
+
     return (
-        <SafeAreaView style={styles.safeArea}>
+        <View style={{ flex: 1, paddingTop: insets.top }}>
             {children}
-        </SafeAreaView>
+        </View>
     );
 };
 
 export default SafeAreaViewComponent;
-
-const styles = StyleSheet.create({
-    safeArea: {
-        flex: 1,
-    },
-});
