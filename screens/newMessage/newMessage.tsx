@@ -80,7 +80,7 @@ const NewMessage = () => {
                                         <TouchableOpacity
                                             onPress={() =>
                                                 navigation.navigate("ChatRoom", {
-                                                    user: { user: { userName: item.text } }
+                                                    userName: item.text
                                                 })}>
                                             <View style={styles.friendContainer}>
                                                 <View style={styles.circle}>

@@ -1,20 +1,17 @@
-import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native"
+import { View, TouchableOpacity, Text, StyleSheet, Image, ScrollView } from "react-native"
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import RootStackParamListInterface from "../../interaces/RootStackParamListInterface";
 
-import ChatRoomProps from "./interfaces/chatRoomProps"
 import MainWapper from "../../components/mainWrapper/mainWrapper"
 import Icons from "../../constants/icons"
 import { RFS } from "../../constants/utils"
-import { ScrollView } from "react-native-gesture-handler";
 
 const ChatRoom = () => {
     const route = useRoute();
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
 
-    const { user } = route.params as ChatRoomProps
-    const userName = user.userName
+    const { userName } = route.params as { userName: string }
 
     const goBack = () => {
         navigation.goBack();

@@ -1,5 +1,4 @@
 import { ParamListBase } from "@react-navigation/native";
-import ChatRoomProps from "../screens/chatRoom/interfaces/chatRoomProps";
 
 export default interface RootStackParamListInterface extends ParamListBase {
     SignIn: undefined;
@@ -11,5 +10,5 @@ export default interface RootStackParamListInterface extends ParamListBase {
     Friends: undefined;
     Messenger: undefined;
     NewMessage: undefined;
-    ChatRoom: { user: ChatRoomProps };
+    ChatRoom: { userName: string };
 }
