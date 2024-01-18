@@ -10,7 +10,6 @@ import { RFS } from "../../constants/utils"
 const ChatRoom = () => {
     const route = useRoute();
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
-
     const { userName } = route.params as { userName: string }
 
     const goBack = () => {
