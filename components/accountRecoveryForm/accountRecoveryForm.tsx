@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     },
     requestText: {
         color: "#fff",
-        fontFamily: "Roboto-Regular",
+        fontFamily: "Roboto-Bold",
         fontSize: RFS(13),
         fontWeight: "700",
     },

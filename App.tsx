@@ -15,9 +15,10 @@ import NewMessage from './screens/newMessage/newMessage';
 import ChatRoom from './screens/chatRoom/chatRoom';
 
 const customFonts = {
+  'Lato-Regular': require('./assets/fonts//Lato-Regular.ttf'),
   'Lato-Bold': require('./assets/fonts/Lato-Bold.ttf'),
   'Roboto-Regular': require('./assets/fonts//Roboto-Regular.ttf'),
-  'Lato-Regular': require('./assets/fonts//Lato-Regular.ttf'),
+  'Roboto-Bold': require('./assets/fonts//Roboto-Bold.ttf'),
 };
 
 const Stack = createStackNavigator();

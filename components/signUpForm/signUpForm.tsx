@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, GestureResponderEvent } from "react-native"
+import { StyleSheet, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, GestureResponderEvent } from "react-native"
 import Checkbox from "expo-checkbox";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -7,13 +7,14 @@ import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/dat
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import commonStyles from "../../styles/commonStyles."
 import InputField from "../inputField/InputField"
 import RootStackParamListInterface from "../../interaces/RootStackParamListInterface";
 import messages from "../../constants/messages";
-import { RFS, RPH, RPW } from "../../constants/utils";
+import { RPH, RPW } from "../../constants/utils";
 import FormValuesInterface from "./interfaces/signUpFormInterface";
 import Icons from "../../constants/icons";
+import TextBold from "../textComponent/textBold/textBold";
+import TextRegular from "../textRegular/textRegular";
 
 const SignUpForm = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
@@ -91,9 +92,13 @@ const SignUpForm = () => {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View>
                     <View>
-                        <Text style={commonStyles.heading}>{messages.createAcc}</Text>
+                        <TextBold fontSize={23} fontFamily="Lato">
+                            {messages.createAcc}
+                        </TextBold>
                         <TouchableOpacity onPress={navigateToSignIn}>
-                            <Text style={styles.signInButton}>{messages.signIn}</Text>
+                            <TextRegular fontSize={12} fontFamily={"Roboto"} color="#385DFF" style={styles.signInButton}>
+                                {messages.signIn}
+                            </TextRegular>
                         </TouchableOpacity>
                     </View>
                     <Formik
@@ -113,7 +118,9 @@ const SignUpForm = () => {
                                     />
                                     {
                                         touched.email && errors.email &&
-                                        <Text style={styles.fieldError}>{errors.email}</Text>
+                                        <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                            {errors.email}
+                                        </TextRegular>
                                     }
                                 </View>
                                 <View>
@@ -126,7 +133,9 @@ const SignUpForm = () => {
                                     />
                                     {
                                         touched.confirmEmail && errors.confirmEmail &&
-                                        <Text style={styles.fieldError}>{errors.confirmEmail}</Text>
+                                        <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                            {errors.confirmEmail}
+                                        </TextRegular>
                                     }
                                 </View>
                                 <View>
@@ -142,7 +151,9 @@ const SignUpForm = () => {
                                     />
                                     {
                                         touched.password && errors.password &&
-                                        <Text style={styles.fieldError}>{errors.password}</Text>
+                                        <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                            {errors.password}
+                                        </TextRegular>
                                     }
                                 </View>
                                 <View>
@@ -157,7 +168,9 @@ const SignUpForm = () => {
                                     />
                                     {
                                         touched.confirmPassword && errors.confirmPassword &&
-                                        <Text style={styles.fieldError}>{errors.confirmPassword}</Text>
+                                        <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                            {errors.confirmPassword}
+                                        </TextRegular>
                                     }
                                 </View>
                                 <View>
@@ -171,7 +184,9 @@ const SignUpForm = () => {
                                     />
                                     {
                                         touched.name && errors.name &&
-                                        <Text style={styles.fieldError}>{errors.name}</Text>
+                                        <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                            {errors.name}
+                                        </TextRegular>
                                     }
                                 </View>
                                 <View>
@@ -184,7 +199,9 @@ const SignUpForm = () => {
                                     />
                                     {
                                         touched.nickName && errors.nickName &&
-                                        <Text style={styles.fieldError}>{errors.nickName}</Text>
+                                        <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                            {errors.nickName}
+                                        </TextRegular>
                                     }
                                 </View>
                                 <View>
@@ -197,13 +214,19 @@ const SignUpForm = () => {
                                     />
                                     {
                                         touched.lastName && errors.lastName &&
-                                        <Text style={styles.fieldError}>{errors.lastName}</Text>
+                                        <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                            {errors.lastName}
+                                        </TextRegular>
                                     }
                                 </View>
                                 <View style={styles.dobContainer}>
-                                    <Text style={styles.birthdayText}>{messages.birthday}</Text>
+                                    <TextBold fontSize={14} fontFamily="Roboto">
+                                        {messages.birthday}
+                                    </TextBold>
                                     <TouchableOpacity onPress={showDatepicker} style={styles.datePickerButton}>
-                                        <Text style={styles.dateText}>{values.birthday instanceof Date ? values.birthday.toDateString() : values.birthday}</Text>
+                                        <TextBold fontSize={14} fontFamily="Roboto">
+                                            {values.birthday instanceof Date ? values.birthday.toDateString() : values.birthday}
+                                        </TextBold>
                                     </TouchableOpacity>
                                     {showDatePicker && (
                                         <DateTimePicker
@@ -223,7 +246,9 @@ const SignUpForm = () => {
                                 <View>
                                     {
                                         touched.birthday && errors.birthday &&
-                                        <Text style={styles.fieldError}>{String(errors.birthday)}</Text>
+                                        <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                            {errors.birthday as string}
+                                        </TextRegular>
                                     }
                                 </View>
                                 <View>
@@ -235,23 +260,29 @@ const SignUpForm = () => {
                                         value={values.address}
                                     />
                                 </View>
-                                <View style={styles.termsContainer}>
-                                    <Checkbox
-                                        style={styles.checkbox}
-                                        value={isChecked}
-                                        onValueChange={(newValue) => {
-                                            handleChange('agreeToTerms');
-                                            setChecked(newValue);
-                                        }}
-                                        color={isChecked ? '#000' : undefined}
-                                    />
-                                    <Text>{messages.agree}</Text>
-                                </View>
                                 <View>
-                                    {
-                                        touched.agreeToTerms && errors.agreeToTerms &&
-                                        <Text style={styles.fieldError}>{errors.agreeToTerms}</Text>
-                                    }
+                                    <View style={styles.termsContainer}>
+                                        <Checkbox
+                                            style={styles.checkbox}
+                                            value={isChecked}
+                                            onValueChange={(newValue) => {
+                                                handleChange('agreeToTerms');
+                                                setChecked(newValue);
+                                            }}
+                                            color={isChecked ? '#000' : undefined}
+                                        />
+                                        <TextRegular fontSize={12} fontFamily="Roboto" color="#4F555E" style={styles.agreeText}>
+                                            {messages.agree}
+                                        </TextRegular>
+                                    </View>
+                                    <View>
+                                        {
+                                            touched.agreeToTerms && errors.agreeToTerms &&
+                                            <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                                {errors.agreeToTerms}
+                                            </TextRegular>
+                                        }
+                                    </View>
                                 </View>
                                 <TouchableOpacity onPress={(e: GestureResponderEvent) => handleSubmit()} style={styles.nextButton}>
                                     {Icons.forwardIcon}
@@ -283,14 +314,10 @@ const styles = StyleSheet.create({
         alignSelf: "center"
     },
     signInButton: {
-        color: "#385DFF",
-        fontFamily: "Roboto-Regular",
-        fontSize: RFS(12),
-        fontWeight: "400",
         alignSelf: "flex-end"
     },
     checkbox: {
-        marginRight: RPW(2),
+        marginRight: RPW(1),
         alignSelf: "center"
     },
     dobContainer: {
@@ -301,7 +328,7 @@ const styles = StyleSheet.create({
     },
     termsContainer: {
         flexDirection: "row",
-        gap: RPW(2)
+        gap: RPW(1.4)
     },
     nextButton: {
         backgroundColor: "#385DFF",
@@ -320,22 +347,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: RPW(2),
         borderColor: "#6C6363"
     },
-    birthdayText: {
-        fontSize: RFS(14),
-        fontFamily: "Roboto-Regular",
-        fontWeight: "700",
-        color: "#000"
-    },
-    dateText: {
-        color: "#000",
-        fontWeight: "700",
-        fontSize: RFS(14),
-        fontFamily: "Roboto-Regular",
-    },
     fieldError: {
-        color: "red",
-        fontSize: RFS(12),
-        fontFamily: "Roboto-Regular",
-        marginLeft: RPW(2)
+        marginLeft: RPW(2),
+        marginTop: RPH(.3)
+    },
+    agreeText: {
+        alignSelf: "center",
+        flex: 1
     }
 })
