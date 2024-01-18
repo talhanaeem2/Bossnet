@@ -4,9 +4,18 @@ import SafeAreaViewComponent from "../SafeAreaViewComponent/SafeAreaViewComponen
 import MainWrapperProps from "./interfaces/mainWrapperProps";
 
 const MainWapper = (props: MainWrapperProps) => {
+    const { headerShow = true } = props
     return (
         <SafeAreaViewComponent>
-            <MainHeader headerText={props.headerText} chatHeader={props.chatHeader} />
+            {
+                headerShow ?
+                    <MainHeader
+                        headerText={props.headerText}
+                        chatHeader={props.chatHeader}
+                        icon={props.icon}
+                    /> :
+                    null
+            }
             {props.children}
             <Footer />
         </SafeAreaViewComponent>

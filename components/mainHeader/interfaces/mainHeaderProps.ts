@@ -1,4 +1,5 @@
 export default interface MainHeaderProps {
-    headerText: string;
+    headerText?: string;
     chatHeader?: boolean;
+    icon?: boolean;
 }

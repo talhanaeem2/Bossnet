@@ -8,7 +8,7 @@ import messages from "../../constants/messages"
 
 const Menu = () => {
     return (
-        <MainWapper headerText={messages.menu}>
+        <MainWapper headerText={messages.menu} icon={true}>
             <View style={styles.container}>
                 <View style={styles.contentContainer}>
                     <View style={styles.buttonsContainer}>

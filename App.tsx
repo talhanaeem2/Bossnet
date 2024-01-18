@@ -11,6 +11,8 @@ import Menu from './screens/menu/menu';
 import Groups from './screens/groups/groups';
 import Friends from './screens/friends/friends';
 import Messenger from './screens/messenger/messenger';
+import NewMessage from './screens/newMessage/newMessage';
+import ChatRoom from './screens/chatRoom/chatRoom';
 
 const customFonts = {
   'Lato-Bold': require('./assets/fonts/Lato-Bold.ttf'),
@@ -49,6 +51,8 @@ const App = () => {
         <Stack.Screen options={headerShow} name='Groups' component={Groups} />
         <Stack.Screen options={headerShow} name='Friends' component={Friends} />
         <Stack.Screen options={headerShow} name='Messenger' component={Messenger} />
+        <Stack.Screen options={headerShow} name='NewMessage' component={NewMessage} />
+        <Stack.Screen options={headerShow} name='ChatRoom' component={ChatRoom} />
       </Stack.Navigator>
     </NavigationContainer>
   );

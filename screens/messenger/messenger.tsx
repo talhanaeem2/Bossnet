@@ -1,6 +1,6 @@
 import { View, StyleSheet, Text, TouchableOpacity, TextInput, Image, ScrollView } from "react-native"
 import Svg, { Path } from "react-native-svg"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { RFS, RLH, RPH, truncateText } from "../../constants/utils"
 import messages from "../../constants/messages"
@@ -61,7 +61,8 @@ const friends: FriendsInterface[] = [
 ];
 
 const Messenger = () => {
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState('')
+    const [isInputFocused, setIsInputFocused] = useState(false);
 
     const filteredFriends = friends.filter(item => {
         const itemText = item.text.toLowerCase();
@@ -82,31 +83,36 @@ const Messenger = () => {
                         style={styles.input}
                         value={searchQuery}
                         onChangeText={(text) => setSearchQuery(text)}
+                        onFocus={() => setIsInputFocused(true)}
+                        onBlur={() => setIsInputFocused(false)}
                     />
                 </View>
-                <View style={styles.activeContainer}>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                        <View style={styles.activeFriendscontainer}>
-                            {
-                                friends.map((item, index) => {
-                                    const fullName = item.text;
-                                    const firstName = fullName.split(' ')[0];
-                                    const truncatedFirstName = truncateText(firstName, 6);
+                {
+                    isInputFocused ? null :
+                        <View style={styles.activeContainer}>
+                            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                                <View style={styles.activeFriendscontainer}>
+                                    {
+                                        friends.map((item, index) => {
+                                            const fullName = item.text;
+                                            const firstName = fullName.split(' ')[0];
+                                            const truncatedFirstName = truncateText(firstName, 6);
 
-                                    return (
-                                        <TouchableOpacity key={index}>
-                                            <View style={styles.activeCircle}>
-                                                <Image style={styles.activeRoundImg} source={item.image} />
-                                                <View style={styles.activeIcon}></View>
-                                                <Text style={styles.activeFriendText}>{truncatedFirstName}</Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                    )
-                                })
-                            }
+                                            return (
+                                                <TouchableOpacity key={index}>
+                                                    <View style={styles.activeCircle}>
+                                                        <Image style={styles.activeRoundImg} source={item.image} />
+                                                        <View style={styles.activeIcon}></View>
+                                                        <Text style={styles.activeFriendText}>{truncatedFirstName}</Text>
+                                                    </View>
+                                                </TouchableOpacity>
+                                            )
+                                        })
+                                    }
+                                </View>
+                            </ScrollView>
                         </View>
-                    </ScrollView>
-                </View>
+                }
                 <ScrollView>
                     <View style={styles.friendListContainer}>
                         {
@@ -228,7 +234,7 @@ const styles = StyleSheet.create({
         height: 73
     },
     friendListContainer: {
-        marginTop: 17
+        marginTop: 5
     },
     friendListItem: {
         paddingHorizontal: 18,

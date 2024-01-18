@@ -15,7 +15,6 @@ import Icons from "../../constants/icons";
 
 const SignInForm = () => {
     const [isChecked, setChecked] = useState(false);
-
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
 
     const navigateToSignUp = () => {

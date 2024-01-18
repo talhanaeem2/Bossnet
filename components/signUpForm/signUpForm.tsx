@@ -16,9 +16,7 @@ import FormValuesInterface from "./interfaces/signUpFormInterface";
 import Icons from "../../constants/icons";
 
 const SignUpForm = () => {
-
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
-
     const [isChecked, setChecked] = useState(false);
 
     const [selectedDate, setSelectedDate] = useState(new Date());

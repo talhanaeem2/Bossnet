@@ -16,7 +16,7 @@ const Groups = () => {
     });
 
     return (
-        <MainWapper headerText={messages.myGroups}>
+        <MainWapper headerText={messages.myGroups} icon={true}>
             <View style={styles.container}>
                 <View style={styles.iconContainer}>
                     <View style={styles.icon}>

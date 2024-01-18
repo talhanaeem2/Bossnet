@@ -6,6 +6,7 @@ import { RFS, RPH } from "../../constants/utils"
 import messages from "../../constants/messages"
 import FriendsInterface from "./interfaces/friendsInterface"
 import MainWrapper from "../../components/mainWrapper/mainWrapper"
+import { TouchableOpacity } from "react-native-gesture-handler"
 
 const friends: FriendsInterface[] = [
     {
@@ -59,7 +60,7 @@ const Friends = () => {
     });
 
     return (
-        <MainWrapper headerText={messages.friends}>
+        <MainWrapper headerText={messages.friends} icon={true}>
             <View style={styles.container}>
                 <View style={styles.iconContainer}>
                     <View style={styles.icon}>
@@ -89,12 +90,16 @@ const Friends = () => {
                                     return (
                                         <View key={index}>
                                             <View style={styles.friendContainer}>
-                                                <View style={styles.circle}>
-                                                    <Image style={styles.roundImg} source={item.image} />
-                                                </View>
-                                                <View>
-                                                    <Text style={styles.title}>{item.text}</Text>
-                                                </View>
+                                                <TouchableOpacity>
+                                                    <View style={styles.circle}>
+                                                        <Image style={styles.roundImg} source={item.image} />
+                                                    </View>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity>
+                                                    <View>
+                                                        <Text style={styles.title}>{item.text}</Text>
+                                                    </View>
+                                                </TouchableOpacity>
                                             </View>
                                             {
                                                 index !== filteredFriends.length - 1 &&
