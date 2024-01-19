@@ -4,6 +4,7 @@ import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
 import { RFS, RLH } from '../../constants/utils';
 import messages from '../../constants/messages';
 import ReadMoreProps from './interfaces/ReadMoreProps';
+import TextRegular from '../textComponent/textRegular/textRegular';
 
 const ReadMore = ({ text, numberOfLines = 2 }: ReadMoreProps) => {
     const [showFullText, setShowFullText] = useState(false);
@@ -19,10 +20,14 @@ const ReadMore = ({ text, numberOfLines = 2 }: ReadMoreProps) => {
             </Text>
             {!showFullText ?
                 <TouchableOpacity onPress={toggleReadMore}>
-                    <Text style={styles.readMore}>{messages.readMore}</Text>
+                    <TextRegular fontSize={13} color="#385DFF">
+                        {messages.readMore}
+                    </TextRegular>
                 </TouchableOpacity> :
                 <TouchableOpacity onPress={toggleReadMore}>
-                    <Text style={styles.readMore}>{messages.readLess}</Text>
+                    <TextRegular fontSize={13} color="#385DFF">
+                        {messages.readLess}
+                    </TextRegular>
                 </TouchableOpacity>
             }
         </View>
@@ -40,14 +45,7 @@ const styles = StyleSheet.create({
         fontFamily: "Lato-Regular",
         fontWeight: "400",
         lineHeight: RLH(RFS(13), 1.3)
-    },
-    readMore: {
-        color: '#385DFF',
-        fontFamily: "Lato-Regular",
-        fontWeight: "400",
-        fontSize: RFS(13),
-        lineHeight: RLH(RFS(13), 1.3)
-    },
+    }
 });
 
 export default ReadMore;

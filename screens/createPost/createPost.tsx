@@ -1,13 +1,14 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, PanResponder, Animated, Image, ScrollView } from "react-native"
+import { View, StyleSheet, TouchableOpacity, TextInput, PanResponder, Animated, Image, ScrollView } from "react-native"
 import { useState } from "react"
 import * as ImagePicker from 'expo-image-picker'
 import { Path } from "react-native-svg"
 
-import { RFS, RPH } from "../../constants/utils"
+import { RFS, RPH, RPW } from "../../constants/utils"
 import Icons from "../../constants/icons"
 import CreatePostProps from "./interfaces/createPostProps"
 import IconContainer from "../../components/iconContainer/iconContainer"
 import messages from "../../constants/messages"
+import TextBold from "../../components/textComponent/textBold/textBold"
 
 const CreatePost = ({ closeModal }: CreatePostProps) => {
     const [images, setImages] = useState<string[]>([]);
@@ -64,9 +65,13 @@ const CreatePost = ({ closeModal }: CreatePostProps) => {
     return (
         <Animated.View {...panResponder.panHandlers} style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.text}>{messages.createPost}</Text>
+                <TextBold fontSize={13} style={styles.text}>
+                    {messages.createPost}
+                </TextBold>
                 <TouchableOpacity style={styles.btn}>
-                    <Text style={styles.btnText}>{messages.postBtn}</Text>
+                    <TextBold fontSize={10} color="#fff">
+                        {messages.postBtn}
+                    </TextBold>
                 </TouchableOpacity>
             </View>
             <View style={styles.body}>
@@ -75,7 +80,9 @@ const CreatePost = ({ closeModal }: CreatePostProps) => {
                         {Icons.userPlaceholderIcon}
                     </View>
                     <View>
-                        <Text style={styles.title}>Aldin Mahmutovic</Text>
+                        <TextBold fontSize={17}>
+                            Aldin Mahmutovic
+                        </TextBold>
                     </View>
                 </View>
                 <TextInput
@@ -130,47 +137,38 @@ const styles = StyleSheet.create({
     closeIcon: {
         position: "absolute",
         zIndex: 2,
-        top: 3,
-        left: 3
+        top: RPW(.7),
+        left: RPH(.4)
     },
     uploadedImage: {
-        marginTop: 10,
-        width: 50,
-        height: 50,
+        marginTop: RPH(1.2),
+        width: RPW(12.7),
+        height: RPH(6.2),
         resizeMode: 'cover',
         borderRadius: 8
     },
     uploadedImageContainer: {
         justifyContent: "flex-start",
         position: "relative",
-        paddingHorizontal: 10
+        paddingHorizontal: RPW(2.5)
     },
     container: {
         backgroundColor: "#fff",
         marginVertical: RPH(6.5),
         borderRadius: 24,
-        marginHorizontal: 25,
-        paddingVertical: 12
+        marginHorizontal: RPW(6.4),
+        paddingVertical: RPH(1.4)
     },
     header: {
         borderBottomWidth: 1,
         borderBottomColor: "#EBEFF2",
-        paddingBottom: 5,
+        paddingBottom: RPH(.6),
         flexDirection: "row",
-        justifyContent: "space-between"
-    },
-    title: {
-        fontFamily: "Lato-Bold",
-        fontWeight: "700",
-        color: "#000",
-        fontSize: RFS(17)
+        justifyContent: "space-between",
+        alignItems: "center"
     },
     text: {
-        paddingLeft: 15,
-        color: "#000",
-        fontFamily: "Lato-Bold",
-        fontWeight: "700",
-        fontSize: RFS(13)
+        paddingLeft: RPW(4)
     },
     input: {
         color: "rgba(118, 118, 118, 0.77)",
@@ -181,37 +179,31 @@ const styles = StyleSheet.create({
     btn: {
         backgroundColor: "#385DFF",
         borderRadius: 12,
-        marginRight: 15,
-        paddingHorizontal: 10,
-        paddingVertical: 4
-    },
-    btnText: {
-        color: "#fff",
-        fontFamily: "Lato-Bold",
-        fontWeight: "700",
-        fontSize: RFS(10)
+        marginRight: RPW(4),
+        paddingHorizontal: RPW(2.6),
+        paddingVertical: RPH(.6)
     },
     body: {
-        paddingHorizontal: 15,
-        paddingVertical: 6,
+        paddingHorizontal: RPW(3.8),
+        paddingVertical: RPH(.8)
     },
     content: {
         flexDirection: "row",
-        gap: 5,
+        gap: RPW(1.2),
         alignItems: "center"
     },
     iconContainer: {
         flexDirection: "row",
-        gap: 48,
+        gap: RPW(12.2),
         alignItems: "center",
         borderBottomWidth: 1,
         borderBottomColor: "#EBEFF2",
-        paddingBottom: 5,
+        paddingBottom: RPH(.6),
         justifyContent: "center"
     },
     arrowUp: {
         alignItems: "center",
-        paddingVertical: 12,
-        paddingHorizontal: 20
+        paddingVertical: RPH(1.4),
+        paddingHorizontal: RPW(4)
     }
 })

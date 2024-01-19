@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, Image, TouchableOpacity, TextInput } from "react-native"
+import { View, StyleSheet, Image, TouchableOpacity, TextInput } from "react-native"
 import { Path, Svg } from "react-native-svg"
 import { useState } from "react"
 
@@ -6,6 +6,7 @@ import { RFS, RPH, RPW } from "../../constants/utils"
 import groupItems from "./constants/groupItems"
 import messages from "../../constants/messages"
 import MainWapper from "../../components/mainWrapper/mainWrapper"
+import TextRegular from "../../components/textComponent/textRegular/textRegular"
 
 const Groups = () => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -41,8 +42,12 @@ const Groups = () => {
                                             <Image style={styles.roundImg} source={item.image} />
                                         </View>
                                         <View style={styles.textContainer}>
-                                            <Text style={styles.heading}>{item.heading}</Text>
-                                            <Text style={styles.subHeading}>{item.subHeading}</Text>
+                                            <TextRegular fontSize={12} color="#F9F9F9">
+                                                {item.heading}
+                                            </TextRegular>
+                                            <TextRegular fontSize={8} color="#B1B9D8">
+                                                {item.subHeading}
+                                            </TextRegular>
                                         </View>
                                     </TouchableOpacity>
                                 </View>
@@ -72,31 +77,19 @@ const styles = StyleSheet.create({
     },
     icon: {
         position: "absolute",
-        left: 30,
-        top: 16
+        left: RPW(7.8),
+        top: RPH(1.7)
     },
     input: {
         backgroundColor: "rgba(0, 0, 0, 0.05)",
-        marginHorizontal: 23,
+        marginHorizontal: RPW(5.9),
         color: "#8E8E93",
         fontSize: RFS(17),
         fontFamily: "Lato-Regular",
         fontWeight: "400",
-        paddingVertical: 11,
+        paddingVertical: RPH(1.3),
         borderRadius: 10,
-        paddingHorizontal: 30
-    },
-    subHeading: {
-        color: "#B1B9D8",
-        fontSize: RFS(8),
-        fontFamily: "Lato-Regular",
-        fontWeight: "400"
-    },
-    heading: {
-        color: "#F9F9F9",
-        fontSize: RFS(12),
-        fontFamily: "Lato-Regular",
-        fontWeight: "400",
+        paddingHorizontal: RPW(7.8)
     },
     groupContainer: {
         flexDirection: 'row',
@@ -109,22 +102,22 @@ const styles = StyleSheet.create({
     groupBox: {
         backgroundColor: "#3E3E3E",
         borderRadius: 5,
-        paddingHorizontal: 16,
-        paddingVertical: 18,
+        paddingHorizontal: RPW(2),
+        paddingVertical: RPH(2.2),
         borderWidth: 1,
         alignItems: "center",
         width: "23%"
     },
     circle: {
-        width: 42,
+        width: RPW(10.6),
         justifyContent: "center",
         alignItems: "center",
-        marginBottom: 4
+        marginBottom: RPH(.5)
     },
     roundImg: {
         borderRadius: 50,
         width: "100%",
         objectFit: "contain",
-        height: 42
+        height: RPH(5.1)
     },
 })

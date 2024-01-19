@@ -172,8 +172,7 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     dropdownText: {
-        // color: "#FFFBFB",
         fontSize: RFS(17),
-        fontFamily: "Roboto-Regular",
+        fontFamily: "Lato-Regular",
     }
 })

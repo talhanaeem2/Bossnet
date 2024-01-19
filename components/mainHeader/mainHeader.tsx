@@ -1,12 +1,14 @@
-import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native"
+import { View, TouchableOpacity, StyleSheet, Image } from "react-native"
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import RootStackParamListInterface from "../../interaces/RootStackParamListInterface";
 import Svg, { Ellipse, Path } from "react-native-svg"
 
 import Icons from "../../constants/icons"
-import { RFS, RPW } from "../../constants/utils";
+import { RPH, RPW } from "../../constants/utils";
 import MainHeaderProps from "./interfaces/mainHeaderProps";
+import TextBold from "../textComponent/textBold/textBold";
+import TextRegular from "../textComponent/textRegular/textRegular";
 
 const MainHeader = (props: MainHeaderProps) => {
     const { chatHeader = false, icon = false } = props
@@ -22,7 +24,7 @@ const MainHeader = (props: MainHeaderProps) => {
                 chatHeader ?
                     <View style={styles.chatHeader}>
                         <View style={styles.iconText}>
-                            <TouchableOpacity onPress={goBack}>
+                            <TouchableOpacity onPress={goBack} style={styles.backIcon}>
                                 {Icons.backIcon}
                             </TouchableOpacity>
                             <TouchableOpacity>
@@ -30,7 +32,9 @@ const MainHeader = (props: MainHeaderProps) => {
                                     <Image style={styles.roundImg} source={require("../../assets/dummy-profile.png")} />
                                 </View>
                             </TouchableOpacity>
-                            <Text style={styles.chatHeaderText}>{props.headerText}</Text>
+                            <TextBold fontSize={23}>
+                                {props.headerText as string}
+                            </TextBold>
                         </View>
                         <TouchableOpacity onPress={() => navigation.navigate("NewMessage")}>
                             <Svg width="47" height="49" viewBox="0 0 47 49" fill="none">
@@ -46,17 +50,19 @@ const MainHeader = (props: MainHeaderProps) => {
                                 <TouchableOpacity onPress={goBack}>
                                     {Icons.backIcon}
                                 </TouchableOpacity>
-                                <Text style={styles.headerText}>
-                                    {props.headerText}
-                                </Text>
+                                <TextBold fontSize={23}>
+                                    {props.headerText as string}
+                                </TextBold>
                             </> :
                             <>
                                 <TouchableOpacity onPress={goBack}>
-                                    <Text style={styles.cancelText}>
-                                        {props.headerText}
-                                    </Text>
+                                    <TextRegular fontSize={17}>
+                                        {props.headerText as string}
+                                    </TextRegular>
                                 </TouchableOpacity>
-                                <Text style={styles.friendstext}>Friends</Text>
+                                <TextBold fontSize={17} style={styles.friendstext}>
+                                    Friends
+                                </TextBold>
                                 <View style={styles.spacer}></View>
                             </>
                         }
@@ -81,37 +87,28 @@ const styles = StyleSheet.create({
         borderBottomColor: "#EBEFF2",
         backgroundColor: "#fff"
     },
-    headerText: {
-        fontSize: RFS(23),
-        color: "#000",
-        fontFamily: "Lato-Bold",
-        fontWeight: "700"
-    },
     chatHeader: {
         flexDirection: "row",
-        gap: 15,
-        paddingHorizontal: 11,
+        gap: RPW(4),
+        paddingRight: RPW(2.8),
         alignItems: "center",
         justifyContent: "space-between",
         backgroundColor: "#fff",
-        paddingVertical: 8,
+        paddingVertical: RPH(1),
         borderBottomWidth: 1,
         borderBottomColor: "#EBEFF2",
     },
-    chatHeaderText: {
-        fontSize: RFS(23),
-        color: "#000",
-        fontFamily: "Lato-Bold",
-        fontWeight: "700"
+    backIcon: {
+        paddingHorizontal: RPW(2)
     },
     iconText: {
         flexDirection: "row",
         alignItems: "center",
-        gap: 10
+        gap: RPW(2.6)
     },
     circle: {
-        width: 45,
-        height: 48,
+        width: RPW(11.5),
+        height: RPH(5.8),
         justifyContent: "center",
         alignItems: "center",
     },
@@ -119,19 +116,9 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         width: "100%",
         objectFit: "contain",
-        height: 48
-    },
-    cancelText: {
-        color: "#000",
-        fontSize: RFS(17),
-        fontFamily: "Lato-Regular",
-        fontWeight: "400"
+        height: RPH(5.8)
     },
     friendstext: {
-        color: "#000",
-        fontSize: RFS(17),
-        fontFamily: "Lato-Bold",
-        fontWeight: "700",
         textAlign: "center",
         paddingLeft: RPW(25)
     },

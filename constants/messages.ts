@@ -51,6 +51,7 @@ const messages = {
     emailInvites: "Email Invites",
     members: "Members",
     donate: "Donate",
+    logout: "Log out",
     // post dots
     delete: "Delete",
     report: "Report",

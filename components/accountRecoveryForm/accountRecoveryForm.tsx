@@ -125,6 +125,6 @@ const styles = StyleSheet.create({
     },
     dropdownText: {
         fontSize: RFS(17),
-        fontFamily: "Roboto-Regular",
+        fontFamily: "Lato-Regular",
     }
 })

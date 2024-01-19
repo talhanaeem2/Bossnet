@@ -5,6 +5,7 @@ import { menuButtons } from "./constants/menuButtons"
 import Icons from "../../constants/icons"
 import MainWapper from "../../components/mainWrapper/mainWrapper"
 import messages from "../../constants/messages"
+import TextBold from "../../components/textComponent/textBold/textBold"
 
 const Menu = () => {
     return (
@@ -19,14 +20,18 @@ const Menu = () => {
                                         <View style={styles.btnContainer}>
                                             <TouchableOpacity>
                                                 {item.icon}
-                                                <Text style={styles.btnText}>{item.text}</Text>
+                                                <TextBold fontSize={19} style={styles.btnText}>
+                                                    {item.text}
+                                                </TextBold>
                                             </TouchableOpacity>
                                         </View>
                                         {index + 1 < menuButtons.length && (
                                             <View style={styles.btnContainer}>
                                                 <TouchableOpacity>
                                                     {menuButtons[index + 1].icon}
-                                                    <Text style={styles.btnText}>{menuButtons[index + 1].text}</Text>
+                                                    <TextBold fontSize={19} style={styles.btnText}>
+                                                        {menuButtons[index + 1].text}
+                                                    </TextBold>
                                                 </TouchableOpacity>
                                             </View>
                                         )}
@@ -38,7 +43,9 @@ const Menu = () => {
                     </View>
                     <TouchableOpacity style={styles.logout}>
                         {Icons.logoutIcon}
-                        <Text style={styles.logoutText}>Log out</Text>
+                        <TextBold fontSize={19} style={styles.logoutText}>
+                            {messages.logout}
+                        </TextBold>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -64,10 +71,6 @@ const styles = StyleSheet.create({
         paddingLeft: RPW(5.5)
     },
     btnText: {
-        fontFamily: "Lato-Bold",
-        fontWeight: "700",
-        fontSize: RFS(19),
-        color: "#000",
         paddingTop: RPH(.2)
     },
     buttonsContainer: {
@@ -119,9 +122,6 @@ const styles = StyleSheet.create({
         marginTop: RPH(4.3)
     },
     logoutText: {
-        fontFamily: "Lato-Bold",
-        fontWeight: "700",
-        fontSize: RFS(19),
-        color: "#000"
+        alignSelf: "center"
     }
 })

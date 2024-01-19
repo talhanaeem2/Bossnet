@@ -1,14 +1,14 @@
-import { Keyboard, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, View, Text, StyleSheet, TextInput, Image, TouchableOpacity } from "react-native"
+import { View, StyleSheet, TextInput, Image, TouchableOpacity } from "react-native"
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import RootStackParamListInterface from "../../interaces/RootStackParamListInterface";
 
-import SafeAreaViewComponent from "../../components/SafeAreaViewComponent/SafeAreaViewComponent"
-import { RFS, RPH } from "../../constants/utils"
+import { RFS, RPH, RPW } from "../../constants/utils"
 import FriendsInterface from "../friends/interfaces/friendsInterface";
 import { ScrollView } from "react-native-gesture-handler";
 import MainWapper from "../../components/mainWrapper/mainWrapper";
+import TextBold from "../../components/textComponent/textBold/textBold";
 
 const friends: FriendsInterface[] = [
     {
@@ -87,7 +87,9 @@ const NewMessage = () => {
                                                     <Image style={styles.roundImg} source={item.image} />
                                                 </View>
                                                 <View>
-                                                    <Text style={styles.title}>{item.text}</Text>
+                                                    <TextBold fontSize={17}>
+                                                        {item.text}
+                                                    </TextBold>
                                                 </View>
                                             </View>
                                             {
@@ -115,26 +117,26 @@ const styles = StyleSheet.create({
     },
     header: {
         flexDirection: "row",
-        paddingLeft: 18,
+        paddingLeft: RPW(2.2),
         alignItems: "center"
     },
     input: {
         backgroundColor: "rgba(0, 0, 0, 0.05)",
-        color: "rgba(0, 0, 0, 0.40)",
-        fontSize: RFS(15),
+        color: "#8E8E93",
+        fontSize: RFS(17),
         fontFamily: "Lato-Regular",
         fontWeight: "400",
-        paddingVertical: 11,
-        paddingHorizontal: 24,
+        paddingVertical: RPH(1.3),
+        paddingHorizontal: RPW(7.8),
         flex: 1
     },
     inputContainer: {
         flexDirection: "row",
         alignItems: "center",
-        marginVertical: 13
+        marginVertical: RPH(1.6)
     },
     circle: {
-        width: 45,
+        width: RPW(11.5),
         justifyContent: "center",
         alignItems: "center"
     },
@@ -142,28 +144,22 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         width: "100%",
         objectFit: "contain",
-        height: 45
+        height: RPH(5.5)
     },
     content: {
-        gap: 8,
-        marginHorizontal: 18
+        gap: RPH(.8),
+        marginHorizontal: RPH(2.2)
     },
     friendContainer: {
         flexDirection: "row",
         alignItems: "center",
-        gap: 13
+        gap: RPW(3)
     },
     borderBottom: {
         borderBottomWidth: .5,
         borderBottomColor: "rgba(0, 0, 0, 0.12)",
         width: "84%",
         alignSelf: "flex-end",
-        marginTop: 11
-    },
-    title: {
-        color: "#000",
-        fontSize: RFS(17),
-        fontFamily: "Lato-Bold",
-        fontWeight: "700"
+        marginTop: RPH(1.3)
     }
 })

@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     iconContainerLeft: {
         position: "absolute",
         left: RPW(3),
-        top:RPH(2)
+        top: RPH(2)
     },
     iconContainerRight: {
         position: "absolute",
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         paddingBottom: RPH(1.4),
         flex: 1,
         color: "#000",
-        fontFamily: "Roboto-Regular",
+        fontFamily: "Lato-Regular",
         fontWeight: "400",
         fontSize: RFS(18),
     }

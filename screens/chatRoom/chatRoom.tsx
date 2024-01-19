@@ -1,11 +1,14 @@
-import { View, TouchableOpacity, Text, StyleSheet, Image, ScrollView } from "react-native"
+import { View, TouchableOpacity, StyleSheet, Image, ScrollView } from "react-native"
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import RootStackParamListInterface from "../../interaces/RootStackParamListInterface";
 
 import MainWapper from "../../components/mainWrapper/mainWrapper"
 import Icons from "../../constants/icons"
-import { RFS } from "../../constants/utils"
+import { RPH, RPW } from "../../constants/utils"
+import TextBold from "../../components/textComponent/textBold/textBold";
+import TextRegular from "../../components/textComponent/textRegular/textRegular";
+import messages from "../../constants/messages";
 
 const ChatRoom = () => {
     const route = useRoute();
@@ -26,8 +29,12 @@ const ChatRoom = () => {
                     <Image style={styles.roundImg} source={require("../../assets/dummy-profile.png")} />
                 </View>
                 <View>
-                    <Text style={styles.headerText}>{userName}</Text>
-                    <Text style={styles.activeText}>Active</Text>
+                    <TextBold fontSize={17}>
+                        {userName}
+                    </TextBold>
+                    <TextRegular fontSize={13} color="rgba(0, 0, 0, 0.35)">
+                        {messages.active}
+                    </TextRegular>
                 </View>
             </View>
             <ScrollView>
@@ -35,7 +42,9 @@ const ChatRoom = () => {
                     <View style={styles.contentCircle}>
                         <Image style={styles.contentRoundImg} source={require("../../assets/dummy-profile.png")} />
                     </View>
-                    <Text style={styles.userName}>{userName}</Text>
+                    <TextBold fontSize={24} style={styles.userName}>
+                        {userName}
+                    </TextBold>
                 </View>
             </ScrollView>
         </MainWapper>
@@ -45,30 +54,24 @@ const ChatRoom = () => {
 export default ChatRoom
 
 const styles = StyleSheet.create({
-    headerText: {
-        fontSize: RFS(17),
-        color: "#000",
-        fontFamily: "Lato-Bold",
-        fontWeight: "700"
-    },
     header: {
         flexDirection: "row",
-        gap: 12,
-        paddingHorizontal: 11,
-        paddingTop: 8,
-        paddingBottom: 16,
+        gap: RPW(3),
+        paddingHorizontal: RPW(2.7),
+        paddingTop: RPH(1),
+        paddingBottom: RPH(2),
         alignItems: "center",
         backgroundColor: "#fff"
     },
     circle: {
-        width: 45,
-        height: 48,
+        width: RPW(11.5),
+        height: RPH(5.8),
         justifyContent: "center",
         alignItems: "center",
     },
     contentCircle: {
-        width: 100,
-        height: 100,
+        width: RPW(25.6),
+        height: RPH(12.3),
         justifyContent: "center",
         alignItems: "center",
     },
@@ -76,19 +79,13 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         width: "100%",
         objectFit: "contain",
-        height: 100
+        height: RPH(12.3)
     },
     roundImg: {
         borderRadius: 50,
         width: "100%",
         objectFit: "contain",
-        height: 48
-    },
-    activeText: {
-        fontSize: RFS(13),
-        color: "rgba(0, 0, 0, 0.35)",
-        fontFamily: "Lato-Regular",
-        fontWeight: "400"
+        height: RPH(5.8)
     },
     content: {
         backgroundColor: "#fff",
@@ -96,10 +93,6 @@ const styles = StyleSheet.create({
         flex: 1
     },
     userName: {
-        fontSize: RFS(24),
-        color: "#000",
-        fontFamily: "Lato-Bold",
-        fontWeight: "700",
-        marginTop: 10
+        marginTop: RPH(1.2)
     }
 })

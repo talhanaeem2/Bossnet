@@ -1,10 +1,12 @@
-import { TouchableOpacity, View, Image, StyleSheet, Text, Platform } from "react-native"
+import { TouchableOpacity, View, StyleSheet, Platform } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { StackNavigationProp } from "@react-navigation/stack"
 import RootStackParamListInterface from "../../interaces/RootStackParamListInterface"
 
-import { RFS, RLH, RPH, RPW } from "../../constants/utils"
+import { RPH, RPW } from "../../constants/utils"
 import { footerButtons } from "./constants/footerButtons"
+import TextBold from "../textComponent/textBold/textBold"
+import TextRegular from "../textComponent/textRegular/textRegular"
 
 const Footer = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
@@ -24,11 +26,15 @@ const Footer = () => {
                     >
                         {index === 3 &&
                             <View style={styles.notificationActive}>
-                                <Text style={styles.notificationActiveText}>99</Text>
+                                <TextBold fontSize={6} color="#fff">
+                                    99
+                                </TextBold>
                             </View>
                         }
                         {item.icon}
-                        <Text style={styles.btnText}>{item.text}</Text>
+                        <TextRegular fontSize={10} color="#888">
+                            {item.text as string}
+                        </TextRegular>
                     </TouchableOpacity>
                 )
             })}
@@ -67,12 +73,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center"
     },
-    btnText: {
-        color: "#888",
-        fontSize: RFS(10),
-        fontWeight: "400",
-        fontFamily: "Lato-Regular"
-    },
     notificationActive: {
         backgroundColor: "#FF0202",
         width: 8,
@@ -82,12 +82,5 @@ const styles = StyleSheet.create({
         alignItems: "center",
         position: "absolute",
         right: RPW(3)
-    },
-    notificationActiveText: {
-        fontSize: RFS(6),
-        fontFamily: "Lato-Bold",
-        fontWeight: "700",
-        color: "#fff",
-        lineHeight: RLH(RFS(6))
     }
 })

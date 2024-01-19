@@ -1,12 +1,12 @@
-import { View, StyleSheet, Text, TextInput, Image, ScrollView } from "react-native"
+import { View, StyleSheet, TextInput, Image, ScrollView, TouchableOpacity } from "react-native"
 import Svg, { Path } from "react-native-svg"
 import { useState } from "react"
 
-import { RFS, RPH } from "../../constants/utils"
+import { RFS, RPH, RPW } from "../../constants/utils"
 import messages from "../../constants/messages"
 import FriendsInterface from "./interfaces/friendsInterface"
 import MainWrapper from "../../components/mainWrapper/mainWrapper"
-import { TouchableOpacity } from "react-native-gesture-handler"
+import TextBold from "../../components/textComponent/textBold/textBold"
 
 const friends: FriendsInterface[] = [
     {
@@ -77,13 +77,13 @@ const Friends = () => {
                 </View>
                 <ScrollView>
                     <View style={styles.bodyContainer}>
-                        <Text style={styles.friendsText}>
+                        <TextBold style={styles.friendsText} fontSize={18}>
                             {
                                 filteredFriends.length === 1 ?
                                     `${filteredFriends.length} Friend` :
                                     `${filteredFriends.length} Friends`
                             }
-                        </Text>
+                        </TextBold>
                         <View style={styles.content}>
                             {
                                 filteredFriends.map((item, index) => {
@@ -97,7 +97,9 @@ const Friends = () => {
                                                 </TouchableOpacity>
                                                 <TouchableOpacity>
                                                     <View>
-                                                        <Text style={styles.title}>{item.text}</Text>
+                                                        <TextBold fontSize={17}>
+                                                            {item.text}
+                                                        </TextBold>
                                                     </View>
                                                 </TouchableOpacity>
                                             </View>
@@ -127,43 +129,39 @@ const styles = StyleSheet.create({
     },
     icon: {
         position: "absolute",
-        left: 30,
-        top: 16
+        left: RPW(7.8),
+        top: RPH(1.7)
     },
     input: {
         backgroundColor: "rgba(0, 0, 0, 0.05)",
-        marginHorizontal: 23,
+        marginHorizontal: RPW(5.9),
         color: "#8E8E93",
         fontSize: RFS(17),
         fontFamily: "Lato-Regular",
         fontWeight: "400",
-        paddingVertical: 11,
+        paddingVertical: RPH(1.3),
         borderRadius: 10,
-        paddingHorizontal: 30
+        paddingHorizontal: RPW(7.8)
     },
     iconContainer: {
         position: "relative"
     },
     friendsText: {
-        color: "#000",
-        fontSize: RFS(18),
-        fontFamily: "Lato-Bold",
-        fontWeight: "700",
-        paddingLeft: 10
+        paddingLeft: RPW(2.5)
     },
     bodyContainer: {
         borderRadius: 24,
         borderWidth: 1,
         borderColor: "#E7E7E7",
-        marginHorizontal: 10,
-        paddingLeft: 10,
-        paddingVertical: 22,
-        marginBottom: 13,
+        marginHorizontal: RPW(2.5),
+        paddingLeft: RPW(2.5),
+        paddingVertical: RPW(5.4),
+        marginBottom: RPH(1.8),
         backgroundColor: "#fff",
         marginTop: RPH(1.6)
     },
     circle: {
-        width: 45,
+        width: RPW(11.5),
         justifyContent: "center",
         alignItems: "center"
     },
@@ -171,28 +169,22 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         width: "100%",
         objectFit: "contain",
-        height: 45
+        height: RPH(5.5)
     },
     content: {
-        marginTop: 30,
-        gap: 8
+        marginTop: RPH(3.6),
+        gap: RPH(1)
     },
     friendContainer: {
         flexDirection: "row",
         alignItems: "center",
-        gap: 13
+        gap: RPW(3.2)
     },
     borderBottom: {
         borderBottomWidth: .5,
         borderBottomColor: "rgba(0, 0, 0, 0.12)",
         width: "84%",
         alignSelf: "flex-end",
-        marginTop: 11
-    },
-    title: {
-        color: "#000",
-        fontSize: RFS(17),
-        fontFamily: "Lato-Bold",
-        fontWeight: "700"
+        marginTop: RPH(1.3)
     }
 })

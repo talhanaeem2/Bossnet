@@ -1,10 +1,28 @@
 import { View, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard } from "react-native"
+import { useState } from "react"
+import * as ImagePicker from 'expo-image-picker'
 
 import { RFS, RPH, RPW } from "../../constants/utils"
 import Icons from "../../constants/icons"
 import messages from "../../constants/messages"
 
 const NewsFeedShare = () => {
+    const [images, setImages] = useState<string[]>([]);
+
+    const handleImagePicker = async () => {
+        let result: ImagePicker.ImagePickerResult;
+        result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            aspect: [4, 3],
+            quality: 1,
+            allowsMultipleSelection: true
+        });
+        if (!result.canceled) {
+            const selectedImages = result.assets.map((asset) => asset.uri);
+            setImages((prevImages) => [...prevImages, ...selectedImages]);
+        }
+    }
+
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -14,7 +32,7 @@ const NewsFeedShare = () => {
                             {Icons.userPlaceholderIcon}
                         </TouchableOpacity>
                         <TextInput style={styles.input} placeholder={messages.newsfeedPlaceholder} />
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleImagePicker()}>
                             {Icons.uploadIcon}
                         </TouchableOpacity>
                     </View>

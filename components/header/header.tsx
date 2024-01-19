@@ -1,12 +1,13 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native"
+import { View, StyleSheet, TouchableOpacity } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { StackNavigationProp } from "@react-navigation/stack"
 import RootStackParamListInterface from "../../interaces/RootStackParamListInterface"
 
-import commonStyles from "../../styles/commonStyles."
-import { RFS, RPH, RPW } from "../../constants/utils"
+import { RPH, RPW } from "../../constants/utils"
 import Icons from "../../constants/icons"
 import messages from "../../constants/messages"
+import TextBold from "../textComponent/textBold/textBold"
+import TextRegular from "../textComponent/textRegular/textRegular"
 
 const Header = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>()
@@ -15,8 +16,12 @@ const Header = () => {
         <View style={styles.container}>
             <View style={styles.headingsContainer}>
                 <View>
-                    <Text style={commonStyles.heading}>{messages.headerTitle}</Text>
-                    <Text style={styles.subHeading}>{messages.headerSubTitle}</Text>
+                    <TextBold fontSize={23} >
+                        {messages.headerTitle}
+                    </TextBold>
+                    <TextRegular fontSize={15} style={styles.subHeading}>
+                        {messages.headerSubTitle}
+                    </TextRegular>
                 </View>
                 <View style={styles.imagesContainer}>
                     <TouchableOpacity>
@@ -48,10 +53,6 @@ const styles = StyleSheet.create({
         gap: RPW(5)
     },
     subHeading: {
-        fontFamily: "Lato-Bold",
-        fontWeight: "700",
-        fontSize: RFS(13),
-        color: "#000",
         paddingTop: RPH(1)
     }
 })

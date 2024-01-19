@@ -1,11 +1,12 @@
-import { View, StyleSheet, Text, TouchableOpacity, TextInput, Image, ScrollView } from "react-native"
+import { View, StyleSheet, TouchableOpacity, TextInput, Image, ScrollView } from "react-native"
 import Svg, { Path } from "react-native-svg"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
-import { RFS, RLH, RPH, truncateText } from "../../constants/utils"
+import { RFS, RPH, RPW, truncateText } from "../../constants/utils"
 import messages from "../../constants/messages"
 import MainWapper from "../../components/mainWrapper/mainWrapper"
 import FriendsInterface from "../friends/interfaces/friendsInterface"
+import TextRegular from "../../components/textComponent/textRegular/textRegular"
 
 const friends: FriendsInterface[] = [
     {
@@ -103,7 +104,9 @@ const Messenger = () => {
                                                     <View style={styles.activeCircle}>
                                                         <Image style={styles.activeRoundImg} source={item.image} />
                                                         <View style={styles.activeIcon}></View>
-                                                        <Text style={styles.activeFriendText}>{truncatedFirstName}</Text>
+                                                        <TextRegular fontSize={13} color="rgba(0, 0, 0, 0.35)" style={styles.activeFriendText}>
+                                                            {truncatedFirstName}
+                                                        </TextRegular>
                                                     </View>
                                                 </TouchableOpacity>
                                             )
@@ -127,8 +130,12 @@ const Messenger = () => {
                                             </TouchableOpacity>
                                             <TouchableOpacity>
                                                 <View>
-                                                    <Text style={styles.friendListTitle}>{item.text}</Text>
-                                                    <Text style={styles.message}>You: Whats up man! · 9:40 AM</Text>
+                                                    <TextRegular fontSize={17}>
+                                                        {item.text}
+                                                    </TextRegular>
+                                                    <TextRegular fontSize={14} color="rgba(0, 0, 0, 0.50)">
+                                                        You: Whats up man! · 9:40 AM
+                                                    </TextRegular>
                                                 </View>
                                             </TouchableOpacity>
                                         </View>
@@ -164,19 +171,19 @@ const styles = StyleSheet.create({
     },
     icon: {
         position: "absolute",
-        left: 30,
-        top: 16
+        left: RPW(7.8),
+        top: RPH(1.7)
     },
     input: {
         backgroundColor: "rgba(0, 0, 0, 0.05)",
-        marginHorizontal: 23,
+        marginHorizontal: RPW(5.9),
         color: "#8E8E93",
         fontSize: RFS(17),
         fontFamily: "Lato-Regular",
         fontWeight: "400",
-        paddingVertical: 11,
+        paddingVertical: RPH(1.3),
         borderRadius: 10,
-        paddingHorizontal: 30
+        paddingHorizontal: RPW(7.8)
     },
     iconContainer: {
         position: "relative",
@@ -184,8 +191,8 @@ const styles = StyleSheet.create({
     },
     activeFriendscontainer: {
         flexDirection: "row",
-        gap: 16,
-        paddingBottom: 5
+        gap: RPW(4),
+        paddingBottom: RPH(.6)
     },
     activeIcon: {
         backgroundColor: "#5AD439",
@@ -199,7 +206,7 @@ const styles = StyleSheet.create({
         borderWidth: 2
     },
     activeCircle: {
-        width: 60,
+        width: RPW(15.3),
         justifyContent: "center",
         alignItems: "center",
         position: "relative"
@@ -208,21 +215,16 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         width: "100%",
         objectFit: "contain",
-        height: 63
+        height: RPH(7.6)
     },
     activeContainer: {
-        paddingHorizontal: 15
+        paddingHorizontal: RPW(3.7)
     },
     activeFriendText: {
-        color: "rgba(0, 0, 0, 0.35)",
-        fontSize: RFS(13),
-        fontFamily: "Lato-Regular",
-        fontWeight: "400",
-        marginTop: 8,
-        lineHeight: RLH(RFS(13))
+        marginTop: RPH(1),
     },
     friendListCircle: {
-        width: 68,
+        width: RPW(17.4),
         justifyContent: "center",
         alignItems: "center",
         position: "relative"
@@ -231,35 +233,21 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         width: "100%",
         objectFit: "contain",
-        height: 73
+        height: RPH(8.9)
     },
     friendListContainer: {
-        marginTop: 5
+        marginTop: RPH(.6)
     },
     friendListItem: {
-        paddingHorizontal: 18,
-        paddingVertical: 9,
+        paddingHorizontal: RPW(4.6),
+        paddingVertical: RPH(1.1),
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center"
     },
-    friendListTitle: {
-        color: "#000",
-        fontFamily: "Lato-Regular",
-        fontSize: RFS(17),
-        fontWeight: "400",
-        lineHeight: RLH(RFS(17))
-    },
-    message: {
-        color: "rgba(0, 0, 0, 0.50)",
-        fontFamily: "Lato-Regular",
-        fontSize: RFS(14),
-        fontWeight: "400",
-        lineHeight: RLH(RFS(14))
-    },
     friendListContent: {
         flexDirection: "row",
         alignItems: "center",
-        gap: 13
+        gap: RPW(3.4)
     }
 })

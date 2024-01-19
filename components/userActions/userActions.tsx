@@ -4,6 +4,7 @@ import UserActionsInterface from "./interfaces/userActionsInterface";
 import { RFS, RPW } from "../../constants/utils";
 import icons from "../../constants/icons";
 import messages from "../../constants/messages";
+import TextRegular from "../textComponent/textRegular/textRegular";
 
 const UserActions = () => {
     const handleLike = () => {
@@ -41,7 +42,9 @@ const UserActions = () => {
                 return (
                     <TouchableOpacity onPress={item.onPress} style={styles.action} key={index}>
                         {item.icon}
-                        <Text style={styles.actionText}>{item.text}</Text>
+                        <TextRegular fontSize={11} color="rgba(95, 99, 117, 0.74)" style={styles.actionText}>
+                            {item.text}
+                        </TextRegular>
                     </TouchableOpacity>
                 )
             })}
@@ -62,10 +65,6 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     actionText: {
-        color: "rgba(95, 99, 117, 0.74)",
-        fontSize: RFS(11),
-        fontFamily: "Lato-Regular",
-        fontWeight: "400",
         alignContent: "center",
         paddingLeft: RPW(.9)
     }
