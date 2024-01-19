@@ -1,17 +1,18 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from "react-native"
+import { StyleSheet, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from "react-native"
 import { useState } from "react";
 import Checkbox from 'expo-checkbox';
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Picker } from '@react-native-picker/picker';
 
-import commonStyles from "../../styles/commonStyles."
 import InputField from "../inputField/InputField"
 import RootStackParamListInterface from "../../interaces/RootStackParamListInterface";
 import messages from "../../constants/messages";
 import { languageOptions } from "../../constants/constants";
 import { RFS, RPH, RPW } from "../../constants/utils";
 import Icons from "../../constants/icons";
+import TextBold from "../textComponent/textBold/textBold";
+import TextRegular from "../textRegular/textRegular";
 
 const SignInForm = () => {
     const [isChecked, setChecked] = useState(false);
@@ -32,10 +33,14 @@ const SignInForm = () => {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View>
                     <View>
-                        <Text style={commonStyles.heading}>{messages.signInHeading}</Text>
-                        <Text style={commonStyles.subHeading}>{messages.signInSubHeading}</Text>
+                        <TextBold fontSize={23}>
+                            {messages.signInHeading}
+                        </TextBold>
+                        <TextRegular fontSize={15}>
+                            {messages.signInSubHeading}
+                        </TextRegular>
                     </View>
-                    <View style={styles.fieldConainer}>
+                    <View style={styles.fieldContainer}>
                         <InputField placeholder={messages.name} leftIcon={Icons.userIcon} type="text" />
                         <InputField placeholder={messages.password} leftIcon={Icons.keyIcon} rightIcon={Icons.eyeIcon} secureTextEntry={true} type="password" />
                     </View>
@@ -46,15 +51,21 @@ const SignInForm = () => {
                             onValueChange={setChecked}
                             color={isChecked ? '#000' : undefined}
                         />
-                        <Text style={styles.rememberText}>{messages.rememberMe}</Text>
+                        <TextRegular fontSize={12} color="#4F555E">
+                            {messages.rememberMe}
+                        </TextRegular>
                     </View>
                     <View style={styles.buttonSpacing}>
                         <TouchableOpacity onPress={navigateToAccountRecovery}>
-                            <Text style={styles.forgotPass}>{messages.forgotPass}</Text>
+                            <TextRegular fontSize={13} color="#4B3434">
+                                {messages.forgotPass}
+                            </TextRegular>
                         </TouchableOpacity>
                     </View>
                     <TouchableOpacity onPress={navigateToSignUp}>
-                        <Text style={styles.createAcc}>{messages.createAcc}</Text>
+                        <TextRegular fontSize={13} color="#385DFF">
+                            {messages.createAcc}
+                        </TextRegular>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.nextButton} onPress={() => navigation.navigate("Home")}>
                         {Icons.forwardIcon}
@@ -76,11 +87,17 @@ const SignInForm = () => {
                     </View>
                     <View style={styles.terms}>
                         <TouchableOpacity>
-                            <Text style={styles.termsText}>{messages.terms}</Text>
+                            <TextBold fontSize={15} color="#5F6373">
+                                {messages.terms}
+                            </TextBold>
                         </TouchableOpacity>
-                        <Text style={styles.andText}> {messages.and} </Text>
+                        <TextRegular fontSize={15} color="#5F6373">
+                            {messages.and}
+                        </TextRegular>
                         <TouchableOpacity>
-                            <Text style={styles.termsText}>{messages.privacy}</Text>
+                            <TextBold fontSize={15} color="#5F6373">
+                                {messages.privacy}
+                            </TextBold>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -92,7 +109,7 @@ const SignInForm = () => {
 export default SignInForm
 
 const styles = StyleSheet.create({
-    fieldConainer: {
+    fieldContainer: {
         paddingTop: RPH(4),
         gap: RPH(3)
     },
@@ -106,12 +123,6 @@ const styles = StyleSheet.create({
         height: 12,
         alignSelf: "center"
     },
-    rememberText: {
-        color: "#4F555E",
-        fontSize: RFS(12),
-        fontWeight: "400",
-        fontFamily: "Roboto-Regular",
-    },
     checkbox: {
         marginRight: RPW(2)
     },
@@ -119,18 +130,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         marginVertical: RPH(4)
-    },
-    forgotPass: {
-        color: "#4B3434",
-        fontSize: RFS(13),
-        fontWeight: "400",
-        fontFamily: "Roboto-Regular"
-    },
-    createAcc: {
-        color: "#385DFF",
-        fontSize: RFS(13),
-        fontWeight: "400",
-        fontFamily: "Roboto-Regular"
     },
     buttonSpacing: {
         marginBottom: RPH(2)

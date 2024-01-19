@@ -12,7 +12,6 @@ const TextBold = (props: TextProps) => {
             style={[styles.regularText,
             props.style, {
                 fontSize: RFS(props.fontSize),
-                fontFamily: `${props.fontFamily}-Regular`,
                 lineHeight: RLH(RFS(props.fontSize)),
                 color: color
             }]}
@@ -27,5 +26,6 @@ export default TextBold
 const styles = StyleSheet.create({
     regularText: {
         fontWeight: "400",
+        fontFamily: "Lato-Regular"
     }
 })

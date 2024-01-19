@@ -92,11 +92,11 @@ const SignUpForm = () => {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View>
                     <View>
-                        <TextBold fontSize={23} fontFamily="Lato">
+                        <TextBold fontSize={23}>
                             {messages.createAcc}
                         </TextBold>
                         <TouchableOpacity onPress={navigateToSignIn}>
-                            <TextRegular fontSize={12} fontFamily={"Roboto"} color="#385DFF" style={styles.signInButton}>
+                            <TextRegular fontSize={12} color="#385DFF" style={styles.signInButton}>
                                 {messages.signIn}
                             </TextRegular>
                         </TouchableOpacity>
@@ -118,7 +118,7 @@ const SignUpForm = () => {
                                     />
                                     {
                                         touched.email && errors.email &&
-                                        <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                        <TextRegular fontSize={12} color="red" style={styles.fieldError}>
                                             {errors.email}
                                         </TextRegular>
                                     }
@@ -133,7 +133,7 @@ const SignUpForm = () => {
                                     />
                                     {
                                         touched.confirmEmail && errors.confirmEmail &&
-                                        <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                        <TextRegular fontSize={12} color="red" style={styles.fieldError}>
                                             {errors.confirmEmail}
                                         </TextRegular>
                                     }
@@ -151,7 +151,7 @@ const SignUpForm = () => {
                                     />
                                     {
                                         touched.password && errors.password &&
-                                        <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                        <TextRegular fontSize={12} color="red" style={styles.fieldError}>
                                             {errors.password}
                                         </TextRegular>
                                     }
@@ -168,7 +168,7 @@ const SignUpForm = () => {
                                     />
                                     {
                                         touched.confirmPassword && errors.confirmPassword &&
-                                        <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                        <TextRegular fontSize={12} color="red" style={styles.fieldError}>
                                             {errors.confirmPassword}
                                         </TextRegular>
                                     }
@@ -184,7 +184,7 @@ const SignUpForm = () => {
                                     />
                                     {
                                         touched.name && errors.name &&
-                                        <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                        <TextRegular fontSize={12} color="red" style={styles.fieldError}>
                                             {errors.name}
                                         </TextRegular>
                                     }
@@ -199,7 +199,7 @@ const SignUpForm = () => {
                                     />
                                     {
                                         touched.nickName && errors.nickName &&
-                                        <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                        <TextRegular fontSize={12} color="red" style={styles.fieldError}>
                                             {errors.nickName}
                                         </TextRegular>
                                     }
@@ -214,17 +214,17 @@ const SignUpForm = () => {
                                     />
                                     {
                                         touched.lastName && errors.lastName &&
-                                        <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                        <TextRegular fontSize={12} color="red" style={styles.fieldError}>
                                             {errors.lastName}
                                         </TextRegular>
                                     }
                                 </View>
                                 <View style={styles.dobContainer}>
-                                    <TextBold fontSize={14} fontFamily="Roboto">
+                                    <TextBold fontSize={14}>
                                         {messages.birthday}
                                     </TextBold>
                                     <TouchableOpacity onPress={showDatepicker} style={styles.datePickerButton}>
-                                        <TextBold fontSize={14} fontFamily="Roboto">
+                                        <TextBold fontSize={14}>
                                             {values.birthday instanceof Date ? values.birthday.toDateString() : values.birthday}
                                         </TextBold>
                                     </TouchableOpacity>
@@ -246,7 +246,7 @@ const SignUpForm = () => {
                                 <View>
                                     {
                                         touched.birthday && errors.birthday &&
-                                        <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                        <TextRegular fontSize={12} color="red" style={styles.fieldError}>
                                             {errors.birthday as string}
                                         </TextRegular>
                                     }
@@ -271,14 +271,14 @@ const SignUpForm = () => {
                                             }}
                                             color={isChecked ? '#000' : undefined}
                                         />
-                                        <TextRegular fontSize={12} fontFamily="Roboto" color="#4F555E" style={styles.agreeText}>
+                                        <TextRegular fontSize={12} color="#4F555E" style={styles.agreeText}>
                                             {messages.agree}
                                         </TextRegular>
                                     </View>
                                     <View>
                                         {
                                             touched.agreeToTerms && errors.agreeToTerms &&
-                                            <TextRegular fontSize={12} fontFamily="Roboto" color="red" style={styles.fieldError}>
+                                            <TextRegular fontSize={12} color="red" style={styles.fieldError}>
                                                 {errors.agreeToTerms}
                                             </TextRegular>
                                         }

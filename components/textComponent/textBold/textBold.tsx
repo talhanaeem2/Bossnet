@@ -12,7 +12,6 @@ const TextBold = (props: TextProps) => {
             style={[styles.boldText,
             props.style, {
                 fontSize: RFS(props.fontSize),
-                fontFamily: `${props.fontFamily}-Bold`,
                 lineHeight: RLH(RFS(props.fontSize)),
                 color: color
             }]}
@@ -27,5 +26,6 @@ export default TextBold
 const styles = StyleSheet.create({
     boldText: {
         fontWeight: "700",
+        fontFamily: "Lato-Bold"
     }
 })

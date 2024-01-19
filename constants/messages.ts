@@ -6,7 +6,7 @@ const messages = {
     forgotPass: "Forgot password?",
     createAcc: "Create an Account",
     terms: "Terms of Service",
-    and: "and",
+    and: " and ",
     privacy: "Privacy Policy",
     // sgnUp
     signIn: "Or sign in",
