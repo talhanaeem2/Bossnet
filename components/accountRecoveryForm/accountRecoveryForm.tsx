@@ -1,15 +1,16 @@
-import { KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, View, Text, StyleSheet, TouchableOpacity } from "react-native"
+import { KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, View, StyleSheet, TouchableOpacity } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { StackNavigationProp } from "@react-navigation/stack"
 import { Picker } from "@react-native-picker/picker"
 import { useState } from "react"
 
-import commonStyles from "../../styles/commonStyles."
 import messages from "../../constants/messages"
 import InputField from "../inputField/InputField"
 import RootStackParamListInterface from "../../interaces/RootStackParamListInterface"
 import { languageOptions } from "../../constants/constants"
 import { RFS, RPH, RPW } from "../../constants/utils"
+import TextBold from "../textComponent/textBold/textBold"
+import TextRegular from "../textComponent/textRegular/textRegular"
 
 const AccountRecoveryForm = () => {
     const [selectedLanguage, setSelectedLanguage] = useState();
@@ -23,18 +24,26 @@ const AccountRecoveryForm = () => {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View>
                     <View>
-                        <Text style={commonStyles.heading}>{messages.accountRecoveryHeading}</Text>
-                        <Text style={commonStyles.subHeading}>{messages.accountRecoverySubHeading}</Text>
+                        <TextBold fontSize={23}>
+                            {messages.accountRecoveryHeading}
+                        </TextBold>
+                        <TextRegular fontSize={15}>
+                            {messages.accountRecoverySubHeading}
+                        </TextRegular>
                     </View>
                     <View style={styles.fieldContainer}>
                         <InputField type="email" placeholder={messages.email} />
                     </View>
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity onPress={navigateToSignIn}>
-                            <Text style={styles.signInButton}>{messages.signIn}</Text>
+                            <TextRegular fontSize={12} color="#385DFF">
+                                {messages.signIn}
+                            </TextRegular>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.requestButton}>
-                            <Text style={styles.requestText}>{messages.requestReset}</Text>
+                            <TextBold fontSize={13} color="#fff">
+                                {messages.requestReset}
+                            </TextBold>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.bottomContainer}>
@@ -55,11 +64,17 @@ const AccountRecoveryForm = () => {
                         </View>
                         <View style={styles.terms}>
                             <TouchableOpacity>
-                                <Text style={styles.termsText}>{messages.terms}</Text>
+                                <TextBold fontSize={0} color="#5F6373">
+                                    {messages.terms}
+                                </TextBold>
                             </TouchableOpacity>
-                            <Text style={styles.andText}> {messages.and} </Text>
+                            <TextRegular fontSize={0} color="#5F6373">
+                                {messages.and}
+                            </TextRegular>
                             <TouchableOpacity>
-                                <Text style={styles.termsText}>{messages.privacy}</Text>
+                                <TextBold fontSize={0} color="#5F6373">
+                                    {messages.privacy}
+                                </TextBold>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -78,18 +93,6 @@ const styles = StyleSheet.create({
     },
     fieldContainer: {
         paddingTop: RPH(4),
-    },
-    signInButton: {
-        color: "#385DFF",
-        fontFamily: "Roboto-Regular",
-        fontSize: RFS(12),
-        fontWeight: "400",
-    },
-    requestText: {
-        color: "#fff",
-        fontFamily: "Roboto-Bold",
-        fontSize: RFS(13),
-        fontWeight: "700",
     },
     requestButton: {
         backgroundColor: "#385DFF",
@@ -111,18 +114,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
     },
-    termsText: {
-        color: "#5F6373",
-        fontSize: RFS(15),
-        fontWeight: "700",
-        fontFamily: "Lato-Bold",
-    },
-    andText: {
-        color: "#5F6373",
-        fontSize: RFS(15),
-        fontWeight: "400",
-        fontFamily: "Lato-Regular",
-    },
     languageDropdown: {
         borderRadius: 10,
         backgroundColor: "#0000009E",
@@ -133,7 +124,6 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     dropdownText: {
-        // color: "#FFFBFB",
         fontSize: RFS(17),
         fontFamily: "Roboto-Regular",
     }

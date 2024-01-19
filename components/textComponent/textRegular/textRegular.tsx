@@ -1,9 +1,9 @@
 import { StyleSheet, Text } from "react-native"
 
-import { RFS, RLH } from "../../constants/utils";
-import TextProps from "../textComponent/interfaces/textProps";
+import { RFS, RLH } from "../../../constants/utils";
+import TextProps from "../interfaces/textProps";
 
-const TextBold = (props: TextProps) => {
+const TextRegular = (props: TextProps) => {
     const black = "#000";
     const { color = black } = props
 
@@ -21,7 +21,7 @@ const TextBold = (props: TextProps) => {
     )
 }
 
-export default TextBold
+export default TextRegular
 
 const styles = StyleSheet.create({
     regularText: {

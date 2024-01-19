@@ -14,7 +14,7 @@ import { RPH, RPW } from "../../constants/utils";
 import FormValuesInterface from "./interfaces/signUpFormInterface";
 import Icons from "../../constants/icons";
 import TextBold from "../textComponent/textBold/textBold";
-import TextRegular from "../textRegular/textRegular";
+import TextRegular from "../textComponent/textRegular/textRegular";
 
 const SignUpForm = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
