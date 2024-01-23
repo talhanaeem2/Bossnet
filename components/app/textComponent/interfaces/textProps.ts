@@ -1,8 +1,8 @@
-import { ColorValue, ViewStyle } from "react-native";
+import { ColorValue, StyleProp, TextStyle, ViewStyle } from "react-native";
 
 export default interface TextProps {
     fontSize: number;
     color?: ColorValue;
     children: string;
-    style?: ViewStyle;
+    style?: StyleProp<ViewStyle | TextStyle>;
 }
