@@ -8,7 +8,7 @@ import TextRegular from "../textComponent/textRegular/textRegular"
 import { footerButtons } from "./constants/footerButtons"
 import { RPW, RPH } from "../../../constants/utils"
 
-import RootStackParamListInterface from "../../../interaces/RootStackParamListInterface"
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
 
 const Footer = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();

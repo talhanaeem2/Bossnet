@@ -14,7 +14,7 @@ import { languageOptions } from "../../../constants/constants";
 import { RFS, RPH, RPW } from "../../../constants/utils";
 import Icons from "../../../constants/icons";
 
-import RootStackParamListInterface from "../../../interaces/RootStackParamListInterface";
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 
 const SignInForm = () => {
     const [isChecked, setChecked] = useState(false);

@@ -10,7 +10,7 @@ import TextBold from "../../../components/app/textComponent/textBold/textBold";
 
 import { RPW, RFS, RPH } from "../../../constants/utils";
 
-import RootStackParamListInterface from "../../../interaces/RootStackParamListInterface";
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import UsersInterface from "../friends/interfaces/usersInterface";
 
 const imageSize = "thumb";

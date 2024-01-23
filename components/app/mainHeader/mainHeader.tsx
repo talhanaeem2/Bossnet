@@ -10,7 +10,7 @@ import Icons from "../../../constants/icons";
 import { RPW, RPH } from "../../../constants/utils";
 
 import MainHeaderProps from "./interfaces/mainHeaderProps";
-import RootStackParamListInterface from "../../../interaces/RootStackParamListInterface";
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 
 const MainHeader = (props: MainHeaderProps) => {
     const { chatHeader = false, icon = false } = props

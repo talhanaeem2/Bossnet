@@ -7,7 +7,7 @@ import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/dat
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import RootStackParamListInterface from "../../../interaces/RootStackParamListInterface";
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import InputField from "../../app/inputField/InputField";
 import TextBold from "../../app/textComponent/textBold/textBold";
 import TextRegular from "../../app/textComponent/textRegular/textRegular";

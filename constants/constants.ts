@@ -1,4 +1,4 @@
-import LanguageOptionInterface from "../interaces/languageOptionInterface";
+import LanguageOptionInterface from "../interfaces/languageOptionInterface";
 import messages from "./messages";
 
 export const languageOptions: LanguageOptionInterface[] = [

@@ -9,7 +9,7 @@ import Icons from "../../../constants/icons"
 import messages from "../../../constants/messages"
 import { RPW, RPH } from "../../../constants/utils"
 
-import RootStackParamListInterface from "../../../interaces/RootStackParamListInterface"
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
 
 const Header = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>()

@@ -12,7 +12,7 @@ import messages from "../../../constants/messages"
 import { languageOptions } from "../../../constants/constants"
 import { RFS, RPH, RPW } from "../../../constants/utils"
 
-import RootStackParamListInterface from "../../../interaces/RootStackParamListInterface"
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
 
 const AccountRecoveryForm = () => {
     const [selectedLanguage, setSelectedLanguage] = useState();
