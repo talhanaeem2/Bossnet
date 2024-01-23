@@ -31,3 +31,8 @@ export const truncateText = (str: string, maxLength: number) => {
     }
     return str;
 };
+
+// Strip HTML Tags
+export const stripHtmlTags = (htmlString: string) => {
+    return htmlString.replace(/<[^>]*>/g, '');
+};
