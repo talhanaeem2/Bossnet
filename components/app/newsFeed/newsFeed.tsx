@@ -10,78 +10,10 @@ import TextRegular from "../textComponent/textRegular/textRegular"
 
 import { stripHtmlTags, RPH, RPW } from "../../../constants/utils"
 
-interface Sizes {
-    file: string;
-    width: number;
-    height: number;
-    'mime-type': string;
-    filesize: number;
-}
-
-interface Meta {
-    width: number;
-    height: number;
-    sizes: {
-        'bb-media-activity-image': Sizes;
-        'bb-media-photos-album-directory-image': Sizes;
-        'bb-media-photos-album-directory-image-medium': Sizes;
-        'bb-media-photos-popup-image': Sizes;
-    };
-}
-
-interface AttachmentData {
-    full: string;
-    thumb: string;
-    media_album_cover: string;
-    media_photos_directory_page: string;
-    media_theatre_popup: string;
-    activity_thumb: string;
-    meta: Meta;
-}
-
-interface MediaId {
-    id: number;
-    blog_id: number;
-    attachment_id: number;
-    user_id: number;
-    title: string;
-    description: string;
-    album_id: number;
-    group_id: number;
-    activity_id: number;
-    message_id: number;
-    hide_activity_actions: boolean;
-    privacy: string;
-    menu_order: number;
-    date_created: string;
-    attachment_data: AttachmentData;
-}
-
-interface MediaIds extends Array<MediaId> { }
-
-interface UserAvatar {
-    full: string;
-    thumb: string;
-}
-
-interface ResponseItem {
-    comment_count: number;
-    content_stripped: string;
-    date: string;
-    favorite_count: number;
-    favorited: boolean;
-    id: number;
-    link: string;
-    name: string;
-    title: string;
-    user_avatar: UserAvatar;
-    user_id: number;
-    bp_media_ids: MediaIds;
-}
+import ResponseItemInterface from "./interfaces/responseItemInterface"
 
 const NewsFeed = () => {
-    const name: string = "Aleksandar Marinov "
-    const [newsFeedPosts, setNewsFeedPosts] = useState<ResponseItem[]>([]);
+    const [newsFeedPosts, setNewsFeedPosts] = useState<ResponseItemInterface[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
