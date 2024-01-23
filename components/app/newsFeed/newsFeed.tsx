@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         marginTop: RPH(1.2),
-        marginBottom: RPH(1.8),
+        marginBottom: RPH(1.8)
     },
     dotsContainer: {
         position: "absolute",
