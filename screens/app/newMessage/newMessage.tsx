@@ -72,7 +72,7 @@ const NewMessage = () => {
                                         <TouchableOpacity
                                             onPress={() =>
                                                 navigation.navigate("ChatRoom", {
-                                                    userName: user.name
+                                                    user: { userName: user.name, userImage: (user.avatar_urls)[imageSize] }
                                                 })}>
                                             <View style={styles.friendContainer}>
                                                 <View style={styles.circle}>

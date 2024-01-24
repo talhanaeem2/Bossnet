@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, StyleSheet, Image, ScrollView, TextInput } from "react-native"
+import { View, TouchableOpacity, StyleSheet, Image, ScrollView, TextInput, Text } from "react-native"
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Path } from "react-native-svg";
@@ -13,6 +13,7 @@ import { RPH, RPW } from "../../../constants/utils"
 import messages from "../../../constants/messages";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
+import chatRoomParamsInterface from "../../../interfaces/chatRoomInterface";
 
 const galleryIcon = <IconContainer width="20" height="21" viewBox="0 0 20 21" fill="none">
     <Path fill-rule="evenodd" clip-rule="evenodd" d="M15.7718 0.65802C17.6797 0.65802 19.2263 2.2549 19.2263 4.22476V16.7084C19.2263 18.6782 17.6797 20.2751 15.7718 20.2751H3.68086C1.77297 20.2751 0.226318 18.6782 0.226318 16.7084V4.22476C0.226318 2.2549 1.77297 0.65802 3.68086 0.65802H15.7718ZM15.7716 2.44135H3.68072C2.72678 2.44135 1.95345 3.23979 1.95345 4.22472V13.5566C1.95345 13.6551 2.03078 13.735 2.12618 13.735C2.15314 13.735 2.17973 13.7284 2.20382 13.7159L7.39747 11.0176C8.86245 10.2561 10.5901 10.2558 12.0554 11.0165L17.2486 13.7125C17.3338 13.7567 17.4376 13.7213 17.4805 13.6333C17.4926 13.6084 17.4989 13.581 17.4989 13.5532V4.22472C17.4989 3.23979 16.7256 2.44135 15.7716 2.44135ZM5.83993 4.22482C7.03236 4.22482 7.99902 5.22287 7.99902 6.45403C7.99902 7.6852 7.03236 8.68325 5.83993 8.68325C4.6475 8.68325 3.68084 7.6852 3.68084 6.45403C3.68084 5.22287 4.6475 4.22482 5.83993 4.22482Z" fill="#385DFF" />
@@ -26,7 +27,7 @@ const gifIcon = <IconContainer width="24" height="11" viewBox="0 0 24 11" fill="
     <Path d="M11.1429 0.142853H13.7143V10.4286H11.1429V0.142853ZM6.85714 0.142853H1.71429C0.685714 0.142853 0 0.999995 0 1.85714V8.71428C0 9.57142 0.685714 10.4286 1.71429 10.4286H6.85714C7.88571 10.4286 8.57143 9.57142 8.57143 8.71428V5.28571H6V7.85713H2.57143V2.71428H8.57143V1.85714C8.57143 0.999995 7.88571 0.142853 6.85714 0.142853ZM24 2.71428V0.142853H16.2857V10.4286H18.8571V6.99999H22.2857V4.42857H18.8571V2.71428H24Z" fill="#385DFF" />
 </IconContainer>;
 
-const emojiIcon = <IconContainer width="24" height="24" viewBox="0 0 24 24" fill="none">
+const emojiIcon = <IconContainer width="24" height="24" viewBox="0 0 24 24" fill="none" >
     <Path fill-rule="evenodd" clip-rule="evenodd" d="M12 0C18.6274 0 24 5.37258 24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12C0 5.37258 5.37258 0 12 0ZM16.7118 15.72C15.518 17.249 13.9759 17.9946 12 17.9946C10.0241 17.9946 8.48203 17.249 7.28821 15.72C6.94832 15.2847 6.3199 15.2073 5.88459 15.5472C5.44927 15.8871 5.37191 16.5155 5.71179 16.9508C7.28627 18.9674 9.41086 19.9946 12 19.9946C14.5891 19.9946 16.7137 18.9674 18.2882 16.9508C18.6281 16.5155 18.5507 15.8871 18.1154 15.5472C17.6801 15.2073 17.0517 15.2847 16.7118 15.72ZM8 8C7.17157 8 6.5 8.89543 6.5 10C6.5 11.1046 7.17157 12 8 12C8.82843 12 9.5 11.1046 9.5 10C9.5 8.89543 8.82843 8 8 8ZM16 8C15.1716 8 14.5 8.89543 14.5 10C14.5 11.1046 15.1716 12 16 12C16.8284 12 17.5 11.1046 17.5 10C17.5 8.89543 16.8284 8 16 8Z" fill="#385DFF" />
 </IconContainer>;
 
@@ -37,7 +38,9 @@ const likeIcon = <IconContainer width="28" height="30" viewBox="0 0 28 30" fill=
 const ChatRoom = () => {
     const route = useRoute();
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
-    const { userName } = route.params as { userName: string }
+    const { user } = route.params as chatRoomParamsInterface;
+    const userName = user.userName
+    const userImage = user.userImage
 
     const goBack = () => {
         navigation.goBack();
@@ -50,7 +53,7 @@ const ChatRoom = () => {
                     {Icons.backIcon}
                 </TouchableOpacity>
                 <View style={styles.circle}>
-                    <Image style={styles.roundImg} source={require("../../../assets/dummy-profile.png")} />
+                    <Image style={styles.roundImg} source={{ uri: userImage }} />
                 </View>
                 <View>
                     <TextBold fontSize={17}>
@@ -61,28 +64,95 @@ const ChatRoom = () => {
                     </TextRegular>
                 </View>
             </View>
-            <ScrollView>
+            <ScrollView
+                contentContainerStyle={styles.scrollContentContainer}
+                keyboardShouldPersistTaps="handled"
+            >
                 <View style={styles.content}>
-                    <View style={styles.contentCircle}>
-                        <Image style={styles.contentRoundImg} source={require("../../../assets/dummy-profile.png")} />
+                    <View style={styles.imageContainer}>
+                        <View style={styles.contentCircle}>
+                            <Image style={styles.contentRoundImg} source={{ uri: userImage }} />
+                        </View>
+                        <TextBold fontSize={24} style={styles.userName}>
+                            {userName}
+                        </TextBold>
                     </View>
-                    <TextBold fontSize={24} style={styles.userName}>
-                        {userName}
-                    </TextBold>
-                    <View>
-                        <TextRegular fontSize={17}>
-                            Test
-                        </TextRegular>
-                    </View>
-                    <View style={{ flexDirection: "row", flex: 1, alignItems: "center" }}>
-                        {galleryIcon}
-                        {linkIcon}
-                        {gifIcon}
-                        <TextInput placeholder="Aa" />
-                        {likeIcon}
+                    <View style={styles.messagesContainer}>
+                        <View style={styles.leftStart}>
+                            <View style={styles.messageCircle}>
+                                <Image style={styles.messageRoundImg} source={{ uri: userImage }} />
+                            </View>
+                            <Text style={styles.leftPad}>test</Text>
+                        </View>
+                        <View style={styles.rightStart}>
+                            <Text style={styles.rightPad}>test</Text>
+                            <View style={styles.messageCircle}>
+                                <Image style={styles.messageRoundImg} source={{ uri: userImage }} />
+                            </View>
+                        </View>
+                        <View style={styles.leftStart}>
+                            <View style={styles.messageCircle}>
+                                <Image style={styles.messageRoundImg} source={{ uri: userImage }} />
+                            </View>
+                            <Text style={styles.leftPad}>test</Text>
+                        </View>
+                        <View style={styles.rightStart}>
+                            <Text style={styles.rightPad}>test</Text>
+                            <View style={styles.messageCircle}>
+                                <Image style={styles.messageRoundImg} source={{ uri: userImage }} />
+                            </View>
+                        </View>
+                        <View style={styles.leftStart}>
+                            <View style={styles.messageCircle}>
+                                <Image style={styles.messageRoundImg} source={{ uri: userImage }} />
+                            </View>
+                            <Text style={styles.leftPad}>tejhhasbbbeiwefuinjst</Text>
+                        </View>
+                        <View style={styles.rightStart}>
+                            <Text style={styles.rightPad}>test</Text>
+                            <View style={styles.messageCircle}>
+                                <Image style={styles.messageRoundImg} source={{ uri: userImage }} />
+                            </View>
+                        </View>
+                        <View style={styles.rightStart}>
+                            <Text style={styles.rightPad}>test</Text>
+                            <View style={styles.messageCircle}>
+                                <Image style={styles.messageRoundImg} source={{ uri: userImage }} />
+                            </View>
+                        </View>
+                        <View style={styles.leftStart}>
+                            <View style={styles.messageCircle}>
+                                <Image style={styles.messageRoundImg} source={{ uri: userImage }} />
+                            </View>
+                            <Text style={styles.leftPad}>tejhhasbbbeiwefuinjst</Text>
+                        </View>
+                        <View style={styles.leftStart}>
+                            <View style={styles.messageCircle}>
+                                <Image style={styles.messageRoundImg} source={{ uri: userImage }} />
+                            </View>
+                            <Text style={styles.leftPad}>tejhhasbbbeiwefuinjst</Text>
+                        </View>
                     </View>
                 </View>
             </ScrollView>
+            <View style={styles.bottomIcons}>
+                <TouchableOpacity>
+                    {galleryIcon}
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    {linkIcon}
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    {gifIcon}
+                </TouchableOpacity>
+                <TextInput style={styles.input} placeholder="Aa" />
+                <TouchableOpacity style={styles.emojiIcon}>
+                    {emojiIcon}
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    {likeIcon}
+                </TouchableOpacity>
+            </View>
         </MainWapper>
     )
 }
@@ -99,11 +169,32 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#fff"
     },
+    imageContainer: {
+        alignItems: "center"
+    },
+    messagesContainer: {
+        justifyContent: "flex-end",
+        flexDirection: "column",
+        flex: 1,
+        gap: 2
+    },
     circle: {
         width: RPW(11.5),
         height: RPH(5.8),
         justifyContent: "center",
         alignItems: "center",
+    },
+    messageCircle: {
+        width: 30,
+        height: 30,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    messageRoundImg: {
+        borderRadius: 50,
+        width: "100%",
+        objectFit: "contain",
+        height: 30
     },
     contentCircle: {
         width: RPW(25.6),
@@ -125,10 +216,64 @@ const styles = StyleSheet.create({
     },
     content: {
         backgroundColor: "#fff",
-        alignItems: "center",
-        flex: 1
+        height: RPH(84.1),
+        paddingBottom: 10
     },
     userName: {
         marginTop: RPH(1.2)
+    },
+    scrollContentContainer: {
+        flexGrow: 1,
+        justifyContent: "flex-end"
+    },
+    bottomIcons: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingHorizontal: RPW(5),
+        paddingBottom: RPH(.6),
+        backgroundColor: "#fff",
+        gap: RPW(5),
+        position: "relative"
+    },
+    input: {
+        flex: 1,
+        paddingVertical: RPH(1),
+        paddingLeft: RPW(5),
+        borderRadius: 18,
+        backgroundColor: "rgba(177, 177, 177, 0.23)"
+    },
+    emojiIcon: {
+        position: "absolute",
+        right: RPW(18),
+        top: RPH(1.2)
+    },
+    leftStart: {
+        alignSelf: "flex-start",
+        marginLeft: RPW(3.2),
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.06)",
+        borderRadius: 18,
+        paddingHorizontal: 13,
+        paddingVertical: 7,
+        paddingTop: 2
+    },
+    rightStart: {
+        alignSelf: "flex-end",
+        marginRight: RPW(3.2),
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.06)",
+        borderRadius: 18,
+        paddingHorizontal: 13,
+        paddingVertical: 7,
+        paddingTop: 2
+    },
+    leftPad: {
+        paddingLeft: 8
+    },
+    rightPad: {
+        paddingRight: 8
     }
 })

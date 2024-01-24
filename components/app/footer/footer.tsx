@@ -59,6 +59,8 @@ const styles = StyleSheet.create({
         shadowRadius: 0,
         elevation: 2,
         borderRadius: 10,
+        borderTopWidth: 1,
+        borderColor: "rgba(0, 0, 0, 0.25)",
         ...Platform.select({
             ios: {
                 shadowColor: 'rgba(0, 0, 0, 0.25)',
