@@ -14,4 +14,5 @@ export default interface RootStackParamListInterface extends ParamListBase {
     NewMessage: undefined;
     ChatRoom: chatRoomParamsInterface;
     UserProfile: undefined;
+    Notifications: undefined;
 }

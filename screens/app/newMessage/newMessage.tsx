@@ -53,7 +53,7 @@ const NewMessage = () => {
     }
 
     return (
-        <MainWapper headerText="Cancel">
+        <MainWapper headerText="Cancel" isHeader={true}>
             <View style={styles.container}>
                 <View style={styles.inputContainer}>
                     <TextInput

@@ -51,7 +51,7 @@ const Friends = () => {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <MainWrapper headerText={messages.friends} icon={true}>
+            <MainWrapper headerText={messages.friends} icon={true} isHeader={true}>
                 <View style={styles.container}>
                     <View style={styles.iconContainer}>
                         <View style={styles.icon}>

@@ -10,7 +10,7 @@ import { menuButtons } from "./constants/menuButtons";
 
 const Menu = () => {
     return (
-        <MainWapper headerText={messages.menu} icon={true}>
+        <MainWapper headerText={messages.menu} icon={true} isHeader={true}>
             <View style={styles.container}>
                 <View style={styles.contentContainer}>
                     <View style={styles.buttonsContainer}>

@@ -52,7 +52,7 @@ const Messenger = () => {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <MainWapper headerText={messages.myFriends} chatHeader={true}>
+            <MainWapper headerText={messages.myFriends} chatHeader={true} isHeader={true}>
                 <View style={styles.container}>
                     <View style={styles.iconContainer}>
                         <View style={styles.icon}>

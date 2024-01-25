@@ -53,7 +53,7 @@ const Groups = () => {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <MainWapper headerText={messages.myGroups} icon={true}>
+            <MainWapper headerText={messages.myGroups} icon={true} isHeader={true}>
                 <View style={styles.container}>
                     <View style={styles.iconContainer}>
                         <View style={styles.icon}>

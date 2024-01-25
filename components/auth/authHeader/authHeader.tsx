@@ -1,5 +1,5 @@
-import { View, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import commonStyles from '../../../styles/commonStyles.';
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
+
 import Icons from '../../../constants/icons';
 
 const AuthHeader = () => {

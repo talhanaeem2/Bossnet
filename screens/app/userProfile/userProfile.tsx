@@ -84,7 +84,7 @@ const footerIcons: footerIconsInterface[] = [
 
 const UserProfile = () => {
     return (
-        <MainWapper headerShow={false} isFooter={false}>
+        <MainWapper isHeader={false} isFooter={false}>
             <View style={styles.container}>
                 <View style={styles.content}>
                     <View style={styles.circle}>

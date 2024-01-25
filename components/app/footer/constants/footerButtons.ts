@@ -21,7 +21,7 @@ export const footerButtons: FooterButtonsInterface[] = [
     {
         icon: Icons.notificationsIcon,
         text: "Notification",
-        screenName: ""
+        screenName: "Notifications"
     },
     {
         icon: Icons.userPlaceholderIcon,
