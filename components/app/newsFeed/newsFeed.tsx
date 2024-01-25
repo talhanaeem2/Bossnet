@@ -1,6 +1,9 @@
-import { View, StyleSheet, Image, ActivityIndicator } from "react-native"
+import { View, StyleSheet, Image, ActivityIndicator, TouchableOpacity } from "react-native"
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { StackNavigationProp } from "@react-navigation/stack"
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
+import { useNavigation } from "@react-navigation/native"
 
 import UserActions from "../userActions/userActions"
 import PostDotMenu from "../postDotMenu/postDotMenu"
@@ -15,6 +18,7 @@ import ResponseItemInterface from "./interfaces/responseItemInterface"
 const NewsFeed = () => {
     const [newsFeedPosts, setNewsFeedPosts] = useState<ResponseItemInterface[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
 
     useEffect(() => {
         const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/activity";
@@ -56,9 +60,11 @@ const NewsFeed = () => {
                             <PostDotMenu direction="right" />
                         </View>
                         <View style={styles.post}>
-                            <View style={styles.circle}>
-                                <Image style={styles.roundImg} source={{ uri: (post.user_avatar)["thumb"] }} />
-                            </View>
+                            <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>
+                                <View style={styles.circle}>
+                                    <Image style={styles.roundImg} source={{ uri: (post.user_avatar)["thumb"] }} />
+                                </View>
+                            </TouchableOpacity>
                             <View style={styles.textContainer}>
                                 <View style={styles.postTextContainer}>
                                     <TextBold fontSize={13} color="#5F6373">

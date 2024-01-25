@@ -8,6 +8,7 @@ import Home from '../screens/app/home/home';
 import Menu from '../screens/app/menu/menu';
 import Messenger from '../screens/app/messenger/messenger';
 import NewMessage from '../screens/app/newMessage/newMessage';
+import UserProfile from '../screens/app/userProfile/userProfile';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,7 @@ const AppStack = () => {
             <Stack.Screen options={headerShow} name="Messenger" component={Messenger} />
             <Stack.Screen options={headerShow} name="NewMessage" component={NewMessage} />
             <Stack.Screen options={headerShow} name="ChatRoom" component={ChatRoom} />
+            <Stack.Screen options={headerShow} name="UserProfile" component={UserProfile} />
         </Stack.Navigator>
     );
 };
