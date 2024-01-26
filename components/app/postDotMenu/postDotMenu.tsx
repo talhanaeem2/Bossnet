@@ -16,6 +16,9 @@ const PostDotMenu = () => {
 
     const handleMenuItemPress = (action: string) => {
         console.log(`Selected action: ${action}`);
+    };
+
+    const closeModal = () => {
         setMenuVisible(false);
     };
 
@@ -25,9 +28,7 @@ const PostDotMenu = () => {
                 {Icons.dotsIcon}
             </TouchableOpacity>
             <Modal visible={isMenuVisible} transparent animationType="slide">
-                <TouchableOpacity
-                    style={styles.modalContainer}
-                    onPress={() => setMenuVisible(false)}>
+                <TouchableOpacity style={styles.modalContainer} onPress={closeModal}>
                     <View style={styles.menu}>
                         <TouchableOpacity onPress={() => handleMenuItemPress('delete')}>
                             <View style={styles.menuItem}>
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         right: 0,
-        zIndex: 1,
+        zIndex: 1
     },
     modalContainer: {
         flex: 1,
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 20,
         paddingVertical: 8,
         paddingHorizontal: 5,
-        elevation: 5,
+        elevation: 5
     },
     menuItemText: {
         color: '#AFB1B9',

@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image, ActivityIndicator, TouchableOpacity } from "react-native"
+import { View, StyleSheet, Image, ActivityIndicator, TouchableOpacity, TouchableWithoutFeedback, Modal } from "react-native"
 import axios from "axios"
 import { useNavigation } from "@react-navigation/native"
 import { useEffect, useState } from "react"
@@ -19,6 +19,13 @@ const NewsFeed = () => {
     const [newsFeedPosts, setNewsFeedPosts] = useState<ResponseItemInterface[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [modalImageUri, setModalImageUri] = useState<string | null>(null);
+
+    const toggleModal = (uri: string) => {
+        setModalImageUri(uri);
+        setIsModalVisible(!isModalVisible);
+    };
 
     useEffect(() => {
         const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/activity";
@@ -39,6 +46,25 @@ const NewsFeed = () => {
         fetchData()
     }, []);
 
+    const handleLongPress = (index: number) => {
+        const updatedPosts = [...newsFeedPosts];
+
+        updatedPosts.forEach((post, i) => {
+            if (i !== index && post.showOverlay) {
+                post.showOverlay = false;
+            }
+        });
+
+        updatedPosts[index].showOverlay = true;
+        setNewsFeedPosts(updatedPosts);
+    };
+
+    const handleCloseOverlay = (index: number) => {
+        const updatedPosts = [...newsFeedPosts];
+        updatedPosts[index].showOverlay = false;
+        setNewsFeedPosts(updatedPosts);
+    };
+
     if (isLoading) {
         return (
             <View style={styles.loaderContainer}>
@@ -48,6 +74,7 @@ const NewsFeed = () => {
     }
 
     return (
+
         <View style={styles.container}>
             {newsFeedPosts.map((post, index) => {
                 const title = post.title;
@@ -56,41 +83,52 @@ const NewsFeed = () => {
                 const userId = post.user_id;
                 const postId = post.id;
                 return (
-                    <View style={styles.postContainer} key={index}>
-                        <View style={styles.dotsContainer}>
-                            <PostDotMenu />
-                        </View>
-                        <View style={styles.post}>
-                            <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>
-                                <View style={styles.circle}>
-                                    <Image style={styles.roundImg} source={{ uri: (post.user_avatar)["thumb"] }} />
+                    <TouchableWithoutFeedback key={index} onPress={() => handleCloseOverlay(index)}>
+                        <View style={styles.postContainer}>
+                            <View style={styles.dotsContainer}>
+                                <PostDotMenu />
+                            </View>
+                            <View style={styles.post}>
+                                <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>
+                                    <View style={styles.circle}>
+                                        <Image style={styles.roundImg} source={{ uri: (post.user_avatar)["thumb"] }} />
+                                    </View>
+                                </TouchableOpacity>
+                                <View style={styles.textContainer}>
+                                    <View style={styles.postTextContainer}>
+                                        <TextBold fontSize={13} color="#5F6373">
+                                            {sanitizedTitle}
+                                        </TextBold>
+                                    </View>
+                                    <TextRegular fontSize={9} color="#5F6373">
+                                        2 hours ago
+                                    </TextRegular>
                                 </View>
-                            </TouchableOpacity>
-                            <View style={styles.textContainer}>
-                                <View style={styles.postTextContainer}>
-                                    <TextBold fontSize={13} color="#5F6373">
-                                        {sanitizedTitle}
-                                    </TextBold>
-                                </View>
-                                <TextRegular fontSize={9} color="#5F6373">
-                                    2 hours ago
-                                </TextRegular>
+                            </View>
+                            <View style={styles.readmoreContainer}>
+                                <ReadMore text={post.content_stripped} />
+                            </View>
+                            {post.bp_media_ids && (
+                                <TouchableOpacity style={styles.imageContainer} onPress={() => toggleModal(imageUri)}>
+                                    <Image source={{ uri: imageUri }} style={{ width: 421, height: 177 }} />
+                                </TouchableOpacity>
+                            )}
+                            <View style={!post.bp_media_ids ? { paddingTop: RPH(1) } : { paddingTop: 0 }}>
+                                <UserActions showOverlay={post.showOverlay} onLongPress={() => handleLongPress(index)} />
                             </View>
                         </View>
-                        <View style={styles.readmoreContainer}>
-                            <ReadMore text={post.content_stripped} />
-                        </View>
-                        {post.bp_media_ids && (
-                            <View style={styles.imageContainer}>
-                                <Image source={{ uri: imageUri }} style={{ width: 421, height: 177 }} />
-                            </View>
-                        )}
-                        <View style={!post.bp_media_ids ? { paddingTop: RPH(1) } : { paddingTop: 0 }}>
-                            <UserActions />
-                        </View>
-                    </View>
+                    </TouchableWithoutFeedback>
                 )
             })}
+            <Modal visible={isModalVisible} transparent={true}>
+                <View style={styles.modalContainer}>
+                    <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
+                        <View style={styles.modalContent}>
+                            {modalImageUri && <Image source={{ uri: modalImageUri }} style={styles.modalImage} />}
+                        </View>
+                    </TouchableWithoutFeedback>
+                </View>
+            </Modal>
         </View>
     )
 }
@@ -130,8 +168,8 @@ const styles = StyleSheet.create({
     },
     dotsContainer: {
         position: "absolute",
-        right: RPW(2),
-        top: RPH(.2)
+        right: RPW(2.5),
+        top: RPH(.5)
     },
     postContainer: {
         borderRadius: 3,
@@ -156,5 +194,22 @@ const styles = StyleSheet.create({
         paddingLeft: RPW(2.5),
         paddingBottom: RPH(1.8),
         flex: 1
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#000',
+    },
+    modalContent: {
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalImage: {
+        width: '100%',
+        height: '100%',
+        resizeMode: 'contain',
     }
 })

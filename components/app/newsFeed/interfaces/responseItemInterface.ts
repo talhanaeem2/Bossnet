@@ -14,4 +14,5 @@ export default interface ResponseItemInterface {
     user_avatar: UserAvatarInterface;
     user_id: number;
     bp_media_ids: MediaIdsInterface;
+    showOverlay: boolean;
 }

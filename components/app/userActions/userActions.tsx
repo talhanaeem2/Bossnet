@@ -1,5 +1,4 @@
-import { View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from "react-native"
-import { useState } from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native"
 
 import TextRegular from "../textComponent/textRegular/textRegular";
 
@@ -8,13 +7,13 @@ import messages from "../../../constants/messages";
 import { RPW, RPH } from "../../../constants/utils";
 
 import UserActionsInterface from "./interfaces/userActionsInterface";
+import UserActionsProps from "./interfaces/userActionsProps";
 
-const UserActions = () => {
-    const [showOverlay, setShowOverlay] = useState(false);
+const UserActions = (props: UserActionsProps) => {
+    const { onLongPress, showOverlay } = props
 
     const handleLike = () => {
         console.log('Liked!');
-        setShowOverlay(false);
     };
 
     const handleComment = () => {
@@ -23,14 +22,6 @@ const UserActions = () => {
 
     const handleShare = () => {
         console.log('Shared!');
-    };
-
-    const onLongPress = () => {
-        setShowOverlay(true);
-    };
-
-    const onHideOverlay = () => {
-        setShowOverlay(false);
     };
 
     const userActions: UserActionsInterface[] = [
@@ -51,45 +42,41 @@ const UserActions = () => {
         },
     ];
     return (
-        <TouchableWithoutFeedback onPress={onHideOverlay}>
-            <View style={styles.userActions}>
-
-                <View style={styles.actionsContainer}>
+        <View style={styles.userActions}>
+            <View style={styles.actionsContainer}>
+                {userActions.map((item, index) => {
+                    return (
+                        <TouchableOpacity
+                            key={index}
+                            onPress={index != 0 ? item.onPress : undefined}
+                            style={styles.action}
+                            onLongPress={index === 0 ? () => onLongPress() : undefined}
+                        >
+                            {item.icon}
+                            <TextRegular
+                                fontSize={11}
+                                color="rgba(95, 99, 117, 0.74)"
+                                style={styles.actionText}
+                            >
+                                {item.text}
+                            </TextRegular>
+                        </TouchableOpacity>
+                    )
+                })}
+            </View>
+            {showOverlay && (
+                <View style={styles.overlayContainer}>
                     {userActions.map((item, index) => {
                         return (
-                            <TouchableOpacity
-                                key={index}
-                                onPress={index != 0 ? item.onPress : undefined}
-                                style={styles.action}
-                                onLongPress={index === 0 ? () => onLongPress() : undefined}
-                            >
+                            <TouchableOpacity key={index} onPress={item.onPress} >
                                 {item.icon}
-                                <TextRegular
-                                    fontSize={11}
-                                    color="rgba(95, 99, 117, 0.74)"
-                                    style={styles.actionText}
-                                >
-                                    {item.text}
-                                </TextRegular>
                             </TouchableOpacity>
-
                         )
                     })}
                 </View>
-                {showOverlay && (
-                    <View style={styles.overlayContainer}>
-                        {userActions.map((item, index) => {
-                            return (
-                                <TouchableOpacity key={index} onPress={item.onPress} >
-                                    {item.icon}
-                                </TouchableOpacity>
-                            )
-                        })}
-                    </View>
-                )
-                }
-            </View>
-        </TouchableWithoutFeedback>
+            )
+            }
+        </View>
     )
 }
 
