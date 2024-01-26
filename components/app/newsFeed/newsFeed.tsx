@@ -1,9 +1,8 @@
 import { View, StyleSheet, Image, ActivityIndicator, TouchableOpacity } from "react-native"
 import axios from "axios"
+import { useNavigation } from "@react-navigation/native"
 import { useEffect, useState } from "react"
 import { StackNavigationProp } from "@react-navigation/stack"
-import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
-import { useNavigation } from "@react-navigation/native"
 
 import UserActions from "../userActions/userActions"
 import PostDotMenu from "../postDotMenu/postDotMenu"
@@ -13,6 +12,7 @@ import TextRegular from "../textComponent/textRegular/textRegular"
 
 import { stripHtmlTags, RPH, RPW } from "../../../constants/utils"
 
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
 import ResponseItemInterface from "./interfaces/responseItemInterface"
 
 const NewsFeed = () => {
@@ -53,11 +53,12 @@ const NewsFeed = () => {
                 const title = post.title;
                 const sanitizedTitle = stripHtmlTags(title)
                 const imageUri = post.bp_media_ids?.[0]?.attachment_data?.full;
-
+                const userId = post.user_id;
+                const postId = post.id;
                 return (
                     <View style={styles.postContainer} key={index}>
                         <View style={styles.dotsContainer}>
-                            <PostDotMenu direction="right" />
+                            <PostDotMenu />
                         </View>
                         <View style={styles.post}>
                             <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>

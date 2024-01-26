@@ -1,11 +1,12 @@
 import { ScrollView, StyleSheet, TouchableOpacity, View, Image } from "react-native"
+import { LinearGradient } from "expo-linear-gradient"
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper"
 import TextBold from "../../../components/app/textComponent/textBold/textBold"
-import { LinearGradient } from "expo-linear-gradient"
 import TextRegular from "../../../components/app/textComponent/textRegular/textRegular"
-import { RPH, RPW } from "../../../constants/utils"
 import PostDotMenu from "../../../components/app/postDotMenu/postDotMenu"
+
+import { RPH, RPW } from "../../../constants/utils"
 
 const Notifications = () => {
     return (
@@ -14,7 +15,7 @@ const Notifications = () => {
                 colors={['rgba(39, 60, 255, 0.20)', 'rgba(0, 163, 255, 0.20)']}
                 style={styles.container}
             >
-                <View style={{ paddingHorizontal: 22, paddingVertical: 8 }}>
+                <View style={styles.headText}>
                     <TextBold fontSize={16}>New</TextBold>
                 </View>
                 <ScrollView>
@@ -26,7 +27,7 @@ const Notifications = () => {
                                         <Image style={styles.activeRoundImg} source={require("../../../assets/dummy-profile.png")} />
                                     </View>
                                 </TouchableOpacity>
-                                <View style={{ paddingRight: 60, flex: 1, gap: 2 }}>
+                                <View style={styles.textContainer}>
                                     <TextRegular fontSize={12}>
                                         Darrell Trivedi has a new story up.
                                     </TextRegular>
@@ -37,8 +38,8 @@ const Notifications = () => {
                                         2 hours ago
                                     </TextRegular>
                                 </View>
-                                <View style={{ position: "absolute", top: 0, right: 0 }}>
-                                    <PostDotMenu direction={"right"} />
+                                <View style={styles.dotsContainer}>
+                                    <PostDotMenu />
                                 </View>
                             </View>
                         </View>
@@ -49,7 +50,7 @@ const Notifications = () => {
                                         <Image style={styles.activeRoundImg} source={require("../../../assets/dummy-profile.png")} />
                                     </View>
                                 </TouchableOpacity>
-                                <View style={{ paddingRight: 60, flex: 1, gap: 2 }}>
+                                <View style={styles.textContainer}>
                                     <TextRegular fontSize={12}>
                                         Darrell Trivedi has a new story up.
                                     </TextRegular>
@@ -60,12 +61,12 @@ const Notifications = () => {
                                         2 hours ago
                                     </TextRegular>
                                 </View>
-                                <View style={{ position: "absolute", top: 0, right: 0 }}>
-                                    <PostDotMenu direction={"right"} />
+                                <View style={styles.dotsContainer}>
+                                    <PostDotMenu />
                                 </View>
                             </View>
                         </View>
-                        <View style={{ paddingHorizontal: 22, paddingVertical: 8 }}>
+                        <View style={styles.headText}>
                             <TextBold fontSize={16}>Earlier</TextBold>
                         </View>
                         <View style={styles.friendListItem}>
@@ -75,7 +76,7 @@ const Notifications = () => {
                                         <Image style={styles.activeRoundImg} source={require("../../../assets/dummy-profile.png")} />
                                     </View>
                                 </TouchableOpacity>
-                                <View style={{ paddingRight: 60, flex: 1, gap: 2 }}>
+                                <View style={styles.textContainer}>
                                     <TextRegular fontSize={12}>
                                         Darrell Trivedi has a new story up.
                                     </TextRegular>
@@ -86,8 +87,8 @@ const Notifications = () => {
                                         2 hours ago
                                     </TextRegular>
                                 </View>
-                                <View style={{ position: "absolute", top: 0, right: 0 }}>
-                                    <PostDotMenu direction={"right"} />
+                                <View style={styles.dotsContainer}>
+                                    <PostDotMenu />
                                 </View>
                             </View>
                         </View>
@@ -98,7 +99,7 @@ const Notifications = () => {
                                         <Image style={styles.activeRoundImg} source={require("../../../assets/dummy-profile.png")} />
                                     </View>
                                 </TouchableOpacity>
-                                <View style={{ paddingRight: 60, flex: 1, gap: 2 }}>
+                                <View style={styles.textContainer}>
                                     <TextRegular fontSize={12}>
                                         Darrell Trivedi has a new story up.
                                     </TextRegular>
@@ -109,8 +110,8 @@ const Notifications = () => {
                                         2 hours ago
                                     </TextRegular>
                                 </View>
-                                <View style={{ position: "absolute", top: 0, right: 0 }}>
-                                    <PostDotMenu direction={"right"} />
+                                <View style={styles.dotsContainer}>
+                                    <PostDotMenu />
                                 </View>
                             </View>
                         </View>
@@ -153,5 +154,19 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         gap: RPW(3.4)
+    },
+    dotsContainer: {
+        position: "absolute",
+        top: 0,
+        right: 20
+    },
+    textContainer: {
+        paddingRight: 60,
+        flex: 1,
+        gap: 2
+    },
+    headText: {
+        paddingHorizontal: 22,
+        paddingVertical: 8
     }
 })

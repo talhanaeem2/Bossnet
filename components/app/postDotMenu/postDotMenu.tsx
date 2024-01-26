@@ -1,13 +1,13 @@
-import { View, StyleSheet, Text, TouchableOpacity, ViewStyle } from "react-native"
+import { View, StyleSheet, TouchableOpacity, Modal } from "react-native"
 import { useState } from "react"
 
-import Icons from "../../../constants/icons";
+import TextRegular from "../textComponent/textRegular/textRegular";
+
 import messages from "../../../constants/messages";
+import Icons from "../../../constants/icons";
 import { RFS } from "../../../constants/utils";
 
-import PostDotMenuProps from "./interfaces/postDotMenuProps";
-
-const PostDotMenu = ({ direction }: PostDotMenuProps) => {
+const PostDotMenu = () => {
     const [isMenuVisible, setMenuVisible] = useState(false);
 
     const handleIconPress = () => {
@@ -19,95 +19,79 @@ const PostDotMenu = ({ direction }: PostDotMenuProps) => {
         setMenuVisible(false);
     };
 
-    const getMenuStyle = () => {
-        const positionStyles: Record<string, number | undefined> = {};
-
-        switch (direction) {
-            case 'top':
-                positionStyles.top = 0;
-                positionStyles.bottom = undefined;
-                break;
-            case 'bottom':
-                positionStyles.top = undefined;
-                positionStyles.bottom = 0;
-                break;
-            case 'left':
-                positionStyles.left = 30;
-                positionStyles.right = undefined;
-                break;
-            case 'right':
-                positionStyles.left = undefined;
-                positionStyles.right = 30;
-                break;
-            default:
-                break;
-        }
-
-        return {
-            position: 'absolute',
-            backgroundColor: '#fff',
-            borderRadius: 8,
-            paddingVertical: 8,
-            paddingHorizontal: 5,
-            elevation: 5,
-            width: 55,
-            zIndex: 2,
-            gap: 5,
-            ...positionStyles,
-        } as ViewStyle
-    };
-
     return (
-        <View style={styles.modal}>
+        <View style={styles.container}>
             <TouchableOpacity onPress={handleIconPress}>
                 {Icons.dotsIcon}
             </TouchableOpacity>
-            {isMenuVisible && (
-                <View style={getMenuStyle()}>
-                    <TouchableOpacity onPress={() => handleMenuItemPress('delete')}>
-                        <View style={styles.menuItem}>
-                            {Icons.deleteIcon}
-                            <Text style={styles.menuItemText}>{messages.delete}</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handleMenuItemPress('report')}>
-                        <View style={styles.menuItem}>
-                            {Icons.repostIcon}
-                            <Text style={styles.menuItemText}>{messages.report}</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handleMenuItemPress('pin')}>
-                        <View style={styles.menuItem}>
-                            {Icons.pinIcon}
-                            <Text style={styles.menuItemText}>{messages.pin}</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-            )}
+            <Modal visible={isMenuVisible} transparent animationType="slide">
+                <TouchableOpacity
+                    style={styles.modalContainer}
+                    onPress={() => setMenuVisible(false)}>
+                    <View style={styles.menu}>
+                        <TouchableOpacity onPress={() => handleMenuItemPress('delete')}>
+                            <View style={styles.menuItem}>
+                                {Icons.deleteIcon}
+                                <TextRegular fontSize={12} color="#AFB1B9">
+                                    {messages.delete}
+                                </TextRegular>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleMenuItemPress('report')}>
+                            <View style={styles.menuItem}>
+                                {Icons.repostIcon}
+                                <TextRegular fontSize={12} color="#AFB1B9">
+                                    {messages.report}
+                                </TextRegular>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleMenuItemPress('pin')}>
+                            <View style={styles.menuItem}>
+                                {Icons.pinIcon}
+                                <TextRegular fontSize={12} color="#AFB1B9">
+                                    {messages.pin}
+                                </TextRegular>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </TouchableOpacity>
+            </Modal>
         </View>
-    )
-}
+    );
+};
 
-export default PostDotMenu
+export default PostDotMenu;
 
 const styles = StyleSheet.create({
-
-    modal: {
-        alignSelf: "flex-end",
-        marginRight: 20
+    container: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        zIndex: 1,
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'flex-end',
+    },
+    menu: {
+        backgroundColor: '#fff',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        paddingVertical: 8,
+        paddingHorizontal: 5,
+        elevation: 5,
     },
     menuItemText: {
-        color: "#AFB1B9",
+        color: '#AFB1B9',
         fontSize: RFS(6),
-        fontFamily: "Lato-Bold",
-        fontWeight: "700",
+        fontFamily: 'Lato-Bold',
+        fontWeight: '700',
     },
     menuItem: {
-        padding: 4,
-        borderWidth: .5,
-        borderColor: "#DCDCDC",
-        borderRadius: 10,
-        flexDirection: "row",
-        gap: 2
+        padding: 12,
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 5
     },
-})
+});
