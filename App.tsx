@@ -1,9 +1,11 @@
 import * as Font from 'expo-font';
 import { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { Provider } from 'react-redux';
 
 import AppStack from './navigation/appStack';
 import AuthStack from './navigation/authStack';
+import store from './store';
 
 const customFonts = {
   'Lato-Regular': require('./assets/fonts//Lato-Regular.ttf'),
@@ -30,7 +32,9 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      {isAuthenticated ? <AppStack /> : <AuthStack />}
+      <Provider store={store}>
+        {isAuthenticated ? <AppStack /> : <AuthStack />}
+      </Provider>
     </NavigationContainer>
   );
 }

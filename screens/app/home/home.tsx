@@ -1,6 +1,6 @@
 import { Dimensions, Modal, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native"
-import { useState } from "react"
 import { BlurView } from 'expo-blur';
+import { memo, useCallback } from "react";
 
 import CreatePost from "../createPost/createPost"
 import Header from "../../../components/app/header/header";
@@ -12,17 +12,22 @@ import SafeAreaViewComponent from "../../../components/app/SafeAreaViewComponent
 import Icons from "../../../constants/icons";
 import { RPH, RPW } from "../../../constants/utils";
 
+import useReducerDispatch from "../../../hooks/useReducerDispatch";
+import useSliceSelector from "../../../hooks/useSliceSelector";
+import { toggleCreatePostModal } from "../../../reducers/appSlice";
+
 const { height } = Dimensions.get("window");
 
 const Home = () => {
-    const [isCreatePostModalVisible, setCreatePostModalVisible] = useState(false);
+    const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isCreatePostModalVisible);
+    const dispatch = useReducerDispatch();
 
-    const toggleCreatePostModal = () => {
-        setCreatePostModalVisible(!isCreatePostModalVisible);
-    };
+    const handleToggleCreatePostModal = useCallback(() => {
+        dispatch(toggleCreatePostModal({ isVisible: !isCreatePostModalVisible }));
+    }, [isCreatePostModalVisible]);
 
     const closeModal = () => {
-        setCreatePostModalVisible(false);
+        dispatch(toggleCreatePostModal({ isVisible: false }));
     };
 
     return (
@@ -35,30 +40,32 @@ const Home = () => {
                 </ScrollView>
                 <Footer />
                 <View style={styles.newpostContainer}>
-                    <TouchableOpacity onPress={toggleCreatePostModal}>
+                    <TouchableOpacity onPress={handleToggleCreatePostModal}>
                         {Icons.newPostIcon}
                     </TouchableOpacity>
                 </View>
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={isCreatePostModalVisible}
-                    onRequestClose={toggleCreatePostModal}
-                >
-                    <BlurView
-                        intensity={100}
-                        tint="dark"
-                        style={StyleSheet.absoluteFill}
+                {isCreatePostModalVisible && (
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={isCreatePostModalVisible}
+                        onRequestClose={handleToggleCreatePostModal}
                     >
-                        <CreatePost closeModal={closeModal} />
-                    </BlurView>
-                </Modal>
+                        <BlurView
+                            intensity={100}
+                            tint="dark"
+                            style={StyleSheet.absoluteFill}
+                        >
+                            <CreatePost closeModal={closeModal} />
+                        </BlurView>
+                    </Modal>
+                )}
             </View>
         </SafeAreaViewComponent>
     )
 }
 
-export default Home
+export default memo(Home)
 
 const styles = StyleSheet.create({
     container: {
