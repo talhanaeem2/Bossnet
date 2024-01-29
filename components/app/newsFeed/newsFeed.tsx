@@ -1,7 +1,6 @@
-import { View, StyleSheet, Image, ActivityIndicator, TouchableOpacity, TouchableWithoutFeedback, Modal } from "react-native"
-import axios from "axios"
+import { View, StyleSheet, Image, ActivityIndicator, TouchableOpacity, TouchableWithoutFeedback } from "react-native"
 import { useNavigation } from "@react-navigation/native"
-import { memo, useCallback, useEffect, useState } from "react"
+import { memo, useCallback } from "react"
 import { StackNavigationProp } from "@react-navigation/stack"
 
 import UserActions from "../userActions/userActions"
@@ -9,58 +8,48 @@ import PostDotMenu from "../postDotMenu/postDotMenu"
 import ReadMore from "../readMoreText/readMoreText"
 import TextBold from "../textComponent/textBold/textBold"
 import TextRegular from "../textComponent/textRegular/textRegular"
+import ImageFullScreenModal from "../../../modals/imageFullScreenModal/imageFullScreenModal"
 
 import { stripHtmlTags, RPH, RPW } from "../../../constants/utils"
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
-import ResponseItemInterface from "./interfaces/responseItemInterface"
+
+import useSliceSelector from "../../../hooks/useSliceSelector"
+import useReducerDispatch from "../../../hooks/useReducerDispatch"
+import { setImageFullScreenModal, setNewsFeedPosts } from "../../../reducers/app/appSlice"
 
 const NewsFeed = () => {
-    const [newsFeedPosts, setNewsFeedPosts] = useState<ResponseItemInterface[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [modalImageUri, setModalImageUri] = useState<string | null>(null);
-
-    useEffect(() => {
-        const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/activity";
-
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(apiUrl)
-                setNewsFeedPosts(response.data);
-                setIsLoading(false);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setIsLoading(false);
-            } finally {
-                setIsLoading(false);
-            }
-        }
-
-        fetchData()
-    }, []);
+    const newsFeedPosts = useSliceSelector(state => state.app.newsFeed.newsFeedPosts);
+    const isLoading = useSliceSelector(state => state.loading.isLoading)
+    const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
+    const dispatch = useReducerDispatch();
 
     const toggleModal = useCallback((uri: string) => {
-        setModalImageUri(uri);
-        setIsModalVisible(prevState => !prevState);
+        dispatch(setImageFullScreenModal({ isVisible: !isImageFullScreenModalVisible, uri }))
     }, []);
 
     const handleLongPress = useCallback((index: number) => {
-        setNewsFeedPosts(prevPosts => {
-            const updatedPosts = prevPosts.map((post, i) => ({
+        dispatch(setNewsFeedPosts({
+            newsFeedPosts: newsFeedPosts.map((post, i) => ({
                 ...post,
                 showOverlay: i === index
-            }));
-            return updatedPosts;
-        });
-    }, []);
+            }))
+        }));
+    }, [dispatch, newsFeedPosts]);
 
-    const handleCloseOverlay = (index: number) => {
-        const updatedPosts = [...newsFeedPosts];
-        updatedPosts[index].showOverlay = false;
-        setNewsFeedPosts(updatedPosts);
-    };
+    const handleCloseOverlay = useCallback((index: number) => {
+        const updatedPosts = newsFeedPosts.map((post, i) => {
+            if (i === index) {
+                return {
+                    ...post,
+                    showOverlay: false
+                };
+            }
+            return post;
+        });
+        dispatch(setNewsFeedPosts({ newsFeedPosts: updatedPosts }));
+    }, [dispatch, newsFeedPosts])
 
     if (isLoading) {
         return (
@@ -79,7 +68,9 @@ const NewsFeed = () => {
                 const userId = post.user_id;
                 const postId = post.id;
                 return (
-                    <TouchableWithoutFeedback key={index} onPress={() => handleCloseOverlay(index)}>
+                    <TouchableWithoutFeedback key={index}
+                        onPress={() => handleCloseOverlay(index)}
+                    >
                         <View style={styles.postContainer}>
                             <View style={styles.dotsContainer}>
                                 <PostDotMenu />
@@ -106,25 +97,21 @@ const NewsFeed = () => {
                             </View>
                             {post.bp_media_ids && (
                                 <TouchableOpacity style={styles.imageContainer} onPress={() => toggleModal(imageUri)}>
-                                    <Image source={{ uri: imageUri }} style={{ width: 421, height: 177 }} />
+                                    <View>
+                                        <Image source={{ uri: imageUri }} style={{ width: 421, height: 177 }} />
+                                    </View>
                                 </TouchableOpacity>
                             )}
                             <View style={!post.bp_media_ids ? { paddingTop: RPH(1) } : { paddingTop: 0 }}>
-                                <UserActions showOverlay={post.showOverlay} onLongPress={() => handleLongPress(index)} />
+                                <UserActions showOverlay={post.showOverlay}
+                                    onLongPress={() => handleLongPress(index)}
+                                />
                             </View>
                         </View>
                     </TouchableWithoutFeedback>
                 )
             })}
-            <Modal visible={isModalVisible} transparent={true}>
-                <View style={styles.modalContainer}>
-                    <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
-                        <View style={styles.modalContent}>
-                            {modalImageUri && <Image source={{ uri: modalImageUri }} style={styles.modalImage} />}
-                        </View>
-                    </TouchableWithoutFeedback>
-                </View>
-            </Modal>
+            {isImageFullScreenModalVisible && <ImageFullScreenModal />}
         </View>
     )
 }
@@ -190,22 +177,5 @@ const styles = StyleSheet.create({
         paddingLeft: RPW(2.5),
         paddingBottom: RPH(1.8),
         flex: 1
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#000',
-    },
-    modalContent: {
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    modalImage: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'contain',
     }
 })

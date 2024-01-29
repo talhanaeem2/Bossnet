@@ -6,18 +6,18 @@ import CreatePost from "../screens/app/createPost/createPost"
 
 import useSliceSelector from "../hooks/useSliceSelector";
 import useReducerDispatch from "../hooks/useReducerDispatch";
-import { toggleCreatePostModal } from "../reducers/appSlice";
+import { setCreatePostModal } from "../reducers/app/appSlice";
 
 const CreatePostModal = () => {
-    const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isCreatePostModalVisible);
+    const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
 
     const handleToggleCreatePostModal = useCallback(() => {
-        dispatch(toggleCreatePostModal({ isVisible: !isCreatePostModalVisible }));
+        dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));
     }, [isCreatePostModalVisible]);
 
     const closeModal = () => {
-        dispatch(toggleCreatePostModal({ isVisible: false }));
+        dispatch(setCreatePostModal({ isVisible: false }));
     };
 
     return (
