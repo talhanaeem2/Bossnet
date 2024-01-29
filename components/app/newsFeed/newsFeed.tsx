@@ -1,7 +1,7 @@
 import { View, StyleSheet, Image, ActivityIndicator, TouchableOpacity, TouchableWithoutFeedback, Modal } from "react-native"
 import axios from "axios"
 import { useNavigation } from "@react-navigation/native"
-import { useEffect, useState } from "react"
+import { memo, useCallback, useEffect, useState } from "react"
 import { StackNavigationProp } from "@react-navigation/stack"
 
 import UserActions from "../userActions/userActions"
@@ -22,11 +22,6 @@ const NewsFeed = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalImageUri, setModalImageUri] = useState<string | null>(null);
 
-    const toggleModal = (uri: string) => {
-        setModalImageUri(uri);
-        setIsModalVisible(!isModalVisible);
-    };
-
     useEffect(() => {
         const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/activity";
 
@@ -46,18 +41,20 @@ const NewsFeed = () => {
         fetchData()
     }, []);
 
-    const handleLongPress = (index: number) => {
-        const updatedPosts = [...newsFeedPosts];
+    const toggleModal = useCallback((uri: string) => {
+        setModalImageUri(uri);
+        setIsModalVisible(prevState => !prevState);
+    }, []);
 
-        updatedPosts.forEach((post, i) => {
-            if (i !== index && post.showOverlay) {
-                post.showOverlay = false;
-            }
+    const handleLongPress = useCallback((index: number) => {
+        setNewsFeedPosts(prevPosts => {
+            const updatedPosts = prevPosts.map((post, i) => ({
+                ...post,
+                showOverlay: i === index
+            }));
+            return updatedPosts;
         });
-
-        updatedPosts[index].showOverlay = true;
-        setNewsFeedPosts(updatedPosts);
-    };
+    }, []);
 
     const handleCloseOverlay = (index: number) => {
         const updatedPosts = [...newsFeedPosts];
@@ -74,7 +71,6 @@ const NewsFeed = () => {
     }
 
     return (
-
         <View style={styles.container}>
             {newsFeedPosts.map((post, index) => {
                 const title = post.title;
@@ -133,7 +129,7 @@ const NewsFeed = () => {
     )
 }
 
-export default NewsFeed
+export default memo(NewsFeed)
 
 const styles = StyleSheet.create({
     loaderContainer: {

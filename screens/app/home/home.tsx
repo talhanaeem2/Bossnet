@@ -1,13 +1,12 @@
-import { Dimensions, Modal, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native"
-import { BlurView } from 'expo-blur';
+import { Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native"
 import { memo, useCallback } from "react";
 
-import CreatePost from "../createPost/createPost"
 import Header from "../../../components/app/header/header";
 import Footer from "../../../components/app/footer/footer";
 import NewsFeed from "../../../components/app/newsFeed/newsFeed";
 import NewsFeedShare from "../../../components/app/newsFeedShare/newsFeedShare";
 import SafeAreaViewComponent from "../../../components/app/SafeAreaViewComponent/SafeAreaViewComponent";
+import CreatePostModal from "../../../modals/createPostModal";
 
 import Icons from "../../../constants/icons";
 import { RPH, RPW } from "../../../constants/utils";
@@ -26,10 +25,6 @@ const Home = () => {
         dispatch(toggleCreatePostModal({ isVisible: !isCreatePostModalVisible }));
     }, [isCreatePostModalVisible]);
 
-    const closeModal = () => {
-        dispatch(toggleCreatePostModal({ isVisible: false }));
-    };
-
     return (
         <SafeAreaViewComponent>
             <View style={styles.container}>
@@ -45,20 +40,7 @@ const Home = () => {
                     </TouchableOpacity>
                 </View>
                 {isCreatePostModalVisible && (
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={isCreatePostModalVisible}
-                        onRequestClose={handleToggleCreatePostModal}
-                    >
-                        <BlurView
-                            intensity={100}
-                            tint="dark"
-                            style={StyleSheet.absoluteFill}
-                        >
-                            <CreatePost closeModal={closeModal} />
-                        </BlurView>
-                    </Modal>
+                    <CreatePostModal />
                 )}
             </View>
         </SafeAreaViewComponent>
