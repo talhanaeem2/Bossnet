@@ -104,6 +104,11 @@ const NewsFeed = () => {
                                     </View>
                                 </TouchableWithoutFeedback>
                             )}
+                            {/* {post.reacted_names && (
+                                <TextRegular fontSize={10} color="#5F6373">
+                                    {post.reacted_names}
+                                </TextRegular>
+                            )} */}
                             <View style={!post.bp_media_ids ? { paddingTop: RPH(1) } : { paddingTop: RPH(1.2) }}>
                                 <UserActions showOverlay={post.showOverlay}
                                     onLongPress={() => handleLongPress(index)}

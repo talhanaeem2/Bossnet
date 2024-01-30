@@ -15,4 +15,5 @@ export default interface ResponseItemInterface {
     user_id: number;
     bp_media_ids: MediaIdsInterface;
     showOverlay: boolean;
+    reacted_names: string;
 }

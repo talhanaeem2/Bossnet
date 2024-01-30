@@ -12,6 +12,7 @@ import { RPW, RPH } from "../../../constants/utils";
 
 import UserActionsInterface from "./interfaces/userActionsInterface";
 import UserActionsProps from "./interfaces/userActionsProps";
+import OverlayActionsInterface from "./interfaces/overlayActions";
 
 const likedIcon = <IconContainer width="16" height="16" viewBox="0 0 16 16" fill="none">
     <Circle cx="8" cy="8" r="8" fill="#4A5BF6" />
@@ -44,6 +45,27 @@ const UserActions = (props: UserActionsProps) => {
         console.log('Shared!');
     };
 
+    const handleLove = () => {
+        console.log('Love!');
+    };
+
+    const handleSad = () => {
+        console.log('Sad!');
+        setIsCommentModalVisible(true);
+    };
+
+    const handleShock = () => {
+        console.log('Shock!');
+    };
+
+    const handleLaugh = () => {
+        console.log('Laugh!');
+    }
+
+    const handleAngry = () => {
+        console.log('Angry!');
+    }
+
     const userActions: UserActionsInterface[] = [
         {
             icon: icons.likeIcon,
@@ -61,6 +83,33 @@ const UserActions = (props: UserActionsProps) => {
             text: messages.shareAction,
             onPress: handleShare
         },
+    ];
+
+    const overlayActions: OverlayActionsInterface[] = [
+        {
+            icon: require("../../../assets/icons/like.gif"),
+            onPress: handleLike
+        },
+        {
+            icon: require("../../../assets/icons/love.gif"),
+            onPress: handleLove
+        },
+        {
+            icon: require("../../../assets/icons/sad.gif"),
+            onPress: handleSad
+        },
+        {
+            icon: require("../../../assets/icons/shocked.gif"),
+            onPress: handleShock
+        },
+        {
+            icon: require("../../../assets/icons/laugh.gif"),
+            onPress: handleLaugh
+        },
+        {
+            icon: require("../../../assets/icons/angry.gif"),
+            onPress: handleAngry
+        }
     ];
 
     return (
@@ -88,10 +137,10 @@ const UserActions = (props: UserActionsProps) => {
             </View>
             {showOverlay && (
                 <View style={styles.overlayContainer}>
-                    {userActions.map((item, index) => {
+                    {overlayActions.map((item, index) => {
                         return (
                             <TouchableOpacity key={index} onPress={item.onPress} >
-                                {item.icon}
+                                <Image style={styles.overlayImg} source={item.icon} />
                             </TouchableOpacity>
                         )
                     })}
@@ -211,6 +260,10 @@ const UserActions = (props: UserActionsProps) => {
 export default UserActions
 
 const styles = StyleSheet.create({
+    overlayImg: {
+        width: 30,
+        height: 30
+    },
     userActions: {
         flexDirection: "row",
         gap: RPW(16.5),
@@ -233,17 +286,17 @@ const styles = StyleSheet.create({
     },
     overlayContainer: {
         position: "absolute",
-        top: -32,
+        top: -52,
         paddingHorizontal: 12,
         paddingBottom: 8,
         paddingTop: 6,
         borderRadius: 16,
-        left: RPW(13.8),
+        left: RPW(12.8),
         backgroundColor: '#fff',
         justifyContent: "space-evenly",
         alignItems: 'center',
         flexDirection: "row",
-        gap: 12,
+        gap: 8,
         borderColor: "rgba(0, 0, 0, 0.26)",
         borderWidth: 1
     },
