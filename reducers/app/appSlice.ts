@@ -4,7 +4,7 @@ import { produce } from 'immer';
 import AppStateInterface from './interfaces/appStateInterface';
 import CreatePostModalPayload from './interfaces/createPosModalInterface/createPostModalPayload';
 import ImageFullScreenModalPayload from './interfaces/imageFullScreenModalInterface/imageFullScreenModalPayload';
-import NewsFeedInterface from './interfaces/newsFeed/newsFeedInterface';
+import NewsFeedInterface from './interfaces/newsFeed/newsFeedStateInterface';
 import UsersStateInterface from './interfaces/users/usersStateInterface';
 import GroupsStateInterface from './interfaces/groups/groupsStateInterface';
 

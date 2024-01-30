@@ -1,5 +1,5 @@
 import ResponseItemInterface from "../../../../components/app/newsFeed/interfaces/responseItemInterface";
 
-export default interface NewsFeedInterface {
+export default interface NewsFeedStateInterface {
     newsFeedPosts: ResponseItemInterface[];
 }
