@@ -1,9 +1,8 @@
 import { View, StyleSheet, TextInput, Image, TouchableOpacity, ActivityIndicator } from "react-native"
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ScrollView } from "react-native-gesture-handler";
-import axios from "axios";
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
 import TextBold from "../../../components/app/textComponent/textBold/textBold";
@@ -11,38 +10,26 @@ import TextBold from "../../../components/app/textComponent/textBold/textBold";
 import { RPW, RFS, RPH } from "../../../constants/utils";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
-import UsersInterface from "../friends/interfaces/usersInterface";
+import useSliceSelector from "../../../hooks/useSliceSelector";
 
 const imageSize = "thumb";
 
 const NewMessage = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
-    const [users, setUsers] = useState<UsersInterface[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const usersData = useSliceSelector(state => state.app.users.usersData);
+    const isLoading = useSliceSelector(state => state.loading.isLoading);
 
-    useEffect(() => {
-        const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/members";
+    const inputRef = useRef<TextInput>(null);
 
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(apiUrl);
-                setUsers(response.data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setIsLoading(false);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchData();
-    }, [])
-
-    const filteredUsers = users.filter(user => {
+    const filteredUsers = usersData.filter(user => {
         const itemText = user.name.toLowerCase();
         return itemText.includes(searchQuery.toLowerCase());
     });
+
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, []);
 
     if (isLoading) {
         return (
@@ -57,6 +44,7 @@ const NewMessage = () => {
             <View style={styles.container}>
                 <View style={styles.inputContainer}>
                     <TextInput
+                        ref={inputRef}
                         placeholder="To:"
                         style={styles.input}
                         value={searchQuery}
