@@ -21,7 +21,7 @@ import { setImageFullScreenModal, setNewsFeedPosts } from "../../../reducers/app
 const NewsFeed = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const newsFeedPosts = useSliceSelector(state => state.app.newsFeed.newsFeedPosts);
-    const isLoading = useSliceSelector(state => state.loading.isLoading)
+    const isLoading = useSliceSelector(state => state.loading.isLoading);
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
     const dispatch = useReducerDispatch();
 

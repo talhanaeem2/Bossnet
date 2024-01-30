@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import { setNewsFeedPosts } from '../../appSlice';
-import { setIsLoading } from '../../../loading/loadingSlice';
+import { setNewsFeedPosts } from '../appSlice';
+import { setIsLoading } from '../../loading/loadingSlice';
 
 const fetchNewsFeedData = createAsyncThunk(
     'newsFeed/fetchData',
