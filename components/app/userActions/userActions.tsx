@@ -62,6 +62,7 @@ const UserActions = (props: UserActionsProps) => {
             onPress: handleShare
         },
     ];
+
     return (
         <View style={styles.userActions}>
             <View style={styles.actionsContainer}>
