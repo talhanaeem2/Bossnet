@@ -62,7 +62,7 @@ const Groups = () => {
                                             <View style={styles.textContainer}>
                                                 <Text style={styles.groupName} numberOfLines={1}>{item.name}</Text>
                                                 <TextRegular fontSize={9} color="#B1B9D8">
-                                                    {item.members_count}
+                                                    {`${item.members_count} members`}
                                                 </TextRegular>
                                             </View>
                                         </TouchableOpacity>
