@@ -1,7 +1,6 @@
 import { View, StyleSheet, Image, TouchableOpacity, TextInput, ActivityIndicator, TouchableWithoutFeedback, Keyboard, Text, Dimensions } from "react-native"
 import { Path, Svg } from "react-native-svg"
-import { useEffect, useState } from "react"
-import axios from "axios"
+import { useState } from "react"
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper"
 import TextRegular from "../../../components/app/textComponent/textRegular/textRegular"
@@ -9,7 +8,7 @@ import TextRegular from "../../../components/app/textComponent/textRegular/textR
 import messages from "../../../constants/messages"
 import { RPH, RPW, RFS } from "../../../constants/utils"
 
-import GroupsInterface from "./interfaces/groupsInterface"
+import useSliceSelector from "../../../hooks/useSliceSelector"
 
 const { width } = Dimensions.get("window");
 // first is padding second is gap
@@ -17,28 +16,11 @@ const boxWidth = (width - RPW(3) * 2 - RPW(2) * 3) / 4;
 
 const Groups = () => {
     const [searchQuery, setSearchQuery] = useState('');
-    const [groups, setGroups] = useState<GroupsInterface[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/groups";
+    const groupsData = useSliceSelector(state => state.app.groups.groupsData);
+    const isLoading = useSliceSelector(state => state.loading.isLoading);
 
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(apiUrl);
-                setGroups(response.data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setIsLoading(false);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchData();
-    }, [])
-
-    const filteredGroups = groups.filter(item => {
+    const filteredGroups = groupsData.filter(item => {
         const itemText = item.name.toLowerCase();
         return itemText.includes(searchQuery.toLowerCase());
     });

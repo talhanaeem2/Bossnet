@@ -6,6 +6,7 @@ import CreatePostModalPayload from './interfaces/createPosModalInterface/createP
 import ImageFullScreenModalPayload from './interfaces/imageFullScreenModalInterface/imageFullScreenModalPayload';
 import NewsFeedInterface from './interfaces/newsFeed/newsFeedInterface';
 import UsersStateInterface from './interfaces/users/usersStateInterface';
+import GroupsStateInterface from './interfaces/groups/groupsStateInterface';
 
 const initialState: AppStateInterface = {
     createPostModal: {
@@ -20,6 +21,9 @@ const initialState: AppStateInterface = {
     },
     users: {
         usersData: []
+    },
+    groups: {
+        groupsData: []
     }
 };
 
@@ -46,10 +50,16 @@ const appSlice = createSlice({
                 draftState.newsFeed.newsFeedPosts = newsFeedPosts
             })
         },
-        setUsersPosts(state, action: PayloadAction<UsersStateInterface>) {
+        setUsersData(state, action: PayloadAction<UsersStateInterface>) {
             const { usersData } = action.payload
             return produce(state, draftState => {
                 draftState.users.usersData = usersData
+            })
+        },
+        setGroupsData(state, action: PayloadAction<GroupsStateInterface>) {
+            const { groupsData } = action.payload
+            return produce(state, draftState => {
+                draftState.groups.groupsData = groupsData
             })
         },
     }
@@ -59,7 +69,8 @@ export const {
     setCreatePostModal,
     setImageFullScreenModal,
     setNewsFeedPosts,
-    setUsersPosts
+    setUsersData,
+    setGroupsData
 } = appSlice.actions;
 
 export default appSlice.reducer;

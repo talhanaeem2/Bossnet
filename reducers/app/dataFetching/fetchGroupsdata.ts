@@ -1,16 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import { setGroupsData } from '../appSlice';
 import { setIsLoading } from '../../loading/loadingSlice';
-import { setUsersData } from '../appSlice';
 
-const fetchUsersData = createAsyncThunk(
-    'friends/fetchData',
+const fetchGroupsData = createAsyncThunk(
+    'groups/fetchData',
     async (_, { dispatch }) => {
-        const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/members";
+        const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/groups";
         try {
             const response = await axios.get(apiUrl);
-            dispatch(setUsersData({ usersData: response.data }))
+            dispatch(setGroupsData({ groupsData: response.data }))
             dispatch(setIsLoading({ isLoading: false }))
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -19,4 +19,4 @@ const fetchUsersData = createAsyncThunk(
     }
 );
 
-export default fetchUsersData;
+export default fetchGroupsData;

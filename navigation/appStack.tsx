@@ -14,6 +14,7 @@ import Notifications from '../screens/app/notifications/notifications';
 import fetchNewsFeedData from '../reducers/app/dataFetching/fetchNewsFeedData';
 import useReducerDispatch from '../hooks/useReducerDispatch';
 import fetchUsersData from '../reducers/app/dataFetching/fetchUsersData';
+import fetchGroupsData from '../reducers/app/dataFetching/fetchGroupsdata';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,7 @@ const AppStack = () => {
     useEffect(() => {
         dispatch(fetchNewsFeedData());
         dispatch(fetchUsersData());
+        dispatch(fetchGroupsData());
     }, []);
 
     return (
