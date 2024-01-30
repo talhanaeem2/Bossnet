@@ -92,17 +92,19 @@ const NewsFeed = () => {
                                     </TextRegular>
                                 </View>
                             </View>
-                            <View style={styles.readmoreContainer}>
-                                <ReadMore text={post.content_stripped} />
-                            </View>
+                            {post.content_stripped && (
+                                <View style={styles.readmoreContainer}>
+                                    <ReadMore text={post.content_stripped} />
+                                </View>
+                            )}
                             {post.bp_media_ids && (
-                                <TouchableOpacity style={styles.imageContainer} onPress={() => toggleModal(imageUri)}>
+                                <TouchableWithoutFeedback onPress={() => toggleModal(imageUri)}>
                                     <View>
                                         <Image source={{ uri: imageUri }} style={{ width: 421, height: 177 }} />
                                     </View>
-                                </TouchableOpacity>
+                                </TouchableWithoutFeedback>
                             )}
-                            <View style={!post.bp_media_ids ? { paddingTop: RPH(1) } : { paddingTop: 0 }}>
+                            <View style={!post.bp_media_ids ? { paddingTop: RPH(1) } : { paddingTop: RPH(1.2) }}>
                                 <UserActions showOverlay={post.showOverlay}
                                     onLongPress={() => handleLongPress(index)}
                                 />
@@ -143,10 +145,7 @@ const styles = StyleSheet.create({
     readmoreContainer: {
         paddingRight: RPW(5),
         paddingLeft: 30,
-        paddingTop: RPH(.6)
-    },
-    imageContainer: {
-        marginTop: RPH(1.2),
+        paddingTop: RPH(.6),
         marginBottom: RPH(1.8)
     },
     dotsContainer: {

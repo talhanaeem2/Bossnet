@@ -1,5 +1,5 @@
-import { Modal, View, TouchableWithoutFeedback, Image, StyleSheet } from "react-native";
-import { memo } from "react";
+import { Modal, View, TouchableWithoutFeedback, Image, StyleSheet, Animated } from "react-native";
+import { memo, useEffect, useRef } from "react";
 
 import { setImageFullScreenModal } from "../../reducers/app/appSlice";
 import useReducerDispatch from "../../hooks/useReducerDispatch";
@@ -10,15 +10,39 @@ const ImageFullScreenModal = () => {
     const imageModalUri = useSliceSelector(state => state.app.imageFullScreeenModal.imageUri);
     const dispatch = useReducerDispatch();
 
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        if (isImageFullScreenModalVisible) {
+            Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: 300,
+                useNativeDriver: true
+            }).start();
+        }
+    }, [isImageFullScreenModalVisible]);
+
+    const closeModal = () => {
+        Animated.timing(fadeAnim, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true
+        }).start(() => {
+            dispatch(setImageFullScreenModal({ isVisible: false }));
+        });
+    };
+
     return (
         <Modal visible={isImageFullScreenModalVisible} transparent={true}>
-            <View style={styles.modalContainer}>
-                <TouchableWithoutFeedback onPress={() => dispatch(setImageFullScreenModal({ isVisible: false }))}>
+            <Animated.View style={[styles.modalContainer, { opacity: fadeAnim }]}>
+                <TouchableWithoutFeedback onPress={closeModal}>
                     <View style={styles.modalContent}>
-                        {imageModalUri && <Image source={{ uri: imageModalUri }} style={styles.modalImage} />}
+                        <View style={styles.modalContent}>
+                            {imageModalUri && <Image source={{ uri: imageModalUri }} style={styles.modalImage} />}
+                        </View>
                     </View>
                 </TouchableWithoutFeedback>
-            </View>
+            </Animated.View>
         </Modal>
     )
 }
