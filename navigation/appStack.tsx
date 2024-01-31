@@ -22,11 +22,11 @@ const AppStack = () => {
     const headerShow = { headerShown: false };
     const dispatch = useReducerDispatch();
 
-    useEffect(() => {
-        dispatch(fetchNewsFeedData());
-        dispatch(fetchUsersData());
-        dispatch(fetchGroupsData());
-    }, []);
+    // useEffect(() => {
+    //     dispatch(fetchNewsFeedData());
+    //     dispatch(fetchUsersData());
+    //     dispatch(fetchGroupsData());
+    // }, []);
 
     return (
         <Stack.Navigator initialRouteName="Home">

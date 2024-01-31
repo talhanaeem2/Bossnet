@@ -4,7 +4,6 @@ import { produce } from 'immer';
 import AppStateInterface from './interfaces/appStateInterface';
 import CreatePostModalPayload from './interfaces/createPosModalInterface/createPostModalPayload';
 import ImageFullScreenModalPayload from './interfaces/imageFullScreenModalInterface/imageFullScreenModalPayload';
-import NewsFeedStateInterface from './interfaces/newsFeed/newsFeedStateInterface';
 import UsersStateInterface from './interfaces/users/usersStateInterface';
 import GroupsStateInterface from './interfaces/groups/groupsStateInterface';
 
@@ -15,9 +14,6 @@ const initialState: AppStateInterface = {
     imageFullScreeenModal: {
         isVisible: false,
         imageUri: undefined
-    },
-    newsFeed: {
-        newsFeedPosts: []
     },
     users: {
         usersData: []
@@ -44,12 +40,6 @@ const appSlice = createSlice({
                     draftState.imageFullScreeenModal.imageUri = uri
             });
         },
-        setNewsFeedPosts(state, action: PayloadAction<NewsFeedStateInterface>) {
-            const { newsFeedPosts } = action.payload
-            return produce(state, draftState => {
-                draftState.newsFeed.newsFeedPosts = newsFeedPosts
-            })
-        },
         setUsersData(state, action: PayloadAction<UsersStateInterface>) {
             const { usersData } = action.payload
             return produce(state, draftState => {
@@ -68,7 +58,6 @@ const appSlice = createSlice({
 export const {
     setCreatePostModal,
     setImageFullScreenModal,
-    setNewsFeedPosts,
     setUsersData,
     setGroupsData
 } = appSlice.actions;

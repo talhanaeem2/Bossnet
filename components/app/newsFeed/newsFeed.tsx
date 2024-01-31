@@ -1,7 +1,8 @@
 import { View, StyleSheet, Image, ActivityIndicator, TouchableOpacity, TouchableWithoutFeedback } from "react-native"
 import { useNavigation } from "@react-navigation/native"
-import { memo, useCallback } from "react"
+import { memo, useCallback, useEffect, useState } from "react"
 import { StackNavigationProp } from "@react-navigation/stack"
+import axios from "axios"
 
 import UserActions from "../userActions/userActions"
 import PostDotMenu from "../postDotMenu/postDotMenu"
@@ -13,43 +14,61 @@ import ImageFullScreenModal from "../../../modals/imageFullScreenModal/imageFull
 import { stripHtmlTags, RPH, RPW } from "../../../constants/utils"
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
+import ResponseItemInterface from "./interfaces/responseItemInterface"
 
 import useSliceSelector from "../../../hooks/useSliceSelector"
 import useReducerDispatch from "../../../hooks/useReducerDispatch"
-import { setImageFullScreenModal, setNewsFeedPosts } from "../../../reducers/app/appSlice"
+import { setImageFullScreenModal } from "../../../reducers/app/appSlice"
+import { setIsLoading } from "../../../reducers/loading/loadingSlice"
+
+const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/activity";
 
 const NewsFeed = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
-    const newsFeedPosts = useSliceSelector(state => state.app.newsFeed.newsFeedPosts);
+    const [newsFeedPosts, setNewsFeedPosts] = useState<ResponseItemInterface[]>()
     const isLoading = useSliceSelector(state => state.loading.isLoading);
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
     const dispatch = useReducerDispatch();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(apiUrl);
+                setNewsFeedPosts(response.data);
+                dispatch(setIsLoading({ isLoading: false }))
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const toggleModal = useCallback((uri: string) => {
         dispatch(setImageFullScreenModal({ isVisible: !isImageFullScreenModalVisible, uri }))
     }, []);
 
     const handleLongPress = useCallback((index: number) => {
-        dispatch(setNewsFeedPosts({
-            newsFeedPosts: newsFeedPosts.map((post, i) => ({
-                ...post,
-                showOverlay: i === index
-            }))
-        }));
-    }, [dispatch, newsFeedPosts]);
+        setNewsFeedPosts(prevState => {
+            if (prevState) {
+                return prevState.map((post, i) => ({
+                    ...post,
+                    showOverlay: i === index
+                }));
+            }
+        });
+    }, [newsFeedPosts]);
 
     const handleCloseOverlay = useCallback((index: number) => {
-        const updatedPosts = newsFeedPosts.map((post, i) => {
-            if (i === index) {
-                return {
+        setNewsFeedPosts(prevState => {
+            if (prevState) {
+                return prevState.map((post, i) => ({
                     ...post,
-                    showOverlay: false
-                };
+                    showOverlay: i === index ? false : post.showOverlay
+                }));
             }
-            return post;
         });
-        dispatch(setNewsFeedPosts({ newsFeedPosts: updatedPosts }));
-    }, [dispatch, newsFeedPosts])
+    }, [newsFeedPosts])
 
     if (isLoading) {
         return (
@@ -61,7 +80,7 @@ const NewsFeed = () => {
 
     return (
         <View style={styles.container}>
-            {newsFeedPosts.map((post, index) => {
+            {newsFeedPosts && newsFeedPosts.map((post, index) => {
                 const title = post.title;
                 const sanitizedTitle = stripHtmlTags(title)
                 const imageUri = post.bp_media_ids?.[0]?.attachment_data?.full;
