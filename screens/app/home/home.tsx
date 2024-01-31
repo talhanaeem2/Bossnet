@@ -6,7 +6,7 @@ import Footer from "../../../components/app/footer/footer";
 import NewsFeed from "../../../components/app/newsFeed/newsFeed";
 import NewsFeedShare from "../../../components/app/newsFeedShare/newsFeedShare";
 import SafeAreaViewComponent from "../../../components/app/SafeAreaViewComponent/SafeAreaViewComponent";
-import CreatePostModal from "../../../modals/createPostModal/createPostModal";
+import CreatePostModal from "../../../modals/createPostModal";
 
 import Icons from "../../../constants/icons";
 import { RPH, RPW } from "../../../constants/utils";
@@ -18,11 +18,11 @@ import { setCreatePostModal } from "../../../reducers/app/appSlice";
 const { height } = Dimensions.get("window");
 
 const Home = () => {
-    const isCreatePostModalVisible = useSliceSelector(state => state.app.modals.createPostModal.isVisible);
+    const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
 
     const handleToggleCreatePostModal = useCallback(() => {
-        dispatch(setCreatePostModal({ modals: { isVisible: !isCreatePostModalVisible } }));
+        dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));
     }, [isCreatePostModalVisible]);
 
     return (

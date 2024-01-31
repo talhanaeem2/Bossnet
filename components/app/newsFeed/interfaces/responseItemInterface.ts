@@ -1,6 +1,5 @@
 import UserAvatarInterface from "./userAvatarInterface";
 import MediaIdsInterface from "./mediaIdsInterface";
-import ReactedCounts from "./reactedCountsInterface";
 
 export default interface ResponseItemInterface {
     comment_count: number;
@@ -17,5 +16,4 @@ export default interface ResponseItemInterface {
     bp_media_ids: MediaIdsInterface;
     showOverlay: boolean;
     reacted_names: string;
-    reacted_counts: ReactedCounts[];
 }
