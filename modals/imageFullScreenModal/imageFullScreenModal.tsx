@@ -6,8 +6,8 @@ import useReducerDispatch from "../../hooks/useReducerDispatch";
 import useSliceSelector from "../../hooks/useSliceSelector";
 
 const ImageFullScreenModal = () => {
-    const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
-    const imageModalUri = useSliceSelector(state => state.app.imageFullScreeenModal.imageUri);
+    const isImageFullScreenModalVisible = useSliceSelector(state => state.app.modals.imageFullScreeenModal.isVisible);
+    const imageModalUri = useSliceSelector(state => state.app.modals.imageFullScreeenModal.imageUri);
     const dispatch = useReducerDispatch();
 
     const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -28,7 +28,7 @@ const ImageFullScreenModal = () => {
             duration: 300,
             useNativeDriver: true
         }).start(() => {
-            dispatch(setImageFullScreenModal({ isVisible: false }));
+            dispatch(setImageFullScreenModal({ modals: { isVisible: false } }));
         });
     };
 

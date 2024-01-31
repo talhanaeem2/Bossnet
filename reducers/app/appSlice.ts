@@ -2,19 +2,20 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { produce } from 'immer';
 
 import AppStateInterface from './interfaces/appStateInterface';
-import CreatePostModalPayload from './interfaces/createPosModalInterface/createPostModalPayload';
-import ImageFullScreenModalPayload from './interfaces/imageFullScreenModalInterface/imageFullScreenModalPayload';
-import NewsFeedStateInterface from './interfaces/newsFeed/newsFeedStateInterface';
-import UsersStateInterface from './interfaces/users/usersStateInterface';
-import GroupsStateInterface from './interfaces/groups/groupsStateInterface';
+import AppPayloadInterface from './interfaces/appPayloadInterface';
 
 const initialState: AppStateInterface = {
-    createPostModal: {
-        isVisible: false
-    },
-    imageFullScreeenModal: {
-        isVisible: false,
-        imageUri: undefined
+    modals: {
+        createPostModal: {
+            isVisible: false
+        },
+        imageFullScreeenModal: {
+            isVisible: false,
+            imageUri: undefined
+        },
+        commentModal: {
+            isVisible: false
+        }
     },
     newsFeed: {
         newsFeedPosts: []
@@ -31,37 +32,55 @@ const appSlice = createSlice({
     name: 'app',
     initialState,
     reducers: {
-        setCreatePostModal(state, action: PayloadAction<CreatePostModalPayload>) {
-            const { isVisible } = action.payload
+        setCreatePostModal(state, action: PayloadAction<AppPayloadInterface>) {
+            const { modals } = action.payload
             return produce(state, draftState => {
-                draftState.createPostModal.isVisible = isVisible
+                if (modals?.isVisible) {
+                    draftState.modals.createPostModal.isVisible = modals.isVisible
+                }
             });
         },
-        setImageFullScreenModal(state, action: PayloadAction<ImageFullScreenModalPayload>) {
-            const { isVisible, uri } = action.payload
+        setImageFullScreenModal(state, action: PayloadAction<AppPayloadInterface>) {
+            const { modals } = action.payload
             return produce(state, draftState => {
-                draftState.imageFullScreeenModal.isVisible = isVisible,
-                    draftState.imageFullScreeenModal.imageUri = uri
+                if (modals?.isVisible) {
+                    draftState.modals.imageFullScreeenModal.isVisible = modals.isVisible,
+                        draftState.modals.imageFullScreeenModal.imageUri = modals.uri
+                }
             });
         },
-        setNewsFeedPosts(state, action: PayloadAction<NewsFeedStateInterface>) {
+        setCommentModal(state, action: PayloadAction<AppPayloadInterface>) {
+            const { modals } = action.payload
+            return produce(state, draftState => {
+                if (modals?.isVisible) {
+                    draftState.modals.commentModal.isVisible = modals.isVisible
+                }
+            })
+        },
+        setNewsFeedPosts(state, action: PayloadAction<AppPayloadInterface>) {
             const { newsFeedPosts } = action.payload
             return produce(state, draftState => {
-                draftState.newsFeed.newsFeedPosts = newsFeedPosts
+                if (newsFeedPosts) {
+                    draftState.newsFeed.newsFeedPosts = newsFeedPosts
+                }
             })
         },
-        setUsersData(state, action: PayloadAction<UsersStateInterface>) {
+        setUsersData(state, action: PayloadAction<AppPayloadInterface>) {
             const { usersData } = action.payload
             return produce(state, draftState => {
-                draftState.users.usersData = usersData
+                if (usersData) {
+                    draftState.users.usersData = usersData
+                }
             })
         },
-        setGroupsData(state, action: PayloadAction<GroupsStateInterface>) {
+        setGroupsData(state, action: PayloadAction<AppPayloadInterface>) {
             const { groupsData } = action.payload
             return produce(state, draftState => {
-                draftState.groups.groupsData = groupsData
+                if (groupsData) {
+                    draftState.groups.groupsData = groupsData
+                }
             })
-        },
+        }
     }
 });
 
@@ -70,7 +89,8 @@ export const {
     setImageFullScreenModal,
     setNewsFeedPosts,
     setUsersData,
-    setGroupsData
+    setGroupsData,
+    setCommentModal
 } = appSlice.actions;
 
 export default appSlice.reducer;
