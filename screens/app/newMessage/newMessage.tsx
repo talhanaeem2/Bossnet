@@ -11,18 +11,36 @@ import { RPW, RFS, RPH } from "../../../constants/utils";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import useSliceSelector from "../../../hooks/useSliceSelector";
+import axios from "axios";
+import UsersInterface from "../friends/interfaces/usersInterface";
 
 const imageSize = "thumb";
 
 const NewMessage = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
-    const usersData = useSliceSelector(state => state.app.users.usersData);
-    const isLoading = useSliceSelector(state => state.loading.isLoading);
+    const [users, setUsers] = useState<UsersInterface[]>([]);
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/members";
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(apiUrl);
+                setUsers(response.data);
+                setIsLoading(false)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, [])
 
     const inputRef = useRef<TextInput>(null);
 
-    const filteredUsers = usersData.filter(user => {
+    const filteredUsers = users.filter(user => {
         const itemText = user.name.toLowerCase();
         return itemText.includes(searchQuery.toLowerCase());
     });

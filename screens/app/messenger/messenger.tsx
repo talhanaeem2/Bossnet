@@ -1,6 +1,7 @@
 import { View, StyleSheet, TouchableOpacity, TextInput, Image, ScrollView, TouchableWithoutFeedback, Keyboard, ActivityIndicator } from "react-native"
 import Svg, { Path } from "react-native-svg"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper"
 import TextRegular from "../../../components/app/textComponent/textRegular/textRegular"
@@ -8,17 +9,33 @@ import TextRegular from "../../../components/app/textComponent/textRegular/textR
 import messages from "../../../constants/messages"
 import { truncateText, RPH, RPW, RFS } from "../../../constants/utils"
 
-import useSliceSelector from "../../../hooks/useSliceSelector"
+import UsersInterface from "../friends/interfaces/usersInterface"
 
 const imageSize = "thumb";
 
 const Messenger = () => {
     const [searchQuery, setSearchQuery] = useState('')
     const [isInputFocused, setIsInputFocused] = useState(false);
-    const usersData = useSliceSelector(state => state.app.users.usersData);
-    const isLoading = useSliceSelector(state => state.loading.isLoading);
+    const [users, setUsers] = useState<UsersInterface[]>([]);
+    const [isLoading, setIsLoading] = useState(true)
 
-    const filteredUsers = usersData.filter(user => {
+    useEffect(() => {
+        const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/members";
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(apiUrl);
+                setUsers(response.data);
+                setIsLoading(false)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, [])
+
+    const filteredUsers = users.filter(user => {
         const itemText = user.name.toLowerCase();
         return itemText.includes(searchQuery.toLowerCase());
     });
@@ -56,7 +73,7 @@ const Messenger = () => {
                                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                                     <View style={styles.activeFriendscontainer}>
                                         {
-                                            usersData.map((user, index) => {
+                                            users.map((user, index) => {
                                                 const truncatedFirstName = truncateText(user.name, 6);
 
                                                 return (
