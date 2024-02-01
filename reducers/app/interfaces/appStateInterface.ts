@@ -1,11 +1,9 @@
-import GroupsStateInterface from "./groups/groupsStateInterface";
-import ModalsState from "./modals/modalsState";
-import NewsFeedStateInterface from "./newsFeed/newsFeedStateInterface";
-import UsersStateInterface from "./users/usersStateInterface";
+import CommentModalStateInterface from "./commentModalInterface/commentModalStateInterface";
+import CreatePostModalStateInterface from "./createPosModalInterface/createPostModalStateInterface";
+import ImageFullScreenModalStateInterface from "./imageFullScreenModalInterface/imageFullScreenModalStateInterface";
 
 export default interface AppStateInterface {
-    modals: ModalsState;
-    newsFeed: NewsFeedStateInterface;
-    users: UsersStateInterface;
-    groups: GroupsStateInterface;
+    createPostModal: CreatePostModalStateInterface;
+    imageFullScreeenModal: ImageFullScreenModalStateInterface;
+    commentModal: CommentModalStateInterface;
 }

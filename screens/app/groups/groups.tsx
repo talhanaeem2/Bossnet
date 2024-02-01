@@ -1,6 +1,7 @@
 import { View, StyleSheet, Image, TouchableOpacity, TextInput, ActivityIndicator, TouchableWithoutFeedback, Keyboard, Text, Dimensions } from "react-native"
 import { Path, Svg } from "react-native-svg"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper"
 import TextRegular from "../../../components/app/textComponent/textRegular/textRegular"
@@ -8,7 +9,7 @@ import TextRegular from "../../../components/app/textComponent/textRegular/textR
 import messages from "../../../constants/messages"
 import { RPH, RPW, RFS } from "../../../constants/utils"
 
-import useSliceSelector from "../../../hooks/useSliceSelector"
+import GroupsInterface from "./interfaces/groupsInterface"
 
 const { width } = Dimensions.get("window");
 // first is padding second is gap
@@ -17,8 +18,24 @@ const boxWidth = (width - RPW(3) * 2 - RPW(2) * 3) / 4;
 const Groups = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
-    const groupsData = useSliceSelector(state => state.app.groups.groupsData);
-    const isLoading = useSliceSelector(state => state.loading.isLoading);
+    const [groupsData, setGroupsData] = useState<GroupsInterface[]>([]);
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/groups";
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(apiUrl);
+                setGroupsData(response.data);
+                setIsLoading(false)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, [])
 
     const filteredGroups = groupsData.filter(item => {
         const itemText = item.name.toLowerCase();
@@ -62,7 +79,7 @@ const Groups = () => {
                                             <View style={styles.textContainer}>
                                                 <Text style={styles.groupName} numberOfLines={1}>{item.name}</Text>
                                                 <TextRegular fontSize={9} color="#B1B9D8">
-                                                    {`${item.members_count} members`}
+                                                    {item.members_count}
                                                 </TextRegular>
                                             </View>
                                         </TouchableOpacity>

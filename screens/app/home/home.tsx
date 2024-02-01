@@ -18,11 +18,11 @@ import { setCreatePostModal } from "../../../reducers/app/appSlice";
 const { height } = Dimensions.get("window");
 
 const Home = () => {
-    const isCreatePostModalVisible = useSliceSelector(state => state.app.modals.createPostModal.isVisible);
+    const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
 
     const handleToggleCreatePostModal = useCallback(() => {
-        dispatch(setCreatePostModal({ modals: { isVisible: !isCreatePostModalVisible } }));
+        dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));
     }, [isCreatePostModalVisible]);
 
     return (

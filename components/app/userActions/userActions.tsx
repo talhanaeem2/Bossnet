@@ -1,49 +1,48 @@
 import { View, StyleSheet, TouchableOpacity, Image } from "react-native"
+
 import TextRegular from "../textComponent/textRegular/textRegular";
-import { memo } from "react";
 
-import icons from "../../../constants/icons";
-import messages from "../../../constants/messages";
-import { RPW, RPH } from "../../../constants/utils";
+import icons from "../../../constants/icons"
+import messages from "../../../constants/messages"
+import { RPW, RPH } from "../../../constants/utils"
 
-import UserActionsInterface from "./interfaces/userActionsInterface";
-import UserActionsProps from "./interfaces/userActionsProps";
-import OverlayActionsInterface from "./interfaces/overlayActions";
-import CommentModal from "../../../modals/commentModal/commentModal";
+import UserActionsInterface from "./interfaces/userActionsInterface"
+import UserActionsProps from "./interfaces/userActionsProps"
+import OverlayActionsInterface from "./interfaces/overlayActions"
 
-import useSliceSelector from "../../../hooks/useSliceSelector";
-import useReducerDispatch from "../../../hooks/useReducerDispatch";
-import { setCommentModal } from "../../../reducers/app/appSlice";
+import useSliceSelector from "../../../hooks/useSliceSelector"
+import useReducerDispatch from "../../../hooks/useReducerDispatch"
+import { setCommentModal } from "../../../reducers/app/appSlice"
 
 const UserActions = (props: UserActionsProps) => {
-    const { onLongPress, showOverlay, totalReactedCounts, reactedNames, commentCount } = props
-    const isCommentModalVisible = useSliceSelector(state => state.app.modals.commentModal.isVisible);
-    const dispatch = useReducerDispatch();
+    const { onLongPress, showOverlay } = props
+    const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible)
+    const dispatch = useReducerDispatch()
 
     const handleLike = () => {
         console.log('Liked!');
-    };
+    }
 
     const handleComment = () => {
         console.log('Commented!');
-        dispatch(setCommentModal({ modals: { isVisible: true } }))
-    };
+        dispatch(setCommentModal({ isVisible: !isCommentModalVisible }))
+    }
 
     const handleShare = () => {
         console.log('Shared!');
-    };
+    }
 
     const handleLove = () => {
         console.log('Love!');
-    };
+    }
 
     const handleSad = () => {
         console.log('Sad!');
-    };
+    }
 
     const handleShock = () => {
         console.log('Shock!');
-    };
+    }
 
     const handleLaugh = () => {
         console.log('Laugh!');
@@ -58,7 +57,7 @@ const UserActions = (props: UserActionsProps) => {
             icon: icons.likeIcon,
             text: messages.likeAction,
             onPress: handleLike,
-            onLongPress: !isCommentModalVisible ? onLongPress : undefined,
+            onLongPress: onLongPress,
         },
         {
             icon: icons.commentIcon,
@@ -134,17 +133,11 @@ const UserActions = (props: UserActionsProps) => {
                 </View>
             )
             }
-            {
-                isCommentModalVisible && <CommentModal
-                    totalReactedCounts={totalReactedCounts}
-                    reactedNames={reactedNames}
-                    commentCount={commentCount} />
-            }
         </View>
     )
 }
 
-export default memo(UserActions)
+export default UserActions
 
 const styles = StyleSheet.create({
     overlayImg: {
