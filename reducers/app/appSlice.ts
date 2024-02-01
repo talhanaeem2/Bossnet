@@ -4,8 +4,6 @@ import { produce } from 'immer';
 import AppStateInterface from './interfaces/appStateInterface';
 import CreatePostModalPayload from './interfaces/createPosModalInterface/createPostModalPayload';
 import ImageFullScreenModalPayload from './interfaces/imageFullScreenModalInterface/imageFullScreenModalPayload';
-import UsersStateInterface from './interfaces/users/usersStateInterface';
-import GroupsStateInterface from './interfaces/groups/groupsStateInterface';
 import CommentModalPayload from './interfaces/commentModalInterface/commentModalPayload';
 
 const initialState: AppStateInterface = {
@@ -18,12 +16,6 @@ const initialState: AppStateInterface = {
     },
     commentModal: {
         isVisible: false
-    },
-    users: {
-        usersData: []
-    },
-    groups: {
-        groupsData: []
     }
 };
 
@@ -49,28 +41,14 @@ const appSlice = createSlice({
             return produce(state, draftState => {
                 draftState.commentModal.isVisible = isVisible
             })
-        },
-        setUsersData(state, action: PayloadAction<UsersStateInterface>) {
-            const { usersData } = action.payload
-            return produce(state, draftState => {
-                draftState.users.usersData = usersData
-            })
-        },
-        setGroupsData(state, action: PayloadAction<GroupsStateInterface>) {
-            const { groupsData } = action.payload
-            return produce(state, draftState => {
-                draftState.groups.groupsData = groupsData
-            })
-        },
+        }
     }
 });
 
 export const {
     setCreatePostModal,
     setImageFullScreenModal,
-    setCommentModal,
-    setUsersData,
-    setGroupsData
+    setCommentModal
 } = appSlice.actions;
 
 export default appSlice.reducer;
