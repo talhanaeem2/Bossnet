@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import ChatRoom from '../screens/app/chatRoom/chatRoom';
@@ -11,22 +11,10 @@ import NewMessage from '../screens/app/newMessage/newMessage';
 import UserProfile from '../screens/app/userProfile/userProfile';
 import Notifications from '../screens/app/notifications/notifications';
 
-import fetchNewsFeedData from '../reducers/app/dataFetching/fetchNewsFeedData';
-import useReducerDispatch from '../hooks/useReducerDispatch';
-import fetchUsersData from '../reducers/app/dataFetching/fetchUsersData';
-import fetchGroupsData from '../reducers/app/dataFetching/fetchGroupsdata';
-
 const Stack = createStackNavigator();
 
 const AppStack = () => {
     const headerShow = { headerShown: false };
-    const dispatch = useReducerDispatch();
-
-    // useEffect(() => {
-    //     dispatch(fetchNewsFeedData());
-    //     dispatch(fetchUsersData());
-    //     dispatch(fetchGroupsData());
-    // }, []);
 
     return (
         <Stack.Navigator initialRouteName="Home">
