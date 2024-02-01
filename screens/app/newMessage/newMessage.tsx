@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ScrollView } from "react-native-gesture-handler";
+import axios from "axios";
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
 import TextBold from "../../../components/app/textComponent/textBold/textBold";
@@ -10,8 +11,6 @@ import TextBold from "../../../components/app/textComponent/textBold/textBold";
 import { RPW, RFS, RPH } from "../../../constants/utils";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
-import useSliceSelector from "../../../hooks/useSliceSelector";
-import axios from "axios";
 import UsersInterface from "../friends/interfaces/usersInterface";
 
 const imageSize = "thumb";
