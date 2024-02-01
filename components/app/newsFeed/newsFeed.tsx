@@ -10,6 +10,7 @@ import ReadMore from "../readMoreText/readMoreText"
 import TextBold from "../textComponent/textBold/textBold"
 import TextRegular from "../textComponent/textRegular/textRegular"
 import ImageFullScreenModal from "../../../modals/imageFullScreenModal/imageFullScreenModal"
+import CommmentModal from "../../../modals/commentModal/commentModal"
 
 import { stripHtmlTags, RPH, RPW } from "../../../constants/utils"
 
@@ -28,6 +29,7 @@ const NewsFeed = () => {
     const [newsFeedPosts, setNewsFeedPosts] = useState<ResponseItemInterface[]>()
     const isLoading = useSliceSelector(state => state.loading.isLoading);
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
+    const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible)
     const dispatch = useReducerDispatch();
 
     useEffect(() => {
@@ -137,6 +139,7 @@ const NewsFeed = () => {
                     </TouchableWithoutFeedback>
                 )
             })}
+            {isCommentModalVisible && <CommmentModal />}
             {isImageFullScreenModalVisible && <ImageFullScreenModal />}
         </View>
     )

@@ -6,6 +6,7 @@ import CreatePostModalPayload from './interfaces/createPosModalInterface/createP
 import ImageFullScreenModalPayload from './interfaces/imageFullScreenModalInterface/imageFullScreenModalPayload';
 import UsersStateInterface from './interfaces/users/usersStateInterface';
 import GroupsStateInterface from './interfaces/groups/groupsStateInterface';
+import CommentModalPayload from './interfaces/commentModalInterface/commentModalPayload';
 
 const initialState: AppStateInterface = {
     createPostModal: {
@@ -14,6 +15,9 @@ const initialState: AppStateInterface = {
     imageFullScreeenModal: {
         isVisible: false,
         imageUri: undefined
+    },
+    commentModal: {
+        isVisible: false
     },
     users: {
         usersData: []
@@ -40,6 +44,12 @@ const appSlice = createSlice({
                     draftState.imageFullScreeenModal.imageUri = uri
             });
         },
+        setCommentModal(state, action: PayloadAction<CommentModalPayload>) {
+            const { isVisible } = action.payload
+            return produce(state, draftState => {
+                draftState.commentModal.isVisible = isVisible
+            })
+        },
         setUsersData(state, action: PayloadAction<UsersStateInterface>) {
             const { usersData } = action.payload
             return produce(state, draftState => {
@@ -58,6 +68,7 @@ const appSlice = createSlice({
 export const {
     setCreatePostModal,
     setImageFullScreenModal,
+    setCommentModal,
     setUsersData,
     setGroupsData
 } = appSlice.actions;

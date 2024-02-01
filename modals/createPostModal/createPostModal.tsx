@@ -2,11 +2,11 @@ import { BlurView } from "expo-blur"
 import { Modal, StyleSheet } from "react-native"
 import { memo, useCallback } from "react";
 
-import CreatePost from "../screens/app/createPost/createPost"
+import CreatePost from "../../screens/app/createPost/createPost"
 
-import useSliceSelector from "../hooks/useSliceSelector";
-import useReducerDispatch from "../hooks/useReducerDispatch";
-import { setCreatePostModal } from "../reducers/app/appSlice";
+import useSliceSelector from "../../hooks/useSliceSelector";
+import useReducerDispatch from "../../hooks/useReducerDispatch";
+import { setCreatePostModal } from "../../reducers/app/appSlice";
 
 const CreatePostModal = () => {
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);

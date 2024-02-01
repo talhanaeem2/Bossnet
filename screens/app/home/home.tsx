@@ -6,7 +6,7 @@ import Footer from "../../../components/app/footer/footer";
 import NewsFeed from "../../../components/app/newsFeed/newsFeed";
 import NewsFeedShare from "../../../components/app/newsFeedShare/newsFeedShare";
 import SafeAreaViewComponent from "../../../components/app/SafeAreaViewComponent/SafeAreaViewComponent";
-import CreatePostModal from "../../../modals/createPostModal";
+import CreatePostModal from "../../../modals/createPostModal/createPostModal";
 
 import Icons from "../../../constants/icons";
 import { RPH, RPW } from "../../../constants/utils";
