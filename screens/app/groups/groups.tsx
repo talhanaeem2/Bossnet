@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image, TouchableOpacity, TextInput, ActivityIndicator, TouchableWithoutFeedback, Keyboard, Text, Dimensions } from "react-native"
+import { View, StyleSheet, Image, TouchableOpacity, TextInput, ActivityIndicator, TouchableWithoutFeedback, Keyboard, Text, Dimensions, ScrollView } from "react-native"
 import { Path, Svg } from "react-native-svg"
 import { useEffect, useState } from "react"
 import axios from "axios"
@@ -22,7 +22,7 @@ const Groups = () => {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/groups";
+        const apiUrl = "https://bosnett.com/wp-json/custom/v1/groups";
 
         const fetchData = async () => {
             try {
@@ -36,6 +36,8 @@ const Groups = () => {
 
         fetchData();
     }, [])
+
+    console.log("groups", groupsData)
 
     const filteredGroups = groupsData.filter(item => {
         const itemText = item.name.toLowerCase();
@@ -67,27 +69,29 @@ const Groups = () => {
                             onChangeText={(text) => setSearchQuery(text)}
                         />
                     </View>
-                    <View style={styles.groupContainer}>
-                        {
-                            filteredGroups.map((item, index) => {
-                                return (
-                                    <View style={styles.groupBox} key={index}>
-                                        <TouchableOpacity>
-                                            <View style={styles.circle}>
-                                                <Image style={styles.roundImg} source={{ uri: item.avatar_urls.thumb }} />
-                                            </View>
-                                            <View style={styles.textContainer}>
-                                                <Text style={styles.groupName} numberOfLines={1}>{item.name}</Text>
-                                                <TextRegular fontSize={9} color="#B1B9D8">
-                                                    {item.members_count}
-                                                </TextRegular>
-                                            </View>
-                                        </TouchableOpacity>
-                                    </View>
-                                )
-                            })
-                        }
-                    </View>
+                    <ScrollView>
+                        <View style={styles.groupContainer}>
+                            {
+                                filteredGroups.map((item, index) => {
+                                    return (
+                                        <View style={styles.groupBox} key={index}>
+                                            <TouchableOpacity>
+                                                <View style={styles.circle}>
+                                                    {/* <Image style={styles.roundImg} source={{ uri: item.avatar_urls.thumb }} /> */}
+                                                </View>
+                                                <View style={styles.textContainer}>
+                                                    <Text style={styles.groupName} numberOfLines={1}>{item.name}</Text>
+                                                    <TextRegular fontSize={9} color="#B1B9D8">
+                                                        {item.total_members}
+                                                    </TextRegular>
+                                                </View>
+                                            </TouchableOpacity>
+                                        </View>
+                                    )
+                                })
+                            }
+                        </View>
+                    </ScrollView>
                 </View>
             </MainWapper>
         </TouchableWithoutFeedback>

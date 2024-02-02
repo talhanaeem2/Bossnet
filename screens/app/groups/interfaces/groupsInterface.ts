@@ -9,7 +9,7 @@ export default interface GroupsInterface {
     link: string;
     name: string;
     slug: string;
-    members_count: string;
+    total_members: string;
     avatar_urls: {
         thumb: string;
         full: string;
