@@ -1,5 +1,5 @@
 import { BlurView } from "expo-blur"
-import { Modal, StyleSheet } from "react-native"
+import { Keyboard, Modal, StyleSheet, TouchableWithoutFeedback } from "react-native"
 import { memo, useCallback } from "react";
 
 import CreatePost from "../../screens/app/createPost/createPost"
@@ -27,13 +27,15 @@ const CreatePostModal = () => {
             visible={isCreatePostModalVisible}
             onRequestClose={handleToggleCreatePostModal}
         >
-            <BlurView
-                intensity={100}
-                tint="dark"
-                style={StyleSheet.absoluteFill}
-            >
-                <CreatePost closeModal={closeModal} />
-            </BlurView>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+                <BlurView
+                    intensity={100}
+                    tint="dark"
+                    style={StyleSheet.absoluteFill}
+                >
+                    <CreatePost closeModal={closeModal} />
+                </BlurView>
+            </TouchableWithoutFeedback>
         </Modal>
     )
 }

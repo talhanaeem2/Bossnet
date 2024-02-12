@@ -11,9 +11,22 @@ import messages from "../../../constants/messages"
 import { RPW, RPH, RFS } from "../../../constants/utils"
 
 import CreatePostProps from "./interfaces/createPostProps"
+// import {
+//     GiphyContent,
+//     GiphyGridView,
+//     GiphyMedia,
+//     GiphyMediaView,
+//     GiphySDK
+// } from '@giphy/react-native-sdk'
+
+// const giphyAPIKey = "8vBaJNSyG9oU5fQYvdoUCWiR80lu5BRh"
+
+// GiphySDK.configure({ apiKey: giphyAPIKey })
 
 const CreatePost = ({ closeModal }: CreatePostProps) => {
     const [images, setImages] = useState<string[]>([]);
+    // const [searchQuery, setSearchQuery] = useState<string>('')
+    // const [media, setMedia] = useState<GiphyMedia | null>(null)
 
     const [panResponder] = useState(
         PanResponder.create({
@@ -26,12 +39,12 @@ const CreatePost = ({ closeModal }: CreatePostProps) => {
         })
     );
 
-    const handleImagePicker = async (action: 'gallery' | 'camera') => {
+    const handleImagePicker = async (action: 'gallery' | 'camera' | 'giphy') => {
         let result: ImagePicker.ImagePickerResult;
         if (action === 'gallery') {
             result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                aspect: [4, 3],
+                aspect: [1, 1],
                 quality: 1,
                 allowsMultipleSelection: true
             });
@@ -44,17 +57,13 @@ const CreatePost = ({ closeModal }: CreatePostProps) => {
             result = await ImagePicker.launchCameraAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
-                aspect: [4, 3],
+                aspect: [1, 1],
                 quality: 1,
             });
             if (!result.canceled) {
                 const selectedImages = result.assets.map((asset) => asset.uri);
                 setImages((prevImages) => [...prevImages, ...selectedImages]);
             }
-        }
-
-        else if (action === 'giphy') {
-
         }
     }
 
@@ -101,7 +110,7 @@ const CreatePost = ({ closeModal }: CreatePostProps) => {
                 <TouchableOpacity onPress={() => handleImagePicker("camera")}>
                     {Icons.cameraIcon}
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => handleImagePicker("giphy")}>
                     {Icons.gifIcon}
                 </TouchableOpacity>
                 <TouchableOpacity>
@@ -128,6 +137,43 @@ const CreatePost = ({ closeModal }: CreatePostProps) => {
                     </View>
                 ))}
             </ScrollView>
+            {/* <View style={styles.gifContainer}>
+                {gifs && gifs.map((item, index) => (
+                    <View key={index}>
+                        <Image style={styles.uploadedImage} source={{ uri: item.images['original_still'].url }} />
+                    </View>
+                )
+                )}
+            </View> */}
+            {/* <SafeAreaView>
+                <TextInput
+                    autoFocus
+                    onChangeText={setSearchQuery}
+                    placeholder="Search..."
+                    value={searchQuery}
+                />
+                <GiphyGridView
+                    content={GiphyContent.search({ searchQuery: searchQuery })}
+                    cellPadding={3}
+                    style={{ height: 300, marginTop: 24 }}
+                    onMediaSelect={(e) => setMedia(e.nativeEvent.media)}
+                />
+                {media && (
+                    <ScrollView
+                        style={{
+                            aspectRatio: media.aspectRatio,
+                            maxHeight: 400,
+                            padding: 24,
+                            width: '100%',
+                        }}
+                    >
+                        <GiphyMediaView
+                            media={media}
+                            style={{ aspectRatio: media.aspectRatio }}
+                        />
+                    </ScrollView>
+                )}
+            </SafeAreaView> */}
         </Animated.View>
     )
 }
@@ -148,6 +194,10 @@ const styles = StyleSheet.create({
         height: RPH(6.2),
         resizeMode: 'cover',
         borderRadius: 8
+    },
+    gifContainer: {
+        flexDirection: "row",
+        flexGrow: 1,
     },
     uploadedImageContainer: {
         justifyContent: "flex-start",
