@@ -1,5 +1,5 @@
 import { StyleSheet, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, ActivityIndicator } from "react-native"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Checkbox from 'expo-checkbox';
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -28,6 +28,43 @@ const SignInForm = () => {
     const [selectedLanguage, setSelectedLanguage] = useState();
     const dispatch = useReducerDispatch()
     const [isLoading, setIsLoading] = useState(false)
+
+    useEffect(() => {
+        const loadStoredCredentials = async () => {
+            try {
+                const storedUserName = await AsyncStorage.getItem("userName");
+                const storedPassword = await AsyncStorage.getItem("password");
+
+                if (storedUserName && storedPassword) {
+                    setUserName(storedUserName);
+                    setPassword(storedPassword);
+                    setChecked(true);
+                }
+            } catch (error) {
+                console.error("Error loading stored credentials:", error);
+            }
+        };
+
+        loadStoredCredentials();
+    }, []);
+
+    const handleRememberMe = async () => {
+        if (isChecked) {
+            try {
+                await AsyncStorage.setItem("userName", userName);
+                await AsyncStorage.setItem("password", password);
+            } catch (error) {
+                console.error("Error storing credentials:", error);
+            }
+        } else {
+            try {
+                await AsyncStorage.removeItem("userName");
+                await AsyncStorage.removeItem("password");
+            } catch (error) {
+                console.error("Error removing stored credentials:", error);
+            }
+        }
+    };
 
     const navigateToSignUp = () => {
         navigation.navigate("SignUp");
@@ -110,7 +147,10 @@ const SignInForm = () => {
                         <Checkbox
                             style={styles.checkbox}
                             value={isChecked}
-                            onValueChange={setChecked}
+                            onValueChange={(value) => {
+                                setChecked(value)
+                                handleRememberMe()
+                            }}
                             color={isChecked ? '#000' : undefined}
                         />
                         <TextRegular fontSize={12} color="#4F555E">

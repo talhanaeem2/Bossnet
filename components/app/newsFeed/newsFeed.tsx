@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image, ActivityIndicator, TouchableOpacity, TouchableWithoutFeedback } from "react-native"
+import { View, StyleSheet, Image, ActivityIndicator, TouchableOpacity, TouchableWithoutFeedback, Text } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { memo, useCallback, useEffect, useState } from "react"
 import { StackNavigationProp } from "@react-navigation/stack"
@@ -21,6 +21,7 @@ import useSliceSelector from "../../../hooks/useSliceSelector"
 import useReducerDispatch from "../../../hooks/useReducerDispatch"
 import { setImageFullScreenModal } from "../../../reducers/app/appSlice"
 
+
 const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/activity";
 
 const NewsFeed = () => {
@@ -42,8 +43,6 @@ const NewsFeed = () => {
             setIsLoading(false)
         } catch (error) {
             console.error('Error fetching data:', error);
-        } finally {
-            setIsLoading(false)
         }
     }, [currentPage])
 
@@ -87,71 +86,116 @@ const NewsFeed = () => {
 
     return (
         <View style={styles.container}>
-            {newsFeedPosts && newsFeedPosts.map((post, index) => {
-                const title = post.title;
-                const sanitizedTitle = stripHtmlTags(title)
-                const imageUri = post.bp_media_ids?.[0]?.attachment_data?.full;
-                const userId = post.user_id;
-                const postId = post.id;
-                return (
-                    <TouchableWithoutFeedback key={index}
-                        onPress={() => handleCloseOverlay(index)}
-                    >
-                        <View style={styles.postContainer}>
-                            <View style={styles.dotsContainer}>
-                                <PostDotMenu />
-                            </View>
-                            <View style={styles.post}>
-                                <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>
-                                    <View style={styles.circle}>
-                                        <Image style={styles.roundImg} source={{ uri: (post.user_avatar)["thumb"] }} />
-                                    </View>
-                                </TouchableOpacity>
-                                <View style={styles.textContainer}>
-                                    <View style={styles.postTextContainer}>
-                                        <TextBold fontSize={13} color="#5F6373">
-                                            {sanitizedTitle}
-                                        </TextBold>
-                                    </View>
-                                    <TextRegular fontSize={9} color="#5F6373">
-                                        2 hours ago
-                                    </TextRegular>
+            {
+                newsFeedPosts.map((post, index) => {
+                    const title = post.title;
+                    const sanitizedTitle = stripHtmlTags(title)
+                    const imageUri = post.bp_media_ids?.[0]?.attachment_data?.full;
+                    const userId = post.user_id;
+                    const postId = post.id;
+                    return (
+                        <TouchableWithoutFeedback key={index}
+                            onPress={() => handleCloseOverlay(index)}
+                        >
+                            <View style={styles.postContainer}>
+                                <View style={styles.dotsContainer}>
+                                    <PostDotMenu />
                                 </View>
-                            </View>
-                            {post.content_stripped && (
-                                <View style={styles.readmoreContainer}>
-                                    <ReadMore text={post.content_stripped} />
-                                </View>
-                            )}
-                            {post.bp_media_ids && (
-                                <TouchableWithoutFeedback onPress={() => toggleModal(imageUri)}>
-                                    <View>
-                                        <Image source={{ uri: imageUri }} style={{ width: 421, height: 177 }} />
+                                <View style={styles.post}>
+                                    <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>
+                                        <View style={styles.circle}>
+                                            <Image style={styles.roundImg} source={{ uri: (post.user_avatar)["thumb"] }} />
+                                        </View>
+                                    </TouchableOpacity>
+                                    <View style={styles.textContainer}>
+                                        <View style={styles.postTextContainer}>
+                                            <TextBold fontSize={13} color="#5F6373">
+                                                {sanitizedTitle}
+                                            </TextBold>
+                                        </View>
+                                        <TextRegular fontSize={9} color="#5F6373">
+                                            2 hours ago
+                                        </TextRegular>
                                     </View>
-                                </TouchableWithoutFeedback>
-                            )}
-                            {/* {post.reacted_names && (
+                                </View>
+                                {post.content_stripped && (
+                                    <View style={styles.readmoreContainer}>
+                                        <ReadMore text={post.content_stripped} />
+                                    </View>
+                                )}
+                                {post.bp_media_ids && (
+                                    <TouchableWithoutFeedback onPress={() => toggleModal(imageUri)}>
+                                        <View>
+                                            <Image source={{ uri: imageUri }} style={{ width: 421, height: 177 }} />
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                )}
+                                {/* {post.reacted_names && (
                                 <TextRegular fontSize={10} color="#5F6373">
                                     {post.reacted_names}
                                 </TextRegular>
                             )} */}
-                            <View style={!post.bp_media_ids ? { paddingTop: RPH(1) } : { paddingTop: RPH(1.2) }}>
-                                <UserActions showOverlay={post.showOverlay}
-                                    onLongPress={() => handleLongPress(index)}
-                                />
+                                <View style={!post.bp_media_ids ? { paddingTop: RPH(1) } : { paddingTop: RPH(1.2) }}>
+                                    <UserActions showOverlay={post.showOverlay}
+                                        onLongPress={() => handleLongPress(index)}
+                                    />
+                                </View>
                             </View>
-                        </View>
-                    </TouchableWithoutFeedback>
-                )
-            })}
+                        </TouchableWithoutFeedback>
+                    )
+                })
+
+
+                // <>
+                //     <View style={styles.shimmer}>
+                //         <View style={styles.post}>
+                //             <View style={styles.circleShimmer} />
+                //             <View style={styles.textContainerShimmer} />
+                //         </View>
+                //         <View style={{ marginLeft: 35, gap: 10, marginTop: 10 }}>
+                //             <View style={styles.textContainerShimmer} />
+                //         </View>
+                //     </View>
+                //     <View style={styles.shimmer}>
+                //         <View style={styles.post}>
+                //             <View style={styles.circleShimmer} />
+                //             <View style={styles.textContainerShimmer} />
+                //         </View>
+                //         <View style={{ marginLeft: 35, gap: 10, marginTop: 10 }}>
+                //             <View style={styles.textContainerShimmer} />
+                //             <View style={styles.imageShimmer} />
+                //         </View>
+                //     </View>
+                //     <View style={styles.shimmer}>
+                //         <View style={styles.post}>
+                //             <View style={styles.circleShimmer} />
+                //             <View style={styles.textContainerShimmer} />
+                //         </View>
+                //         <View style={{ marginLeft: 35, gap: 10, marginTop: 10 }}>
+                //             <View style={styles.textContainerShimmer} />
+                //         </View>
+                //     </View>
+                //     <View style={styles.shimmer}>
+                //         <View style={styles.post}>
+                //             <View style={styles.circleShimmer} />
+                //             <View style={styles.textContainerShimmer} />
+                //         </View>
+                //         <View style={{ marginLeft: 35, gap: 10, marginTop: 10 }}>
+                //             <View style={styles.textContainerShimmer} />
+                //             <View style={styles.imageShimmer} />
+                //         </View>
+                //     </View>
+                // </>
+            }
             {isLoading && (
                 <View style={styles.loaderContainer}>
                     <ActivityIndicator size="large" color="#0000ff" />
                 </View>
             )}
-            <TouchableOpacity onPress={loadMorePosts}>
+            <TouchableOpacity onPress={loadMorePosts} style={{ alignItems: "center", marginHorizontal: 10 }}>
                 <TextRegular fontSize={16} color="#5F6373">Load More</TextRegular>
             </TouchableOpacity>
+
             {isCommentModalVisible && <CommmentModal />}
             {isImageFullScreenModalVisible && <ImageFullScreenModal />}
         </View>
@@ -216,5 +260,34 @@ const styles = StyleSheet.create({
         paddingLeft: RPW(2.5),
         paddingBottom: RPH(1.8),
         flex: 1
+    },
+    shimmer: {
+        flex: 1,
+        flexDirection: "column"
+    },
+    shimmerPostContainer: {
+        flexDirection: 'row',
+        backgroundColor: '#fff'
+    },
+    circleShimmer: {
+        width: RPW(11.5),
+        height: RPH(5.5),
+        borderRadius: 25,
+        backgroundColor: '#ccc',
+        marginRight: 10,
+    },
+    textContainerShimmer: {
+        justifyContent: 'space-between',
+        backgroundColor: "#ccc",
+        width: 200,
+        height: 20,
+        marginTop: 10,
+        borderRadius: 12
+    },
+    imageShimmer: {
+        width: "90%",
+        height: 177,
+        backgroundColor: '#ccc',
+        borderRadius: 12
     }
 })
