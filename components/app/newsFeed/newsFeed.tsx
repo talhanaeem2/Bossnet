@@ -20,31 +20,42 @@ import ResponseItemInterface from "./interfaces/responseItemInterface"
 import useSliceSelector from "../../../hooks/useSliceSelector"
 import useReducerDispatch from "../../../hooks/useReducerDispatch"
 import { setImageFullScreenModal } from "../../../reducers/app/appSlice"
-import { setIsLoading } from "../../../reducers/loading/loadingSlice"
 
 const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/activity";
 
 const NewsFeed = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
-    const [newsFeedPosts, setNewsFeedPosts] = useState<ResponseItemInterface[]>()
-    const isLoading = useSliceSelector(state => state.loading.isLoading);
+    const [newsFeedPosts, setNewsFeedPosts] = useState<ResponseItemInterface[]>([])
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
     const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible)
     const dispatch = useReducerDispatch();
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(0)
+    const [isLoading, setIsLoading] = useState(false)
+
+    const fetchData = useCallback(async (page: number) => {
+        try {
+            setIsLoading(true)
+            const response = await axios.get(`${apiUrl}?page=${page}`);
+            setNewsFeedPosts((prevPosts) => [...prevPosts, ...response.data]);
+            setTotalPages(response.headers["x-wp-totalpages"]);
+            setIsLoading(false)
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setIsLoading(false)
+        }
+    }, [currentPage])
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(apiUrl);
-                setNewsFeedPosts(response.data);
-                dispatch(setIsLoading({ isLoading: false }))
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
+        fetchData(currentPage);
+    }, [currentPage]);
 
-        fetchData();
-    }, []);
+    const loadMorePosts = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage((prevPage) => prevPage + 1);
+        }
+    };
 
     const toggleModal = useCallback((uri: string) => {
         dispatch(setImageFullScreenModal({ isVisible: !isImageFullScreenModalVisible, uri }))
@@ -58,6 +69,7 @@ const NewsFeed = () => {
                     showOverlay: i === index
                 }));
             }
+            return []
         });
     }, [newsFeedPosts]);
 
@@ -69,16 +81,9 @@ const NewsFeed = () => {
                     showOverlay: i === index ? false : post.showOverlay
                 }));
             }
+            return []
         });
     }, [newsFeedPosts])
-
-    if (isLoading) {
-        return (
-            <View style={styles.loaderContainer}>
-                <ActivityIndicator size="large" color="#0000ff" />
-            </View>
-        )
-    }
 
     return (
         <View style={styles.container}>
@@ -139,6 +144,14 @@ const NewsFeed = () => {
                     </TouchableWithoutFeedback>
                 )
             })}
+            {isLoading && (
+                <View style={styles.loaderContainer}>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                </View>
+            )}
+            <TouchableOpacity onPress={loadMorePosts}>
+                <TextRegular fontSize={16} color="#5F6373">Load More</TextRegular>
+            </TouchableOpacity>
             {isCommentModalVisible && <CommmentModal />}
             {isImageFullScreenModalVisible && <ImageFullScreenModal />}
         </View>
