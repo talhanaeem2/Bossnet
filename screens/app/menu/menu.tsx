@@ -1,4 +1,4 @@
-import { View, StyleSheet, Platform, TouchableOpacity } from "react-native"
+import { View, StyleSheet, Platform, TouchableOpacity, Alert, ActivityIndicator } from "react-native"
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
 import TextBold from "../../../components/app/textComponent/textBold/textBold";
@@ -7,8 +7,49 @@ import Icons from "../../../constants/icons";
 import messages from "../../../constants/messages";
 import { RPH, RPW } from "../../../constants/utils";
 import { menuButtons } from "./constants/menuButtons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import useReducerDispatch from "../../../hooks/useReducerDispatch";
+import { logout } from "../../../reducers/auth/authSlice";
+import { useState } from "react";
 
 const Menu = () => {
+    const dispatch = useReducerDispatch()
+    const [isLoading, setIsLoading] = useState(false)
+
+    const handleLogout = async () => {
+        try {
+            const accessToken = await AsyncStorage.getItem('token');
+            setIsLoading(true)
+
+            const response = await fetch('https://bosnett.com/api/public/api/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+
+            if (response.ok) {
+                await AsyncStorage.removeItem('token')
+                dispatch(logout())
+                setIsLoading(false)
+            } else {
+                Alert.alert('Logout Error', 'Failed to logout. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error during logout:', error);
+            Alert.alert('Error', 'An error occurred during logout. Please try again later.');
+        }
+    };
+
+    if (isLoading) {
+        return (
+            <View style={styles.loaderContainer}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        )
+    }
+
     return (
         <MainWapper headerText={messages.menu} icon={true} isHeader={true}>
             <View style={styles.container}>
@@ -42,7 +83,7 @@ const Menu = () => {
                             return null;
                         })}
                     </View>
-                    <TouchableOpacity style={styles.logout}>
+                    <TouchableOpacity style={styles.logout} onPress={handleLogout}>
                         {Icons.logoutIcon}
                         <TextBold fontSize={19} style={styles.logoutText}>
                             {messages.logout}
@@ -63,6 +104,11 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: 'space-between',
         backgroundColor: "#fff"
+    },
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     contentContainer: {
         flex: 1,

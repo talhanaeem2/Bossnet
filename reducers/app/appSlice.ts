@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { produce } from 'immer';
 
 import AppStateInterface from './interfaces/appStateInterface';
 import CreatePostModalPayload from './interfaces/createPosModalInterface/createPostModalPayload';
@@ -25,22 +24,16 @@ const appSlice = createSlice({
     reducers: {
         setCreatePostModal(state, action: PayloadAction<CreatePostModalPayload>) {
             const { isVisible } = action.payload
-            return produce(state, draftState => {
-                draftState.createPostModal.isVisible = isVisible
-            });
+            state.createPostModal.isVisible = isVisible
         },
         setImageFullScreenModal(state, action: PayloadAction<ImageFullScreenModalPayload>) {
             const { isVisible, uri } = action.payload
-            return produce(state, draftState => {
-                draftState.imageFullScreeenModal.isVisible = isVisible,
-                    draftState.imageFullScreeenModal.imageUri = uri
-            });
+            state.imageFullScreeenModal.isVisible = isVisible,
+                state.imageFullScreeenModal.imageUri = uri
         },
         setCommentModal(state, action: PayloadAction<CommentModalPayload>) {
             const { isVisible } = action.payload
-            return produce(state, draftState => {
-                draftState.commentModal.isVisible = isVisible
-            })
+            state.commentModal.isVisible = isVisible
         }
     }
 });

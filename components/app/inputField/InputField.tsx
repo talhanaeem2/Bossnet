@@ -6,7 +6,6 @@ import { RPW, RPH, RFS } from "../../../constants/utils";
 import inputFieldInterface from "./interfaces/inputFieldInterface";
 
 const InputField = (props: inputFieldInterface) => {
-    const [text, setText] = useState<string>('');
     const [secureText, setSecureText] = useState<Boolean>(true);
 
     const handleSecureText = () => {
@@ -18,8 +17,7 @@ const InputField = (props: inputFieldInterface) => {
             {props.leftIcon && <View style={styles.iconContainerLeft}>{props.leftIcon}</View>}
             <TextInput
                 style={[styles.input, { paddingLeft: props.leftIcon ? RPW(9.5) : RPW(3.5) }]}
-                onChangeText={(newText) => setText(newText)}
-                value={text}
+                onChangeText={props.onChangeText}
                 placeholder={props.placeholder}
                 secureTextEntry={secureText && props.secureTextEntry}
                 keyboardType={

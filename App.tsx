@@ -3,16 +3,14 @@ import { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 
-import AppStack from './navigation/appStack';
-import AuthStack from './navigation/authStack';
+import WithAuthentication from './withAuthentication';
+
 import store from './store';
 
 const customFonts = {
   'Lato-Regular': require('./assets/fonts//Lato-Regular.ttf'),
   'Lato-Bold': require('./assets/fonts/Lato-Bold.ttf')
 };
-
-const isAuthenticated = true;
 
 const App = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -33,7 +31,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Provider store={store}>
-        {isAuthenticated ? <AppStack /> : <AuthStack />}
+        <WithAuthentication />
       </Provider>
     </NavigationContainer>
   );

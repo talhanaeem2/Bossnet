@@ -1,4 +1,4 @@
-import { StyleSheet, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from "react-native"
+import { StyleSheet, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, ActivityIndicator } from "react-native"
 import { useState } from "react";
 import Checkbox from 'expo-checkbox';
 import { useNavigation } from "@react-navigation/native";
@@ -15,10 +15,19 @@ import { RFS, RPH, RPW } from "../../../constants/utils";
 import Icons from "../../../constants/icons";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
+import axios from "axios";
+import useReducerDispatch from "../../../hooks/useReducerDispatch";
+import { login } from "../../../reducers/auth/authSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignInForm = () => {
     const [isChecked, setChecked] = useState(false);
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
+    const [userName, setUserName] = useState<string>("")
+    const [password, setPassword] = useState<string>("")
+    const [selectedLanguage, setSelectedLanguage] = useState();
+    const dispatch = useReducerDispatch()
+    const [isLoading, setIsLoading] = useState(false)
 
     const navigateToSignUp = () => {
         navigation.navigate("SignUp");
@@ -28,7 +37,46 @@ const SignInForm = () => {
         navigation.navigate("AccountRecovery")
     }
 
-    const [selectedLanguage, setSelectedLanguage] = useState();
+
+    const fetchData = async () => {
+        try {
+            let data = JSON.stringify({
+                "email_or_username": userName,
+                "password": password
+            });
+
+            let config = {
+                method: 'POST',
+                url: 'https://bosnett.com/api/public/api/login',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            };
+            setIsLoading(true)
+
+            const response = await axios.request(config);
+            console.log(JSON.stringify(response.data));
+
+            if (response.data && response.data.data.auth.jwt) {
+                const token = response.data.data.auth.jwt;
+
+                await AsyncStorage.setItem('token', token);
+                dispatch(login(token))
+                setIsLoading(false)
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    if (isLoading) {
+        return (
+            <View style={styles.loaderContainer}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        )
+    }
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -43,8 +91,20 @@ const SignInForm = () => {
                         </TextRegular>
                     </View>
                     <View style={styles.fieldContainer}>
-                        <InputField placeholder={messages.name} leftIcon={Icons.userIcon} type="text" />
-                        <InputField placeholder={messages.password} leftIcon={Icons.keyIcon} rightIcon={Icons.eyeIcon} secureTextEntry={true} type="password" />
+                        <InputField
+                            placeholder={messages.name}
+                            leftIcon={Icons.userIcon}
+                            type="text"
+                            onChangeText={(text) => setUserName(text)}
+                        />
+                        <InputField
+                            placeholder={messages.password}
+                            leftIcon={Icons.keyIcon}
+                            rightIcon={Icons.eyeIcon}
+                            secureTextEntry={true}
+                            type="password"
+                            onChangeText={(text) => setPassword(text)}
+                        />
                     </View>
                     <View style={styles.checkboxContainer}>
                         <Checkbox
@@ -69,7 +129,10 @@ const SignInForm = () => {
                             {messages.createAcc}
                         </TextRegular>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.nextButton}>
+                    <TouchableOpacity
+                        style={styles.nextButton}
+                        onPress={fetchData}
+                    >
                         {Icons.forwardIcon}
                     </TouchableOpacity>
                     <View style={styles.languageDropdown}>
@@ -114,6 +177,11 @@ const styles = StyleSheet.create({
     fieldContainer: {
         paddingTop: RPH(4),
         gap: RPH(3)
+    },
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     leftIcon: {
         width: 19,
@@ -178,3 +246,7 @@ const styles = StyleSheet.create({
         fontFamily: "Lato-Regular",
     }
 })
+
+function dispatch(arg0: any) {
+    throw new Error("Function not implemented.");
+}
