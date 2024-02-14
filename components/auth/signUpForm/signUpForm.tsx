@@ -1,4 +1,4 @@
-import { StyleSheet, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, GestureResponderEvent } from "react-native"
+import { StyleSheet, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from "react-native"
 import Checkbox from "expo-checkbox";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -286,7 +286,7 @@ const SignUpForm = () => {
                                         }
                                     </View>
                                 </View>
-                                <TouchableOpacity onPress={(e: GestureResponderEvent) => handleSubmit()} style={styles.nextButton}>
+                                <TouchableOpacity onPress={() => handleSubmit()} style={styles.nextButton}>
                                     {Icons.forwardIcon}
                                 </TouchableOpacity>
                             </View>

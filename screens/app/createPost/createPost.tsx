@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity, TextInput, PanResponder, Animated, Image, ScrollView } from "react-native"
+import { View, StyleSheet, TouchableOpacity, TextInput, Animated, Image, ScrollView, PanResponder } from "react-native"
 import { useState } from "react"
 import * as ImagePicker from 'expo-image-picker'
 import { Path } from "react-native-svg"
@@ -110,7 +110,7 @@ const CreatePost = ({ closeModal }: CreatePostProps) => {
                 <TouchableOpacity onPress={() => handleImagePicker("camera")}>
                     {Icons.cameraIcon}
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleImagePicker("giphy")}>
+                <TouchableOpacity>
                     {Icons.gifIcon}
                 </TouchableOpacity>
                 <TouchableOpacity>

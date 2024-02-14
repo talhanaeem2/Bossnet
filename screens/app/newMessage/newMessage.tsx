@@ -1,8 +1,7 @@
-import { View, StyleSheet, TextInput, Image, TouchableOpacity, ActivityIndicator } from "react-native"
+import { View, StyleSheet, TextInput, Image, TouchableOpacity, ActivityIndicator, ScrollView } from "react-native"
 import { useEffect, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { ScrollView } from "react-native-gesture-handler";
 import axios from "axios";
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
