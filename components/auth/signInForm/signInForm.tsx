@@ -75,7 +75,7 @@ const SignInForm = () => {
     }
 
 
-    const fetchData = async () => {
+    const handleSignIn = async () => {
         try {
             let data = JSON.stringify({
                 "email_or_username": userName,
@@ -171,7 +171,7 @@ const SignInForm = () => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.nextButton}
-                        onPress={fetchData}
+                        onPress={handleSignIn}
                     >
                         {Icons.forwardIcon}
                     </TouchableOpacity>
