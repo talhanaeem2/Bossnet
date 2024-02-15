@@ -12,7 +12,6 @@ import ResponseItemInterface from "./interfaces/responseItemInterface"
 
 import useSliceSelector from "../../../hooks/useSliceSelector"
 
-
 const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/activity";
 
 const NewsFeed = () => {

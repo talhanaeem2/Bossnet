@@ -1,6 +1,6 @@
-import { View, StyleSheet, TextInput, Image, ScrollView, TouchableOpacity, ActivityIndicator, TouchableWithoutFeedback, Keyboard } from "react-native"
+import { View, StyleSheet, TextInput, Image, TouchableOpacity, ActivityIndicator, TouchableWithoutFeedback, Keyboard, FlatList } from "react-native"
 import Svg, { Path } from "react-native-svg"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import axios from "axios"
 
 import MainWrapper from "../../../components/app/mainWrapper/mainWrapper"
@@ -12,27 +12,35 @@ import { RPH, RPW, RFS } from "../../../constants/utils"
 import UsersInterface from "./interfaces/usersInterface"
 
 const imageSize = "thumb";
+const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/members";
 
 const Friends = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState<UsersInterface[]>([]);
     const [isLoading, setIsLoading] = useState(true)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(0)
+
+    const fetchData = useCallback(async (page: number) => {
+        try {
+            const response = await axios.get(`${apiUrl}?page=${page}`);
+            setUsers((prevUsers => [...prevUsers, ...response.data]));
+            setTotalPages(response.headers["x-wp-totalpages"]);
+            setIsLoading(false)
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }, [currentPage])
 
     useEffect(() => {
-        const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/members";
+        fetchData(currentPage);
+    }, [currentPage])
 
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(apiUrl);
-                setUsers(response.data);
-                setIsLoading(false)
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
-    }, [])
+    const loadMorePosts = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage((prevPage) => prevPage + 1);
+        }
+    };
 
     const filteredUsers = users.filter(user => {
         const itemText = user.name.toLowerCase();
@@ -46,6 +54,24 @@ const Friends = () => {
             </View>
         )
     }
+
+    const renderUserItem = ({ item, index }: { item: UsersInterface; index: number }) => (
+        <View key={index}>
+            <View style={styles.friendContainer}>
+                <TouchableOpacity>
+                    <View style={styles.circle}>
+                        {item.avatar_urls && <Image style={styles.roundImg} source={{ uri: item.avatar_urls[imageSize] }} />}
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <View>
+                        <TextBold fontSize={17}>{item.name}</TextBold>
+                    </View>
+                </TouchableOpacity>
+            </View>
+            {index !== filteredUsers.length - 1 && <View style={styles.borderBottom} />}
+        </View>
+    )
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -64,47 +90,24 @@ const Friends = () => {
                             onChangeText={(text) => setSearchQuery(text)}
                         />
                     </View>
-                    <ScrollView>
-                        <View style={styles.bodyContainer}>
-                            <TextBold style={styles.friendsText} fontSize={18}>
-                                {
-                                    filteredUsers.length === 1 ?
-                                        `${filteredUsers.length} Friend` :
-                                        `${filteredUsers.length} Friends`
-                                }
-                            </TextBold>
-                            <View style={styles.content}>
-                                {
-                                    filteredUsers.map((user, index) => {
-                                        return (
-                                            <View key={index}>
-                                                <View style={styles.friendContainer}>
-                                                    <TouchableOpacity>
-                                                        <View style={styles.circle}>
-                                                            {user.avatar_urls && (
-                                                                <Image style={styles.roundImg} source={{ uri: (user.avatar_urls)[imageSize] }} />
-                                                            )}
-                                                        </View>
-                                                    </TouchableOpacity>
-                                                    <TouchableOpacity>
-                                                        <View>
-                                                            <TextBold fontSize={17}>
-                                                                {user.name}
-                                                            </TextBold>
-                                                        </View>
-                                                    </TouchableOpacity>
-                                                </View>
-                                                {
-                                                    index !== filteredUsers.length - 1 &&
-                                                    <View style={styles.borderBottom}></View>
-                                                }
-                                            </View>
-                                        )
-                                    })
-                                }
-                            </View>
+                    <View style={styles.bodyContainer}>
+                        <TextBold style={styles.friendsText} fontSize={18}>
+                            {
+                                filteredUsers.length === 1 ?
+                                    `${filteredUsers.length} Friend` :
+                                    `${filteredUsers.length} Friends`
+                            }
+                        </TextBold>
+                        <View style={styles.content}>
+                            <FlatList
+                                data={filteredUsers}
+                                renderItem={renderUserItem}
+                                keyExtractor={(item, index) => `${item.id}_${index}`}
+                                onEndReached={loadMorePosts}
+                                onEndReachedThreshold={0.5}
+                            />
                         </View>
-                    </ScrollView>
+                    </View>
                 </View>
             </MainWrapper>
         </TouchableWithoutFeedback>
