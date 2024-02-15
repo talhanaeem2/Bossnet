@@ -1,11 +1,12 @@
 import { StyleSheet, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from "react-native"
 import Checkbox from "expo-checkbox";
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
-import { Formik } from 'formik';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import moment from 'moment';
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import InputField from "../../app/inputField/InputField";
@@ -21,8 +22,6 @@ import FormValuesInterface from "./interfaces/signUpFormInterface";
 const SignUpForm = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const [isChecked, setChecked] = useState(false);
-
-    const [selectedDate, setSelectedDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
 
     const validationSchema = Yup.object().shape({
@@ -33,7 +32,7 @@ const SignUpForm = () => {
         confirmPassword: Yup.string().required('Password is required')
             .oneOf([Yup.ref('password'), ""], 'Passwords must match'),
         name: Yup.string().required('Name is required'),
-        nickName: Yup.string().required('Nick Name is required'),
+        nickname: Yup.string().required('Nick Name is required'),
         lastName: Yup.string().required('Last Name is required'),
         birthday: Yup.string()
             .required('Birthday is required')
@@ -56,13 +55,32 @@ const SignUpForm = () => {
         agreeToTerms: Yup.boolean().oneOf([true], 'You must agree to terms').required('You must agree to terms'),
     });
 
-
-    const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-        setShowDatePicker(false);
-        if (selectedDate) {
-            setSelectedDate(selectedDate);
+    const formik = useFormik({
+        initialValues: {
+            email: "",
+            confirmEmail: "",
+            password: "",
+            confirmPassword: "",
+            name: "",
+            nickname: "",
+            lastName: "",
+            birthday: new Date(),
+            address: "",
+            agreeToTerms: false
+        },
+        validationSchema,
+        onSubmit: (values: FormValuesInterface) => {
+            console.log(values)
         }
-    };
+    })
+
+    const handleDateChange = useCallback((selectedDate: Date) => {
+        if (selectedDate) {
+            const formattedDate = moment(selectedDate).startOf('day').toDate();
+            formik.setFieldValue('birthday', formattedDate)
+            setShowDatePicker(false);
+        }
+    }, [formik.setFieldValue])
 
     const showDatepicker = () => {
         setShowDatePicker(true);
@@ -70,23 +88,6 @@ const SignUpForm = () => {
 
     const navigateToSignIn = () => {
         navigation.navigate("SignIn")
-    }
-
-    const resetForm = (values: FormValuesInterface, { resetForm }: { resetForm: () => void }) => {
-        resetForm();
-    }
-
-    const initialFormValues = {
-        email: "",
-        confirmEmail: "",
-        password: "",
-        confirmPassword: "",
-        name: "",
-        nickName: "",
-        lastName: "",
-        birthday: selectedDate,
-        address: "",
-        agreeToTerms: false
     }
 
     return (
@@ -103,202 +104,194 @@ const SignUpForm = () => {
                             </TextRegular>
                         </TouchableOpacity>
                     </View>
-                    <Formik
-                        initialValues={initialFormValues}
-                        validationSchema={validationSchema}
-                        onSubmit={resetForm}
-                    >
-                        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
-                            <View style={styles.fieldConainer}>
-                                <View>
-                                    <InputField
-                                        placeholder={messages.email}
-                                        type="email"
-                                        onChangeText={handleChange('email')}
-                                        onBlur={handleBlur('email')}
-                                        value={values.email}
-                                    />
-                                    {
-                                        touched.email && errors.email &&
-                                        <TextRegular fontSize={12} color="red" style={styles.fieldError}>
-                                            {errors.email}
-                                        </TextRegular>
-                                    }
-                                </View>
-                                <View>
-                                    <InputField
-                                        placeholder={messages.confirmEmail}
-                                        type="email"
-                                        onChangeText={handleChange('confirmEmail')}
-                                        onBlur={handleBlur('confirmEmail')}
-                                        value={values.confirmEmail}
-                                    />
-                                    {
-                                        touched.confirmEmail && errors.confirmEmail &&
-                                        <TextRegular fontSize={12} color="red" style={styles.fieldError}>
-                                            {errors.confirmEmail}
-                                        </TextRegular>
-                                    }
-                                </View>
-                                <View>
-                                    <InputField
-                                        placeholder={messages.password}
-                                        leftIcon={Icons.keyIcon}
-                                        rightIcon={Icons.eyeIcon}
-                                        secureTextEntry={true}
-                                        type="password"
-                                        onChangeText={handleChange('password')}
-                                        onBlur={handleBlur('password')}
-                                        value={values.password}
-                                    />
-                                    {
-                                        touched.password && errors.password &&
-                                        <TextRegular fontSize={12} color="red" style={styles.fieldError}>
-                                            {errors.password}
-                                        </TextRegular>
-                                    }
-                                </View>
-                                <View>
-                                    <InputField
-                                        placeholder={messages.cofirmPass}
-                                        rightIcon={Icons.eyeIcon}
-                                        secureTextEntry={true}
-                                        type="password"
-                                        onChangeText={handleChange('confirmPassword')}
-                                        onBlur={handleBlur('confirmPassword')}
-                                        value={values.confirmPassword}
-                                    />
-                                    {
-                                        touched.confirmPassword && errors.confirmPassword &&
-                                        <TextRegular fontSize={12} color="red" style={styles.fieldError}>
-                                            {errors.confirmPassword}
-                                        </TextRegular>
-                                    }
-                                </View>
-                                <View>
-                                    <InputField
-                                        placeholder={messages.name}
-                                        leftIcon={Icons.userIcon}
-                                        type="text"
-                                        onChangeText={handleChange('name')}
-                                        onBlur={handleBlur('name')}
-                                        value={values.name}
-                                    />
-                                    {
-                                        touched.name && errors.name &&
-                                        <TextRegular fontSize={12} color="red" style={styles.fieldError}>
-                                            {errors.name}
-                                        </TextRegular>
-                                    }
-                                </View>
-                                <View>
-                                    <InputField
-                                        placeholder={messages.nick}
-                                        type="text"
-                                        onChangeText={handleChange('nickname')}
-                                        onBlur={handleBlur('nickname')}
-                                        value={values.nickName}
-                                    />
-                                    {
-                                        touched.nickName && errors.nickName &&
-                                        <TextRegular fontSize={12} color="red" style={styles.fieldError}>
-                                            {errors.nickName}
-                                        </TextRegular>
-                                    }
-                                </View>
-                                <View>
-                                    <InputField
-                                        placeholder={messages.lastName}
-                                        type="text"
-                                        onChangeText={handleChange('lastName')}
-                                        onBlur={handleBlur('lastName')}
-                                        value={values.lastName}
-                                    />
-                                    {
-                                        touched.lastName && errors.lastName &&
-                                        <TextRegular fontSize={12} color="red" style={styles.fieldError}>
-                                            {errors.lastName}
-                                        </TextRegular>
-                                    }
-                                </View>
-                                <View style={styles.dobContainer}>
-                                    <TextBold fontSize={14}>
-                                        {messages.birthday}
-                                    </TextBold>
-                                    <TouchableOpacity onPress={showDatepicker} style={styles.datePickerButton}>
-                                        <TextBold fontSize={14}>
-                                            {values.birthday instanceof Date ? values.birthday.toDateString() : values.birthday}
-                                        </TextBold>
-                                    </TouchableOpacity>
-                                    {showDatePicker && (
-                                        <DateTimePicker
-                                            value={values.birthday instanceof Date ? values.birthday : new Date()}
-                                            mode="date"
-                                            is24Hour={true}
-                                            display="spinner"
-                                            onChange={(event, date) => {
-                                                if (date) {
-                                                    handleChange('birthday');
-                                                    handleDateChange(event, date);
-                                                }
-                                            }}
-                                        />
-                                    )}
-                                </View>
-                                <View>
-                                    {
-                                        touched.birthday && errors.birthday &&
-                                        <TextRegular fontSize={12} color="red" style={styles.fieldError}>
-                                            {errors.birthday as string}
-                                        </TextRegular>
-                                    }
-                                </View>
-                                <View>
-                                    <InputField
-                                        placeholder={messages.address}
-                                        type="text"
-                                        onChangeText={handleChange('address')}
-                                        onBlur={handleBlur('address')}
-                                        value={values.address}
-                                    />
-                                </View>
-                                <View>
-                                    <View style={styles.termsContainer}>
-                                        <Checkbox
-                                            style={styles.checkbox}
-                                            value={isChecked}
-                                            onValueChange={(newValue) => {
-                                                handleChange('agreeToTerms');
-                                                setChecked(newValue);
-                                            }}
-                                            color={isChecked ? '#000' : undefined}
-                                        />
-                                        <TextRegular fontSize={12} color="#4F555E" style={styles.agreeText}>
-                                            {messages.agree}
-                                        </TextRegular>
-                                    </View>
-                                    <View>
-                                        {
-                                            touched.agreeToTerms && errors.agreeToTerms &&
-                                            <TextRegular fontSize={12} color="red" style={styles.fieldError}>
-                                                {errors.agreeToTerms}
-                                            </TextRegular>
+                    <View style={styles.fieldConainer}>
+                        <View>
+                            <InputField
+                                placeholder={messages.email}
+                                type="email"
+                                onChangeText={formik.handleChange('email')}
+                                onBlur={formik.handleBlur('email')}
+                                value={formik.values.email}
+                            />
+                            {
+                                formik.touched.email && formik.errors.email &&
+                                <TextRegular fontSize={12} color="red" style={styles.fieldError}>
+                                    {formik.errors.email}
+                                </TextRegular>
+                            }
+                        </View>
+                        <View>
+                            <InputField
+                                placeholder={messages.confirmEmail}
+                                type="email"
+                                onChangeText={formik.handleChange('confirmEmail')}
+                                onBlur={formik.handleBlur('confirmEmail')}
+                                value={formik.values.confirmEmail}
+                            />
+                            {
+                                formik.touched.confirmEmail && formik.errors.confirmEmail &&
+                                <TextRegular fontSize={12} color="red" style={styles.fieldError}>
+                                    {formik.errors.confirmEmail}
+                                </TextRegular>
+                            }
+                        </View>
+                        <View>
+                            <InputField
+                                placeholder={messages.password}
+                                leftIcon={Icons.keyIcon}
+                                rightIcon={Icons.eyeIcon}
+                                secureTextEntry={true}
+                                type="password"
+                                onChangeText={formik.handleChange('password')}
+                                onBlur={formik.handleBlur('password')}
+                                value={formik.values.password}
+                            />
+                            {
+                                formik.touched.password && formik.errors.password &&
+                                <TextRegular fontSize={12} color="red" style={styles.fieldError}>
+                                    {formik.errors.password}
+                                </TextRegular>
+                            }
+                        </View>
+                        <View>
+                            <InputField
+                                placeholder={messages.cofirmPass}
+                                rightIcon={Icons.eyeIcon}
+                                secureTextEntry={true}
+                                type="password"
+                                onChangeText={formik.handleChange('confirmPassword')}
+                                onBlur={formik.handleBlur('confirmPassword')}
+                                value={formik.values.confirmPassword}
+                            />
+                            {
+                                formik.touched.confirmPassword && formik.errors.confirmPassword &&
+                                <TextRegular fontSize={12} color="red" style={styles.fieldError}>
+                                    {formik.errors.confirmPassword}
+                                </TextRegular>
+                            }
+                        </View>
+                        <View>
+                            <InputField
+                                placeholder={messages.name}
+                                leftIcon={Icons.userIcon}
+                                type="text"
+                                onChangeText={formik.handleChange('name')}
+                                onBlur={formik.handleBlur('name')}
+                                value={formik.values.name}
+                            />
+                            {
+                                formik.touched.name && formik.errors.name &&
+                                <TextRegular fontSize={12} color="red" style={styles.fieldError}>
+                                    {formik.errors.name}
+                                </TextRegular>
+                            }
+                        </View>
+                        <View>
+                            <InputField
+                                placeholder={messages.nick}
+                                type="text"
+                                onChangeText={formik.handleChange('nickname')}
+                                onBlur={formik.handleBlur('nickname')}
+                                value={formik.values.nickname}
+                            />
+                            {
+                                formik.touched.nickname && formik.errors.nickname &&
+                                <TextRegular fontSize={12} color="red" style={styles.fieldError}>
+                                    {formik.errors.nickname}
+                                </TextRegular>
+                            }
+                        </View>
+                        <View>
+                            <InputField
+                                placeholder={messages.lastName}
+                                type="text"
+                                onChangeText={formik.handleChange('lastName')}
+                                onBlur={formik.handleBlur('lastName')}
+                                value={formik.values.lastName}
+                            />
+                            {
+                                formik.touched.lastName && formik.errors.lastName &&
+                                <TextRegular fontSize={12} color="red" style={styles.fieldError}>
+                                    {formik.errors.lastName}
+                                </TextRegular>
+                            }
+                        </View>
+                        <View style={styles.dobContainer}>
+                            <TextBold fontSize={14}>
+                                {messages.birthday}
+                            </TextBold>
+                            <TouchableOpacity onPress={showDatepicker} style={styles.datePickerButton}>
+                                <TextBold fontSize={14}>
+                                    {moment(formik.values.birthday).format('MMMM DD YYYY')}
+                                </TextBold>
+                            </TouchableOpacity>
+                            {showDatePicker && (
+                                <DateTimePicker
+                                    value={formik.values.birthday}
+                                    mode="date"
+                                    display="spinner"
+                                    onChange={(event, date) => {
+                                        if (date) {
+                                            formik.setFieldValue('birthday', date)
+                                            handleDateChange(date);
                                         }
-                                    </View>
-                                </View>
-                                <TouchableOpacity onPress={() => handleSubmit()} style={styles.nextButton}>
-                                    {Icons.forwardIcon}
-                                </TouchableOpacity>
+                                    }}
+                                />
+                            )}
+                        </View>
+                        <View>
+                            {
+                                formik.touched.birthday && formik.errors.birthday &&
+                                <TextRegular fontSize={12} color="red" style={styles.fieldError}>
+                                    {formik.errors.birthday as string}
+                                </TextRegular>
+                            }
+                        </View>
+                        <View>
+                            <InputField
+                                placeholder={messages.address}
+                                type="text"
+                                onChangeText={formik.handleChange('address')}
+                                onBlur={formik.handleBlur('address')}
+                                value={formik.values.address}
+                            />
+                        </View>
+                        <View>
+                            <View style={styles.termsContainer}>
+                                <Checkbox
+                                    style={styles.checkbox}
+                                    value={isChecked}
+                                    onValueChange={(newValue) => {
+                                        formik.handleChange('agreeToTerms')(newValue.toString());
+                                        setChecked(newValue);
+                                    }}
+                                    color={isChecked ? '#000' : undefined}
+                                />
+                                <TextRegular fontSize={12} color="#4F555E" style={styles.agreeText}>
+                                    {messages.agree}
+                                </TextRegular>
                             </View>
-                        )}
-                    </Formik>
+                            <View>
+                                {
+                                    formik.touched.agreeToTerms && formik.errors.agreeToTerms && (
+                                        <TextRegular fontSize={12} color="red" style={styles.fieldError}>
+                                            {formik.errors.agreeToTerms}
+                                        </TextRegular>
+                                    )
+                                }
+                            </View>
+                        </View>
+                        <TouchableOpacity onPress={() => formik.handleSubmit()} style={styles.nextButton}>
+                            {Icons.forwardIcon}
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
     )
 }
 
-export default SignUpForm
+export default memo(SignUpForm)
 
 const styles = StyleSheet.create({
     fieldConainer: {

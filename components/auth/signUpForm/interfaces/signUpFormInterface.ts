@@ -4,9 +4,9 @@ export default interface FormValuesInterface {
     password: string;
     confirmPassword: string;
     name: string;
-    nickName: string;
+    nickname: string;
     lastName: string;
-    birthday: Date | string;
+    birthday: Date;
     address?: string;
     agreeToTerms: boolean;
 }

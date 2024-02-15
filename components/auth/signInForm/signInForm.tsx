@@ -1,9 +1,13 @@
 import { StyleSheet, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, ActivityIndicator } from "react-native"
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import Checkbox from 'expo-checkbox';
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Picker } from '@react-native-picker/picker';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import axios from "axios";
 
 import InputField from "../../app/inputField/InputField";
 import TextBold from "../../app/textComponent/textBold/textBold";
@@ -13,73 +17,29 @@ import messages from "../../../constants/messages";
 import { languageOptions } from "../../../constants/constants";
 import { RFS, RPH, RPW } from "../../../constants/utils";
 import Icons from "../../../constants/icons";
-
-import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
-import axios from "axios";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { login } from "../../../reducers/auth/authSlice";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
+import SignInFormInterface from "./interfaces/signInFormInterface";
 
 const SignInForm = () => {
     const [isChecked, setChecked] = useState(false);
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
-    const [userName, setUserName] = useState<string>("")
-    const [password, setPassword] = useState<string>("")
     const [selectedLanguage, setSelectedLanguage] = useState();
     const dispatch = useReducerDispatch()
     const [isLoading, setIsLoading] = useState(false)
 
-    useEffect(() => {
-        const loadStoredCredentials = async () => {
-            try {
-                const storedUserName = await AsyncStorage.getItem("userName");
-                const storedPassword = await AsyncStorage.getItem("password");
+    const validationSchema = Yup.object().shape({
+        username: Yup.string().required('Username is required'),
+        password: Yup.string().required('Password is required')
+    });
 
-                if (storedUserName && storedPassword) {
-                    setUserName(storedUserName);
-                    setPassword(storedPassword);
-                    setChecked(true);
-                }
-            } catch (error) {
-                console.error("Error loading stored credentials:", error);
-            }
-        };
-
-        loadStoredCredentials();
-    }, []);
-
-    const handleRememberMe = async () => {
-        if (isChecked) {
-            try {
-                await AsyncStorage.setItem("userName", userName);
-                await AsyncStorage.setItem("password", password);
-            } catch (error) {
-                console.error("Error storing credentials:", error);
-            }
-        } else {
-            try {
-                await AsyncStorage.removeItem("userName");
-                await AsyncStorage.removeItem("password");
-            } catch (error) {
-                console.error("Error removing stored credentials:", error);
-            }
-        }
-    };
-
-    const navigateToSignUp = () => {
-        navigation.navigate("SignUp");
-    }
-
-    const navigateToAccountRecovery = () => {
-        navigation.navigate("AccountRecovery")
-    }
-
-
-    const handleSignIn = async () => {
+    const handleSignIn = async (values: SignInFormInterface) => {
         try {
             let data = JSON.stringify({
-                "email_or_username": userName,
-                "password": password
+                "email_or_username": values.username,
+                "password": values.password
             });
 
             let config = {
@@ -107,6 +67,61 @@ const SignInForm = () => {
         }
     };
 
+    const formik = useFormik({
+        initialValues: {
+            username: '',
+            password: '',
+            selectedLanguage: selectedLanguage
+        },
+        validationSchema,
+        onSubmit: handleSignIn
+    });
+
+    useEffect(() => {
+        const loadStoredCredentials = async () => {
+            try {
+                const storedUsername = await AsyncStorage.getItem("username");
+                const storedPassword = await AsyncStorage.getItem("password");
+
+                if (storedUsername && storedPassword) {
+                    formik.setFieldValue('username', storedUsername)
+                    formik.setFieldValue('password', storedPassword)
+                    setChecked(true);
+                }
+            } catch (error) {
+                console.error("Error loading stored credentials:", error);
+            }
+        };
+
+        loadStoredCredentials();
+    }, []);
+
+    const handleRememberMe = async () => {
+        if (isChecked) {
+            try {
+                await AsyncStorage.setItem("username", formik.values.username);
+                await AsyncStorage.setItem("password", formik.values.password);
+            } catch (error) {
+                console.error("Error storing credentials:", error);
+            }
+        } else {
+            try {
+                await AsyncStorage.removeItem("username");
+                await AsyncStorage.removeItem("password");
+            } catch (error) {
+                console.error("Error removing stored credentials:", error);
+            }
+        }
+    };
+
+    const navigateToSignUp = () => {
+        navigation.navigate("SignUp");
+    }
+
+    const navigateToAccountRecovery = () => {
+        navigation.navigate("AccountRecovery")
+    }
+
     if (isLoading) {
         return (
             <View style={styles.loaderContainer}>
@@ -132,16 +147,28 @@ const SignInForm = () => {
                             placeholder={messages.name}
                             leftIcon={Icons.userIcon}
                             type="text"
-                            onChangeText={(text) => setUserName(text)}
+                            onChangeText={formik.handleChange('username')}
+                            value={formik.values.username}
                         />
+                        {formik.touched.username && formik.errors.username &&
+                            <TextRegular fontSize={12} color="red">
+                                {formik.errors.username}
+                            </TextRegular>
+                        }
                         <InputField
                             placeholder={messages.password}
                             leftIcon={Icons.keyIcon}
                             rightIcon={Icons.eyeIcon}
                             secureTextEntry={true}
                             type="password"
-                            onChangeText={(text) => setPassword(text)}
+                            onChangeText={formik.handleChange('password')}
+                            value={formik.values.password}
                         />
+                        {formik.touched.password && formik.errors.password &&
+                            <TextRegular fontSize={12} color="red">
+                                {formik.errors.password}
+                            </TextRegular>
+                        }
                     </View>
                     <View style={styles.checkboxContainer}>
                         <Checkbox
@@ -171,7 +198,7 @@ const SignInForm = () => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.nextButton}
-                        onPress={handleSignIn}
+                        onPress={() => formik.handleSubmit()}
                     >
                         {Icons.forwardIcon}
                     </TouchableOpacity>
@@ -180,9 +207,10 @@ const SignInForm = () => {
                             mode="dropdown"
                             dropdownIconColor="#FFFBFB"
                             selectedValue={selectedLanguage}
-                            onValueChange={(itemValue) =>
-                                setSelectedLanguage(itemValue)
-                            }>
+                            onValueChange={(itemValue) => {
+                                setSelectedLanguage(itemValue);
+                                formik.setFieldValue('selectedLanguage', itemValue);
+                            }}>
                             {languageOptions.map((item, index) => {
                                 return (
                                     <Picker.Item style={styles.dropdownText} key={index} label={item.label} value={item.value} />
@@ -211,7 +239,7 @@ const SignInForm = () => {
     )
 }
 
-export default SignInForm
+export default memo(SignInForm)
 
 const styles = StyleSheet.create({
     fieldContainer: {
@@ -286,7 +314,3 @@ const styles = StyleSheet.create({
         fontFamily: "Lato-Regular",
     }
 })
-
-function dispatch(arg0: any) {
-    throw new Error("Function not implemented.");
-}
