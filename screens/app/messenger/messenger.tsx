@@ -12,6 +12,7 @@ import { truncateText, RPH, RPW, RFS } from "../../../constants/utils"
 import UsersInterface from "../friends/interfaces/usersInterface"
 
 const imageSize = "thumb";
+const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/members";
 
 const Messenger = () => {
     const [searchQuery, setSearchQuery] = useState('')
@@ -20,7 +21,6 @@ const Messenger = () => {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/members";
 
         const fetchData = async () => {
             try {
