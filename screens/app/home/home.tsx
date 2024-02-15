@@ -30,10 +30,7 @@ const Home = () => {
             <View style={styles.container}>
                 <Header />
                 <NewsFeedShare />
-                <ScrollView>
-                    <NewsFeed />
-                </ScrollView>
-                <Footer />
+                <NewsFeed />
                 <View style={styles.newpostContainer}>
                     <TouchableOpacity onPress={handleToggleCreatePostModal}>
                         {Icons.newPostIcon}
@@ -42,6 +39,9 @@ const Home = () => {
                 {isCreatePostModalVisible && (
                     <CreatePostModal />
                 )}
+                <View style={styles.footer}>
+                    <Footer />
+                </View>
             </View>
         </SafeAreaViewComponent>
     )
@@ -60,5 +60,13 @@ const styles = StyleSheet.create({
         position: "absolute",
         bottom: height * .16,
         right: RPW(2.2)
+    },
+    footer: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 })

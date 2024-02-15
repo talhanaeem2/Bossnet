@@ -1,35 +1,24 @@
-import { View, StyleSheet, Image, ActivityIndicator, TouchableOpacity, TouchableWithoutFeedback, Text } from "react-native"
-import { useNavigation } from "@react-navigation/native"
+import { View, StyleSheet, ActivityIndicator, FlatList } from "react-native"
 import { memo, useCallback, useEffect, useState } from "react"
-import { StackNavigationProp } from "@react-navigation/stack"
 import axios from "axios"
 
-import UserActions from "../userActions/userActions"
-import PostDotMenu from "../postDotMenu/postDotMenu"
-import ReadMore from "../readMoreText/readMoreText"
-import TextBold from "../textComponent/textBold/textBold"
-import TextRegular from "../textComponent/textRegular/textRegular"
 import ImageFullScreenModal from "../../../modals/imageFullScreenModal/imageFullScreenModal"
 import CommmentModal from "../../../modals/commentModal/commentModal"
+import NewsFeedItem from "./newsfeedItem"
 
-import { stripHtmlTags, RPH, RPW } from "../../../constants/utils"
+import { RPH, RPW } from "../../../constants/utils"
 
-import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
 import ResponseItemInterface from "./interfaces/responseItemInterface"
 
 import useSliceSelector from "../../../hooks/useSliceSelector"
-import useReducerDispatch from "../../../hooks/useReducerDispatch"
-import { setImageFullScreenModal } from "../../../reducers/app/appSlice"
 
 
 const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/activity";
 
 const NewsFeed = () => {
-    const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const [newsFeedPosts, setNewsFeedPosts] = useState<ResponseItemInterface[]>([])
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
     const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible)
-    const dispatch = useReducerDispatch();
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
@@ -56,148 +45,22 @@ const NewsFeed = () => {
         }
     };
 
-    const toggleModal = useCallback((uri: string) => {
-        dispatch(setImageFullScreenModal({ isVisible: !isImageFullScreenModalVisible, uri }))
-    }, []);
-
-    const handleLongPress = useCallback((index: number) => {
-        setNewsFeedPosts(prevState => {
-            if (prevState) {
-                return prevState.map((post, i) => ({
-                    ...post,
-                    showOverlay: i === index
-                }));
-            }
-            return []
-        });
-    }, [newsFeedPosts]);
-
-    const handleCloseOverlay = useCallback((index: number) => {
-        setNewsFeedPosts(prevState => {
-            if (prevState) {
-                return prevState.map((post, i) => ({
-                    ...post,
-                    showOverlay: i === index ? false : post.showOverlay
-                }));
-            }
-            return []
-        });
-    }, [newsFeedPosts])
-
     return (
         <View style={styles.container}>
-            {
-                newsFeedPosts.map((post, index) => {
-                    const title = post.title;
-                    const sanitizedTitle = stripHtmlTags(title)
-                    const imageUri = post.bp_media_ids?.[0]?.attachment_data?.full;
-                    const userId = post.user_id;
-                    const postId = post.id;
-                    return (
-                        <TouchableWithoutFeedback key={index}
-                            onPress={() => handleCloseOverlay(index)}
-                        >
-                            <View style={styles.postContainer}>
-                                <View style={styles.dotsContainer}>
-                                    <PostDotMenu />
-                                </View>
-                                <View style={styles.post}>
-                                    <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>
-                                        <View style={styles.circle}>
-                                            <Image style={styles.roundImg} source={{ uri: (post.user_avatar)["thumb"] }} />
-                                        </View>
-                                    </TouchableOpacity>
-                                    <View style={styles.textContainer}>
-                                        <View style={styles.postTextContainer}>
-                                            <TextBold fontSize={13} color="#5F6373">
-                                                {sanitizedTitle}
-                                            </TextBold>
-                                        </View>
-                                        <TextRegular fontSize={9} color="#5F6373">
-                                            2 hours ago
-                                        </TextRegular>
-                                    </View>
-                                </View>
-                                {post.content_stripped && (
-                                    <View style={styles.readmoreContainer}>
-                                        <ReadMore text={post.content_stripped} />
-                                    </View>
-                                )}
-                                {post.bp_media_ids && (
-                                    <TouchableWithoutFeedback onPress={() => toggleModal(imageUri)}>
-                                        <View>
-                                            <Image source={{ uri: imageUri }} style={{ width: 421, height: 177 }} />
-                                        </View>
-                                    </TouchableWithoutFeedback>
-                                )}
-                                {/* {post.reacted_names && (
-                                <TextRegular fontSize={10} color="#5F6373">
-                                    {post.reacted_names}
-                                </TextRegular>
-                            )} */}
-                                <View style={!post.bp_media_ids ? { paddingTop: RPH(1) } : { paddingTop: RPH(1.2) }}>
-                                    <UserActions showOverlay={post.showOverlay}
-                                        onLongPress={() => handleLongPress(index)}
-                                    />
-                                </View>
-                            </View>
-                        </TouchableWithoutFeedback>
-                    )
-                })
-
-
-                // <>
-                //     <View style={styles.shimmer}>
-                //         <View style={styles.post}>
-                //             <View style={styles.circleShimmer} />
-                //             <View style={styles.textContainerShimmer} />
-                //         </View>
-                //         <View style={{ marginLeft: 35, gap: 10, marginTop: 10 }}>
-                //             <View style={styles.textContainerShimmer} />
-                //         </View>
-                //     </View>
-                //     <View style={styles.shimmer}>
-                //         <View style={styles.post}>
-                //             <View style={styles.circleShimmer} />
-                //             <View style={styles.textContainerShimmer} />
-                //         </View>
-                //         <View style={{ marginLeft: 35, gap: 10, marginTop: 10 }}>
-                //             <View style={styles.textContainerShimmer} />
-                //             <View style={styles.imageShimmer} />
-                //         </View>
-                //     </View>
-                //     <View style={styles.shimmer}>
-                //         <View style={styles.post}>
-                //             <View style={styles.circleShimmer} />
-                //             <View style={styles.textContainerShimmer} />
-                //         </View>
-                //         <View style={{ marginLeft: 35, gap: 10, marginTop: 10 }}>
-                //             <View style={styles.textContainerShimmer} />
-                //         </View>
-                //     </View>
-                //     <View style={styles.shimmer}>
-                //         <View style={styles.post}>
-                //             <View style={styles.circleShimmer} />
-                //             <View style={styles.textContainerShimmer} />
-                //         </View>
-                //         <View style={{ marginLeft: 35, gap: 10, marginTop: 10 }}>
-                //             <View style={styles.textContainerShimmer} />
-                //             <View style={styles.imageShimmer} />
-                //         </View>
-                //     </View>
-                // </>
-            }
+            <FlatList
+                data={newsFeedPosts}
+                renderItem={({ item, index }) => <NewsFeedItem item={item} index={index} />}
+                keyExtractor={(item, index) => `${item.id}_${index}`}
+                onEndReached={loadMorePosts}
+                onEndReachedThreshold={0.5}
+            />
             {isLoading && (
                 <View style={styles.loaderContainer}>
                     <ActivityIndicator size="large" color="#0000ff" />
                 </View>
             )}
-            <TouchableOpacity onPress={loadMorePosts} style={{ alignItems: "center", marginHorizontal: 10 }}>
-                <TextRegular fontSize={16} color="#5F6373">Load More</TextRegular>
-            </TouchableOpacity>
-
-            {isCommentModalVisible && <CommmentModal />}
-            {isImageFullScreenModalVisible && <ImageFullScreenModal />}
+            {!!isCommentModalVisible && <CommmentModal />}
+            {!!isImageFullScreenModalVisible && <ImageFullScreenModal />}
         </View>
     )
 }
