@@ -19,13 +19,15 @@ const Menu = () => {
     const handleLogout = async () => {
         try {
             const accessToken = await AsyncStorage.getItem('token');
+            const parsedToken = accessToken && JSON.parse(accessToken)
+
             setIsLoading(true)
 
             const response = await fetch('https://bosnett.com/api/public/api/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
+                    'Authorization': `Bearer ${parsedToken}`
                 }
             });
 

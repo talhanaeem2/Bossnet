@@ -60,7 +60,7 @@ const SignInForm = () => {
             if (response.data && response.data.data.auth.jwt) {
                 const token = response.data.data.auth.jwt;
 
-                await AsyncStorage.setItem('token', token);
+                await AsyncStorage.setItem('token', JSON.stringify(token));
                 dispatch(login(token))
                 dispatch(setIsLoading(false))
             }
@@ -88,12 +88,13 @@ const SignInForm = () => {
     useEffect(() => {
         const loadStoredCredentials = async () => {
             try {
-                const storedUsername = await AsyncStorage.getItem("username");
-                const storedPassword = await AsyncStorage.getItem("password");
+                const storedUserData = await AsyncStorage.getItem("userData");
 
-                if (storedUsername && storedPassword) {
-                    formik.setFieldValue('username', storedUsername)
-                    formik.setFieldValue('password', storedPassword)
+                if (storedUserData) {
+                    const userData = JSON.parse(storedUserData);
+                    formik.setFieldValue('username', userData.username);
+                    formik.setFieldValue('password', userData.password);
+
                     setChecked(true);
                 }
             } catch (error) {
@@ -106,16 +107,19 @@ const SignInForm = () => {
 
     const handleRememberMe = async () => {
         if (isChecked) {
+            const userData = {
+                username: formik.values.username,
+                password: formik.values.password
+            };
+
             try {
-                await AsyncStorage.setItem("username", formik.values.username);
-                await AsyncStorage.setItem("password", formik.values.password);
+                await AsyncStorage.setItem("userData", JSON.stringify(userData));
             } catch (error) {
                 console.error("Error storing credentials:", error);
             }
         } else {
             try {
-                await AsyncStorage.removeItem("username");
-                await AsyncStorage.removeItem("password");
+                await AsyncStorage.removeItem("userData");
             } catch (error) {
                 console.error("Error removing stored credentials:", error);
             }
