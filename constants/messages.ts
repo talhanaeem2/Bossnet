@@ -13,6 +13,7 @@ const messages = {
     agree: "I agree to the Terms of Service and Privacy Policy.",
     birthday: "Birthday",
     // placeholders
+    firstName: "First Name",
     name: "Name",
     password: "Password",
     cofirmPass: "Confirm Password",

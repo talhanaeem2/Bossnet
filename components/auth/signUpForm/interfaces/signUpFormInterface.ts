@@ -1,9 +1,9 @@
-export default interface FormValuesInterface {
+export default interface SignUpFormInterface {
     email: string;
     confirmEmail: string;
     password: string;
     confirmPassword: string;
-    name: string;
+    firstName: string;
     nickname: string;
     lastName: string;
     birthday: Date;

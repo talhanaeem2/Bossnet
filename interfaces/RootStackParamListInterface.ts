@@ -1,9 +1,10 @@
 import { ParamListBase } from "@react-navigation/native";
 
 import chatRoomParamsInterface from "./chatRoomInterface";
+import { SignInParamsInterface } from "./signInParamsInterface";
 
 export default interface RootStackParamListInterface extends ParamListBase {
-    SignIn: undefined;
+    SignIn: SignInParamsInterface;
     SignUp: undefined;
     AccountRecovery: undefined;
     Home: undefined;

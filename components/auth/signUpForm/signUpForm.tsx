@@ -7,6 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import moment from 'moment';
+import axios from "axios";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import InputField from "../../app/inputField/InputField";
@@ -17,12 +18,15 @@ import Icons from "../../../constants/icons";
 import messages from "../../../constants/messages";
 import { RPH, RPW } from "../../../constants/utils";
 
-import FormValuesInterface from "./interfaces/signUpFormInterface";
+import SignUpFormInterface from "./interfaces/signUpFormInterface";
+import useReducerDispatch from "../../../hooks/useReducerDispatch";
+import { setIsLoading } from "../../../reducers/auth/authSlice";
 
 const SignUpForm = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const [isChecked, setChecked] = useState(false);
     const [showDatePicker, setShowDatePicker] = useState(false);
+    const dispatch = useReducerDispatch();
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email').required('Email is required'),
@@ -31,7 +35,7 @@ const SignUpForm = () => {
         password: Yup.string().required('Password is required'),
         confirmPassword: Yup.string().required('Password is required')
             .oneOf([Yup.ref('password'), ""], 'Passwords must match'),
-        name: Yup.string().required('Name is required'),
+        firstName: Yup.string().required('First Name is required'),
         nickname: Yup.string().required('Nick Name is required'),
         lastName: Yup.string().required('Last Name is required'),
         birthday: Yup.string()
@@ -55,13 +59,54 @@ const SignUpForm = () => {
         agreeToTerms: Yup.boolean().oneOf([true], 'You must agree to terms').required('You must agree to terms'),
     });
 
+    const handleSignUp = async (values: SignUpFormInterface) => {
+
+        try {
+            const birthdayDate = moment(values.birthday);
+
+            let data = JSON.stringify({
+                "userName": values.nickname,
+                "email": values.email,
+                "firstName": values.firstName,
+                "lastName": values.lastName,
+                "nickName": values.nickname,
+                "password": values.password,
+                "day": birthdayDate.format('DD'),
+                "month": birthdayDate.format('MM'),
+                "year": birthdayDate.format('YYYY')
+
+            });
+
+            let config = {
+                method: 'POST',
+                url: 'https://bosnett.com/api/public/api/signup',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            };
+            dispatch(setIsLoading(true))
+
+            const response = await axios.request(config);
+            console.log(JSON.stringify(response.data));
+            dispatch(setIsLoading(false))
+            navigation.navigate('SignIn', {
+                prefillUsername: values.nickname,
+                prefillPassword: values.password
+            });
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
     const formik = useFormik({
         initialValues: {
             email: "",
             confirmEmail: "",
             password: "",
             confirmPassword: "",
-            name: "",
+            firstName: "",
             nickname: "",
             lastName: "",
             birthday: new Date(),
@@ -69,8 +114,8 @@ const SignUpForm = () => {
             agreeToTerms: false
         },
         validationSchema,
-        onSubmit: (values: FormValuesInterface) => {
-            console.log(values)
+        onSubmit: (values: SignUpFormInterface) => {
+            handleSignUp(values)
         }
     })
 
@@ -87,7 +132,7 @@ const SignUpForm = () => {
     };
 
     const navigateToSignIn = () => {
-        navigation.navigate("SignIn")
+        navigation.navigate("SignIn", {})
     }
 
     return (
@@ -172,17 +217,17 @@ const SignUpForm = () => {
                         </View>
                         <View>
                             <InputField
-                                placeholder={messages.name}
+                                placeholder={messages.firstName}
                                 leftIcon={Icons.userIcon}
                                 type="text"
-                                onChangeText={formik.handleChange('name')}
-                                onBlur={formik.handleBlur('name')}
-                                value={formik.values.name}
+                                onChangeText={formik.handleChange('firstName')}
+                                onBlur={formik.handleBlur('firstName')}
+                                value={formik.values.firstName}
                             />
                             {
-                                formik.touched.name && formik.errors.name &&
+                                formik.touched.firstName && formik.errors.firstName &&
                                 <TextRegular fontSize={12} color="red" style={styles.fieldError}>
-                                    {formik.errors.name}
+                                    {formik.errors.firstName}
                                 </TextRegular>
                             }
                         </View>

@@ -1,7 +1,7 @@
 import { StyleSheet, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from "react-native"
 import { memo, useEffect, useState } from "react";
 import Checkbox from 'expo-checkbox';
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Picker } from '@react-native-picker/picker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -25,6 +25,8 @@ import RootStackParamListInterface from "../../../interfaces/RootStackParamListI
 import SignInFormInterface from "./interfaces/signInFormInterface";
 
 const SignInForm = () => {
+    const route = useRoute();
+    const params = route.params as { prefillUsername: string; prefillPassword: string }
     const [isChecked, setChecked] = useState(false);
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const [selectedLanguage, setSelectedLanguage] = useState();
@@ -66,6 +68,12 @@ const SignInForm = () => {
             console.error('Error fetching data:', error);
         }
     };
+
+    useEffect(() => {
+        if (params != undefined) {
+            handleSignIn({ username: params.prefillUsername, password: params.prefillPassword });
+        }
+    }, [params]);
 
     const formik = useFormik({
         initialValues: {

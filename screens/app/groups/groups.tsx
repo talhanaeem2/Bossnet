@@ -37,8 +37,6 @@ const Groups = () => {
         fetchData();
     }, [])
 
-    console.log("groups", groupsData)
-
     const filteredGroups = groupsData.filter(item => {
         const itemText = item.name.toLowerCase();
         return itemText.includes(searchQuery.toLowerCase());
