@@ -1,4 +1,4 @@
-import { StyleSheet, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, ActivityIndicator } from "react-native"
+import { StyleSheet, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from "react-native"
 import { memo, useEffect, useState } from "react";
 import Checkbox from 'expo-checkbox';
 import { useNavigation } from "@react-navigation/native";
@@ -19,7 +19,7 @@ import { RFS, RPH, RPW } from "../../../constants/utils";
 import Icons from "../../../constants/icons";
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
-import { login } from "../../../reducers/auth/authSlice";
+import { login, setIsLoading } from "../../../reducers/auth/authSlice";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import SignInFormInterface from "./interfaces/signInFormInterface";
@@ -29,7 +29,6 @@ const SignInForm = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const [selectedLanguage, setSelectedLanguage] = useState();
     const dispatch = useReducerDispatch()
-    const [isLoading, setIsLoading] = useState(false)
 
     const validationSchema = Yup.object().shape({
         username: Yup.string().required('Username is required'),
@@ -51,7 +50,7 @@ const SignInForm = () => {
                 },
                 data: data
             };
-            setIsLoading(true)
+            dispatch(setIsLoading(true))
 
             const response = await axios.request(config);
             console.log(JSON.stringify(response.data));
@@ -61,7 +60,7 @@ const SignInForm = () => {
 
                 await AsyncStorage.setItem('token', token);
                 dispatch(login(token))
-                setIsLoading(false)
+                dispatch(setIsLoading(false))
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -123,13 +122,7 @@ const SignInForm = () => {
         navigation.navigate("AccountRecovery")
     }
 
-    if (isLoading) {
-        return (
-            <View style={styles.loaderContainer}>
-                <ActivityIndicator size="large" color="#0000ff" />
-            </View>
-        )
-    }
+
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -246,11 +239,6 @@ const styles = StyleSheet.create({
     fieldContainer: {
         paddingTop: RPH(4),
         gap: RPH(3)
-    },
-    loaderContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     leftIcon: {
         width: 19,

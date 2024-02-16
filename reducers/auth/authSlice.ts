@@ -5,6 +5,7 @@ import AuthStateInterface from './interfaces/authStateInterface';
 const initialState: AuthStateInterface = {
     isAuthenticated: false,
     token: "",
+    isLoading: false
 };
 
 const authSlice = createSlice({
@@ -18,10 +19,13 @@ const authSlice = createSlice({
         logout(state) {
             state.isAuthenticated = false,
                 state.token = ""
+        },
+        setIsLoading(state, action: PayloadAction<boolean>) {
+            state.isLoading = action.payload
         }
     },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, setIsLoading } = authSlice.actions;
 
 export default authSlice.reducer;
