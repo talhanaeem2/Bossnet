@@ -1,4 +1,4 @@
-import { View, StyleSheet, ActivityIndicator, FlatList } from "react-native"
+import { View, StyleSheet, FlatList } from "react-native"
 import { memo, useCallback, useEffect, useState } from "react"
 import axios from "axios"
 
