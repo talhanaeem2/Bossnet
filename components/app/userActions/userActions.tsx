@@ -57,7 +57,7 @@ const UserActions = (props: UserActionsProps) => {
             icon: icons.likeIcon,
             text: messages.likeAction,
             onPress: handleLike,
-            onLongPress: onLongPress,
+            onLongPress: onLongPress
         },
         {
             icon: icons.commentIcon,
@@ -153,7 +153,13 @@ const styles = StyleSheet.create({
     },
     action: {
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
+        paddingVertical: RPH(1.6),
+        paddingHorizontal: RPW(4)
+    },
+    actionOnPress: {
+        backgroundColor: "#eee",
+        borderRadius: 12
     },
     actionText: {
         alignContent: "center",

@@ -1,6 +1,5 @@
 import { StyleSheet, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from "react-native"
 import { memo, useEffect, useState } from "react";
-import Checkbox from 'expo-checkbox';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Picker } from '@react-native-picker/picker';
@@ -27,7 +26,6 @@ import SignInFormInterface from "./interfaces/signInFormInterface";
 const SignInForm = () => {
     const route = useRoute();
     const params = route.params as { prefillUsername: string; prefillPassword: string }
-    const [isChecked, setChecked] = useState(false);
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const [selectedLanguage, setSelectedLanguage] = useState();
     const dispatch = useReducerDispatch()
@@ -36,6 +34,19 @@ const SignInForm = () => {
         username: Yup.string().required('Username is required'),
         password: Yup.string().required('Password is required')
     });
+
+    const handleRememberMe = async (username: string, password: string) => {
+        const userData = {
+            username: username,
+            password: password
+        };
+
+        try {
+            await AsyncStorage.setItem("userData", JSON.stringify(userData));
+        } catch (error) {
+            console.error("Error storing credentials:", error);
+        }
+    };
 
     const handleSignIn = async (values: SignInFormInterface) => {
         try {
@@ -61,8 +72,9 @@ const SignInForm = () => {
                 const token = response.data.data.auth.jwt;
 
                 await AsyncStorage.setItem('token', JSON.stringify(token));
-                dispatch(login(token))
-                dispatch(setIsLoading(false))
+                handleRememberMe(values.username, values.password);
+                dispatch(login(token));
+                dispatch(setIsLoading(false));
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -72,6 +84,7 @@ const SignInForm = () => {
     useEffect(() => {
         if (params != undefined && params.prefillUsername && params.prefillPassword) {
             handleSignIn({ username: params.prefillUsername, password: params.prefillPassword });
+            handleRememberMe(params.prefillUsername, params.prefillPassword);
         }
     }, [params]);
 
@@ -94,8 +107,6 @@ const SignInForm = () => {
                     const userData = JSON.parse(storedUserData);
                     formik.setFieldValue('username', userData.username);
                     formik.setFieldValue('password', userData.password);
-
-                    setChecked(true);
                 }
             } catch (error) {
                 console.error("Error loading stored credentials:", error);
@@ -105,27 +116,6 @@ const SignInForm = () => {
         loadStoredCredentials();
     }, []);
 
-    const handleRememberMe = async () => {
-        if (isChecked) {
-            const userData = {
-                username: formik.values.username,
-                password: formik.values.password
-            };
-
-            try {
-                await AsyncStorage.setItem("userData", JSON.stringify(userData));
-            } catch (error) {
-                console.error("Error storing credentials:", error);
-            }
-        } else {
-            try {
-                await AsyncStorage.removeItem("userData");
-            } catch (error) {
-                console.error("Error removing stored credentials:", error);
-            }
-        }
-    };
-
     const navigateToSignUp = () => {
         navigation.navigate("SignUp");
     }
@@ -133,8 +123,6 @@ const SignInForm = () => {
     const navigateToAccountRecovery = () => {
         navigation.navigate("AccountRecovery")
     }
-
-
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
@@ -176,7 +164,7 @@ const SignInForm = () => {
                             </TextRegular>
                         }
                     </View>
-                    <View style={styles.checkboxContainer}>
+                    {/* <View style={styles.checkboxContainer}>
                         <Checkbox
                             style={styles.checkbox}
                             value={isChecked}
@@ -189,7 +177,7 @@ const SignInForm = () => {
                         <TextRegular fontSize={12} color="#4F555E">
                             {messages.rememberMe}
                         </TextRegular>
-                    </View>
+                    </View> */}
                     <View style={styles.buttonSpacing}>
                         <TouchableOpacity onPress={navigateToAccountRecovery}>
                             <TextRegular fontSize={13} color="#4B3434">
@@ -271,7 +259,8 @@ const styles = StyleSheet.create({
         marginVertical: RPH(4)
     },
     buttonSpacing: {
-        marginBottom: RPH(2)
+        marginBottom: RPH(2),
+        marginTop: RPH(4)
     },
     nextButton: {
         backgroundColor: "#385DFF",

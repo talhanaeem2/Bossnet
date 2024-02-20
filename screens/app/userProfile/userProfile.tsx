@@ -1,5 +1,7 @@
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native"
 import { Path } from "react-native-svg"
+import { useNavigation } from "@react-navigation/native"
+import { StackNavigationProp } from "@react-navigation/stack"
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper"
 import TextBold from "../../../components/app/textComponent/textBold/textBold"
@@ -10,6 +12,7 @@ import { RPW, RPH } from "../../../constants/utils"
 import Icons from "../../../constants/icons"
 
 import footerIconsInterface from "./interfaces/footerIconsInterface"
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
 
 const plusIcon = <IconContainer width="24" height="24" viewBox="0 0 24 24" fill="none">
     <Path d="M18 13.998H12V19.998H10V13.998H4V11.998H10V5.998H12V11.998H18V13.998Z" fill="white" />
@@ -84,7 +87,7 @@ const footerIcons: footerIconsInterface[] = [
 
 const UserProfile = () => {
     return (
-        <MainWapper isHeader={false} isFooter={false}>
+        <MainWapper isHeader={true} isFooter={false} icon={true}>
             <View style={styles.container}>
                 <View style={styles.content}>
                     <View style={styles.circle}>

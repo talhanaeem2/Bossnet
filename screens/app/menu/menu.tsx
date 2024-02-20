@@ -33,6 +33,7 @@ const Menu = () => {
 
             if (response.ok) {
                 await AsyncStorage.removeItem('token')
+                await AsyncStorage.removeItem('userData')
                 dispatch(logout())
                 setIsLoading(false)
             } else {
@@ -113,8 +114,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     contentContainer: {
-        flex: 1,
         paddingHorizontal: RPW(2),
+        paddingBottom: RPH(4.9)
     },
     textSpacing: {
         paddingLeft: RPW(5.5)
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         paddingHorizontal: RPW(2.7),
         paddingTop: RPH(2),
-        paddingBottom: RPH(4.9)
+        paddingBottom: RPH(2.5)
     },
     rowContainer: {
         flexDirection: 'row',
@@ -168,7 +169,8 @@ const styles = StyleSheet.create({
         paddingVertical: RPH(1.1),
         justifyContent: "center",
         borderRadius: 10,
-        marginTop: RPH(4.3)
+        marginTop: RPH(2.5),
+        marginBottom: 10
     },
     logoutText: {
         alignSelf: "center"

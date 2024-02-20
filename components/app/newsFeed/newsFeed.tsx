@@ -53,11 +53,6 @@ const NewsFeed = () => {
                 onEndReached={loadMorePosts}
                 onEndReachedThreshold={0.5}
             />
-            {isLoading && (
-                <View style={styles.loaderContainer}>
-                    <ActivityIndicator size="large" color="#0000ff" />
-                </View>
-            )}
             {!!isCommentModalVisible && <CommmentModal />}
             {!!isImageFullScreenModalVisible && <ImageFullScreenModal />}
         </View>
