@@ -1,25 +1,50 @@
-import { View, StyleSheet, TouchableOpacity, Modal } from "react-native"
-import { useState } from "react"
+import { View, StyleSheet, TouchableOpacity } from "react-native"
+import { useEffect, useState } from "react";
 
 import TextRegular from "../textComponent/textRegular/textRegular";
 
 import messages from "../../../constants/messages";
 import Icons from "../../../constants/icons";
-import { RFS } from "../../../constants/utils";
 
-const PostDotMenu = () => {
+import PostDotMenuProps from "./interfaces/postDotMenuProps";
+
+type DebouncedFunction<T extends any[]> = (...args: T) => void;
+
+const debounce = <T extends any[]>(
+    func: (...args: T) => void,
+    delay: number
+): DebouncedFunction<T> => {
+    let timer: NodeJS.Timeout;
+    return (...args: T) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => func.apply(null, args), delay);
+    };
+};
+
+const PostDotMenu = (props: PostDotMenuProps) => {
+    const { activeIndex, onMenuPress, index } = props
+
     const [isMenuVisible, setMenuVisible] = useState(false);
 
+    useEffect(() => {
+        setMenuVisible(activeIndex === index);
+    }, [activeIndex, index]);
+
+    const toggleMenu = debounce((isOpen: boolean) => {
+        setMenuVisible(isOpen);
+        if (!isOpen) {
+            onMenuPress(-1);
+        } else {
+            onMenuPress(index);
+        }
+    }, 100);
+
     const handleIconPress = () => {
-        setMenuVisible(!isMenuVisible);
+        toggleMenu(!isMenuVisible);
     };
 
     const handleMenuItemPress = (action: string) => {
         console.log(`Selected action: ${action}`);
-    };
-
-    const closeModal = () => {
-        setMenuVisible(false);
     };
 
     return (
@@ -27,36 +52,30 @@ const PostDotMenu = () => {
             <TouchableOpacity onPress={handleIconPress}>
                 {Icons.dotsIcon}
             </TouchableOpacity>
-            <Modal visible={isMenuVisible} transparent animationType="slide">
-                <TouchableOpacity style={styles.modalContainer} onPress={closeModal}>
+            {
+                isMenuVisible && (
                     <View style={styles.menu}>
-                        <TouchableOpacity onPress={() => handleMenuItemPress('delete')}>
-                            <View style={styles.menuItem}>
-                                {Icons.deleteIcon}
-                                <TextRegular fontSize={12} color="#AFB1B9">
-                                    {messages.delete}
-                                </TextRegular>
-                            </View>
+                        <TouchableOpacity style={styles.menuItem} onPress={() => handleMenuItemPress('delete')}>
+                            {Icons.deleteIcon}
+                            <TextRegular fontSize={12} color="#AFB1B9">
+                                {messages.delete}
+                            </TextRegular>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleMenuItemPress('report')}>
-                            <View style={styles.menuItem}>
-                                {Icons.repostIcon}
-                                <TextRegular fontSize={12} color="#AFB1B9">
-                                    {messages.report}
-                                </TextRegular>
-                            </View>
+                        <TouchableOpacity style={styles.menuItem} onPress={() => handleMenuItemPress('report')}>
+                            {Icons.repostIcon}
+                            <TextRegular fontSize={12} color="#AFB1B9">
+                                {messages.report}
+                            </TextRegular>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleMenuItemPress('pin')}>
-                            <View style={styles.menuItem}>
-                                {Icons.pinIcon}
-                                <TextRegular fontSize={12} color="#AFB1B9">
-                                    {messages.pin}
-                                </TextRegular>
-                            </View>
+                        <TouchableOpacity style={styles.menuItem} onPress={() => handleMenuItemPress('pin')}>
+                            {Icons.pinIcon}
+                            <TextRegular fontSize={12} color="#AFB1B9">
+                                {messages.pin}
+                            </TextRegular>
                         </TouchableOpacity>
                     </View>
-                </TouchableOpacity>
-            </Modal>
+                )
+            }
         </View>
     );
 };
@@ -70,27 +89,19 @@ const styles = StyleSheet.create({
         right: 0,
         zIndex: 1
     },
-    modalContainer: {
-        flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        justifyContent: 'flex-end',
-    },
     menu: {
+        position: 'absolute',
+        top: 20,
+        right: 10,
         backgroundColor: '#fff',
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        paddingVertical: 8,
-        paddingHorizontal: 5,
-        elevation: 5
-    },
-    menuItemText: {
-        color: '#AFB1B9',
-        fontSize: RFS(6),
-        fontFamily: 'Lato-Bold',
-        fontWeight: '700',
+        borderRadius: 8,
+        paddingVertical: 12,
+        elevation: 5,
+        width: 100,
+        paddingHorizontal: 20,
+        gap: 10
     },
     menuItem: {
-        padding: 12,
         flexDirection: 'row',
         alignItems: 'center',
         gap: 5

@@ -17,8 +17,11 @@ import useSliceSelector from "../../../hooks/useSliceSelector"
 
 import ResponseItemInterface from "./interfaces/responseItemInterface"
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
+import NewsFeedItemProps from "./interfaces/newsFeedItemProps"
 
-const NewsFeedItem = ({ item, index }: { item: ResponseItemInterface, index: number }) => {
+const NewsFeedItem = (props: NewsFeedItemProps) => {
+    const { item, index, activeIndex, setActiveIndex } = props
+
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const [newsFeedPosts, setNewsFeedPosts] = useState<ResponseItemInterface[]>([])
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
@@ -58,11 +61,12 @@ const NewsFeedItem = ({ item, index }: { item: ResponseItemInterface, index: num
     const userId = item.user_id;
     const postId = item.id;
     const imageUris = item.bp_media_ids?.map((media) => media.attachment_data?.full).filter(uri => uri);
+
     return (
         <TouchableWithoutFeedback onPress={() => handleCloseOverlay(index)}>
             <View style={styles.postContainer}>
                 <View style={styles.dotsContainer}>
-                    <PostDotMenu />
+                    <PostDotMenu activeIndex={activeIndex} index={index} onMenuPress={setActiveIndex} />
                 </View>
                 <View style={styles.post}>
                     <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>

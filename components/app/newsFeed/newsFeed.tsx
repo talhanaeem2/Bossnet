@@ -21,6 +21,7 @@ const NewsFeed = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
+    const [activeIndex, setActiveIndex] = useState<number>(-1);
 
     const fetchData = useCallback(async (page: number) => {
         try {
@@ -48,7 +49,14 @@ const NewsFeed = () => {
         <View style={styles.container}>
             <FlatList
                 data={newsFeedPosts}
-                renderItem={({ item, index }) => <NewsFeedItem item={item} index={index} />}
+                renderItem={({ item, index }) =>
+                    <NewsFeedItem
+                        activeIndex={activeIndex}
+                        setActiveIndex={setActiveIndex}
+                        item={item}
+                        index={index}
+                    />
+                }
                 keyExtractor={(item, index) => `${item.id}_${index}`}
                 onEndReached={loadMorePosts}
                 onEndReachedThreshold={0.5}
