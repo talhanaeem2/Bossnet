@@ -4,7 +4,6 @@ import { LinearGradient } from "expo-linear-gradient"
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper"
 import TextBold from "../../../components/app/textComponent/textBold/textBold"
 import TextRegular from "../../../components/app/textComponent/textRegular/textRegular"
-import PostDotMenu from "../../../components/app/postDotMenu/postDotMenu"
 
 import { RPH, RPW } from "../../../constants/utils"
 
@@ -39,7 +38,7 @@ const Notifications = () => {
                                     </TextRegular>
                                 </View>
                                 <View style={styles.dotsContainer}>
-                                    <PostDotMenu />
+                                    {/* <PostDotMenu /> */}
                                 </View>
                             </View>
                         </View>
@@ -62,7 +61,7 @@ const Notifications = () => {
                                     </TextRegular>
                                 </View>
                                 <View style={styles.dotsContainer}>
-                                    <PostDotMenu />
+                                    {/* <PostDotMenu /> */}
                                 </View>
                             </View>
                         </View>
@@ -88,7 +87,7 @@ const Notifications = () => {
                                     </TextRegular>
                                 </View>
                                 <View style={styles.dotsContainer}>
-                                    <PostDotMenu />
+                                    {/* <PostDotMenu /> */}
                                 </View>
                             </View>
                         </View>
@@ -111,7 +110,7 @@ const Notifications = () => {
                                     </TextRegular>
                                 </View>
                                 <View style={styles.dotsContainer}>
-                                    <PostDotMenu />
+                                    {/* <PostDotMenu /> */}
                                 </View>
                             </View>
                         </View>

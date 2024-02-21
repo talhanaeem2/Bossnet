@@ -40,7 +40,16 @@ interface IconsInterface {
     gifIcon: JSX.Element;
     atIcon: JSX.Element;
     emojiIcon: JSX.Element;
+    userPlusIcon: JSX.Element;
+    userEditIcon: JSX.Element;
+    userArrowUpIcon: JSX.Element;
+    notificationIcon: JSX.Element;
+    privacyIcon: JSX.Element;
+    blockedIcon: JSX.Element;
+    groupIcon: JSX.Element;
+    exportIcon: JSX.Element;
     arrowUpIcon: JSX.Element;
+    delIcon: JSX.Element;
 }
 
 export default IconsInterface
