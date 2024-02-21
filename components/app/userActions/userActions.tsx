@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity, Image } from "react-native"
+import { View, StyleSheet, TouchableOpacity, Image, Pressable } from "react-native"
 
 import TextRegular from "../textComponent/textRegular/textRegular";
 
@@ -103,11 +103,14 @@ const UserActions = (props: UserActionsProps) => {
             <View style={styles.actionsContainer}>
                 {userActions.map((item, index) => {
                     return (
-                        <TouchableOpacity
+                        <Pressable
                             key={index}
                             onPress={item.onPress}
-                            style={styles.action}
                             onLongPress={item.onLongPress}
+                            style={({ pressed }) => [
+                                styles.action,
+                                pressed && styles.actionOnPress
+                            ]}
                         >
                             {item.icon}
                             <TextRegular
@@ -117,7 +120,7 @@ const UserActions = (props: UserActionsProps) => {
                             >
                                 {item.text}
                             </TextRegular>
-                        </TouchableOpacity>
+                        </Pressable>
                     )
                 })}
             </View>
