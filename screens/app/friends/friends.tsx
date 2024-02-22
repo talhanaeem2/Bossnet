@@ -10,6 +10,7 @@ import messages from "../../../constants/messages"
 import { RPH, RPW, RFS } from "../../../constants/utils"
 
 import UsersInterface from "./interfaces/usersInterface"
+import useSliceSelector from "../../../hooks/useSliceSelector"
 
 const imageSize = "thumb";
 const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/members";
@@ -20,10 +21,11 @@ const Friends = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(0)
+    const userId = useSliceSelector(state => state.auth.userId)
 
     const fetchData = useCallback(async (page: number) => {
         try {
-            const response = await axios.get(`${apiUrl}?page=${page}`);
+            const response = await axios.get(`${apiUrl}?user_id=${userId}&page=${page}`);
             setUsers((prevUsers => [...prevUsers, ...response.data]));
             setTotalPages(response.headers["x-wp-totalpages"]);
             setIsLoading(false)

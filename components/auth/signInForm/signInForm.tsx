@@ -18,7 +18,7 @@ import { RFS, RPH, RPW } from "../../../constants/utils";
 import Icons from "../../../constants/icons";
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
-import { login, setIsLoading } from "../../../reducers/auth/authSlice";
+import { login, setIsLoading, setUserId } from "../../../reducers/auth/authSlice";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import SignInFormInterface from "./interfaces/signInFormInterface";
@@ -67,6 +67,9 @@ const SignInForm = () => {
 
             const response = await axios.request(config);
             console.log(JSON.stringify(response.data));
+            const id = JSON.stringify(response.data.data.auth.id)
+
+            dispatch(setUserId(id))
 
             if (response.data && response.data.data.auth.jwt) {
                 const token = response.data.data.auth.jwt;
