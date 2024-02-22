@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 15,
         paddingHorizontal: 11,
-        paddingTop: 8,
+        paddingTop: 10,
         paddingBottom: 16,
         alignItems: "center",
         borderBottomWidth: 1,
@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
         paddingVertical: RPH(1),
         borderBottomWidth: 1,
         borderBottomColor: "#EBEFF2",
+        paddingTop: 10
     },
     backIcon: {
         paddingHorizontal: RPW(2)

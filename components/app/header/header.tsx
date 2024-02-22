@@ -43,7 +43,8 @@ export default Header
 const styles = StyleSheet.create({
     container: {
         paddingLeft: RPW(8),
-        paddingRight: RPW(5)
+        paddingRight: RPW(5),
+        paddingTop: 10
     },
     headingsContainer: {
         flexDirection: "row",
