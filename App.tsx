@@ -2,6 +2,7 @@ import * as Font from 'expo-font';
 import { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
+import { StatusBar } from "expo-status-bar";
 
 import WithAuthentication from './withAuthentication';
 
@@ -31,6 +32,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Provider store={store}>
+        <StatusBar style="dark" translucent={true} hidden={false} />
         <WithAuthentication />
       </Provider>
     </NavigationContainer>
