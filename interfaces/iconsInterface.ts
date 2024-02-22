@@ -50,6 +50,7 @@ interface IconsInterface {
     exportIcon: JSX.Element;
     arrowUpIcon: JSX.Element;
     delIcon: JSX.Element;
+    postIcon: JSX.Element;
 }
 
 export default IconsInterface

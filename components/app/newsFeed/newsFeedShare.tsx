@@ -1,13 +1,23 @@
-import { View, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard } from "react-native"
-import { useState } from "react"
+import { View, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard, Pressable } from "react-native"
+import { useCallback, useState } from "react"
 import * as ImagePicker from 'expo-image-picker'
 
 import Icons from "../../../constants/icons";
 import messages from "../../../constants/messages";
 import { RPW, RPH, RFS } from "../../../constants/utils";
 
+import useSliceSelector from "../../../hooks/useSliceSelector";
+import useReducerDispatch from "../../../hooks/useReducerDispatch";
+import { setCreatePostModal } from "../../../reducers/app/appSlice";
+
 const NewsFeedShare = () => {
     const [images, setImages] = useState<string[]>([]);
+    const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
+    const dispatch = useReducerDispatch();
+
+    const handleToggleCreatePostModal = useCallback(() => {
+        dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));
+    }, [isCreatePostModalVisible]);
 
     const handleImagePicker = async () => {
         let result: ImagePicker.ImagePickerResult;
@@ -31,7 +41,13 @@ const NewsFeedShare = () => {
                         <TouchableOpacity>
                             {Icons.userPlaceholderIcon}
                         </TouchableOpacity>
-                        <TextInput style={styles.input} placeholder={messages.newsfeedPlaceholder} />
+                        <Pressable onPress={handleToggleCreatePostModal}>
+                            <TextInput
+                                style={styles.input}
+                                placeholder={messages.newsfeedPlaceholder}
+                                editable={false}
+                            />
+                        </Pressable>
                         <TouchableOpacity onPress={() => handleImagePicker()}>
                             {Icons.uploadIcon}
                         </TouchableOpacity>
