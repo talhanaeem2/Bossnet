@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#385DFF",
         borderRadius: 50,
         paddingVertical: RPH(1.6),
-        paddingHorizontal: RPW(2.8)
+        paddingHorizontal: RPW(3.2)
     },
     newpostContainer: {
         position: "absolute",
