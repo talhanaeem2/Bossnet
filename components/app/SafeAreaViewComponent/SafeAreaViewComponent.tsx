@@ -1,17 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
+import Constants from "expo-constants";
 
 import SafeAreaViewInterface from './interfaces/SafeAreaViewInterface';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const SafeAreaViewComponent = ({ children }: SafeAreaViewInterface) => {
-    const insets = useSafeAreaInsets();
-
-    return (
-        <View style={{ flex: 1, paddingTop: insets.top }}>
-            {children}
-        </View>
-    );
-};
+const SafeAreaViewComponent = ({ children }: SafeAreaViewInterface) => (
+    <View style={{ flex: 1, paddingTop: Constants.statusBarHeight }}>
+        {children}
+    </View>
+);
 
 export default SafeAreaViewComponent;

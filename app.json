@@ -23,6 +23,12 @@
       }
     },
     "android": {
+      "androidStatusBar": {
+        "backgroundColor": "#ffffff",
+        "barStyle": "dark-content",
+        "translucent": true,
+        "hidden": false
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/splash.png",
         "backgroundColor": "#ffffff"
