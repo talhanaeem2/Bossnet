@@ -1,7 +1,5 @@
 import { memo, useCallback, useState } from "react"
 import { TouchableWithoutFeedback, View, TouchableOpacity, Image, StyleSheet } from "react-native"
-import { useNavigation } from "@react-navigation/native"
-import { StackNavigationProp } from "@react-navigation/stack"
 
 import PostDotMenu from "../postDotMenu/postDotMenu"
 import ReadMore from "../readMoreText/readMoreText"
@@ -16,13 +14,10 @@ import { setImageFullScreenModal } from "../../../reducers/app/appSlice"
 import useSliceSelector from "../../../hooks/useSliceSelector"
 
 import ResponseItemInterface from "./interfaces/responseItemInterface"
-import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
 import NewsFeedItemProps from "./interfaces/newsFeedItemProps"
 
 const NewsFeedItem = (props: NewsFeedItemProps) => {
     const { item, index, activeIndex, setActiveIndex } = props
-
-    const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const [newsFeedPosts, setNewsFeedPosts] = useState<ResponseItemInterface[]>([])
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
     const dispatch = useReducerDispatch();
@@ -44,14 +39,25 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
     }, []);
 
     const handleLongPress = useCallback((index: number) => {
+        console.log('Long press triggered for item at index:', index);
         setNewsFeedPosts(prevState => {
             if (prevState) {
-                return prevState.map((post, i) => ({
-                    ...post,
-                    showOverlay: i === index
-                }));
+                console.log(prevState)
+                const updatedPosts = prevState.map((post, i) => {
+                    console.log(i, index)
+                    if (i === index) {
+                        console.log('Toggling showOverlay for item at index:', index);
+                        return {
+                            ...post,
+                            showOverlay: !post.showOverlay
+                        };
+                    }
+                    return post;
+                });
+                console.log('Updated newsFeedPosts:', updatedPosts);
+                return updatedPosts;
             }
-            return []
+            return [];
         });
     }, [newsFeedPosts]);
 
@@ -69,7 +75,7 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
                     <PostDotMenu activeIndex={activeIndex} index={index} onMenuPress={setActiveIndex} />
                 </View>
                 <View style={styles.post}>
-                    <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>
+                    <TouchableOpacity>
                         <View style={styles.circle}>
                             <Image style={styles.roundImg} source={{ uri: (item.user_avatar)["thumb"] }} />
                         </View>

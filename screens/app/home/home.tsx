@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native"
-import { memo, useCallback } from "react";
-import { Path, Svg } from "react-native-svg";
+import { memo, useCallback, useState } from "react";
+import * as ImagePicker from 'expo-image-picker'
 
 import Header from "../../../components/app/header/header";
 import Footer from "../../../components/app/footer/footer";
@@ -21,16 +21,52 @@ const { height } = Dimensions.get("window");
 const Home = () => {
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
+    const [images, setImages] = useState<string[]>([]);
+    console.log('home', images)
 
     const handleToggleCreatePostModal = useCallback(() => {
         dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));
     }, [isCreatePostModalVisible]);
 
+    const handleImagePicker = useCallback(async (action: 'gallery' | 'camera' | 'giphy') => {
+        let result: ImagePicker.ImagePickerResult;
+        if (action === 'gallery') {
+            result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                aspect: [1, 1],
+                quality: 1,
+                allowsMultipleSelection: true
+            });
+            if (!result.canceled) {
+                const selectedImages = result.assets.map((asset) => asset.uri);
+                setImages((prevImages) => [...prevImages, ...selectedImages]);
+            }
+
+        } else if (action === 'camera') {
+            result = await ImagePicker.launchCameraAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 1,
+            });
+            if (!result.canceled) {
+                const selectedImages = result.assets.map((asset) => asset.uri);
+                setImages((prevImages) => [...prevImages, ...selectedImages]);
+            }
+        }
+    }, [])
+
+    const removeImage = useCallback((index: number) => {
+        const newImages = [...images];
+        newImages.splice(index, 1);
+        setImages(newImages);
+    }, [images])
+
     return (
         <SafeAreaViewComponent>
             <View style={styles.container}>
                 <Header />
-                <NewsFeedShare />
+                <NewsFeedShare handleImagePicker={handleImagePicker} />
                 <NewsFeed />
                 <View style={styles.newpostContainer}>
                     <TouchableOpacity style={styles.newPostBtn} onPress={handleToggleCreatePostModal}>
@@ -38,7 +74,10 @@ const Home = () => {
                     </TouchableOpacity>
                 </View>
                 {isCreatePostModalVisible && (
-                    <CreatePostModal />
+                    <CreatePostModal
+                        images={images}
+                        handleImagePicker={handleImagePicker}
+                        removeImage={removeImage} />
                 )}
                 <View style={styles.footer}>
                     <Footer />

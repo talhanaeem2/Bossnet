@@ -1,6 +1,5 @@
 import { View, StyleSheet, TouchableOpacity, TextInput, Animated, Image, ScrollView, PanResponder } from "react-native"
-import { useState } from "react"
-import * as ImagePicker from 'expo-image-picker'
+import { memo, useCallback, useState } from "react"
 import { Path } from "react-native-svg"
 
 import IconContainer from "../../../components/app/iconContainer/iconContainer"
@@ -23,8 +22,9 @@ import CreatePostProps from "./interfaces/createPostProps"
 
 // GiphySDK.configure({ apiKey: giphyAPIKey })
 
-const CreatePost = ({ closeModal }: CreatePostProps) => {
-    const [images, setImages] = useState<string[]>([]);
+const CreatePost = (props: CreatePostProps) => {
+    const { closeModal, images, removeImage, handleImagePicker } = props
+
     // const [searchQuery, setSearchQuery] = useState<string>('')
     // const [media, setMedia] = useState<GiphyMedia | null>(null)
 
@@ -38,40 +38,6 @@ const CreatePost = ({ closeModal }: CreatePostProps) => {
             },
         })
     );
-
-    const handleImagePicker = async (action: 'gallery' | 'camera' | 'giphy') => {
-        let result: ImagePicker.ImagePickerResult;
-        if (action === 'gallery') {
-            result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                aspect: [1, 1],
-                quality: 1,
-                allowsMultipleSelection: true
-            });
-            if (!result.canceled) {
-                const selectedImages = result.assets.map((asset) => asset.uri);
-                setImages((prevImages) => [...prevImages, ...selectedImages]);
-            }
-
-        } else if (action === 'camera') {
-            result = await ImagePicker.launchCameraAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: true,
-                aspect: [1, 1],
-                quality: 1,
-            });
-            if (!result.canceled) {
-                const selectedImages = result.assets.map((asset) => asset.uri);
-                setImages((prevImages) => [...prevImages, ...selectedImages]);
-            }
-        }
-    }
-
-    const removeImage = (index: number) => {
-        const newImages = [...images];
-        newImages.splice(index, 1);
-        setImages(newImages);
-    };
 
     return (
         <Animated.View {...panResponder.panHandlers} style={styles.container}>
@@ -178,7 +144,7 @@ const CreatePost = ({ closeModal }: CreatePostProps) => {
     )
 }
 
-export default CreatePost
+export default memo(CreatePost)
 
 
 const styles = StyleSheet.create({

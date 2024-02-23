@@ -8,7 +8,10 @@ import useSliceSelector from "../../hooks/useSliceSelector";
 import useReducerDispatch from "../../hooks/useReducerDispatch";
 import { setCreatePostModal } from "../../reducers/app/appSlice";
 
-const CreatePostModal = () => {
+import CreatePostModalProps from "./interfaces/createPostModalProps";
+
+const CreatePostModal = (props: CreatePostModalProps) => {
+    const { images, removeImage, handleImagePicker } = props
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
 
@@ -33,7 +36,12 @@ const CreatePostModal = () => {
                     tint="dark"
                     style={StyleSheet.absoluteFill}
                 >
-                    <CreatePost closeModal={closeModal} />
+                    <CreatePost
+                        closeModal={closeModal}
+                        images={images}
+                        handleImagePicker={handleImagePicker}
+                        removeImage={removeImage}
+                    />
                 </BlurView>
             </TouchableWithoutFeedback>
         </Modal>

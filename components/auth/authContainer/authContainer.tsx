@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         flex: 1,
         marginHorizontal: RPW(6.5),
         marginBottom: RPH(6.5),
-        marginTop: RPH(1.2),
+        marginTop: RPH(4),
         borderRadius: 20,
         paddingHorizontal: RPW(10),
         paddingVertical: RPH(4)

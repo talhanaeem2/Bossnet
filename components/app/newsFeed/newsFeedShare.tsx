@@ -1,6 +1,7 @@
 import { View, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard, Pressable } from "react-native"
-import { useCallback, useState } from "react"
-import * as ImagePicker from 'expo-image-picker'
+import { useCallback } from "react"
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 
 import Icons from "../../../constants/icons";
 import messages from "../../../constants/messages";
@@ -10,8 +11,12 @@ import useSliceSelector from "../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { setCreatePostModal } from "../../../reducers/app/appSlice";
 
-const NewsFeedShare = () => {
-    const [images, setImages] = useState<string[]>([]);
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
+import NewsFeedShareProps from "./interfaces/newsFeedShareProps";
+
+const NewsFeedShare = (props: NewsFeedShareProps) => {
+    const { handleImagePicker } = props
+    const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
 
@@ -19,26 +24,17 @@ const NewsFeedShare = () => {
         dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));
     }, [isCreatePostModalVisible]);
 
-    const handleImagePicker = async () => {
-        let result: ImagePicker.ImagePickerResult;
-        result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            aspect: [4, 3],
-            quality: 1,
-            allowsMultipleSelection: true
-        });
-        if (!result.canceled) {
-            const selectedImages = result.assets.map((asset) => asset.uri);
-            setImages((prevImages) => [...prevImages, ...selectedImages]);
-        }
-    }
+    const handleOpenGallery = useCallback(() => {
+        dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));
+        handleImagePicker('gallery')
+    }, [])
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View>
                     <View style={styles.shareContainer}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>
                             {Icons.userPlaceholderIcon}
                         </TouchableOpacity>
                         <Pressable onPress={handleToggleCreatePostModal}>
@@ -48,7 +44,7 @@ const NewsFeedShare = () => {
                                 editable={false}
                             />
                         </Pressable>
-                        <TouchableOpacity onPress={() => handleImagePicker()}>
+                        <TouchableOpacity onPress={handleOpenGallery}>
                             {Icons.uploadIcon}
                         </TouchableOpacity>
                     </View>

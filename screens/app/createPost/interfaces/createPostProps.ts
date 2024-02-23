@@ -1,3 +1,5 @@
-export default interface CreatePostProps {
+import CreatePostModalProps from "../../../../modals/createPostModal/interfaces/createPostModalProps";
+
+export default interface CreatePostProps extends CreatePostModalProps {
     closeModal: () => void;
 }
