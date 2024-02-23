@@ -48,6 +48,22 @@ const SignInForm = () => {
         }
     };
 
+    const loadStoredCredentials = async () => {
+        try {
+            const storedUserData = await AsyncStorage.getItem("userData");
+
+            if (storedUserData) {
+                const userData = JSON.parse(storedUserData);
+                formik.setFieldValue('username', userData.username);
+                formik.setFieldValue('password', userData.password);
+
+                handleSignIn(userData)
+            }
+        } catch (error) {
+            console.error("Error loading stored credentials:", error);
+        }
+    };
+
     const handleSignIn = async (values: SignInFormInterface) => {
         try {
             let data = JSON.stringify({
@@ -84,13 +100,6 @@ const SignInForm = () => {
         }
     };
 
-    useEffect(() => {
-        if (params != undefined && params.prefillUsername && params.prefillPassword) {
-            handleSignIn({ username: params.prefillUsername, password: params.prefillPassword });
-            handleRememberMe(params.prefillUsername, params.prefillPassword);
-        }
-    }, [params]);
-
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -102,20 +111,13 @@ const SignInForm = () => {
     });
 
     useEffect(() => {
-        const loadStoredCredentials = async () => {
-            try {
-                const storedUserData = await AsyncStorage.getItem("userData");
+        if (params != undefined && params.prefillUsername && params.prefillPassword) {
+            handleSignIn({ username: params.prefillUsername, password: params.prefillPassword });
+            handleRememberMe(params.prefillUsername, params.prefillPassword);
+        }
+    }, [params]);
 
-                if (storedUserData) {
-                    const userData = JSON.parse(storedUserData);
-                    formik.setFieldValue('username', userData.username);
-                    formik.setFieldValue('password', userData.password);
-                }
-            } catch (error) {
-                console.error("Error loading stored credentials:", error);
-            }
-        };
-
+    useEffect(() => {
         loadStoredCredentials();
     }, []);
 
