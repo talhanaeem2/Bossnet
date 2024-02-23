@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react"
+import { SetStateAction, memo, useCallback } from "react"
 import { TouchableWithoutFeedback, View, TouchableOpacity, Image, StyleSheet } from "react-native"
 
 import PostDotMenu from "../postDotMenu/postDotMenu"
@@ -107,7 +107,11 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
                     </View>
                 )}
                 <View style={!item.bp_media_ids ? { paddingTop: RPH(1) } : { paddingTop: RPH(1.2) }}>
-                    <UserActions showOverlay={item.showOverlay} onLongPress={() => handleLongPress(index)} />
+                    <UserActions
+                        showOverlay={item.showOverlay}
+                        onLongPress={() => handleLongPress(index)}
+                        closeOverlay={handleCloseOverlay}
+                    />
                 </View>
             </View>
         </TouchableWithoutFeedback>

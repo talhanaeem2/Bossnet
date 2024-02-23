@@ -15,9 +15,15 @@ import useReducerDispatch from "../../../hooks/useReducerDispatch"
 import { setCommentModal } from "../../../reducers/app/appSlice"
 
 const UserActions = (props: UserActionsProps) => {
-    const { onLongPress, showOverlay } = props
+    const { onLongPress, showOverlay, closeOverlay } = props
     const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible)
     const dispatch = useReducerDispatch()
+
+    const handleAction = (actionType: string) => {
+        if (actionType === 'like' || actionType === 'love' || actionType === 'sad' || actionType === 'shock' || actionType === 'laugh' || actionType === 'angry') {
+            closeOverlay();
+        }
+    };
 
     const handleLike = () => {
         console.log('Liked!');
@@ -30,26 +36,6 @@ const UserActions = (props: UserActionsProps) => {
 
     const handleShare = () => {
         console.log('Shared!');
-    }
-
-    const handleLove = () => {
-        console.log('Love!');
-    }
-
-    const handleSad = () => {
-        console.log('Sad!');
-    }
-
-    const handleShock = () => {
-        console.log('Shock!');
-    }
-
-    const handleLaugh = () => {
-        console.log('Laugh!');
-    }
-
-    const handleAngry = () => {
-        console.log('Angry!');
     }
 
     const userActions: UserActionsInterface[] = [
@@ -74,27 +60,27 @@ const UserActions = (props: UserActionsProps) => {
     const overlayActions: OverlayActionsInterface[] = [
         {
             icon: require("../../../assets/icons/like.gif"),
-            onPress: handleLike
+            onPress: () => handleAction('like')
         },
         {
             icon: require("../../../assets/icons/love.gif"),
-            onPress: handleLove
+            onPress: () => handleAction('love')
         },
         {
             icon: require("../../../assets/icons/sad.gif"),
-            onPress: handleSad
+            onPress: () => handleAction('sad')
         },
         {
             icon: require("../../../assets/icons/shocked.gif"),
-            onPress: handleShock
+            onPress: () => handleAction('shock')
         },
         {
             icon: require("../../../assets/icons/laugh.gif"),
-            onPress: handleLaugh
+            onPress: () => handleAction('laugh')
         },
         {
             icon: require("../../../assets/icons/angry.gif"),
-            onPress: handleAngry
+            onPress: () => handleAction('angry')
         }
     ];
 
@@ -175,18 +161,17 @@ const styles = StyleSheet.create({
     },
     overlayContainer: {
         position: "absolute",
-        top: -52,
+        top: -46,
         paddingHorizontal: 12,
         paddingBottom: 8,
         paddingTop: 6,
         borderRadius: 16,
-        left: RPW(12.8),
-        backgroundColor: '#fff',
-        justifyContent: "space-evenly",
+        left: RPW(16),
+        backgroundColor: '#fefefe',
         alignItems: 'center',
         flexDirection: "row",
-        gap: 8,
-        borderColor: "rgba(0, 0, 0, 0.26)",
+        gap: 10,
+        borderColor: "#eee",
         borderWidth: 1
     }
 })
