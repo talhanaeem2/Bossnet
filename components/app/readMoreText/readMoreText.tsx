@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { memo, useRef, useState } from 'react';
 import { Text, TouchableOpacity, StyleSheet, View, TextLayoutEventData } from 'react-native';
 
 import TextRegular from '../textComponent/textRegular/textRegular';
@@ -43,6 +43,8 @@ const ReadMore = ({ text, numberOfLines = 2 }: ReadMoreProps) => {
     );
 };
 
+export default memo(ReadMore);
+
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
@@ -56,5 +58,3 @@ const styles = StyleSheet.create({
         lineHeight: RLH(RFS(13), 1.3)
     }
 });
-
-export default ReadMore;

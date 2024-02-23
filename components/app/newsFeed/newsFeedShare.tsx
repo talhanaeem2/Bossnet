@@ -1,5 +1,5 @@
 import { View, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard, Pressable } from "react-native"
-import { useCallback } from "react"
+import { memo, useCallback } from "react"
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 
@@ -54,7 +54,7 @@ const NewsFeedShare = (props: NewsFeedShareProps) => {
     )
 }
 
-export default NewsFeedShare
+export default memo(NewsFeedShare)
 
 const styles = StyleSheet.create({
     shareContainer: {

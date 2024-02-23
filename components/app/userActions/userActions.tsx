@@ -1,4 +1,5 @@
 import { View, StyleSheet, TouchableOpacity, Image, Pressable } from "react-native"
+import { memo } from "react";
 
 import TextRegular from "../textComponent/textRegular/textRegular";
 
@@ -126,7 +127,7 @@ const UserActions = (props: UserActionsProps) => {
     )
 }
 
-export default UserActions
+export default memo(UserActions)
 
 const styles = StyleSheet.create({
     overlayImg: {

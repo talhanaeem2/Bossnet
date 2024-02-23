@@ -1,5 +1,5 @@
 import { View, StyleSheet, TouchableOpacity } from "react-native"
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 
 import TextRegular from "../textComponent/textRegular/textRegular";
 
@@ -68,7 +68,7 @@ const PostDotMenu = (props: PostDotMenuProps) => {
     );
 };
 
-export default PostDotMenu;
+export default memo(PostDotMenu);
 
 const styles = StyleSheet.create({
     container: {
