@@ -55,6 +55,8 @@ const NewsFeed = () => {
                         setActiveIndex={setActiveIndex}
                         item={item}
                         index={index}
+                        newsFeedPosts={newsFeedPosts}
+                        setNewsFeedPosts={setNewsFeedPosts}
                     />
                 }
                 keyExtractor={(item, index) => `${item.id}_${index}`}

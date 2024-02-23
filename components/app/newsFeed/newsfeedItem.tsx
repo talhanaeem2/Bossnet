@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react"
+import { memo, useCallback } from "react"
 import { TouchableWithoutFeedback, View, TouchableOpacity, Image, StyleSheet } from "react-native"
 
 import PostDotMenu from "../postDotMenu/postDotMenu"
@@ -13,21 +13,20 @@ import useReducerDispatch from "../../../hooks/useReducerDispatch"
 import { setImageFullScreenModal } from "../../../reducers/app/appSlice"
 import useSliceSelector from "../../../hooks/useSliceSelector"
 
-import ResponseItemInterface from "./interfaces/responseItemInterface"
 import NewsFeedItemProps from "./interfaces/newsFeedItemProps"
+import ResponseItemInterface from "./interfaces/responseItemInterface"
 
 const NewsFeedItem = (props: NewsFeedItemProps) => {
-    const { item, index, activeIndex, setActiveIndex } = props
-    const [newsFeedPosts, setNewsFeedPosts] = useState<ResponseItemInterface[]>([])
+    const { item, index, activeIndex, setActiveIndex, newsFeedPosts, setNewsFeedPosts } = props
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
     const dispatch = useReducerDispatch();
 
-    const handleCloseOverlay = useCallback((index: number) => {
+    const handleCloseOverlay = useCallback(() => {
         setNewsFeedPosts(prevState => {
             if (prevState) {
                 return prevState.map((post, i) => ({
                     ...post,
-                    showOverlay: i === index ? false : post.showOverlay
+                    showOverlay: false
                 }));
             }
             return []
@@ -38,27 +37,22 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
         dispatch(setImageFullScreenModal({ isVisible: !isImageFullScreenModalVisible, uri }))
     }, []);
 
-    const handleLongPress = useCallback((index: number) => {
-        console.log('Long press triggered for item at index:', index);
-        setNewsFeedPosts(prevState => {
-            if (prevState) {
-                console.log(prevState)
-                const updatedPosts = prevState.map((post, i) => {
-                    console.log(i, index)
-                    if (i === index) {
-                        console.log('Toggling showOverlay for item at index:', index);
-                        return {
-                            ...post,
-                            showOverlay: !post.showOverlay
-                        };
-                    }
-                    return post;
-                });
-                console.log('Updated newsFeedPosts:', updatedPosts);
-                return updatedPosts;
+    const toggleShowOverlay = useCallback((prevState: ResponseItemInterface[], index: number) => {
+        if (!prevState) return [];
+
+        const updatedPosts = prevState.map((post, i) => {
+            if (i !== index) {
+                return { ...post, showOverlay: false };
+            } else {
+                return { ...post, showOverlay: !post.showOverlay };
             }
-            return [];
         });
+
+        return updatedPosts;
+    }, []);
+
+    const handleLongPress = useCallback((index: number) => {
+        setNewsFeedPosts(prevState => toggleShowOverlay(prevState, index));
     }, [newsFeedPosts]);
 
     const title = item.title;
@@ -69,7 +63,7 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
     const imageUris = item.bp_media_ids?.map((media) => media.attachment_data?.full).filter(uri => uri);
 
     return (
-        <TouchableWithoutFeedback onPress={() => handleCloseOverlay(index)}>
+        <TouchableWithoutFeedback onPress={() => handleCloseOverlay()}>
             <View style={styles.postContainer}>
                 <View style={styles.dotsContainer}>
                     <PostDotMenu activeIndex={activeIndex} index={index} onMenuPress={setActiveIndex} />
