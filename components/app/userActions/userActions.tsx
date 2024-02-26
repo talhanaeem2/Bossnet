@@ -60,27 +60,27 @@ const UserActions = (props: UserActionsProps) => {
 
     const overlayActions: OverlayActionsInterface[] = [
         {
-            icon: require("../../../assets/icons/like.gif"),
+            icon: require("../../../assets/icons/like.png"),
             onPress: () => handleAction('like')
         },
         {
-            icon: require("../../../assets/icons/love.gif"),
+            icon: require("../../../assets/icons/love.png"),
             onPress: () => handleAction('love')
         },
         {
-            icon: require("../../../assets/icons/sad.gif"),
+            icon: require("../../../assets/icons/sad.png"),
             onPress: () => handleAction('sad')
         },
         {
-            icon: require("../../../assets/icons/shocked.gif"),
+            icon: require("../../../assets/icons/shock.png"),
             onPress: () => handleAction('shock')
         },
         {
-            icon: require("../../../assets/icons/laugh.gif"),
+            icon: require("../../../assets/icons/laugh.png"),
             onPress: () => handleAction('laugh')
         },
         {
-            icon: require("../../../assets/icons/angry.gif"),
+            icon: require("../../../assets/icons/angry.png"),
             onPress: () => handleAction('angry')
         }
     ];

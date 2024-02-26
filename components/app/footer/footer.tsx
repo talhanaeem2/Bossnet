@@ -79,12 +79,13 @@ const styles = StyleSheet.create({
     },
     notificationActive: {
         backgroundColor: "#FF0202",
-        width: 8,
-        height: 8,
+        width: 10,
+        height: 10,
         borderRadius: 25,
         justifyContent: "center",
         alignItems: "center",
         position: "absolute",
-        right: RPW(3)
+        right: RPW(3.2),
+        top: RPH(-.6)
     }
 })
