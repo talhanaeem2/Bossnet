@@ -32,22 +32,20 @@ const NewsFeedShare = (props: NewsFeedShareProps) => {
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View>
-                    <View style={styles.shareContainer}>
-                        <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>
-                            {Icons.userPlaceholderIcon}
-                        </TouchableOpacity>
-                        <Pressable onPress={handleToggleCreatePostModal}>
-                            <TextInput
-                                style={styles.input}
-                                placeholder={messages.newsfeedPlaceholder}
-                                editable={false}
-                            />
-                        </Pressable>
-                        <TouchableOpacity onPress={handleOpenGallery}>
-                            {Icons.uploadIcon}
-                        </TouchableOpacity>
-                    </View>
+                <View style={styles.shareContainer}>
+                    <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>
+                        {Icons.userPlaceholderIcon}
+                    </TouchableOpacity>
+                    <Pressable onPress={handleToggleCreatePostModal}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder={messages.newsfeedPlaceholder}
+                            editable={false}
+                        />
+                    </Pressable>
+                    <TouchableOpacity onPress={handleOpenGallery}>
+                        {Icons.uploadIcon}
+                    </TouchableOpacity>
                 </View>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -61,7 +59,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         paddingHorizontal: RPW(5),
-        paddingVertical: RPH(2.5),
+        paddingBottom: RPH(2),
         width: "100%",
         alignItems: "center"
     },

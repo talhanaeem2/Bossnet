@@ -1,4 +1,4 @@
-import { SetStateAction, memo, useCallback } from "react"
+import { memo, useCallback } from "react"
 import { TouchableWithoutFeedback, View, TouchableOpacity, Image, StyleSheet } from "react-native"
 
 import PostDotMenu from "../postDotMenu/postDotMenu"
@@ -33,9 +33,10 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
         });
     }, [newsFeedPosts])
 
-    const toggleModal = useCallback((uri: string) => {
-        dispatch(setImageFullScreenModal({ isVisible: !isImageFullScreenModalVisible, uri }))
-    }, []);
+    const toggleModal = useCallback((startIndex: number) => {
+        const allUris = item.bp_media_ids?.map((media) => media.attachment_data?.full).filter(uri => uri) || [];
+        dispatch(setImageFullScreenModal({ isVisible: !isImageFullScreenModalVisible, uris: allUris, startIndex }))
+    }, [dispatch, isImageFullScreenModalVisible, item.bp_media_ids]);
 
     const toggleShowOverlay = useCallback((prevState: ResponseItemInterface[], index: number) => {
         if (!prevState) return [];
@@ -91,9 +92,9 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
                     </View>
                 )}
                 {imageUris && imageUris.length > 0 && (
-                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: "center" }}>
+                    <View style={styles.imagesContainer}>
                         {imageUris.map((uri, i) => (
-                            <TouchableWithoutFeedback key={i} onPress={() => toggleModal(uri)}>
+                            <TouchableWithoutFeedback key={i} onPress={() => toggleModal(i)}>
                                 <Image
                                     source={{ uri: uri }}
                                     style={{
@@ -126,17 +127,20 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
     },
+    imagesContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: "center"
+    },
     roundImg: {
         borderRadius: 50,
         width: "100%",
         objectFit: "contain",
-        height: RPH(5.5)
+        height: RPH(5.6)
     },
     readmoreContainer: {
         paddingRight: RPW(5),
-        paddingLeft: 30,
-        paddingTop: RPH(.6),
-        marginBottom: RPH(1.8)
+        paddingLeft: 30
     },
     dotsContainer: {
         position: "absolute",
@@ -150,7 +154,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         paddingVertical: RPH(2.3),
         position: "relative",
-        borderLeftWidth: 0
+        borderLeftWidth: 0,
+        gap: 10
     },
     postTextContainer: {
         flexDirection: "row",
@@ -164,7 +169,6 @@ const styles = StyleSheet.create({
     textContainer: {
         justifyContent: "center",
         paddingLeft: RPW(2.5),
-        paddingBottom: RPH(1.8),
         flex: 1
     },
 })

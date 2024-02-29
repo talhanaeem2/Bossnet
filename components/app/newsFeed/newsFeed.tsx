@@ -5,16 +5,19 @@ import axios from "axios"
 import ImageFullScreenModal from "../../../modals/imageFullScreenModal/imageFullScreenModal"
 import CommmentModal from "../../../modals/commentModal/commentModal"
 import NewsFeedItem from "./newsfeedItem"
+import NewsFeedShare from "./newsFeedShare"
 
 import { RPH, RPW } from "../../../constants/utils"
 
 import ResponseItemInterface from "./interfaces/responseItemInterface"
+import NewsFeedProps from "./interfaces/newsFeedShareProps"
 
 import useSliceSelector from "../../../hooks/useSliceSelector"
 
 const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/activity";
 
-const NewsFeed = () => {
+const NewsFeed = (props: NewsFeedProps) => {
+    const { handleImagePicker } = props
     const [newsFeedPosts, setNewsFeedPosts] = useState<ResponseItemInterface[]>([])
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
     const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible)
@@ -62,6 +65,7 @@ const NewsFeed = () => {
                 keyExtractor={(item, index) => `${item.id}_${index}`}
                 onEndReached={loadMorePosts}
                 onEndReachedThreshold={0.5}
+                ListHeaderComponent={<NewsFeedShare handleImagePicker={handleImagePicker} />}
             />
             {!!isCommentModalVisible && <CommmentModal />}
             {!!isImageFullScreenModalVisible && <ImageFullScreenModal />}

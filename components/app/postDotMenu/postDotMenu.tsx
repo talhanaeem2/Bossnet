@@ -11,7 +11,6 @@ import PostDotMenuProps from "./interfaces/postDotMenuProps";
 
 const PostDotMenu = (props: PostDotMenuProps) => {
     const { activeIndex, onMenuPress, index } = props
-
     const [isMenuVisible, setMenuVisible] = useState(false);
 
     useEffect(() => {

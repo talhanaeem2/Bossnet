@@ -36,3 +36,9 @@ export const truncateText = (str: string, maxLength: number) => {
 export const stripHtmlTags = (htmlString: string) => {
     return htmlString.replace(/<[^>]*>/g, '');
 };
+
+//Letter Spacing
+export const RLS = (fontSize: number) => {
+    const scaleFactor = 0.05;
+    return fontSize * scaleFactor;
+};

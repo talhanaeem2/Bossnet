@@ -1,5 +1,5 @@
 import { View, StyleSheet, TouchableOpacity, TextInput, Animated, Image, ScrollView, PanResponder } from "react-native"
-import { memo, useCallback, useState } from "react"
+import { memo, useState } from "react"
 import { Path } from "react-native-svg"
 
 import IconContainer from "../../../components/app/iconContainer/iconContainer"
@@ -28,27 +28,14 @@ const CreatePost = (props: CreatePostProps) => {
     // const [searchQuery, setSearchQuery] = useState<string>('')
     // const [media, setMedia] = useState<GiphyMedia | null>(null)
 
-    const [panResponder] = useState(
-        PanResponder.create({
-            onMoveShouldSetPanResponder: (_, gestureState) => gestureState.dy > 100,
-            onPanResponderRelease: (_, gestureState) => {
-                if (gestureState.dy > 1) {
-                    closeModal();
-                }
-            },
-        })
-    );
-
     return (
-        <Animated.View {...panResponder.panHandlers} style={styles.container}>
+        <View style={styles.container}>
             <View style={styles.header}>
-                <TextBold fontSize={13} style={styles.text}>
+                <TextBold fontSize={18}>
                     {messages.createPost}
                 </TextBold>
-                <TouchableOpacity style={styles.btn}>
-                    <TextBold fontSize={10} color="#fff">
-                        {messages.postBtn}
-                    </TextBold>
+                <TouchableOpacity onPress={() => closeModal()}>
+                    {Icons.crossIcon}
                 </TouchableOpacity>
             </View>
             <View style={styles.body}>
@@ -86,11 +73,11 @@ const CreatePost = (props: CreatePostProps) => {
                     {Icons.emojiIcon}
                 </TouchableOpacity>
             </View>
-            <View style={styles.arrowUp}>
-                <TouchableOpacity onPress={closeModal}>
-                    {Icons.arrowUpIcon}
-                </TouchableOpacity>
-            </View>
+            <TouchableOpacity style={styles.btn}>
+                <TextBold fontSize={16} color="#fff">
+                    {messages.postBtn}
+                </TextBold>
+            </TouchableOpacity>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 {images && images.map((uri, index) => (
                     <View key={index} style={styles.uploadedImageContainer}>
@@ -140,7 +127,7 @@ const CreatePost = (props: CreatePostProps) => {
                     </ScrollView>
                 )}
             </SafeAreaView> */}
-        </Animated.View>
+        </View>
     )
 }
 
@@ -180,13 +167,11 @@ const styles = StyleSheet.create({
     header: {
         borderBottomWidth: 1,
         borderBottomColor: "#EBEFF2",
-        paddingBottom: RPH(.6),
+        paddingBottom: RPH(.8),
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "center"
-    },
-    text: {
-        paddingLeft: RPW(4)
+        alignItems: "center",
+        paddingHorizontal: RPW(4)
     },
     input: {
         color: "rgba(118, 118, 118, 0.77)",
@@ -195,15 +180,17 @@ const styles = StyleSheet.create({
         fontWeight: "400"
     },
     btn: {
-        backgroundColor: "#385DFF",
+        backgroundColor: "#308AFF",
         borderRadius: 12,
-        marginRight: RPW(4),
-        paddingHorizontal: RPW(2.6),
-        paddingVertical: RPH(.6)
+        marginHorizontal: RPW(8),
+        paddingHorizontal: RPW(2),
+        paddingVertical: RPH(1.2),
+        marginTop: RPH(1.4),
+        alignItems: "center"
     },
     body: {
         paddingHorizontal: RPW(3.8),
-        paddingVertical: RPH(.8)
+        paddingVertical: RPH(1)
     },
     content: {
         flexDirection: "row",
@@ -218,10 +205,5 @@ const styles = StyleSheet.create({
         borderBottomColor: "#EBEFF2",
         paddingBottom: RPH(.6),
         justifyContent: "center"
-    },
-    arrowUp: {
-        alignItems: "center",
-        paddingVertical: RPH(1.4),
-        paddingHorizontal: RPW(4)
     }
 })

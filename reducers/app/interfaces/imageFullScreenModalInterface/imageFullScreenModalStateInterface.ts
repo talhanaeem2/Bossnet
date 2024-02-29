@@ -1,4 +1,5 @@
 export default interface ImageFullScreenModalStateInterface {
     isVisible: boolean;
-    imageUri: string | undefined;
+    imageUris?: string[];
+    startIndex?: number;
 }

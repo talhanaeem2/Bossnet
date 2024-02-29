@@ -28,7 +28,7 @@ const Footer = () => {
                     >
                         {index === 3 &&
                             <View style={styles.notificationActive}>
-                                <TextBold fontSize={6} color="#fff">
+                                <TextBold fontSize={10} color="#fff">
                                     99
                                 </TextBold>
                             </View>
@@ -49,8 +49,6 @@ export default Footer
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        gap: RPW(6),
-        paddingHorizontal: RPW(2.7),
         paddingTop: RPH(2),
         backgroundColor: '#FFF',
         shadowColor: 'rgba(0, 0, 0, 0.25)',
@@ -75,17 +73,19 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flex: 1,
-        alignItems: "center"
+        alignItems: "center",
+        gap: 2
     },
     notificationActive: {
         backgroundColor: "#FF0202",
-        width: 10,
-        height: 10,
+        width: 15,
+        height: 15,
         borderRadius: 25,
         justifyContent: "center",
         alignItems: "center",
         position: "absolute",
-        right: RPW(3.2),
-        top: RPH(-.6)
+        right: RPW(6.4),
+        top: RPH(-.8),
+        zIndex: 99
     }
 })

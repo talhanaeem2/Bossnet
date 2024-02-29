@@ -4,7 +4,7 @@ import { Text, TouchableOpacity, StyleSheet, View, TextLayoutEventData } from 'r
 import TextRegular from '../textComponent/textRegular/textRegular';
 
 import messages from '../../../constants/messages';
-import { RFS, RLH } from '../../../constants/utils';
+import { RFS, RLH, RLS, RPH } from '../../../constants/utils';
 
 import ReadMoreProps from './interfaces/ReadMoreProps';
 
@@ -51,10 +51,11 @@ const styles = StyleSheet.create({
         flexWrap: "wrap"
     },
     text: {
-        fontSize: RFS(13),
+        fontSize: RFS(14),
         color: '#5F6373',
         fontFamily: "Lato-Regular",
         fontWeight: "400",
-        lineHeight: RLH(RFS(13), 1.3)
+        lineHeight: RLH(RFS(14), 1.3),
+        letterSpacing: RLS(RFS(14))
     }
 });

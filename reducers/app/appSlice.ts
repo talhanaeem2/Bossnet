@@ -11,7 +11,8 @@ const initialState: AppStateInterface = {
     },
     imageFullScreeenModal: {
         isVisible: false,
-        imageUri: undefined
+        imageUris: [],
+        startIndex: 0
     },
     commentModal: {
         isVisible: false
@@ -27,9 +28,10 @@ const appSlice = createSlice({
             state.createPostModal.isVisible = isVisible
         },
         setImageFullScreenModal(state, action: PayloadAction<ImageFullScreenModalPayload>) {
-            const { isVisible, uri } = action.payload
+            const { isVisible, uris, startIndex } = action.payload
             state.imageFullScreeenModal.isVisible = isVisible,
-                state.imageFullScreeenModal.imageUri = uri
+                state.imageFullScreeenModal.imageUris = uris,
+                state.imageFullScreeenModal.startIndex = startIndex
         },
         setCommentModal(state, action: PayloadAction<CommentModalPayload>) {
             const { isVisible } = action.payload

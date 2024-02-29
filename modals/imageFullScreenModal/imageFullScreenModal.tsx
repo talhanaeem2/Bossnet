@@ -1,14 +1,20 @@
-import { Modal, View, TouchableWithoutFeedback, Image, StyleSheet, Animated } from "react-native";
+import { Modal, View, Image, StyleSheet, Animated, ScrollView, Dimensions, TouchableOpacity } from "react-native";
 import { memo, useEffect, useRef } from "react";
 
 import { setImageFullScreenModal } from "../../reducers/app/appSlice";
 import useReducerDispatch from "../../hooks/useReducerDispatch";
 import useSliceSelector from "../../hooks/useSliceSelector";
 
+import Icons from "../../constants/icons";
+import { RPH, RPW } from "../../constants/utils";
+
+const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
+
 const ImageFullScreenModal = () => {
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
-    const imageModalUri = useSliceSelector(state => state.app.imageFullScreeenModal.imageUri);
+    const imageModalUris = useSliceSelector(state => state.app.imageFullScreeenModal.imageUris);
     const dispatch = useReducerDispatch();
+    const startIndex = useSliceSelector(state => state.app.imageFullScreeenModal.startIndex);
 
     const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -35,13 +41,26 @@ const ImageFullScreenModal = () => {
     return (
         <Modal visible={isImageFullScreenModalVisible} transparent={true}>
             <Animated.View style={[styles.modalContainer, { opacity: fadeAnim }]}>
-                <TouchableWithoutFeedback onPress={closeModal}>
-                    <View style={styles.modalContent}>
-                        <View style={styles.modalContent}>
-                            {imageModalUri && <Image source={{ uri: imageModalUri }} style={styles.modalImage} />}
-                        </View>
-                    </View>
-                </TouchableWithoutFeedback>
+                {imageModalUris && (
+                    <ScrollView
+                        horizontal
+                        pagingEnabled
+                        showsHorizontalScrollIndicator={false}
+                        contentOffset={{ x: startIndex ? screenWidth * startIndex : 0, y: 0 }}
+                    >
+                        {imageModalUris.map((uri, index) => (
+                            <View key={index} style={styles.modalContent}>
+                                <TouchableOpacity onPress={closeModal} style={styles.closeIcon}>
+                                    {Icons.grayCross}
+                                </TouchableOpacity>
+                                <Image
+                                    source={{ uri: uri }}
+                                    style={styles.modalImage}
+                                />
+                            </View>
+                        ))}
+                    </ScrollView>
+                )}
             </Animated.View>
         </Modal>
     )
@@ -52,19 +71,22 @@ export default memo(ImageFullScreenModal)
 const styles = StyleSheet.create({
     modalContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: '#000',
     },
     modalContent: {
-        width: '100%',
-        height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+        width: screenWidth,
+        height: screenHeight
     },
     modalImage: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'contain',
+        width: "100%",
+        height: "100%",
+        resizeMode: "contain",
+    },
+    closeIcon: {
+        alignSelf: "flex-end",
+        marginTop: RPH(6),
+        marginRight: RPW(2)
     }
 })
