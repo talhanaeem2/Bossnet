@@ -60,27 +60,27 @@ const UserActions = (props: UserActionsProps) => {
 
     const overlayActions: OverlayActionsInterface[] = [
         {
-            icon: require("../../../assets/icons/like.png"),
+            icon: require("../../../assets/icons/like.gif"),
             onPress: () => handleAction('like')
         },
         {
-            icon: require("../../../assets/icons/love.png"),
+            icon: require("../../../assets/icons/love.gif"),
             onPress: () => handleAction('love')
         },
         {
-            icon: require("../../../assets/icons/sad.png"),
+            icon: require("../../../assets/icons/sad.gif"),
             onPress: () => handleAction('sad')
         },
         {
-            icon: require("../../../assets/icons/shock.png"),
+            icon: require("../../../assets/icons/shock.gif"),
             onPress: () => handleAction('shock')
         },
         {
-            icon: require("../../../assets/icons/laugh.png"),
+            icon: require("../../../assets/icons/laugh.gif"),
             onPress: () => handleAction('laugh')
         },
         {
-            icon: require("../../../assets/icons/angry.png"),
+            icon: require("../../../assets/icons/angry.gif"),
             onPress: () => handleAction('angry')
         }
     ];
@@ -131,8 +131,8 @@ export default memo(UserActions)
 
 const styles = StyleSheet.create({
     overlayImg: {
-        width: 30,
-        height: 30
+        width: 40,
+        height: 40
     },
     userActions: {
         flexDirection: "row",
@@ -161,12 +161,12 @@ const styles = StyleSheet.create({
     },
     overlayContainer: {
         position: "absolute",
-        top: -46,
+        top: RPH(-7),
         paddingHorizontal: 12,
         paddingBottom: 8,
         paddingTop: 6,
         borderRadius: 16,
-        left: RPW(16),
+        left: RPW(10),
         backgroundColor: '#fefefe',
         alignItems: 'center',
         flexDirection: "row",
