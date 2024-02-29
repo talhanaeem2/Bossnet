@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: RPW(16.5),
         justifyContent: "center",
-        paddingTop: RPH(.3),
         position: "relative"
     },
     action: {

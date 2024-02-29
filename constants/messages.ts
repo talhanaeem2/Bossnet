@@ -59,8 +59,8 @@ const messages = {
     pin: "Pin",
     groupText: " posted an update in the group ",
     // read more
-    readMore: "Read More",
-    readLess: "Read Less",
+    readMore: "More",
+    readLess: "Less",
     // Create Post
     createPost: "Create post",
     postBtn: "Post",
