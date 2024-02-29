@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react"
+import { memo, useCallback, useState } from "react"
 import { TouchableWithoutFeedback, View, TouchableOpacity, Image, StyleSheet } from "react-native"
 
 import PostDotMenu from "../postDotMenu/postDotMenu"
@@ -20,6 +20,7 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
     const { item, index, activeIndex, setActiveIndex, newsFeedPosts, setNewsFeedPosts } = props
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
     const dispatch = useReducerDispatch();
+    const [isMenuVisible, setIsMenuVisible] = useState(false);
 
     const handleCloseOverlay = useCallback(() => {
         setNewsFeedPosts(prevState => {
@@ -56,6 +57,11 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
         setNewsFeedPosts(prevState => toggleShowOverlay(prevState, index));
     }, [newsFeedPosts]);
 
+    const closeMenu = () => {
+        setIsMenuVisible(false)
+        setActiveIndex(-1)
+    }
+
     const title = item.title;
     const sanitizedTitle = stripHtmlTags(title);
     const imageUri = item.bp_media_ids?.[0]?.attachment_data?.full;
@@ -64,10 +70,16 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
     const imageUris = item.bp_media_ids?.map((media) => media.attachment_data?.full).filter(uri => uri);
 
     return (
-        <TouchableWithoutFeedback onPress={() => handleCloseOverlay()}>
+        <TouchableWithoutFeedback onPress={() => { handleCloseOverlay(); closeMenu(); }}>
             <View style={styles.postContainer}>
                 <View style={styles.dotsContainer}>
-                    <PostDotMenu activeIndex={activeIndex} index={index} onMenuPress={setActiveIndex} />
+                    <PostDotMenu
+                        activeIndex={activeIndex}
+                        index={index}
+                        onMenuPress={setActiveIndex}
+                        isMenuVisible={isMenuVisible}
+                        setIsMenuVisible={setIsMenuVisible}
+                    />
                 </View>
                 <View style={styles.post}>
                     <TouchableOpacity>
@@ -141,9 +153,7 @@ const styles = StyleSheet.create({
         paddingLeft: 30
     },
     dotsContainer: {
-        position: "absolute",
-        right: RPW(2.5),
-        top: RPH(.5)
+        position: "relative"
     },
     postContainer: {
         borderRadius: 3,

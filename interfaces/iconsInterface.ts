@@ -31,7 +31,7 @@ interface IconsInterface {
     donateIcon: JSX.Element;
     dotsIcon: JSX.Element;
     deleteIcon: JSX.Element;
-    repostIcon: JSX.Element;
+    reportIcon: JSX.Element;
     pinIcon: JSX.Element;
     newPostIcon: JSX.Element;
     galleryIcon: JSX.Element;

@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity } from "react-native"
+import { View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from "react-native"
 import { memo, useEffect, useState } from "react";
 
 import TextRegular from "../textComponent/textRegular/textRegular";
@@ -8,17 +8,17 @@ import Icons from "../../../constants/icons";
 import debounce from "../../../constants/debounceFunction";
 
 import PostDotMenuProps from "./interfaces/postDotMenuProps";
+import { RPH, RPW } from "../../../constants/utils";
 
 const PostDotMenu = (props: PostDotMenuProps) => {
-    const { activeIndex, onMenuPress, index } = props
-    const [isMenuVisible, setMenuVisible] = useState(false);
+    const { activeIndex, onMenuPress, index, isMenuVisible, setIsMenuVisible } = props
 
     useEffect(() => {
-        setMenuVisible(activeIndex === index);
+        setIsMenuVisible(activeIndex === index);
     }, [activeIndex, index]);
 
     const toggleMenu = debounce((isOpen: boolean) => {
-        setMenuVisible(isOpen);
+        setIsMenuVisible(isOpen);
         if (!isOpen) {
             onMenuPress(-1);
         } else {
@@ -44,19 +44,19 @@ const PostDotMenu = (props: PostDotMenuProps) => {
                     <View style={styles.menu}>
                         <TouchableOpacity style={styles.menuItem} onPress={() => handleMenuItemPress('delete')}>
                             {Icons.deleteIcon}
-                            <TextRegular fontSize={12} color="#AFB1B9">
+                            <TextRegular fontSize={14} color="#AFB1B9">
                                 {messages.delete}
                             </TextRegular>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.menuItem} onPress={() => handleMenuItemPress('report')}>
-                            {Icons.repostIcon}
-                            <TextRegular fontSize={12} color="#AFB1B9">
+                            {Icons.reportIcon}
+                            <TextRegular fontSize={14} color="#AFB1B9">
                                 {messages.report}
                             </TextRegular>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.menuItem} onPress={() => handleMenuItemPress('pin')}>
                             {Icons.pinIcon}
-                            <TextRegular fontSize={12} color="#AFB1B9">
+                            <TextRegular fontSize={14} color="#AFB1B9">
                                 {messages.pin}
                             </TextRegular>
                         </TouchableOpacity>
@@ -72,14 +72,14 @@ export default memo(PostDotMenu);
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        top: 0,
-        right: 0,
+        right: RPW(2.5),
+        top: RPH(-1),
         zIndex: 1
     },
     menu: {
         position: 'absolute',
-        top: 20,
-        right: 10,
+        top: 6,
+        right: 25,
         backgroundColor: '#fff',
         borderRadius: 8,
         paddingVertical: 12,
