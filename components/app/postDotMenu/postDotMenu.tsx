@@ -1,5 +1,5 @@
-import { View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from "react-native"
-import { memo, useEffect, useState } from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native"
+import { memo, useEffect } from "react";
 
 import TextRegular from "../textComponent/textRegular/textRegular";
 
