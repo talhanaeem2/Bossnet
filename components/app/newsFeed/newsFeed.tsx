@@ -66,6 +66,9 @@ const NewsFeed = (props: NewsFeedProps) => {
                 onEndReached={loadMorePosts}
                 onEndReachedThreshold={0.5}
                 ListHeaderComponent={<NewsFeedShare handleImagePicker={handleImagePicker} />}
+                initialNumToRender={10}
+                maxToRenderPerBatch={10}
+                windowSize={5}
             />
             {!!isCommentModalVisible && <CommmentModal />}
             {!!isImageFullScreenModalVisible && <ImageFullScreenModal />}
