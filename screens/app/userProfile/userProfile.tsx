@@ -8,7 +8,7 @@ import { RPW, RPH } from "../../../constants/utils"
 import Icons from "../../../constants/icons"
 
 import footerIconsInterface from "./interfaces/footerIconsInterface"
-
+import useSliceSelector from "../../../hooks/useSliceSelector"
 
 const footerIcons: footerIconsInterface[] = [
     {
@@ -31,6 +31,8 @@ const footerIcons: footerIconsInterface[] = [
 ]
 
 const UserProfile = () => {
+    const userData = useSliceSelector(state => state.auth.userData)
+
     return (
         <MainWapper isHeader={true} isFooter={false} icon={true}>
             <View style={styles.container}>
@@ -39,7 +41,7 @@ const UserProfile = () => {
                         <Image style={styles.roundImg} source={require("../../../assets/dummy-profile.png")} />
                     </View>
                     <TextBold fontSize={35} style={{ paddingTop: 20 }}>
-                        Aldin Mahmutovic
+                        {userData.display_name}
                     </TextBold>
                     <View style={styles.followContainer}>
                         <TextRegular fontSize={19} color="#787878">
@@ -61,9 +63,6 @@ const UserProfile = () => {
                             <TextRegular fontSize={19}>
                                 Edit Profile
                             </TextRegular>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.editBtn}>
-                            {Icons.userArrowUpIcon}
                         </TouchableOpacity>
                     </View>
                 </View>
