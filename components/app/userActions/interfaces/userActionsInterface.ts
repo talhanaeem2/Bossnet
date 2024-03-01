@@ -1,5 +1,7 @@
+import { ImageSourcePropType } from "react-native";
+
 export default interface UserActionsInterface {
-    icon: JSX.Element;
+    icon: ImageSourcePropType;
     text: string;
     onPress: () => void;
     onLongPress?: () => void;

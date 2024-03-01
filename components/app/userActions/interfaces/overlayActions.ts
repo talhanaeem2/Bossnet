@@ -1,6 +1,7 @@
-import { ImageProps } from "react-native";
+import { ImageSourcePropType } from "react-native";
 
 export default interface OverlayActionsInterface {
-    icon: ImageProps;
+    text: string;
+    icon: ImageSourcePropType;
     onPress: () => void;
 }

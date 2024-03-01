@@ -1,9 +1,8 @@
-import { View, StyleSheet, TouchableOpacity, Image, Pressable } from "react-native"
-import { memo } from "react";
+import { View, StyleSheet, TouchableOpacity, Image, Pressable, ImageSourcePropType } from "react-native"
+import { memo, useState } from "react";
 
 import TextRegular from "../textComponent/textRegular/textRegular";
 
-import icons from "../../../constants/icons"
 import messages from "../../../constants/messages"
 import { RPW, RPH } from "../../../constants/utils"
 
@@ -19,70 +18,102 @@ const UserActions = (props: UserActionsProps) => {
     const { onLongPress, showOverlay, closeOverlay } = props
     const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible)
     const dispatch = useReducerDispatch()
+    const [selectedIcon, setSelectedIcon] = useState<string>('')
 
-    const handleAction = (actionType: string) => {
-        if (actionType === 'like' || actionType === 'love' || actionType === 'sad' || actionType === 'shock' || actionType === 'laugh' || actionType === 'angry') {
-            closeOverlay();
+    const changeIcon = (selectedIconText: string): ImageSourcePropType => {
+        switch (selectedIconText) {
+            case 'Like':
+                return require("../../../assets/icons/liked.png");
+            case 'Love':
+                return require("../../../assets/icons/loved.png");
+            case 'Sad':
+                return require("../../../assets/icons/sadness.png");
+            case 'Shock':
+                return require("../../../assets/icons/shocked.png");
+            case 'Laugh':
+                return require("../../../assets/icons/laughed.png");
+            case 'Angry':
+                return require("../../../assets/icons/angered.png");
+            default:
+                return require("../../../assets/icons/like.png");
         }
+    };
+
+    const handleAction = (text: string) => {
+        closeOverlay();
+        setSelectedIcon(text)
     };
 
     const handleLike = () => {
         console.log('Liked!');
+        if (selectedIcon) {
+            setSelectedIcon('')
+        } else {
+            setSelectedIcon('Like')
+        }
     }
 
     const handleComment = () => {
         console.log('Commented!');
         dispatch(setCommentModal({ isVisible: !isCommentModalVisible }))
+        closeOverlay();
     }
 
     const handleShare = () => {
         console.log('Shared!');
+        closeOverlay();
     }
+
+    const overlayActions: OverlayActionsInterface[] = [
+        {
+            text: 'Like',
+            icon: require("../../../assets/icons/like.gif"),
+            onPress: () => handleAction('Like')
+        },
+        {
+            text: 'Love',
+            icon: require("../../../assets/icons/love.gif"),
+            onPress: () => handleAction('Love')
+        },
+        {
+            text: 'Sad',
+            icon: require("../../../assets/icons/sad.gif"),
+            onPress: () => handleAction('Sad')
+        },
+        {
+            text: 'Shock',
+            icon: require("../../../assets/icons/shock.gif"),
+            onPress: () => handleAction('Shock')
+        },
+        {
+            text: 'Laugh',
+            icon: require("../../../assets/icons/laugh.gif"),
+            onPress: () => handleAction('Laugh')
+        },
+        {
+            text: 'Angry',
+            icon: require("../../../assets/icons/angry.gif"),
+            onPress: () => handleAction('Angry')
+        }
+    ];
 
     const userActions: UserActionsInterface[] = [
         {
-            icon: icons.likeIcon,
-            text: messages.likeAction,
+            icon: changeIcon(selectedIcon),
+            text: selectedIcon ? selectedIcon : messages.likeAction,
             onPress: handleLike,
             onLongPress: onLongPress
         },
         {
-            icon: icons.commentIcon,
+            icon: require("../../../assets/icons/comment.png"),
             text: messages.commentAction,
             onPress: handleComment
         },
         {
-            icon: icons.shareIcon,
+            icon: require("../../../assets/icons/share.png"),
             text: messages.shareAction,
             onPress: handleShare
         },
-    ];
-
-    const overlayActions: OverlayActionsInterface[] = [
-        {
-            icon: require("../../../assets/icons/like.gif"),
-            onPress: () => handleAction('like')
-        },
-        {
-            icon: require("../../../assets/icons/love.gif"),
-            onPress: () => handleAction('love')
-        },
-        {
-            icon: require("../../../assets/icons/sad.gif"),
-            onPress: () => handleAction('sad')
-        },
-        {
-            icon: require("../../../assets/icons/shock.gif"),
-            onPress: () => handleAction('shock')
-        },
-        {
-            icon: require("../../../assets/icons/laugh.gif"),
-            onPress: () => handleAction('laugh')
-        },
-        {
-            icon: require("../../../assets/icons/angry.gif"),
-            onPress: () => handleAction('angry')
-        }
     ];
 
     return (
@@ -99,10 +130,18 @@ const UserActions = (props: UserActionsProps) => {
                                 pressed && styles.actionOnPress
                             ]}
                         >
-                            {item.icon}
+                            <Image
+                                source={item.icon}
+                                style={{ width: 18, height: 15 }}
+                            />
                             <TextRegular
                                 fontSize={11}
-                                color="rgba(95, 99, 117, 0.74)"
+                                color={index === 0 ?
+                                    (selectedIcon === 'Laugh' || selectedIcon === 'Sad' || selectedIcon === 'Shock' ? "#fcba03" :
+                                        selectedIcon === "Angry" || selectedIcon === "Love" ? "#fc0303" :
+                                            selectedIcon === "Like" ? "#308AFF" :
+                                                "rgba(95, 99, 117, 0.74)") :
+                                    "rgba(95, 99, 117, 0.74)"}
                                 style={styles.actionText}
                             >
                                 {item.text}
@@ -136,15 +175,14 @@ const styles = StyleSheet.create({
     },
     userActions: {
         flexDirection: "row",
-        gap: RPW(16.5),
         justifyContent: "center",
-        position: "relative"
+        position: "relative",
     },
     action: {
         flexDirection: "row",
         alignItems: "center",
         paddingVertical: RPH(1.6),
-        paddingHorizontal: RPW(4)
+        paddingHorizontal: RPW(8)
     },
     actionOnPress: {
         backgroundColor: "#eee",
@@ -156,8 +194,8 @@ const styles = StyleSheet.create({
     },
     actionsContainer: {
         flexDirection: 'row',
-        gap: RPW(16.5),
-        alignItems: 'center',
+        gap: RPW(6),
+        alignItems: 'center'
     },
     overlayContainer: {
         position: "absolute",
