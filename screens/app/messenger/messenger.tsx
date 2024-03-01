@@ -8,11 +8,11 @@ import TextRegular from "../../../components/app/textComponent/textRegular/textR
 
 import messages from "../../../constants/messages"
 import { truncateText, RPH, RPW, RFS } from "../../../constants/utils"
+import Apis from "../../../constants/apis"
 
 import UsersInterface from "../friends/interfaces/usersInterface"
 
 const imageSize = "thumb";
-const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/members";
 
 const Messenger = () => {
     const [searchQuery, setSearchQuery] = useState('')
@@ -24,7 +24,7 @@ const Messenger = () => {
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(apiUrl);
+                const response = await axios.get(Apis.friendsApi);
                 setUsers(response.data);
                 setIsLoading(false)
             } catch (error) {

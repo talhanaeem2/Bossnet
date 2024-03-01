@@ -10,6 +10,7 @@ import SafeAreaViewComponent from "../../../components/app/SafeAreaViewComponent
 import CreatePostModal from "../../../modals/createPostModal/createPostModal";
 
 import { RPH } from "../../../constants/utils";
+import Apis from "../../../constants/apis";
 
 import useSliceSelector from "../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
@@ -17,8 +18,6 @@ import { setUserData } from "../../../reducers/auth/authSlice";
 
 import ProfileResponse from "../../../apisInterfaces/profileResponse";
 import AuthData from "../../../apisInterfaces/authData";
-
-const userDataApi = 'https://bosnett.com/api/public/api/profile';
 
 const Home = () => {
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
@@ -64,7 +63,7 @@ const Home = () => {
 
     const fetchData = async () => {
         try {
-            const response: ProfileResponse<AuthData> = await axios.get(userDataApi, {
+            const response: ProfileResponse<AuthData> = await axios.get(Apis.profileApi, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

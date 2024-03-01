@@ -8,6 +8,7 @@ import TextRegular from "../../../components/app/textComponent/textRegular/textR
 
 import messages from "../../../constants/messages"
 import { RPH, RPW, RFS } from "../../../constants/utils"
+import Apis from "../../../constants/apis"
 
 import GroupsInterface from "./interfaces/groupsInterface"
 
@@ -22,11 +23,10 @@ const Groups = () => {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        const apiUrl = "https://bosnett.com/wp-json/custom/v1/groups";
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(apiUrl);
+                const response = await axios.get(Apis.groupsApi);
                 setGroupsData(response.data);
                 setIsLoading(false)
             } catch (error) {

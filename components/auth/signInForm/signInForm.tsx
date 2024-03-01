@@ -16,6 +16,7 @@ import messages from "../../../constants/messages";
 import { languageOptions } from "../../../constants/constants";
 import { RFS, RPH, RPW } from "../../../constants/utils";
 import Icons from "../../../constants/icons";
+import Apis from "../../../constants/apis";
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { login, setIsLoading } from "../../../reducers/auth/authSlice";
@@ -73,7 +74,7 @@ const SignInForm = () => {
 
             let config = {
                 method: 'POST',
-                url: 'https://bosnett.com/api/public/api/login',
+                url: Apis.loginApi,
                 headers: {
                     'Content-Type': 'application/json'
                 },

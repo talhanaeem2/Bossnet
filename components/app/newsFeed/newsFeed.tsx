@@ -8,13 +8,12 @@ import NewsFeedItem from "./newsfeedItem"
 import NewsFeedShare from "./newsFeedShare"
 
 import { RPH, RPW } from "../../../constants/utils"
+import Apis from "../../../constants/apis"
 
 import ResponseItemInterface from "./interfaces/responseItemInterface"
 import NewsFeedProps from "./interfaces/newsFeedShareProps"
 
 import useSliceSelector from "../../../hooks/useSliceSelector"
-
-const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/activity";
 
 const NewsFeed = (props: NewsFeedProps) => {
     const { handleImagePicker } = props
@@ -29,7 +28,7 @@ const NewsFeed = (props: NewsFeedProps) => {
     const fetchData = useCallback(async (page: number) => {
         try {
             setIsLoading(true)
-            const response = await axios.get(`${apiUrl}?page=${page}`);
+            const response = await axios.get(`${Apis.newsFeedApi}?page=${page}`);
             setNewsFeedPosts((prevPosts) => [...prevPosts, ...response.data]);
             setTotalPages(response.headers["x-wp-totalpages"]);
             setIsLoading(false)

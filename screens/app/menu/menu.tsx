@@ -1,4 +1,6 @@
 import { View, StyleSheet, Platform, TouchableOpacity, Alert, ActivityIndicator } from "react-native"
+import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
 import TextBold from "../../../components/app/textComponent/textBold/textBold";
@@ -7,10 +9,10 @@ import Icons from "../../../constants/icons";
 import messages from "../../../constants/messages";
 import { RPH, RPW } from "../../../constants/utils";
 import { menuButtons } from "./constants/menuButtons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import Apis from "../../../constants/apis";
+
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { logout } from "../../../reducers/auth/authSlice";
-import { useState } from "react";
 
 const Menu = () => {
     const dispatch = useReducerDispatch()
@@ -23,7 +25,7 @@ const Menu = () => {
 
             setIsLoading(true)
 
-            const response = await fetch('https://bosnett.com/api/public/api/logout', {
+            const response = await fetch(Apis.logoutApi, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -17,6 +17,7 @@ import TextRegular from "../../app/textComponent/textRegular/textRegular";
 import Icons from "../../../constants/icons";
 import messages from "../../../constants/messages";
 import { RPH, RPW } from "../../../constants/utils";
+import Apis from "../../../constants/apis";
 
 import SignUpFormInterface from "./interfaces/signUpFormInterface";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
@@ -79,7 +80,7 @@ const SignUpForm = () => {
 
             let config = {
                 method: 'POST',
-                url: 'https://bosnett.com/api/public/api/signup',
+                url: Apis.signupApi,
                 headers: {
                     'Content-Type': 'application/json'
                 },

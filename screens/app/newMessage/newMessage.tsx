@@ -8,6 +8,7 @@ import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
 import TextBold from "../../../components/app/textComponent/textBold/textBold";
 
 import { RPW, RFS, RPH } from "../../../constants/utils";
+import Apis from "../../../constants/apis";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import UsersInterface from "../friends/interfaces/usersInterface";
@@ -21,11 +22,10 @@ const NewMessage = () => {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        const apiUrl = "https://bosnett.com/wp-json/buddyboss/v1/members";
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(apiUrl);
+                const response = await axios.get(Apis.friendsApi);
                 setUsers(response.data);
                 setIsLoading(false)
             } catch (error) {
