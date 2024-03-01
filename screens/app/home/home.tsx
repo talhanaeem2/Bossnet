@@ -1,6 +1,7 @@
 import { StyleSheet, View } from "react-native"
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import * as ImagePicker from 'expo-image-picker'
+import axios from "axios";
 
 import Header from "../../../components/app/header/header";
 import Footer from "../../../components/app/footer/footer";
@@ -11,10 +12,21 @@ import CreatePostModal from "../../../modals/createPostModal/createPostModal";
 import { RPH } from "../../../constants/utils";
 
 import useSliceSelector from "../../../hooks/useSliceSelector";
+import useReducerDispatch from "../../../hooks/useReducerDispatch";
+import { setUserData } from "../../../reducers/auth/authSlice";
+
+import ProfileResponse from "../../../apisInterfaces/profileResponse";
+import AuthData from "../../../apisInterfaces/authData";
+
+const userDataApi = 'https://bosnett.com/api/public/api/profile';
 
 const Home = () => {
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const [images, setImages] = useState<string[]>([]);
+    const token = useSliceSelector(state => state.auth.token)
+    const dispatch = useReducerDispatch()
+    const userData = useSliceSelector(state => state.auth.userData)
+    console.log('state', userData)
 
     const handleImagePicker = useCallback(async (action: 'gallery' | 'camera' | 'giphy') => {
         let result: ImagePicker.ImagePickerResult;
@@ -49,6 +61,25 @@ const Home = () => {
         newImages.splice(index, 1);
         setImages(newImages);
     }, [images])
+
+    const fetchData = async () => {
+        try {
+            const response: ProfileResponse<AuthData> = await axios.get(userDataApi, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log(JSON.stringify(response.data.response.data.auth));
+            dispatch(setUserData(response.data.response.data.auth))
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData()
+    }, [])
 
     return (
         <SafeAreaViewComponent>
