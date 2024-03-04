@@ -10,7 +10,6 @@ import TextRegular from "../../../components/app/textComponent/textRegular/textR
 
 import Icons from "../../../constants/icons"
 import { RPH, RPW } from "../../../constants/utils"
-import messages from "../../../constants/messages";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import chatRoomParamsInterface from "../../../interfaces/chatRoomInterface";
@@ -41,6 +40,7 @@ const ChatRoom = () => {
     const { user } = route.params as chatRoomParamsInterface;
     const userName = user.userName
     const userImage = user.userImage
+    const isActive = user.lastSeen
 
     const goBack = () => {
         navigation.goBack();
@@ -60,7 +60,7 @@ const ChatRoom = () => {
                         {userName}
                     </TextBold>
                     <TextRegular fontSize={13} color="rgba(0, 0, 0, 0.35)">
-                        {messages.active}
+                        {isActive}
                     </TextRegular>
                 </View>
             </View>

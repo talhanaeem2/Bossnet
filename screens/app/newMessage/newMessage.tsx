@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import axios from "axios";
+import moment from "moment"
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
 import TextBold from "../../../components/app/textComponent/textBold/textBold";
@@ -39,7 +40,6 @@ const NewMessage = () => {
 
     useEffect(() => {
         fetchData(currentPage);
-        console.log(filteredUsers)
     }, [currentPage])
 
     const loadMorePosts = () => {
@@ -67,30 +67,53 @@ const NewMessage = () => {
         )
     }
 
-    const renderUserItem = ({ item, index }: { item: UsersInterface; index: number }) => (
-        <View key={index}>
-            <TouchableOpacity
-                onPress={() =>
-                    navigation.navigate("ChatRoom", {
-                        user: { userName: item.name, userImage: (item.avatar_urls)[imageSize] }
-                    })}>
-                <View style={styles.friendContainer}>
-                    <View style={styles.circle}>
-                        <Image style={styles.roundImg} source={{ uri: (item.avatar_urls)[imageSize] }} />
-                    </View>
-                    <View>
-                        <TextBold fontSize={17}>
-                            {item.name}
-                        </TextBold>
-                    </View>
-                </View>
-                {
-                    index !== filteredUsers.length - 1 &&
-                    <View style={styles.borderBottom}></View>
+    const calculateLastActivity = (lastActivityTimestamp: string) => {
+        if (lastActivityTimestamp && lastActivityTimestamp !== 'Not recently active') {
+            const lastActivityMoment = moment(lastActivityTimestamp);
+            if (lastActivityMoment.isValid()) {
+                const currentTime = moment();
+                const hoursSinceLastActivity = currentTime.diff(lastActivityMoment, 'hours');
+                if (hoursSinceLastActivity < 24) {
+                    return `${hoursSinceLastActivity} hours ago`;
+                } else {
+                    const daysSinceLastActivity = Math.floor(hoursSinceLastActivity / 24);
+                    return `${daysSinceLastActivity} days ago`;
                 }
-            </TouchableOpacity>
-        </View>
-    )
+            } else {
+                return 'Invalid date';
+            }
+        } else {
+            return 'Not recently active';
+        }
+    };
+
+    const renderUserItem = ({ item, index }: { item: UsersInterface; index: number }) => {
+        const isActive = calculateLastActivity(item.last_activity)
+        return (
+            <View key={index}>
+                <TouchableOpacity
+                    onPress={() =>
+                        navigation.navigate("ChatRoom", {
+                            user: { userName: item.name, userImage: (item.avatar_urls)[imageSize], lastSeen: isActive }
+                        })}>
+                    <View style={styles.friendContainer}>
+                        <View style={styles.circle}>
+                            <Image style={styles.roundImg} source={{ uri: (item.avatar_urls)[imageSize] }} />
+                        </View>
+                        <View>
+                            <TextBold fontSize={17}>
+                                {item.name}
+                            </TextBold>
+                        </View>
+                    </View>
+                    {
+                        index !== filteredUsers.length - 1 &&
+                        <View style={styles.borderBottom}></View>
+                    }
+                </TouchableOpacity>
+            </View>
+        )
+    }
 
     return (
         <MainWapper headerText="Cancel" isHeader={true}>
