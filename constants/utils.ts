@@ -39,6 +39,6 @@ export const stripHtmlTags = (htmlString: string) => {
 
 //Letter Spacing
 export const RLS = (fontSize: number) => {
-    const scaleFactor = 0.05;
+    const scaleFactor = 0.03;
     return fontSize * scaleFactor;
 };

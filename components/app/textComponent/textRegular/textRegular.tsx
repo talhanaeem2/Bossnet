@@ -1,6 +1,6 @@
 import { StyleSheet, Text } from "react-native"
 
-import { RFS, RLH } from "../../../../constants/utils";
+import { RFS, RLH, RLS } from "../../../../constants/utils";
 
 import TextProps from "../interfaces/textProps";
 
@@ -11,6 +11,7 @@ const TextRegular = (props: TextProps) => {
     return (
         <Text
             style={[styles.regularText,
+            { letterSpacing: RLS(RFS(props.fontSize)) },
             props.style, {
                 fontSize: RFS(props.fontSize),
                 lineHeight: RLH(RFS(props.fontSize)),
