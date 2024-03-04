@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: "rgba(247, 246, 245, 0.16)",
         paddingHorizontal: RPW(2.1),
-        paddingVertical: RPH(.6),
+        paddingVertical: RPH(.7),
         marginTop: RPH(1.9),
         ...Platform.select({
             ios: {
