@@ -16,8 +16,8 @@ import useSliceSelector from "../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { setUserData } from "../../../reducers/auth/authSlice";
 
-import ProfileResponse from "../../../apisInterfaces/profileResponse";
-import AuthData from "../../../apisInterfaces/authData";
+import ProfileResponse from "../../../constants/interfaces/apisInterfaces/profileResponse";
+import AuthData from "../../../constants/interfaces/apisInterfaces/authData";
 
 const Home = () => {
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);

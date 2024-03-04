@@ -1,5 +1,5 @@
-import { View, StyleSheet, TextInput, Image, TouchableOpacity, ActivityIndicator, ScrollView } from "react-native"
-import { useEffect, useRef, useState } from "react";
+import { View, StyleSheet, TextInput, Image, TouchableOpacity, ActivityIndicator, ScrollView, FlatList } from "react-native"
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import axios from "axios";
@@ -13,6 +13,8 @@ import Apis from "../../../constants/apis";
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import UsersInterface from "../friends/interfaces/usersInterface";
 
+import useSliceSelector from "../../../hooks/useSliceSelector";
+
 const imageSize = "thumb";
 
 const NewMessage = () => {
@@ -20,21 +22,31 @@ const NewMessage = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const [users, setUsers] = useState<UsersInterface[]>([]);
     const [isLoading, setIsLoading] = useState(true)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(0)
+    const userId = useSliceSelector(state => state.auth.userData.id)
+
+    const fetchData = useCallback(async (page: number) => {
+        try {
+            const response = await axios.get(`${Apis.friendsApi}?user_id=${userId}&page=${page}`);
+            setUsers((prevUsers => [...prevUsers, ...response.data]));
+            setTotalPages(response.headers["x-wp-totalpages"]);
+            setIsLoading(false)
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }, [currentPage])
 
     useEffect(() => {
+        fetchData(currentPage);
+        console.log(filteredUsers)
+    }, [currentPage])
 
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(Apis.friendsApi);
-                setUsers(response.data);
-                setIsLoading(false)
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
-    }, [])
+    const loadMorePosts = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage((prevPage) => prevPage + 1);
+        }
+    };
 
     const inputRef = useRef<TextInput>(null);
 
@@ -55,6 +67,31 @@ const NewMessage = () => {
         )
     }
 
+    const renderUserItem = ({ item, index }: { item: UsersInterface; index: number }) => (
+        <View key={index}>
+            <TouchableOpacity
+                onPress={() =>
+                    navigation.navigate("ChatRoom", {
+                        user: { userName: item.name, userImage: (item.avatar_urls)[imageSize] }
+                    })}>
+                <View style={styles.friendContainer}>
+                    <View style={styles.circle}>
+                        <Image style={styles.roundImg} source={{ uri: (item.avatar_urls)[imageSize] }} />
+                    </View>
+                    <View>
+                        <TextBold fontSize={17}>
+                            {item.name}
+                        </TextBold>
+                    </View>
+                </View>
+                {
+                    index !== filteredUsers.length - 1 &&
+                    <View style={styles.borderBottom}></View>
+                }
+            </TouchableOpacity>
+        </View>
+    )
+
     return (
         <MainWapper headerText="Cancel" isHeader={true}>
             <View style={styles.container}>
@@ -67,38 +104,21 @@ const NewMessage = () => {
                         onChangeText={(text) => setSearchQuery(text)}
                     />
                 </View>
-                <ScrollView>
-                    <View style={styles.content}>
-                        {
-                            filteredUsers.map((user, index) => {
-                                return (
-                                    <View key={index}>
-                                        <TouchableOpacity
-                                            onPress={() =>
-                                                navigation.navigate("ChatRoom", {
-                                                    user: { userName: user.name, userImage: (user.avatar_urls)[imageSize] }
-                                                })}>
-                                            <View style={styles.friendContainer}>
-                                                <View style={styles.circle}>
-                                                    <Image style={styles.roundImg} source={{ uri: (user.avatar_urls)[imageSize] }} />
-                                                </View>
-                                                <View>
-                                                    <TextBold fontSize={17}>
-                                                        {user.name}
-                                                    </TextBold>
-                                                </View>
-                                            </View>
-                                            {
-                                                index !== filteredUsers.length - 1 &&
-                                                <View style={styles.borderBottom}></View>
-                                            }
-                                        </TouchableOpacity>
-                                    </View>
-                                )
-                            })
-                        }
-                    </View>
-                </ScrollView>
+                <View style={styles.content}>
+                    {filteredUsers.length >= 1 ?
+                        <FlatList
+                            data={filteredUsers}
+                            renderItem={renderUserItem}
+                            keyExtractor={(item, index) => `${item.id}_${index}`}
+                            onEndReached={loadMorePosts}
+                            onEndReachedThreshold={0.5}
+                        />
+                        :
+                        <View style={{ alignItems: "center", justifyContent: "center" }}>
+                            <TextBold fontSize={16}>Add Some Friends</TextBold>
+                        </View>
+                    }
+                </View>
             </View>
         </MainWapper>
     )
