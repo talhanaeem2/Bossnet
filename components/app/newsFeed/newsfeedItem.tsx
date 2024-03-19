@@ -79,6 +79,7 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
                         onMenuPress={setActiveIndex}
                         isMenuVisible={isMenuVisible}
                         setIsMenuVisible={setIsMenuVisible}
+                        postId={postId}
                     />
                 </View>
                 <View style={styles.post}>

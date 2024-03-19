@@ -4,4 +4,5 @@ export default interface PostDotMenuProps {
     onMenuPress: (index: number) => void;
     isMenuVisible: boolean;
     setIsMenuVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    postId: number;
 }
