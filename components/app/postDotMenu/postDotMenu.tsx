@@ -1,5 +1,5 @@
 import { View, StyleSheet, TouchableOpacity } from "react-native"
-import { memo, useCallback, useEffect } from "react";
+import { memo, useEffect } from "react";
 
 import TextRegular from "../textComponent/textRegular/textRegular";
 
@@ -9,8 +9,6 @@ import debounce from "../../../constants/debounceFunction";
 
 import PostDotMenuProps from "./interfaces/postDotMenuProps";
 import { RPH, RPW } from "../../../constants/utils";
-import Apis from "../../../constants/apis";
-import axios from "axios";
 
 const PostDotMenu = (props: PostDotMenuProps) => {
     const { activeIndex, onMenuPress, index, isMenuVisible, setIsMenuVisible, postId } = props
