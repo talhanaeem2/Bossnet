@@ -35,7 +35,7 @@ const UserActions = (props: UserActionsProps) => {
             case 'Angry':
                 return require("../../../assets/icons/angered.png");
             default:
-                return require("../../../assets/icons/like.png");
+                return require("../../../assets/icons/likes.png");
         }
     };
 
