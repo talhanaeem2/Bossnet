@@ -1,13 +1,12 @@
-const homeUrl = 'https://bosnett.com/';
+const homeUrl = 'https://app.bosnett.com/api/v1/';
 
 enum Apis {
-    friendsApi = `${homeUrl}wp-json/buddyboss/v1/members`,
-    groupsApi = `${homeUrl}wp-json/custom/v1/groups`,
-    loginApi = `${homeUrl}api/public/api/login`,
-    signupApi = `${homeUrl}api/public/api/signup`,
-    profileApi = `${homeUrl}api/public/api/profile`,
-    newsFeedApi = `${homeUrl}wp-json/buddyboss/v1/activity`,
-    logoutApi = `${homeUrl}api/public/api/logout`
+    friendsApi = `https://bosnett.com/wp-json/buddyboss/v1/members`,
+    groupsApi = `https://bosnett.com/wp-json/buddyboss/v1/groups`,
+    loginApi = `${homeUrl}login`,
+    signupApi = `${homeUrl}signup`,
+    profileApi = `${homeUrl}profile`,
+    newsFeedApi = `https://bosnett.com/wp-json/buddyboss/v1/activity`,
 }
 
 export default Apis

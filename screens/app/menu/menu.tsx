@@ -1,6 +1,8 @@
-import { View, StyleSheet, Platform, TouchableOpacity, Alert, ActivityIndicator } from "react-native"
+import { View, StyleSheet, Platform, TouchableOpacity, ActivityIndicator } from "react-native"
 import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
 import TextBold from "../../../components/app/textComponent/textBold/textBold";
@@ -9,41 +11,28 @@ import Icons from "../../../constants/icons";
 import messages from "../../../constants/messages";
 import { RPH, RPW } from "../../../constants/utils";
 import { menuButtons } from "./constants/menuButtons";
-import Apis from "../../../constants/apis";
 
-import useReducerDispatch from "../../../hooks/useReducerDispatch";
-import { logout } from "../../../reducers/auth/authSlice";
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 
 const Menu = () => {
-    const dispatch = useReducerDispatch()
     const [isLoading, setIsLoading] = useState(false)
+    const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
 
     const handleLogout = async () => {
         try {
-            const accessToken = await AsyncStorage.getItem('token');
-            const parsedToken = accessToken && JSON.parse(accessToken)
+            setIsLoading(true);
 
-            setIsLoading(true)
+            await AsyncStorage.removeItem('token');
+            await AsyncStorage.removeItem('userData');
 
-            const response = await fetch(Apis.logoutApi, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${parsedToken}`
-                }
-            });
+            setIsLoading(false);
 
-            if (response.ok) {
-                await AsyncStorage.removeItem('token')
-                await AsyncStorage.removeItem('userData')
-                dispatch(logout())
-                setIsLoading(false)
-            } else {
-                Alert.alert('Logout Error', 'Failed to logout. Please try again.');
-            }
+            navigation.navigate("SignIn");
+
         } catch (error) {
             console.error('Error during logout:', error);
-            Alert.alert('Error', 'An error occurred during logout. Please try again later.');
+            setIsLoading(false);
+            console.log('Error', 'An error occurred during logout. Please try again later.');
         }
     };
 
@@ -65,7 +54,7 @@ const Menu = () => {
                                 return (
                                     <View style={styles.rowContainer} key={index}>
                                         <View style={styles.btnContainer}>
-                                            <TouchableOpacity>
+                                            <TouchableOpacity onPress={() => navigation.navigate(item.screenName as string)}>
                                                 {item.icon}
                                                 <TextBold fontSize={19} style={styles.btnText}>
                                                     {item.text}

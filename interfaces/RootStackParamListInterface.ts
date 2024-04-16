@@ -4,7 +4,7 @@ import chatRoomParamsInterface from "./chatRoomInterface";
 import { SignInParamsInterface } from "./signInParamsInterface";
 
 export default interface RootStackParamListInterface extends ParamListBase {
-    SignIn: SignInParamsInterface;
+    SignIn: SignInParamsInterface | undefined;
     SignUp: undefined;
     AccountRecovery: undefined;
     Home: undefined;
@@ -16,4 +16,5 @@ export default interface RootStackParamListInterface extends ParamListBase {
     ChatRoom: chatRoomParamsInterface;
     UserProfile: undefined;
     Notifications: undefined;
+    EditProfile: undefined;
 }

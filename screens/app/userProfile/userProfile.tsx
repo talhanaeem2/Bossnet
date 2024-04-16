@@ -1,4 +1,6 @@
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native"
+import { useNavigation } from "@react-navigation/native"
+import { StackNavigationProp } from "@react-navigation/stack"
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper"
 import TextBold from "../../../components/app/textComponent/textBold/textBold"
@@ -7,8 +9,10 @@ import TextRegular from "../../../components/app/textComponent/textRegular/textR
 import { RPW, RPH } from "../../../constants/utils"
 import Icons from "../../../constants/icons"
 
-import footerIconsInterface from "./interfaces/footerIconsInterface"
 import useSliceSelector from "../../../hooks/useSliceSelector"
+
+import footerIconsInterface from "./interfaces/footerIconsInterface"
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
 
 const footerIcons: footerIconsInterface[] = [
     {
@@ -32,13 +36,14 @@ const footerIcons: footerIconsInterface[] = [
 
 const UserProfile = () => {
     const userData = useSliceSelector(state => state.auth.userData)
+    const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
 
     return (
         <MainWapper isHeader={true} isFooter={false} icon={true}>
             <View style={styles.container}>
                 <View style={styles.content}>
                     <View style={styles.circle}>
-                        <Image style={styles.roundImg} source={require("../../../assets/dummy-profile.png")} />
+                        <Image style={styles.roundImg} source={require("../../../assets/user-placeholder.png")} />
                     </View>
                     <TextBold fontSize={35} style={{ paddingTop: 20 }}>
                         {userData.display_name}
@@ -58,7 +63,7 @@ const UserProfile = () => {
                                 Create post
                             </TextBold>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.editBtn}>
+                        <TouchableOpacity style={styles.editBtn} onPress={() => navigation.navigate("EditProfile")}>
                             {Icons.userEditIcon}
                             <TextRegular fontSize={19}>
                                 Edit Profile
@@ -108,7 +113,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: "#FFFDFA",
         flex: 1,
-        paddingTop: RPH(6),
+        paddingTop: RPH(4),
         position: "relative"
     },
     content: {

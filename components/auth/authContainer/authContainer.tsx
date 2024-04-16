@@ -1,13 +1,20 @@
-import { View, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import AuthContainerInterface from './interfaces/AuthContainerInterface';
 import { RPH, RPW } from '../../../constants/utils';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const AuthContainer = ({ children }: AuthContainerInterface) => {
     return (
-        <View style={styles.container}>
+        <LinearGradient
+            colors={['#FFF', 'rgba(221, 249, 249, 0.48)', 'rgba(212, 178, 211, 0.00)']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            locations={[0.1694, 0.5649, 1.1252]}
+            style={styles.container}
+        >
             {children}
-        </View>
+        </LinearGradient>
     )
 }
 
@@ -15,12 +22,7 @@ export default AuthContainer
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#E3E2E8',
         flex: 1,
-        marginHorizontal: RPW(6.5),
-        marginBottom: RPH(6.5),
-        marginTop: RPH(4),
-        borderRadius: 20,
         paddingHorizontal: RPW(10),
         paddingVertical: RPH(4)
     },

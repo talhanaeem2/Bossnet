@@ -1,7 +1,6 @@
 const messages = {
     // signIn
-    signInHeading: "Welcome to Bosnett",
-    signInSubHeading: "Sign in with your email & password",
+    signInHeading: "Sign in",
     rememberMe: "Remember Me",
     forgotPass: "Forgot password?",
     createAcc: "Create an Account",

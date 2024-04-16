@@ -30,7 +30,8 @@ export const menuButtons: menuButtonsInterface[] = [
     },
     {
         icon: Icons.profileIcon,
-        text: messages.profile
+        text: messages.profile,
+        screenName: 'UserProfile'
     },
     {
         icon: Icons.documentsIcon,
