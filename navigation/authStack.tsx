@@ -8,13 +8,11 @@ import SignUp from '../screens/auth/signUp/signup';
 const Stack = createStackNavigator();
 
 const AuthStack = () => {
-    const headerShow = { headerShown: false };
-
     return (
-        <Stack.Navigator initialRouteName="SignIn">
-            <Stack.Screen options={headerShow} name="SignIn" component={SignIn} />
-            <Stack.Screen options={headerShow} name="SignUp" component={SignUp} />
-            <Stack.Screen options={headerShow} name="AccountRecovery" component={AccountRecovery} />
+        <Stack.Navigator initialRouteName="SignIn" screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="SignIn" component={SignIn} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="AccountRecovery" component={AccountRecovery} />
         </Stack.Navigator>
     );
 };

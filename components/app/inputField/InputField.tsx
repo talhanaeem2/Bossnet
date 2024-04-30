@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
         right: RPW(3),
     },
     input: {
-        borderRadius: 10,
-        backgroundColor: "rgba(240, 240, 240, 0.29)",
+        borderRadius: 16,
+        backgroundColor: "#fff",
         paddingTop: RPH(1.4),
         paddingBottom: RPH(1.4),
         flex: 1,
@@ -68,5 +68,7 @@ const styles = StyleSheet.create({
         fontFamily: "Lato-Regular",
         fontWeight: "400",
         fontSize: RFS(18),
+        borderWidth: 1,
+        borderColor: '#C4C4C4'
     }
 })

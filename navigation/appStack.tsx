@@ -15,20 +15,19 @@ import EditProfile from '../screens/app/userProfile/editProfile/editProfile';
 const Stack = createStackNavigator();
 
 const AppStack = () => {
-    const headerShow = { headerShown: false };
 
     return (
-        <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen options={headerShow} name="Home" component={Home} />
-            <Stack.Screen options={headerShow} name="Menu" component={Menu} />
-            <Stack.Screen options={headerShow} name="Groups" component={Groups} />
-            <Stack.Screen options={headerShow} name="Friends" component={Friends} />
-            <Stack.Screen options={headerShow} name="Messenger" component={Messenger} />
-            <Stack.Screen options={headerShow} name="NewMessage" component={NewMessage} />
-            <Stack.Screen options={headerShow} name="ChatRoom" component={ChatRoom} />
-            <Stack.Screen options={headerShow} name="UserProfile" component={UserProfile} />
-            <Stack.Screen options={headerShow} name="EditProfile" component={EditProfile} />
-            <Stack.Screen options={headerShow} name="Notifications" component={Notifications} />
+        <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Menu" component={Menu} />
+            <Stack.Screen name="Groups" component={Groups} />
+            <Stack.Screen name="Friends" component={Friends} />
+            <Stack.Screen name="Messenger" component={Messenger} />
+            <Stack.Screen name="NewMessage" component={NewMessage} />
+            <Stack.Screen name="ChatRoom" component={ChatRoom} />
+            <Stack.Screen name="UserProfile" component={UserProfile} />
+            <Stack.Screen name="EditProfile" component={EditProfile} />
+            <Stack.Screen name="Notifications" component={Notifications} />
         </Stack.Navigator>
     );
 };

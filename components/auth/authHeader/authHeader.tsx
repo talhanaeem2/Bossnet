@@ -1,15 +1,22 @@
 import { View, StyleSheet, TouchableOpacity } from 'react-native'
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
 import Icons from '../../../constants/icons';
 
+import RootStackParamListInterface from '../../../interfaces/RootStackParamListInterface';
+
 const AuthHeader = () => {
+    const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
+
+    const goBack = () => {
+        navigation.goBack();
+    };
+
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.iconContainer}>
+            <TouchableOpacity style={styles.iconContainer} onPress={goBack}>
                 {Icons.backIcon}
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconContainer}>
-                {Icons.crossIcon}
             </TouchableOpacity>
         </View>
     )
@@ -19,12 +26,10 @@ export default AuthHeader
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginLeft: 10,
-        marginRight: 30
+        flex: 1,
+        paddingTop: 15
     },
     iconContainer: {
-        alignSelf: 'center',
+        alignSelf: 'flex-start',
     },
 });

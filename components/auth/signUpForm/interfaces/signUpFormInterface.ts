@@ -4,9 +4,8 @@ export default interface SignUpFormInterface {
     password: string;
     confirmPassword: string;
     firstName: string;
-    nickname: string;
     lastName: string;
+    userName: string;
     birthday: Date;
-    address?: string;
     agreeToTerms: boolean;
 }

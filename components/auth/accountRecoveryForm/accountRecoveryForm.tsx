@@ -1,88 +1,70 @@
-import { KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, View, StyleSheet, TouchableOpacity } from "react-native"
+import { View, StyleSheet, TouchableOpacity } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { StackNavigationProp } from "@react-navigation/stack"
-import { Picker } from "@react-native-picker/picker"
 import { useState } from "react"
 
 import InputField from "../../app/inputField/InputField"
 import TextBold from "../../app/textComponent/textBold/textBold"
 import TextRegular from "../../app/textComponent/textRegular/textRegular"
+import AuthLogoHeader from "../authLogoHeader/authLogoHeader"
 
 import messages from "../../../constants/messages"
-import { languageOptions } from "../../../constants/constants"
 import { RFS, RPH, RPW } from "../../../constants/utils"
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
 
 const AccountRecoveryForm = () => {
-    const [selectedLanguage, setSelectedLanguage] = useState();
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
+    const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>();
+
     const navigateToSignIn = () => {
         navigation.navigate("SignIn")
     }
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View>
-                    <View>
-                        <TextBold fontSize={23}>
-                            {messages.accountRecoveryHeading}
+        <View style={styles.inner}>
+            <AuthLogoHeader selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
+            <View>
+                <TextBold fontSize={23}>
+                    {messages.accountRecoveryHeading}
+                </TextBold>
+                <TextRegular fontSize={15}>
+                    {messages.accountRecoverySubHeading}
+                </TextRegular>
+            </View>
+            <View style={styles.fieldContainer}>
+                <InputField type="email" placeholder={messages.email} />
+            </View>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.nextButton} onPress={navigateToSignIn}>
+                    <TextRegular fontSize={18} color='#fff'>
+                        {messages.signIn}
+                    </TextRegular>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.nextButton}>
+                    <TextRegular fontSize={18} color='#fff'>
+                        Request Link
+                    </TextRegular>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.bottomContainer}>
+                <View style={styles.terms}>
+                    <TouchableOpacity>
+                        <TextBold fontSize={0} color="#5F6373">
+                            {messages.terms}
                         </TextBold>
-                        <TextRegular fontSize={15}>
-                            {messages.accountRecoverySubHeading}
-                        </TextRegular>
-                    </View>
-                    <View style={styles.fieldContainer}>
-                        <InputField type="email" placeholder={messages.email} />
-                    </View>
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity onPress={navigateToSignIn}>
-                            <TextRegular fontSize={12} color="#385DFF">
-                                {messages.signIn}
-                            </TextRegular>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.requestButton}>
-                            <TextBold fontSize={13} color="#fff">
-                                {messages.requestReset}
-                            </TextBold>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.bottomContainer}>
-                        <View style={styles.languageDropdown}>
-                            <Picker
-                                mode="dropdown"
-                                dropdownIconColor="#FFFBFB"
-                                selectedValue={selectedLanguage}
-                                onValueChange={(itemValue) =>
-                                    setSelectedLanguage(itemValue)
-                                }>
-                                {languageOptions.map((item, index) => {
-                                    return (
-                                        <Picker.Item style={styles.dropdownText} key={index} label={item.label} value={item.value} />
-                                    )
-                                })}
-                            </Picker>
-                        </View>
-                        <View style={styles.terms}>
-                            <TouchableOpacity>
-                                <TextBold fontSize={0} color="#5F6373">
-                                    {messages.terms}
-                                </TextBold>
-                            </TouchableOpacity>
-                            <TextRegular fontSize={0} color="#5F6373">
-                                {messages.and}
-                            </TextRegular>
-                            <TouchableOpacity>
-                                <TextBold fontSize={0} color="#5F6373">
-                                    {messages.privacy}
-                                </TextBold>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+                    </TouchableOpacity>
+                    <TextRegular fontSize={0} color="#5F6373">
+                        {messages.and}
+                    </TextRegular>
+                    <TouchableOpacity>
+                        <TextBold fontSize={0} color="#5F6373">
+                            {messages.privacy}
+                        </TextBold>
+                    </TouchableOpacity>
                 </View>
-            </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+            </View>
+        </View>
     )
 }
 
@@ -92,6 +74,9 @@ const styles = StyleSheet.create({
     bottomContainer: {
         marginTop: RPH(30),
         alignItems: "center"
+    },
+    inner: {
+        justifyContent: 'space-between',
     },
     fieldContainer: {
         paddingTop: RPH(4),
@@ -104,11 +89,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: RPW(2.8)
     },
     buttonContainer: {
-        flexDirection: "row",
+        flexDirection: "column",
         justifyContent: "space-between",
         alignItems: "center",
         paddingHorizontal: RPW(2),
-        paddingTop: RPH(2)
+        gap: RPH(2),
+        marginTop: RPH(4)
     },
     terms: {
         flexDirection: "row",
@@ -128,5 +114,14 @@ const styles = StyleSheet.create({
     dropdownText: {
         fontSize: RFS(17),
         fontFamily: "Lato-Regular",
-    }
+    },
+    nextButton: {
+        backgroundColor: "#308AFF",
+        borderRadius: 34,
+        alignItems: "center",
+        justifyContent: "center",
+        alignSelf: "center",
+        width: '100%',
+        paddingVertical: 11
+    },
 })

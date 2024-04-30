@@ -1,11 +1,9 @@
 import * as Font from 'expo-font';
 import { useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 import { StatusBar } from "expo-status-bar";
 import { View, ActivityIndicator } from 'react-native';
-
-import WithAuthentication from './withAuthentication';
+import MainNavigator from './navigation/mainNavigator';
 
 import store from './store';
 
@@ -55,12 +53,10 @@ const App = () => {
   }
 
   return (
-    <NavigationContainer>
-      <Provider store={store}>
-        <StatusBar style="dark" translucent={true} hidden={false} />
-        <WithAuthentication />
-      </Provider>
-    </NavigationContainer>
+    <Provider store={store}>
+      <StatusBar style="dark" translucent={true} hidden={false} />
+      <MainNavigator />
+    </Provider>
   );
 }
 

@@ -13,13 +13,13 @@ const messages = {
     birthday: "Birthday",
     // placeholders
     firstName: "First Name",
-    name: "Name",
+    name: "Username",
     password: "Password",
     cofirmPass: "Confirm Password",
     email: "Email",
     confirmEmail: "Confirm Email",
-    nick: "Nickname",
-    lastName: "Lastname",
+    nick: "User Name",
+    lastName: "Last Name",
     address: "Address (optional)",
     // Account Recovery
     accountRecoveryHeading: "Account recovery.",
@@ -35,7 +35,7 @@ const messages = {
     commentAction: "Comment",
     shareAction: "Share",
     // languageDropdown
-    english: "English",
+    english: "English (US)",
     bosnia: "Bosnia",
     // menu
     menu: "Menu",

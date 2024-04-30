@@ -1,20 +1,19 @@
-import { StyleSheet, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Image } from "react-native"
+import { StyleSheet, View, TouchableOpacity } from "react-native"
 import { memo, useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Picker } from '@react-native-picker/picker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios";
 
+import AuthLogoHeader from "../authLogoHeader/authLogoHeader";
 import InputField from "../../app/inputField/InputField";
 import TextBold from "../../app/textComponent/textBold/textBold";
 import TextRegular from "../../app/textComponent/textRegular/textRegular";
 
 import messages from "../../../constants/messages";
-import { languageOptions } from "../../../constants/constants";
-import { RFS, RPH, RPW } from "../../../constants/utils";
+import { RPH, RPW } from "../../../constants/utils";
 import Icons from "../../../constants/icons";
 import Apis from "../../../constants/apis";
 
@@ -28,7 +27,7 @@ const SignInForm = () => {
     const route = useRoute();
     const params = route.params as { prefillUsername: string; prefillPassword: string }
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
-    const [selectedLanguage, setSelectedLanguage] = useState();
+    const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>();
     const dispatch = useReducerDispatch()
 
     const validationSchema = Yup.object().shape({
@@ -103,8 +102,8 @@ const SignInForm = () => {
 
     const formik = useFormik({
         initialValues: {
-            username: '',
-            password: '',
+            username: 'kaartoos',
+            password: '12345678',
             selectedLanguage: selectedLanguage
         },
         validationSchema,
@@ -131,95 +130,76 @@ const SignInForm = () => {
     }
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View>
-                    {/* <View style={styles.languageDropdown}>
-                        <Picker
-                            mode="dropdown"
-                            dropdownIconColor="#FFFBFB"
-                            selectedValue={selectedLanguage}
-                            onValueChange={(itemValue) => {
-                                setSelectedLanguage(itemValue);
-                                formik.setFieldValue('selectedLanguage', itemValue);
-                            }}>
-                            {languageOptions.map((item, index) => {
-                                return (
-                                    <Picker.Item style={styles.dropdownText} key={index} label={item.label} value={item.value} />
-                                )
-                            })}
-                        </Picker>
-                    </View> */}
-                    <View style={styles.logo}>
-                        <Image source={require("../../../assets/bosnettLogo.png")} />
-                    </View>
-                    <View>
-                        <TextBold fontSize={23}>
-                            {messages.signInHeading}
-                        </TextBold>
-                    </View>
-                    <View style={styles.fieldContainer}>
-                        <InputField
-                            placeholder={messages.name}
-                            leftIcon={Icons.userIcon}
-                            type="text"
-                            onChangeText={formik.handleChange('username')}
-                            value={formik.values.username}
-                        />
-                        {formik.touched.username && formik.errors.username &&
-                            <TextRegular fontSize={12} color="red">
-                                {formik.errors.username}
-                            </TextRegular>
-                        }
-                        <InputField
-                            placeholder={messages.password}
-                            leftIcon={Icons.keyIcon}
-                            rightIcon={Icons.eyeIcon}
-                            secureTextEntry={true}
-                            type="password"
-                            onChangeText={formik.handleChange('password')}
-                            value={formik.values.password}
-                        />
-                        {formik.touched.password && formik.errors.password &&
-                            <TextRegular fontSize={12} color="red">
-                                {formik.errors.password}
-                            </TextRegular>
-                        }
-                    </View>
-                    <View style={styles.buttonSpacing}>
-                        <TouchableOpacity onPress={navigateToAccountRecovery}>
-                            <TextRegular fontSize={13} color="#4B3434">
-                                {messages.forgotPass}
-                            </TextRegular>
-                        </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity onPress={navigateToSignUp}>
-                        <TextRegular fontSize={13} color="#385DFF">
-                            {messages.createAcc}
-                        </TextRegular>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.nextButton}
-                        onPress={() => formik.handleSubmit()}
-                    >
-                        {Icons.forwardIcon}
-                    </TouchableOpacity>
-                </View>
-            </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+        <View style={styles.inner}>
+            <AuthLogoHeader formik={formik} selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
+            <TextBold fontSize={23}>
+                {messages.signInHeading}
+            </TextBold>
+            <View style={styles.fieldContainer}>
+                <InputField
+                    placeholder={messages.name}
+                    type="text"
+                    onChangeText={formik.handleChange('username')}
+                    value={formik.values.username}
+                />
+                {formik.touched.username && formik.errors.username &&
+                    <TextRegular fontSize={12} color="red">
+                        {formik.errors.username}
+                    </TextRegular>
+                }
+                <InputField
+                    placeholder={messages.password}
+                    rightIcon={Icons.eyeIcon}
+                    secureTextEntry={true}
+                    type="password"
+                    onChangeText={formik.handleChange('password')}
+                    value={formik.values.password}
+                />
+                {formik.touched.password && formik.errors.password &&
+                    <TextRegular fontSize={12} color="red">
+                        {formik.errors.password}
+                    </TextRegular>
+                }
+            </View>
+            <TouchableOpacity
+                style={styles.nextButton}
+                onPress={() => formik.handleSubmit()}
+            >
+                <TextRegular fontSize={18} color='#fff'>Login</TextRegular>
+            </TouchableOpacity>
+            <View style={styles.buttonSpacing}>
+                <TouchableOpacity onPress={navigateToAccountRecovery}>
+                    <TextBold fontSize={14} color="#363636">
+                        {messages.forgotPass}
+                    </TextBold>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.footer}>
+                <TouchableOpacity onPress={navigateToSignUp} style={styles.newAcc}>
+                    <TextBold fontSize={13} color="#308AFF">
+                        {messages.createAcc}
+                    </TextBold>
+                </TouchableOpacity>
+            </View>
+        </View>
     )
 }
 
 export default memo(SignInForm)
 
 const styles = StyleSheet.create({
+    inner: {
+        justifyContent: 'space-between'
+    },
+    footer: {
+        alignSelf: 'center',
+        justifyContent: 'flex-end',
+        width: '100%',
+        marginTop: 50
+    },
     fieldContainer: {
         paddingTop: RPH(4),
         gap: RPH(3)
-    },
-    logo: {
-        paddingBottom: 84,
-        alignItems: 'center',
     },
     leftIcon: {
         width: 19,
@@ -241,27 +221,25 @@ const styles = StyleSheet.create({
     },
     buttonSpacing: {
         marginBottom: RPH(2),
-        marginTop: RPH(4)
+        marginTop: 12,
+        alignItems: "center"
     },
     nextButton: {
-        backgroundColor: "#385DFF",
-        borderRadius: 10,
-        width: RPW(13),
-        height: RPH(6),
+        backgroundColor: "#308AFF",
+        borderRadius: 34,
         alignItems: "center",
         justifyContent: "center",
         alignSelf: "center",
-        marginVertical: RPH(7)
+        marginTop: 33,
+        width: '100%',
+        paddingVertical: 11
     },
-    languageDropdown: {
-        borderRadius: 10,
-        width: RPW(40),
-        height: RPH(5),
-        alignSelf: "center",
-        justifyContent: "center"
-    },
-    dropdownText: {
-        fontSize: RFS(17),
-        fontFamily: "Lato-Regular",
+    newAcc: {
+        backgroundColor: "transparent",
+        borderRadius: 34,
+        alignItems: "center",
+        borderWidth: 2,
+        borderColor: '#308AFF',
+        paddingVertical: 11,
     }
 })

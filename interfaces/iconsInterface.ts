@@ -1,4 +1,6 @@
 interface IconsInterface {
+    likedIcon: JSX.Element;
+    likeIcon: JSX.Element;
     commentIcon: JSX.Element;
     shareIcon: JSX.Element;
     backIcon: JSX.Element;

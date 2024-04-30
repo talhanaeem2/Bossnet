@@ -13,6 +13,7 @@ import OverlayActionsInterface from "./interfaces/overlayActions"
 import useSliceSelector from "../../../hooks/useSliceSelector"
 import useReducerDispatch from "../../../hooks/useReducerDispatch"
 import { setCommentModal } from "../../../reducers/app/appSlice"
+import Icons from "../../../constants/icons";
 
 const UserActions = (props: UserActionsProps) => {
     const { onLongPress, showOverlay, closeOverlay } = props
@@ -23,7 +24,7 @@ const UserActions = (props: UserActionsProps) => {
     const changeIcon = (selectedIconText: string): ImageSourcePropType => {
         switch (selectedIconText) {
             case 'Like':
-                return require("../../../assets/icons/liked.png");
+                return require("../../../assets/icons/liked.svg");
             case 'Love':
                 return require("../../../assets/icons/loved.png");
             case 'Sad':
@@ -35,7 +36,7 @@ const UserActions = (props: UserActionsProps) => {
             case 'Angry':
                 return require("../../../assets/icons/angered.png");
             default:
-                return require("../../../assets/icons/likes.png");
+                return require("../../../assets/icons/likes.svg");
         }
     };
 
@@ -49,7 +50,7 @@ const UserActions = (props: UserActionsProps) => {
         if (selectedIcon) {
             setSelectedIcon('')
         } else {
-            setSelectedIcon('Like')
+            setSelectedIcon('Liked')
         }
     }
 
@@ -105,12 +106,12 @@ const UserActions = (props: UserActionsProps) => {
             onLongPress: onLongPress
         },
         {
-            icon: require("../../../assets/icons/comment.png"),
+            icon: require("../../../assets/icons/comment.svg"),
             text: messages.commentAction,
             onPress: handleComment
         },
         {
-            icon: require("../../../assets/icons/share.png"),
+            icon: require("../../../assets/icons/share.svg"),
             text: messages.shareAction,
             onPress: handleShare
         },
@@ -129,11 +130,16 @@ const UserActions = (props: UserActionsProps) => {
                                 styles.action,
                                 pressed && styles.actionOnPress
                             ]}
-                        >
-                            <Image
-                                source={item.icon}
-                                style={{ width: 18, height: 15 }}
-                            />
+                        >{
+                                item.text === 'Like' ? Icons.likeIcon :
+                                    item.text === 'Liked' ? Icons.likedIcon :
+                                        item.text === 'Comment' ? Icons.commentIcon :
+                                            item.text === 'Share' ? Icons.shareIcon :
+                                                <Image
+                                                    source={item.icon}
+                                                    style={{ width: 20, height: 20 }}
+                                                />
+                            }
                             <TextRegular
                                 fontSize={11}
                                 color={index === 0 ?

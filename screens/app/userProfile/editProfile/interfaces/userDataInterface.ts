@@ -8,4 +8,5 @@ export default interface UserDataInterface {
     day: number;
     month: number;
     year: number;
+    [key: string]: string | number | undefined;
 }

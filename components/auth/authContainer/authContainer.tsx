@@ -1,20 +1,25 @@
-import { StyleSheet } from 'react-native'
+import { Dimensions, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, TouchableWithoutFeedback } from 'react-native'
+import { LinearGradient } from 'expo-linear-gradient';
+
+import { RPH, RPW } from '../../../constants/utils';
 
 import AuthContainerInterface from './interfaces/AuthContainerInterface';
-import { RPH, RPW } from '../../../constants/utils';
-import { LinearGradient } from 'expo-linear-gradient';
 
 const AuthContainer = ({ children }: AuthContainerInterface) => {
     return (
-        <LinearGradient
-            colors={['#FFF', 'rgba(221, 249, 249, 0.48)', 'rgba(212, 178, 211, 0.00)']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            locations={[0.1694, 0.5649, 1.1252]}
-            style={styles.container}
-        >
-            {children}
-        </LinearGradient>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <LinearGradient
+                    colors={['rgba(212, 178, 211, 0.00)', 'rgba(221, 249, 249, 0.48)', '#FFF']}
+                    locations={[0.1694, 0.5649, 1.1252]}
+                    start={{ x: 0, y: 0.5 }}
+                    end={{ x: 1, y: 0.5 }}
+                    style={[{ height: Dimensions.get('window').height }, styles.container]}
+                >
+                    {children}
+                </LinearGradient>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     )
 }
 
@@ -24,6 +29,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: RPW(10),
-        paddingVertical: RPH(4)
+        paddingTop: RPH(1)
     },
 });

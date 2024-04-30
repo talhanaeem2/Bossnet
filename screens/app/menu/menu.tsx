@@ -12,11 +12,15 @@ import messages from "../../../constants/messages";
 import { RPH, RPW } from "../../../constants/utils";
 import { menuButtons } from "./constants/menuButtons";
 
+import { logout } from "../../../reducers/auth/authSlice";
+import useReducerDispatch from "../../../hooks/useReducerDispatch";
+
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 
 const Menu = () => {
     const [isLoading, setIsLoading] = useState(false)
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
+    const dispatch = useReducerDispatch();
 
     const handleLogout = async () => {
         try {
@@ -25,9 +29,8 @@ const Menu = () => {
             await AsyncStorage.removeItem('token');
             await AsyncStorage.removeItem('userData');
 
+            dispatch(logout())
             setIsLoading(false);
-
-            navigation.navigate("SignIn");
 
         } catch (error) {
             console.error('Error during logout:', error);
