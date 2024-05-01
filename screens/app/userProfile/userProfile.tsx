@@ -45,8 +45,8 @@ const UserProfile = () => {
                     <View style={styles.circle}>
                         <Image style={styles.roundImg} source={require("../../../assets/user-placeholder.png")} />
                     </View>
-                    <TextBold fontSize={35} style={{ paddingTop: 20 }}>
-                        {userData.display_name}
+                    <TextBold fontSize={35} style={{ paddingTop: 20, textTransform: 'capitalize' }}>
+                        {userData.firstName}
                     </TextBold>
                     <View style={styles.followContainer}>
                         <TextRegular fontSize={19} color="#787878">

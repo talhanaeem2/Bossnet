@@ -57,7 +57,7 @@ const SignUpForm = () => {
             dispatch(setIsLoading(true))
 
             const response = await axios.request(config);
-            console.log(JSON.stringify(response.data));
+
             dispatch(setIsLoading(false))
             navigation.navigate('SignIn', {
                 prefillUsername: values.userName,

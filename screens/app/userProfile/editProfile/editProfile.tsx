@@ -24,8 +24,6 @@ const EditProfile = () => {
         const accessToken = await AsyncStorage.getItem('token');
         const parsedToken = accessToken && JSON.parse(accessToken)
 
-        console.log(parsedToken)
-
         const config = {
             method: 'get',
             url: Apis.profileApi,
@@ -36,7 +34,7 @@ const EditProfile = () => {
 
         try {
             const response: EditDataInterface = await axios(config);
-            console.log(JSON.stringify(response.data));
+
             setUserData(response.data.data)
         } catch (error) {
             console.log(error);
@@ -93,7 +91,7 @@ const EditProfile = () => {
                                         <View style={styles.iconContainer}>
                                             <Image source={require("../../../../assets/icons/editUsername.png")} />
                                         </View>
-                                        <TextRegular fontSize={17}>
+                                        <TextRegular fontSize={17} style={{ textTransform: 'capitalize' }}>
                                             {userData?.firstName as string}
                                         </TextRegular>
                                     </View>

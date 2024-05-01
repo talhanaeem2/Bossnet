@@ -25,7 +25,6 @@ const Home = () => {
     const token = useSliceSelector(state => state.auth.token)
     const dispatch = useReducerDispatch()
     const userData = useSliceSelector(state => state.auth.userData)
-    console.log('state', userData)
 
     const handleImagePicker = useCallback(async (action: 'gallery' | 'camera' | 'giphy') => {
         let result: ImagePicker.ImagePickerResult;
@@ -68,8 +67,8 @@ const Home = () => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log(JSON.stringify(response.data.response.data.auth));
-            dispatch(setUserData(response.data.response.data.auth))
+
+            dispatch(setUserData(response.data.data))
 
         } catch (error) {
             console.log(error);

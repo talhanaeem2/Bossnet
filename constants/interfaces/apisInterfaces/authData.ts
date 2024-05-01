@@ -1,12 +1,10 @@
 export default interface AuthData {
-    id: number;
+    userId: number;
+    email: string;
+    firstName: string;
+    lastName: string;
     userName: string;
     nickName: string;
-    email: string;
-    display_name: string;
-    first_name: string;
-    last_name: string;
-    DOB: string;
     day: number;
     month: number;
     year: number;

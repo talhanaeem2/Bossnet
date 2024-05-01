@@ -35,18 +35,18 @@ const SignInForm = () => {
         password: Yup.string().required('Password is required')
     });
 
-    const handleRememberMe = async (username: string, password: string) => {
-        const userData = {
-            username: username,
-            password: password
-        };
+    // const handleRememberMe = async (username: string, password: string) => {
+    //     const userData = {
+    //         username: username,
+    //         password: password
+    //     };
 
-        try {
-            await AsyncStorage.setItem("userData", JSON.stringify(userData));
-        } catch (error) {
-            console.error("Error storing credentials:", error);
-        }
-    };
+    //     try {
+    //         await AsyncStorage.setItem("userData", JSON.stringify(userData));
+    //     } catch (error) {
+    //         console.error("Error storing credentials:", error);
+    //     }
+    // };
 
     const loadStoredCredentials = async () => {
         try {
@@ -82,18 +82,17 @@ const SignInForm = () => {
             dispatch(setIsLoading(true))
 
             const response = await axios.request(config);
-            console.log('aia', JSON.stringify(response.data.token));
 
             if (response.data && response.data.token) {
                 const token = response.data.token;
 
                 await AsyncStorage.setItem('token', JSON.stringify(token));
-                handleRememberMe(values.username, values.password);
+                // handleRememberMe(values.username, values.password);
                 dispatch(login(token));
                 dispatch(setIsLoading(false));
             }
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Sign in error:', error);
             formik.setFieldError('password', 'Invalid password');
             formik.setFieldError('username', 'Invalid username');
             dispatch(setIsLoading(false));
@@ -102,8 +101,8 @@ const SignInForm = () => {
 
     const formik = useFormik({
         initialValues: {
-            username: 'kaartoos',
-            password: '12345678',
+            username: 'ansss',
+            password: 'anasnawaz',
             selectedLanguage: selectedLanguage
         },
         validationSchema,
@@ -113,7 +112,7 @@ const SignInForm = () => {
     useEffect(() => {
         if (params != undefined && params.prefillUsername && params.prefillPassword) {
             handleSignIn({ username: params.prefillUsername, password: params.prefillPassword });
-            handleRememberMe(params.prefillUsername, params.prefillPassword);
+            // handleRememberMe(params.prefillUsername, params.prefillPassword);
         }
     }, [params]);
 

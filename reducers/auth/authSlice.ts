@@ -8,14 +8,11 @@ const initialState: AuthStateInterface = {
     token: "",
     isLoading: false,
     userData: {
-        id: 0,
+        email: '',
+        firstName: '',
+        lastName: '',
         userName: '',
         nickName: '',
-        email: '',
-        display_name: '',
-        first_name: '',
-        last_name: '',
-        DOB: '',
         day: 0,
         month: 0,
         year: 0
