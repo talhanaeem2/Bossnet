@@ -10,7 +10,7 @@ const AuthContainer = ({ children }: AuthContainerInterface) => {
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <LinearGradient
-                    colors={['rgba(212, 178, 211, .5)', 'rgba(221, 249, 249, 1)', '#FFF']}
+                    colors={['rgba(212, 178, 211, .3)', 'rgba(221, 249, 249, 1)', '#FFF']}
                     locations={[0.1694, 0.5649, 1.1252]}
                     start={{ x: 0, y: 0.5 }}
                     end={{ x: 1, y: 0.5 }}
