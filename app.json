@@ -4,7 +4,7 @@
     "slug": "bossnet",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo-bosnett.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -30,7 +30,7 @@
         "hidden": false
       },
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
+        "foregroundImage": "./assets/logo-bosnett.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
