@@ -35,18 +35,18 @@ const SignInForm = () => {
         password: Yup.string().required('Password is required')
     });
 
-    // const handleRememberMe = async (username: string, password: string) => {
-    //     const userData = {
-    //         username: username,
-    //         password: password
-    //     };
+    const handleRememberMe = async (username: string, password: string) => {
+        const userData = {
+            username: username,
+            password: password
+        };
 
-    //     try {
-    //         await AsyncStorage.setItem("userData", JSON.stringify(userData));
-    //     } catch (error) {
-    //         console.error("Error storing credentials:", error);
-    //     }
-    // };
+        try {
+            await AsyncStorage.setItem("userData", JSON.stringify(userData));
+        } catch (error) {
+            console.error("Error storing credentials:", error);
+        }
+    };
 
     const loadStoredCredentials = async () => {
         try {
@@ -87,7 +87,7 @@ const SignInForm = () => {
                 const token = response.data.token;
 
                 await AsyncStorage.setItem('token', JSON.stringify(token));
-                // handleRememberMe(values.username, values.password);
+                handleRememberMe(values.username, values.password);
                 dispatch(login(token));
                 dispatch(setIsLoading(false));
             }
