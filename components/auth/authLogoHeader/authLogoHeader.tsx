@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image } from "react-native"
+import { StyleSheet, View, Text } from "react-native"
 import { Picker } from '@react-native-picker/picker';
 import { memo } from "react";
 
@@ -29,7 +29,7 @@ const AuthLogoHeader = (props: AuthLogoHeaderProps) => {
                 </Picker>
             </View>
             <View style={styles.logo}>
-                <Image source={require("../../../assets/bosnettLogo.png")} />
+                <Text style={styles.logoText}>bosnett</Text>
             </View>
         </View>
     )
@@ -37,6 +37,11 @@ const AuthLogoHeader = (props: AuthLogoHeaderProps) => {
 export default memo(AuthLogoHeader)
 
 const styles = StyleSheet.create({
+    logoText: {
+        color: '#2196f3',
+        fontSize: 46,
+        fontFamily: 'ReadexPro-Regular'
+    },
     languageDropdown: {
         borderRadius: 10,
         width: '100%',
@@ -51,7 +56,7 @@ const styles = StyleSheet.create({
         fontFamily: "Lato-Regular"
     },
     logo: {
-        paddingBottom: 84,
+        paddingBottom: 70,
         alignItems: 'center',
     },
 })

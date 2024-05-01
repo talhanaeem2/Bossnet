@@ -9,7 +9,8 @@ import store from './store';
 
 const customFonts = {
   'Lato-Regular': require('./assets/fonts//Lato-Regular.ttf'),
-  'Lato-Bold': require('./assets/fonts/Lato-Bold.ttf')
+  'Lato-Bold': require('./assets/fonts/Lato-Bold.ttf'),
+  'ReadexPro-Regular': require('./assets/fonts/ReadexPro-Regular.ttf')
 };
 
 const App = () => {
