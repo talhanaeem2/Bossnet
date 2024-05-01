@@ -6,4 +6,5 @@ export default interface AppStateInterface {
     createPostModal: CreatePostModalStateInterface;
     imageFullScreeenModal: ImageFullScreenModalStateInterface;
     commentModal: CommentModalStateInterface;
+    footerActiveButton: { activeTab: string };
 }
