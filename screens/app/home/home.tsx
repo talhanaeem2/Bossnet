@@ -24,7 +24,6 @@ const Home = () => {
     const [images, setImages] = useState<string[]>([]);
     const token = useSliceSelector(state => state.auth.token)
     const dispatch = useReducerDispatch()
-    const userData = useSliceSelector(state => state.auth.userData)
 
     const handleImagePicker = useCallback(async (action: 'gallery' | 'camera' | 'giphy') => {
         let result: ImagePicker.ImagePickerResult;

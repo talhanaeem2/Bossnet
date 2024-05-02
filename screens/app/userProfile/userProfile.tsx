@@ -1,15 +1,20 @@
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { StackNavigationProp } from "@react-navigation/stack"
+import { useCallback, useState } from "react"
+import * as ImagePicker from 'expo-image-picker'
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper"
 import TextBold from "../../../components/app/textComponent/textBold/textBold"
 import TextRegular from "../../../components/app/textComponent/textRegular/textRegular"
+import CreatePostModal from "../../../modals/createPostModal/createPostModal"
 
 import { RPW, RPH } from "../../../constants/utils"
 import Icons from "../../../constants/icons"
 
 import useSliceSelector from "../../../hooks/useSliceSelector"
+import useReducerDispatch from "../../../hooks/useReducerDispatch"
+import { setCreatePostModal } from "../../../reducers/app/appSlice"
 
 import footerIconsInterface from "./interfaces/footerIconsInterface"
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
@@ -37,6 +42,47 @@ const footerIcons: footerIconsInterface[] = [
 const UserProfile = () => {
     const userData = useSliceSelector(state => state.auth.userData)
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
+    const [images, setImages] = useState<string[]>([]);
+    const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
+    const dispatch = useReducerDispatch();
+
+    const handleToggleCreatePostModal = useCallback(() => {
+        dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));
+    }, [isCreatePostModalVisible]);
+
+    const handleImagePicker = useCallback(async (action: 'gallery' | 'camera' | 'giphy') => {
+        let result: ImagePicker.ImagePickerResult;
+        if (action === 'gallery') {
+            result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                aspect: [1, 1],
+                quality: 1,
+                allowsMultipleSelection: true
+            });
+            if (!result.canceled) {
+                const selectedImages = result.assets.map((asset) => asset.uri);
+                setImages((prevImages) => [...prevImages, ...selectedImages]);
+            }
+
+        } else if (action === 'camera') {
+            result = await ImagePicker.launchCameraAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 1,
+            });
+            if (!result.canceled) {
+                const selectedImages = result.assets.map((asset) => asset.uri);
+                setImages((prevImages) => [...prevImages, ...selectedImages]);
+            }
+        }
+    }, [])
+
+    const removeImage = useCallback((index: number) => {
+        const newImages = [...images];
+        newImages.splice(index, 1);
+        setImages(newImages);
+    }, [images])
 
     return (
         <MainWapper isHeader={true} isFooter={false} icon={true}>
@@ -57,7 +103,7 @@ const UserProfile = () => {
                         </TextRegular>
                     </View>
                     <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.createBtn}>
+                        <TouchableOpacity style={styles.createBtn} onPress={handleToggleCreatePostModal}>
                             {Icons.userPlusIcon}
                             <TextBold fontSize={19} color="#fff">
                                 Create post
@@ -103,6 +149,12 @@ const UserProfile = () => {
                     })}
                 </View>
             </View>
+            {isCreatePostModalVisible && (
+                <CreatePostModal
+                    images={images}
+                    handleImagePicker={handleImagePicker}
+                    removeImage={removeImage} />
+            )}
         </MainWapper>
     )
 }
