@@ -7,4 +7,5 @@ export default interface AppStateInterface {
     imageFullScreeenModal: ImageFullScreenModalStateInterface;
     commentModal: CommentModalStateInterface;
     footerActiveButton: { activeTab: string };
+    newsFeedActiveItem: { postId: number };
 }

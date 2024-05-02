@@ -19,6 +19,9 @@ const initialState: AppStateInterface = {
     },
     footerActiveButton: {
         activeTab: 'Home'
+    },
+    newsFeedActiveItem: {
+        postId: -1
     }
 };
 
@@ -42,6 +45,9 @@ const appSlice = createSlice({
         },
         setActiveTab(state, action: PayloadAction<string>) {
             state.footerActiveButton.activeTab = action.payload
+        },
+        setActivePostId(state, action: PayloadAction<number>) {
+            state.newsFeedActiveItem.postId = action.payload
         }
     }
 });
@@ -50,7 +56,8 @@ export const {
     setCreatePostModal,
     setImageFullScreenModal,
     setCommentModal,
-    setActiveTab
+    setActiveTab,
+    setActivePostId
 } = appSlice.actions;
 
 export default appSlice.reducer;

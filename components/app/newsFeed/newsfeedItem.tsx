@@ -124,6 +124,7 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
                     showOverlay={item.showOverlay}
                     onLongPress={() => handleLongPress(index)}
                     closeOverlay={handleCloseOverlay}
+                    activeId={postId}
                 />
             </View>
         </TouchableWithoutFeedback>
