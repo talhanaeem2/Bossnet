@@ -1,6 +1,6 @@
 import { Modal, TouchableOpacity, View, TextInput, StyleSheet, Image, FlatList } from "react-native"
+import { useRef, useState, memo } from "react"
 import { Circle, Path } from "react-native-svg"
-import { useRef, useState } from "react"
 import moment from "moment"
 
 import TextBold from "../../components/app/textComponent/textBold/textBold"
@@ -275,7 +275,7 @@ const CommmentModal = () => {
     )
 }
 
-export default CommmentModal
+export default memo(CommmentModal)
 
 const styles = StyleSheet.create({
     modalBackground: {
@@ -286,8 +286,8 @@ const styles = StyleSheet.create({
     },
     likeIcon: {
         position: 'absolute',
-        bottom: -2,
-        right: -2
+        bottom: -3,
+        right: -3
     },
     commentModalContainer: {
         width: '100%',
@@ -330,11 +330,12 @@ const styles = StyleSheet.create({
     },
     commentContent: {
         paddingLeft: 8,
-        paddingRight: 11,
+        paddingRight: 14,
         paddingVertical: 6,
         backgroundColor: "'rgba(221, 221, 221, 0.5)'",
         borderRadius: 10,
-        position: 'relative'
+        position: 'relative',
+        maxWidth: '80%'
     },
     commentAction: {
         flexDirection: "row",
@@ -353,7 +354,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: "'rgba(221, 221, 221, 1)'",
         padding: 8,
-        width: "80%"
+        width: "82%",
+        paddingRight: 114
     },
     iconContainer: {
         flexDirection: "row",
