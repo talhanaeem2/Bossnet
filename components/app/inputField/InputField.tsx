@@ -24,8 +24,9 @@ const InputField = (props: inputFieldInterface) => {
                     props.type === "email" ? "email-address" :
                         props.type === "password" ? "default" :
                             props.type === "number" ? "number-pad" :
-                                props.type === "text" ? "default" :
-                                    "default"
+                                props.type === "numeric" ? "number-pad" :
+                                    props.type === "text" ? "default" :
+                                        "default"
                 }
             />
             {

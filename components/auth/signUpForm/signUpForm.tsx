@@ -267,10 +267,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: RPW(2),
         borderColor: "#6C6363"
     },
-    fieldError: {
-        marginLeft: RPW(2),
-        marginTop: RPH(.3)
-    },
     agreeText: {
         alignSelf: "center",
         flex: 1

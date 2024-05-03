@@ -8,9 +8,9 @@ const messages = {
     and: " and ",
     privacy: "Privacy Policy",
     // sgnUp
-    signIn: "Or sign in",
     agree: "I agree to the Terms of Service and Privacy Policy.",
     birthday: "Birthday",
+    requestLink: 'Request Link',
     // placeholders
     firstName: "First Name",
     name: "Username",
@@ -25,6 +25,12 @@ const messages = {
     accountRecoveryHeading: "Account recovery.",
     accountRecoverySubHeading: "Please enter your username or email address. You will receive an email message with instructions on how to reset your password.",
     requestReset: "Request Reset Link",
+    // Password
+    passwordFormHeading: 'Create new password',
+    passwordFormContent: 'Type your new strong password. Your password must include: One capital letter & one small letter at least, One special character & Minimum 8 digits long.',
+    // Verification OTP
+    verification: 'Verification OTP Code',
+    verificationContent: 'We sent you a one time password on Email message with instructions on how to reset your password.',
     // header
     headerTitle: "News Feed",
     headerSubTitle: "All Updates",

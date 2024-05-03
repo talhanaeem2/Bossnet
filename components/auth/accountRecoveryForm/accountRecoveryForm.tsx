@@ -2,63 +2,159 @@ import { View, StyleSheet, TouchableOpacity } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { StackNavigationProp } from "@react-navigation/stack"
 import { useState } from "react"
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
-import InputField from "../../app/inputField/InputField"
 import TextBold from "../../app/textComponent/textBold/textBold"
 import TextRegular from "../../app/textComponent/textRegular/textRegular"
-import AuthLogoHeader from "../authLogoHeader/authLogoHeader"
+import AccountRecoveryEmailForm from "./accountRecoveryEmailForm/accountRecoveryEmailForm";
+import AccountRecoveryCodeForm from "./accountRecoveryCodeForm/accountRecoveryCodeForm";
+import AuthHeader from "../authHeader/authHeader";
+import AccountRecoveryPasswordForm from "./accountRecoveryPasswordForm/accountRecoveryPasswordForm";
 
 import messages from "../../../constants/messages"
 import { RFS, RPH, RPW } from "../../../constants/utils"
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
+import AccountRecoveryFormValuesInterface from "./interfaces/accountRecoveryFormValuesInterface";
 
 const AccountRecoveryForm = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
-    const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>();
+    const [currentStep, setCurrentStep] = useState(1);
 
     const navigateToSignIn = () => {
         navigation.navigate("SignIn")
     }
 
+    const emailFormik = useFormik({
+        initialValues: {
+            email: "",
+        },
+        validationSchema: Yup.object({
+            email: Yup.string().email("Invalid email").required("Email is required"),
+        }),
+        onSubmit: (values) => {
+            console.log("Requesting link for:", values.email);
+            setCurrentStep(prevState => prevState + 1)
+        },
+    });
+
+    const verificationCodeFormik = useFormik({
+        initialValues: {
+            verificationCode: "",
+        },
+        validationSchema: Yup.object({
+            verificationCode: Yup.string().required('Verification code is required'),
+        }),
+        onSubmit: (values) => {
+            console.log("Requesting link for:", values.verificationCode);
+            setCurrentStep(prevState => prevState + 1)
+        },
+    });
+
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    const passwordFormik = useFormik({
+        initialValues: {
+            password: "",
+            confirmPassword: "",
+        },
+        validationSchema: Yup.object({
+            password: Yup.string()
+                .required("Password is required")
+                .matches(
+                    passwordRegex,
+                    "Password must include at least one uppercase letter, one lowercase letter, one special character, and must be at least 8 characters long"
+                ),
+            confirmPassword: Yup.string()
+                .required("Confirm your password")
+                .oneOf([Yup.ref("password")], "Passwords must match"),
+        }),
+        onSubmit: () => {
+            navigateToSignIn()
+        },
+    });
+
+    const handleRecoverForm = async (values: AccountRecoveryFormValuesInterface) => {
+
+        try {
+
+            let data = JSON.stringify({
+                "email": values.email,
+                "verificationCode": values.verificationCode,
+                "password": values.password,
+                "confirmPassword": values.confirmPassword,
+
+            });
+            console.log(values)
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    const navigateNext = () => {
+        switch (currentStep) {
+            case 1:
+                emailFormik.handleSubmit();
+                break;
+            case 2:
+                verificationCodeFormik.handleSubmit();
+                break;
+            case 3:
+                passwordFormik.handleSubmit();
+                const allValues = {
+                    ...emailFormik.values,
+                    ...verificationCodeFormik.values,
+                    ...passwordFormik.values
+                }
+                handleRecoverForm(allValues);
+        }
+    };
+
+    const formJSX = () => {
+        switch (currentStep) {
+            case 1:
+                return <AccountRecoveryEmailForm formik={emailFormik} />;
+            case 2:
+                return <AccountRecoveryCodeForm formik={verificationCodeFormik} />;
+            case 3:
+                return <AccountRecoveryPasswordForm formik={passwordFormik} />
+        }
+    }
+
+    const buttonText = currentStep === 1 ? messages.requestLink : 'Continue';
+
     return (
         <View style={styles.inner}>
-            <AuthLogoHeader selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
-            <View>
-                <TextBold fontSize={23}>
-                    {messages.accountRecoveryHeading}
-                </TextBold>
-                <TextRegular fontSize={15}>
-                    {messages.accountRecoverySubHeading}
-                </TextRegular>
-            </View>
-            <View style={styles.fieldContainer}>
-                <InputField type="email" placeholder={messages.email} />
-            </View>
+            <AuthHeader />
+            {formJSX()}
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.nextButton} onPress={navigateToSignIn}>
+                <TouchableOpacity style={styles.nextButton} onPress={navigateNext}>
                     <TextRegular fontSize={18} color='#fff'>
-                        {messages.signIn}
+                        {buttonText}
                     </TextRegular>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.nextButton}>
-                    <TextRegular fontSize={18} color='#fff'>
-                        Request Link
-                    </TextRegular>
-                </TouchableOpacity>
+                {currentStep === 1 && (
+                    <TouchableOpacity style={styles.nextButton} onPress={navigateToSignIn}>
+                        <TextRegular fontSize={18} color='#fff'>
+                            {messages.signInHeading}
+                        </TextRegular>
+                    </TouchableOpacity>
+                )}
             </View>
             <View style={styles.bottomContainer}>
                 <View style={styles.terms}>
                     <TouchableOpacity>
-                        <TextBold fontSize={0} color="#5F6373">
+                        <TextBold fontSize={16} color="#5F6373">
                             {messages.terms}
                         </TextBold>
                     </TouchableOpacity>
-                    <TextRegular fontSize={0} color="#5F6373">
+                    <TextRegular fontSize={16} color="#5F6373">
                         {messages.and}
                     </TextRegular>
                     <TouchableOpacity>
-                        <TextBold fontSize={0} color="#5F6373">
+                        <TextBold fontSize={16} color="#5F6373">
                             {messages.privacy}
                         </TextBold>
                     </TouchableOpacity>
@@ -72,7 +168,7 @@ export default AccountRecoveryForm
 
 const styles = StyleSheet.create({
     bottomContainer: {
-        marginTop: RPH(30),
+        marginTop: RPH(10),
         alignItems: "center"
     },
     inner: {
@@ -124,4 +220,8 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingVertical: 11
     },
+    fieldError: {
+        marginLeft: RPW(2),
+        marginTop: RPH(.3)
+    }
 })
