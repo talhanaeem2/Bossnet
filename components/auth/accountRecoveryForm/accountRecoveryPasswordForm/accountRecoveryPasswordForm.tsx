@@ -37,6 +37,11 @@ const AccountRecoveryPasswordForm = (props: AccountRecoveryPasswordFormProps) =>
                     onChangeText={formik.handleChange("password")}
                     onBlur={formik.handleBlur("password")}
                 />
+                {formik.touched.password && formik.errors.password && (
+                    <TextRegular fontSize={12} color="red" style={styles.fieldError}>
+                        {formik.errors.password}
+                    </TextRegular>
+                )}
                 <InputField
                     type="password"
                     rightIcon={Icons.eyeIcon}

@@ -69,6 +69,10 @@ const SignUpForm = () => {
         }
     };
 
+    const goBackToPreviousStep = () => {
+        setCurrentStep((prev) => Math.max(1, prev - 1));
+    };
+
     const navigateNext = () => {
         switch (currentStep) {
             case 1:
@@ -112,15 +116,23 @@ const SignUpForm = () => {
         },
     });
 
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
     const passwordFormik = useFormik({
         initialValues: {
             password: "",
             confirmPassword: "",
         },
-        validationSchema: Yup.object().shape({
-            password: Yup.string().required('Password is required'),
-            confirmPassword: Yup.string().required('Password is required')
-                .oneOf([Yup.ref('password'), ""], 'Passwords must match'),
+        validationSchema: Yup.object({
+            password: Yup.string()
+                .required("Password is required")
+                .matches(
+                    passwordRegex,
+                    "Password must include at least one uppercase letter, one lowercase letter, one special character, and must be at least 8 characters long"
+                ),
+            confirmPassword: Yup.string()
+                .required("Confirm your password")
+                .oneOf([Yup.ref("password")], "Passwords must match"),
         }),
         onSubmit: () => {
             setCurrentStep(prevState => prevState + 1)
@@ -197,7 +209,7 @@ const SignUpForm = () => {
 
     return (
         <View style={styles.inner}>
-            <AuthHeader />
+            <AuthHeader currentStep={currentStep} goBackToPreviousStep={goBackToPreviousStep} />
             {formJSX()}
             <TouchableOpacity style={styles.nextButton} onPress={navigateNext}>
                 <TextRegular fontSize={18} color='#fff'>

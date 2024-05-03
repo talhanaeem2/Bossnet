@@ -44,7 +44,12 @@ const AccountRecoveryForm = () => {
             verificationCode: "",
         },
         validationSchema: Yup.object({
-            verificationCode: Yup.string().required('Verification code is required'),
+            verificationCode: Yup.string()
+                .required("Verification code is required")
+                .matches(
+                    /^\d{5}$/,
+                    "Verification code must be 5 digits"
+                ),
         }),
         onSubmit: (values) => {
             console.log("Requesting link for:", values.verificationCode);
@@ -93,6 +98,10 @@ const AccountRecoveryForm = () => {
         }
     };
 
+    const goBackToPreviousStep = () => {
+        setCurrentStep((prev) => Math.max(1, prev - 1));
+    };
+
     const navigateNext = () => {
         switch (currentStep) {
             case 1:
@@ -127,7 +136,7 @@ const AccountRecoveryForm = () => {
 
     return (
         <View style={styles.inner}>
-            <AuthHeader />
+            <AuthHeader currentStep={currentStep} goBackToPreviousStep={goBackToPreviousStep} />
             {formJSX()}
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.nextButton} onPress={navigateNext}>

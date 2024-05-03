@@ -5,12 +5,18 @@ import { useNavigation } from '@react-navigation/native';
 import Icons from '../../../constants/icons';
 
 import RootStackParamListInterface from '../../../interfaces/RootStackParamListInterface';
+import AuthHeaderProps from './interfaces/authHeaderProps';
 
-const AuthHeader = () => {
+const AuthHeader = (props: AuthHeaderProps) => {
+    const { currentStep, goBackToPreviousStep } = props
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
 
     const goBack = () => {
-        navigation.goBack();
+        if (currentStep > 1) {
+            goBackToPreviousStep();
+        } else {
+            navigation.goBack();
+        }
     };
 
     return (

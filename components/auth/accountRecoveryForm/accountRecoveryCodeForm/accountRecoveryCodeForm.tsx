@@ -1,19 +1,46 @@
-import { View, StyleSheet } from "react-native"
-import { useState } from "react"
+import { View, StyleSheet, TextInput } from "react-native"
+import { useRef, useState } from "react"
 
-import InputField from "../../../app/inputField/InputField"
 import TextBold from "../../../app/textComponent/textBold/textBold"
 import TextRegular from "../../../app/textComponent/textRegular/textRegular"
 import AuthLogoHeader from "../../authLogoHeader/authLogoHeader"
 
 import messages from "../../../../constants/messages"
-import { RPH, RPW } from "../../../../constants/utils"
+import { RFS, RLS, RPH, RPW } from "../../../../constants/utils"
 
 import AccountRecoveryVerificationFormProps from "./interfaces/accountRecoveryVerificationFormProps";
 
 const AccountRecoveryCodeForm = (props: AccountRecoveryVerificationFormProps) => {
     const { formik } = props
     const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>();
+    const [verificationCode, setVerificationCode] = useState(["", "", "", "", ""]);
+
+    const inputRefs = [
+        useRef<TextInput>(null),
+        useRef<TextInput>(null),
+        useRef<TextInput>(null),
+        useRef<TextInput>(null),
+        useRef<TextInput>(null),
+    ];
+
+    const handleChange = (value: string, index: number) => {
+        const updatedCode = [...verificationCode];
+        updatedCode[index] = value;
+
+        setVerificationCode(updatedCode);
+
+        if (value && index < 4) {
+            inputRefs[index + 1].current?.focus();
+        }
+
+        formik.setFieldValue("verificationCode", updatedCode.join(""));
+    };
+
+    const handleBackspace = (index: number) => {
+        if (verificationCode[index] === "" && index > 0) {
+            inputRefs[index - 1].current?.focus();
+        }
+    };
 
     return (
         <View style={styles.inner}>
@@ -27,18 +54,30 @@ const AccountRecoveryCodeForm = (props: AccountRecoveryVerificationFormProps) =>
                 </TextRegular>
             </View>
             <View style={styles.fieldContainer}>
-                <InputField
-                    type="numeric"
-                    value={formik.values.verificationCode}
-                    onChangeText={formik.handleChange("verificationCode")}
-                    onBlur={formik.handleBlur("verificationCode")}
-                />
-                {formik.touched.verificationCode && formik.errors.verificationCode && (
-                    <TextRegular fontSize={12} color="red" style={styles.fieldError}>
-                        {formik.errors.verificationCode}
-                    </TextRegular>
-                )}
+                {verificationCode.map((value, index) => (
+                    <TextInput
+                        key={index}
+                        value={value}
+                        style={styles.codeInput}
+                        onChangeText={(text) => handleChange(text, index)}
+                        onBlur={() => formik.handleBlur("verificationCode")}
+                        ref={inputRefs[index]}
+                        keyboardType="numeric"
+                        maxLength={1}
+                        onKeyPress={(e) => {
+                            if (e.nativeEvent.key === "Backspace") {
+                                handleBackspace(index);
+                            }
+                        }}
+                        textAlign="center"
+                    />
+                ))}
             </View>
+            {formik.touched.verificationCode && formik.errors.verificationCode && (
+                <TextRegular fontSize={12} color="red" style={styles.fieldError}>
+                    {formik.errors.verificationCode}
+                </TextRegular>
+            )}
         </View>
     )
 }
@@ -51,9 +90,23 @@ const styles = StyleSheet.create({
     },
     fieldContainer: {
         paddingTop: RPH(4),
+        flexDirection: 'row',
+        gap: 20,
+        justifyContent: 'center'
     },
     fieldError: {
-        marginLeft: RPW(2),
-        marginTop: RPH(.3)
-    }
+        marginLeft: RPW(6),
+        marginTop: RPH(2),
+        letterSpacing: RLS(RFS(18))
+    },
+    codeInput: {
+        width: RPW(10),
+        height: RPH(5),
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: "#eee",
+        textAlign: "center",
+        fontSize: RFS(18),
+        backgroundColor: '#fff'
+    },
 })
