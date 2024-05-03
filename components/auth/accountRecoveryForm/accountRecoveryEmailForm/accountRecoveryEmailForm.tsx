@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     },
     fieldContainer: {
         paddingTop: RPH(4),
+        gap: RPH(2)
     },
     fieldError: {
         marginLeft: RPW(2),

@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     },
     fieldContainer: {
         paddingTop: RPH(4),
-        gap: RPH(3)
+        gap: RPH(2)
     },
     leftIcon: {
         width: 19,

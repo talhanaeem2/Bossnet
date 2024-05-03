@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     fieldContainer: {
         paddingTop: RPH(4),
         flexDirection: 'row',
-        gap: 20,
+        gap: RPH(2),
         justifyContent: 'center'
     },
     fieldError: {

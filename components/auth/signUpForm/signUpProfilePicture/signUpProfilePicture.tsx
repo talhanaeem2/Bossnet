@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     },
     fieldContainer: {
         paddingTop: RPH(4),
-        gap: 16,
+        gap: RPH(2),
         alignItems: 'center'
     }
 })
