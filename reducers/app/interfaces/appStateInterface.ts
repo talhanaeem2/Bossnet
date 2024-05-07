@@ -6,6 +6,7 @@ export default interface AppStateInterface {
     createPostModal: CreatePostModalStateInterface;
     imageFullScreeenModal: ImageFullScreenModalStateInterface;
     commentModal: CommentModalStateInterface;
+    successModal: { isVisible: boolean };
     footerActiveButton: { activeTab: string };
     newsFeedActiveItem: { postId: number };
 }

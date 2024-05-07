@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { StatusBar } from "expo-status-bar";
 import { View, ActivityIndicator } from 'react-native';
 import MainNavigator from './navigation/mainNavigator';
+import Toast from 'react-native-toast-message';
 
 import store from './store';
 
@@ -57,6 +58,7 @@ const App = () => {
     <Provider store={store}>
       <StatusBar style="dark" translucent={true} hidden={false} />
       <MainNavigator />
+      <Toast />
     </Provider>
   );
 }

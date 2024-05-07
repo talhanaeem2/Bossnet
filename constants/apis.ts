@@ -7,6 +7,9 @@ enum Apis {
     signupApi = `${homeUrl}signup`,
     profileApi = `${homeUrl}profile`,
     newsFeedApi = `https://bosnett.com/wp-json/buddyboss/v1/activity`,
+    accountRecoveryEmail = `${homeUrl}password/email`,
+    accountVerificationCode = `${homeUrl}password/verify-otp`,
+    accountChangePassword = `${homeUrl}reset/password`,
 }
 
 export default Apis

@@ -17,6 +17,9 @@ const initialState: AppStateInterface = {
     commentModal: {
         isVisible: false
     },
+    successModal: {
+        isVisible: false
+    },
     footerActiveButton: {
         activeTab: 'Home'
     },
@@ -43,6 +46,9 @@ const appSlice = createSlice({
             const { isVisible } = action.payload
             state.commentModal.isVisible = isVisible
         },
+        setSuccessModal(state, action: PayloadAction<boolean>) {
+            state.successModal.isVisible = action.payload
+        },
         setActiveTab(state, action: PayloadAction<string>) {
             state.footerActiveButton.activeTab = action.payload
         },
@@ -56,6 +62,7 @@ export const {
     setCreatePostModal,
     setImageFullScreenModal,
     setCommentModal,
+    setSuccessModal,
     setActiveTab,
     setActivePostId
 } = appSlice.actions;

@@ -25,6 +25,7 @@ const messages = {
     accountRecoveryHeading: "Account recovery.",
     accountRecoverySubHeading: "Please enter your username or email address. You will receive an email message with instructions on how to reset your password.",
     requestReset: "Request Reset Link",
+    passwordChanged: 'Password Reset successful You’ll be redirected to the login screen now',
     // Password
     passwordFormHeading: 'Create new password',
     passwordFormContent: 'Type your new strong password. Your password must include: One capital letter & one small letter at least, One special character & Minimum 8 digits long.',

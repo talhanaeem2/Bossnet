@@ -29,7 +29,7 @@ const AccountRecoveryCodeForm = (props: AccountRecoveryVerificationFormProps) =>
 
         setVerificationCode(updatedCode);
 
-        if (value && index < 4) {
+        if (value.length === 1 && index < inputRefs.length - 1) {
             inputRefs[index + 1].current?.focus();
         }
 
@@ -37,8 +37,15 @@ const AccountRecoveryCodeForm = (props: AccountRecoveryVerificationFormProps) =>
     };
 
     const handleBackspace = (index: number) => {
+        const updatedCode = [...verificationCode];
+
         if (verificationCode[index] === "" && index > 0) {
             inputRefs[index - 1].current?.focus();
+        } else {
+            // Clear the current field
+            updatedCode[index] = "";
+            setVerificationCode(updatedCode);
+            formik.setFieldValue("verificationCode", updatedCode.join(""));
         }
     };
 
