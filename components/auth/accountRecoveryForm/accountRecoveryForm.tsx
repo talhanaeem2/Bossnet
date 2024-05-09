@@ -21,7 +21,6 @@ import Apis from "../../../constants/apis";
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { setIsLoading } from "../../../reducers/auth/authSlice";
-import { clearError, setError } from "../../../reducers/error/errorSlice";
 import { setSuccessModal } from "../../../reducers/app/appSlice";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
@@ -70,12 +69,9 @@ const AccountRecoveryForm = () => {
         if (error instanceof AxiosError) {
             const errorMessage = error.response?.data?.message || 'An Axios error occurred';
             showErrorToast(errorMessage)
-            dispatch(setError(errorMessage));
         } else if (error instanceof Error) {
-            dispatch(setError(error.message));
             showErrorToast(error.message)
         } else {
-            dispatch(setError('Unknown error occurred'));
             showErrorToast('Unknown error occurred')
         }
     };
@@ -89,7 +85,6 @@ const AccountRecoveryForm = () => {
             await axios.post(Apis.accountRecoveryEmail, data);
 
             dispatch(setIsLoading(false))
-            dispatch(clearError())
             setCurrentStep(prevState => prevState + 1)
 
         } catch (error) {
@@ -107,7 +102,6 @@ const AccountRecoveryForm = () => {
             await axios.post(Apis.accountVerificationCode, data);
 
             dispatch(setIsLoading(false))
-            dispatch(clearError())
             setCurrentStep(prevState => prevState + 1)
 
         } catch (error) {
@@ -128,7 +122,6 @@ const AccountRecoveryForm = () => {
             await axios.post(Apis.accountChangePassword, data);
 
             dispatch(setIsLoading(false))
-            dispatch(clearError())
 
             showSuccessModal();
 
