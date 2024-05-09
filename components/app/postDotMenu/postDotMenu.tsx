@@ -5,7 +5,7 @@ import TextRegular from "../textComponent/textRegular/textRegular";
 
 import messages from "../../../constants/messages";
 import Icons from "../../../constants/icons";
-import debounce from "../../../constants/utils/debounceFunction";
+import debounce from "../../../constants/utils/debounce";
 
 import PostDotMenuProps from "./interfaces/postDotMenuProps";
 import { RPH, RPW } from "../../../constants/utils/utils";
