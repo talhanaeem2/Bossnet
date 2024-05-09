@@ -8,7 +8,7 @@ import moment from "moment"
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
 import TextBold from "../../../components/app/textComponent/textBold/textBold";
 
-import { RPW, RFS, RPH } from "../../../constants/utils";
+import { RPW, RFS, RPH } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";

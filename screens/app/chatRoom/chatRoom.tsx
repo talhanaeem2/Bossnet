@@ -9,7 +9,7 @@ import TextBold from "../../../components/app/textComponent/textBold/textBold";
 import TextRegular from "../../../components/app/textComponent/textRegular/textRegular";
 
 import Icons from "../../../constants/icons"
-import { RPH, RPW } from "../../../constants/utils"
+import { RPH, RPW } from "../../../constants/utils/utils"
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import chatRoomParamsInterface from "../../../interfaces/chatRoomInterface";

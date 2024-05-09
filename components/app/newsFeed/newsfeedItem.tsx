@@ -6,7 +6,7 @@ import ReadMore from "../readMoreText/readMoreText"
 import TextBold from "../textComponent/textBold/textBold"
 import TextRegular from "../textComponent/textRegular/textRegular"
 
-import { RPH, RPW, stripHtmlTags } from "../../../constants/utils"
+import { RPH, RPW, stripHtmlTags } from "../../../constants/utils/utils"
 import UserActions from "../userActions/userActions"
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch"

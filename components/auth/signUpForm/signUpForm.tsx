@@ -15,7 +15,7 @@ import SignUpName from "./signUpName/signUpName";
 import SignUpPassword from "./signUpPassword/signUpPassword";
 import SignUpProfilePicture from "./signUpProfilePicture/signUpProfilePicture";
 
-import { RPH, RPW } from "../../../constants/utils";
+import { RPH, RPW } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { setIsLoading } from "../../../reducers/auth/authSlice";

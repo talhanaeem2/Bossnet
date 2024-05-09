@@ -7,7 +7,7 @@ import MainWapper from "../../../components/app/mainWrapper/mainWrapper"
 import TextRegular from "../../../components/app/textComponent/textRegular/textRegular"
 
 import messages from "../../../constants/messages"
-import { RPH, RPW, RFS } from "../../../constants/utils"
+import { RPH, RPW, RFS } from "../../../constants/utils/utils"
 import Apis from "../../../constants/apis"
 
 import GroupsInterface from "./interfaces/groupsInterface"

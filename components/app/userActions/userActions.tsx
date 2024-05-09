@@ -4,7 +4,7 @@ import { memo, useState } from "react";
 import TextRegular from "../textComponent/textRegular/textRegular";
 
 import messages from "../../../constants/messages"
-import { RPW, RPH } from "../../../constants/utils"
+import { RPW, RPH } from "../../../constants/utils/utils"
 
 import UserActionsInterface from "./interfaces/userActionsInterface"
 import UserActionsProps from "./interfaces/userActionsProps"

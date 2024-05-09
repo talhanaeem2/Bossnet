@@ -3,7 +3,7 @@ import { Picker } from '@react-native-picker/picker';
 import { memo } from "react";
 
 import { languageOptions } from "../../../constants/constants";
-import { RPH, RPW, RFS } from "../../../constants/utils";
+import { RPH, RPW, RFS } from "../../../constants/utils/utils";
 
 import AuthLogoHeaderProps from "./interfaces/AuthLogoHeaderProps";
 

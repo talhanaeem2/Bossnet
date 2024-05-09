@@ -8,7 +8,7 @@ import AuthLogoHeader from "../../authLogoHeader/authLogoHeader";
 import TextBold from "../../../app/textComponent/textBold/textBold";
 import TextRegular from "../../../app/textComponent/textRegular/textRegular";
 
-import { RPH, RPW } from "../../../../constants/utils";
+import { RPH, RPW } from "../../../../constants/utils/utils";
 import messages from "../../../../constants/messages";
 
 import SignUpDobProps from "./interfaces/signUpDobProps";

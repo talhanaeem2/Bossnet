@@ -8,7 +8,7 @@ import TextRegular from "../textComponent/textRegular/textRegular"
 
 import Icons from "../../../constants/icons"
 import messages from "../../../constants/messages"
-import { RPW, RPH } from "../../../constants/utils"
+import { RPW, RPH } from "../../../constants/utils/utils"
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch"
 import useSliceSelector from "../../../hooks/useSliceSelector"

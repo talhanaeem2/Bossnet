@@ -7,7 +7,7 @@ import MainWrapper from "../../../components/app/mainWrapper/mainWrapper"
 import TextBold from "../../../components/app/textComponent/textBold/textBold"
 
 import messages from "../../../constants/messages"
-import { RPH, RPW, RFS } from "../../../constants/utils"
+import { RPH, RPW, RFS } from "../../../constants/utils/utils"
 import Apis from "../../../constants/apis"
 
 import UsersInterface from "./interfaces/usersInterface"

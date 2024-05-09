@@ -7,7 +7,7 @@ import TextBold from "../textComponent/textBold/textBold";
 import TextRegular from "../textComponent/textRegular/textRegular";
 
 import Icons from "../../../constants/icons";
-import { RPW, RPH } from "../../../constants/utils";
+import { RPW, RPH } from "../../../constants/utils/utils";
 
 import MainHeaderProps from "./interfaces/mainHeaderProps";
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";

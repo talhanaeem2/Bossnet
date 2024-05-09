@@ -6,7 +6,7 @@ import useReducerDispatch from "../../hooks/useReducerDispatch";
 import useSliceSelector from "../../hooks/useSliceSelector";
 
 import Icons from "../../constants/icons";
-import { RPH, RPW } from "../../constants/utils";
+import { RPH, RPW } from "../../constants/utils/utils";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 

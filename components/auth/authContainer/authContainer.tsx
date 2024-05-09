@@ -1,7 +1,7 @@
 import { Dimensions, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 
-import { RPH, RPW } from '../../../constants/utils';
+import { RPH, RPW } from '../../../constants/utils/utils';
 
 import AuthContainerInterface from './interfaces/AuthContainerInterface';
 

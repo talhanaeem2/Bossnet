@@ -8,7 +8,7 @@ import Icons from "../../../constants/icons";
 import debounce from "../../../constants/debounceFunction";
 
 import PostDotMenuProps from "./interfaces/postDotMenuProps";
-import { RPH, RPW } from "../../../constants/utils";
+import { RPH, RPW } from "../../../constants/utils/utils";
 
 const PostDotMenu = (props: PostDotMenuProps) => {
     const { activeIndex, onMenuPress, index, isMenuVisible, setIsMenuVisible, postId } = props

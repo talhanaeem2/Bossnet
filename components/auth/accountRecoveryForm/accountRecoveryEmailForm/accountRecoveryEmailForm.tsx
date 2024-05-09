@@ -7,7 +7,7 @@ import TextRegular from "../../../app/textComponent/textRegular/textRegular"
 import AuthLogoHeader from "../../authLogoHeader/authLogoHeader"
 
 import messages from "../../../../constants/messages"
-import { RPH, RPW } from "../../../../constants/utils"
+import { RPH, RPW } from "../../../../constants/utils/utils"
 
 import AccountRecoveryEmailFormProps from "./interfaces/accountRecoveryEmailFormProps";
 

@@ -8,7 +8,7 @@ import TextBold from "../textComponent/textBold/textBold"
 import TextRegular from "../textComponent/textRegular/textRegular"
 import IconContainer from "../iconContainer/iconContainer"
 
-import { RPW, RPH } from "../../../constants/utils"
+import { RPW, RPH } from "../../../constants/utils/utils"
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch"
 import useSliceSelector from "../../../hooks/useSliceSelector"

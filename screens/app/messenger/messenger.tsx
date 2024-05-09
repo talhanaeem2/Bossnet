@@ -8,7 +8,7 @@ import TextRegular from "../../../components/app/textComponent/textRegular/textR
 import TextBold from "../../../components/app/textComponent/textBold/textBold"
 
 import messages from "../../../constants/messages"
-import { truncateText, RPH, RPW, RFS } from "../../../constants/utils"
+import { truncateText, RPH, RPW, RFS } from "../../../constants/utils/utils"
 import Apis from "../../../constants/apis"
 
 import useSliceSelector from "../../../hooks/useSliceSelector"

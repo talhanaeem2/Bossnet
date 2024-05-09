@@ -9,7 +9,7 @@ import TextBold from "../../../components/app/textComponent/textBold/textBold";
 
 import Icons from "../../../constants/icons";
 import messages from "../../../constants/messages";
-import { RPH, RPW } from "../../../constants/utils";
+import { RPH, RPW } from "../../../constants/utils/utils";
 import { menuButtons } from "./constants/menuButtons";
 
 import { logout } from "../../../reducers/auth/authSlice";

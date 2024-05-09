@@ -9,7 +9,7 @@ import NewsFeed from "../../../components/app/newsFeed/newsFeed";
 import SafeAreaViewComponent from "../../../components/app/SafeAreaViewComponent/SafeAreaViewComponent";
 import CreatePostModal from "../../../modals/createPostModal/createPostModal";
 
-import { RPH } from "../../../constants/utils";
+import { RPH } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
 
 import useSliceSelector from "../../../hooks/useSliceSelector";

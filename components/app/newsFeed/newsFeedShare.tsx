@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import Icons from "../../../constants/icons";
 import messages from "../../../constants/messages";
-import { RPW, RPH, RFS } from "../../../constants/utils";
+import { RPW, RPH, RFS } from "../../../constants/utils/utils";
 
 import useSliceSelector from "../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";

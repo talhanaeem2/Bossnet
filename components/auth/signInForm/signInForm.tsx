@@ -13,7 +13,7 @@ import TextBold from "../../app/textComponent/textBold/textBold";
 import TextRegular from "../../app/textComponent/textRegular/textRegular";
 
 import messages from "../../../constants/messages";
-import { RPH, RPW } from "../../../constants/utils";
+import { RPH, RPW } from "../../../constants/utils/utils";
 import Icons from "../../../constants/icons";
 import Apis from "../../../constants/apis";
 

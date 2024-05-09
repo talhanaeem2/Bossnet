@@ -3,7 +3,7 @@ import { StyleSheet, View, Image } from "react-native"
 
 import TextBold from "../../../app/textComponent/textBold/textBold"
 
-import { RPH } from "../../../../constants/utils"
+import { RPH } from "../../../../constants/utils/utils"
 
 const SignUpProfilePicture = () => {
 

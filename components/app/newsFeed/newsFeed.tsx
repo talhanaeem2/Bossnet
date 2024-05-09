@@ -7,7 +7,7 @@ import CommmentModal from "../../../modals/commentModal/commentModal"
 import NewsFeedItem from "./newsfeedItem"
 import NewsFeedShare from "./newsFeedShare"
 
-import { RPH, RPW } from "../../../constants/utils"
+import { RPH, RPW } from "../../../constants/utils/utils"
 import Apis from "../../../constants/apis"
 
 import ResponseItemInterface from "./interfaces/responseItemInterface"

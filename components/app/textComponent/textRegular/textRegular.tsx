@@ -1,6 +1,6 @@
 import { StyleSheet, Text } from "react-native"
 
-import { RFS, RLH, RLS } from "../../../../constants/utils";
+import { RFS, RLH, RLS } from "../../../../constants/utils/utils";
 
 import TextProps from "../interfaces/textProps";
 

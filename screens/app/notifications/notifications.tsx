@@ -5,7 +5,7 @@ import MainWapper from "../../../components/app/mainWrapper/mainWrapper"
 import TextBold from "../../../components/app/textComponent/textBold/textBold"
 import TextRegular from "../../../components/app/textComponent/textRegular/textRegular"
 
-import { RPH, RPW } from "../../../constants/utils"
+import { RPH, RPW } from "../../../constants/utils/utils"
 
 const Notifications = () => {
     return (

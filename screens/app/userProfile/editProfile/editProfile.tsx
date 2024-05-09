@@ -6,7 +6,7 @@ import axios from "axios"
 import MainWapper from "../../../../components/app/mainWrapper/mainWrapper"
 import TextBold from "../../../../components/app/textComponent/textBold/textBold"
 
-import { RPH } from "../../../../constants/utils"
+import { RPH } from "../../../../constants/utils/utils"
 
 import TextRegular from "../../../../components/app/textComponent/textRegular/textRegular"
 import Apis from "../../../../constants/apis"

@@ -16,7 +16,7 @@ import AccountRecoveryPasswordForm from "./accountRecoveryPasswordForm/accountRe
 import SuccesModal from "../../../modals/succesModal/succesModal";
 
 import messages from "../../../constants/messages"
-import { RFS, RPH, RPW } from "../../../constants/utils"
+import { RFS, RPH, RPW } from "../../../constants/utils/utils"
 import Apis from "../../../constants/apis";
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch";

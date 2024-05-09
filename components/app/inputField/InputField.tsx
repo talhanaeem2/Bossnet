@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { TextInput, StyleSheet, View, TouchableOpacity } from "react-native"
 
-import { RPW, RPH, RFS } from "../../../constants/utils";
+import { RPW, RPH, RFS } from "../../../constants/utils/utils";
 
 import inputFieldInterface from "./interfaces/inputFieldInterface";
 

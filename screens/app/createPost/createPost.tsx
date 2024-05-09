@@ -7,7 +7,7 @@ import TextBold from "../../../components/app/textComponent/textBold/textBold"
 
 import Icons from "../../../constants/icons"
 import messages from "../../../constants/messages"
-import { RPW, RPH, RFS } from "../../../constants/utils"
+import { RPW, RPH, RFS } from "../../../constants/utils/utils"
 
 import CreatePostProps from "./interfaces/createPostProps"
 // import {

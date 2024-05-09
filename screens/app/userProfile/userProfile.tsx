@@ -9,7 +9,7 @@ import TextBold from "../../../components/app/textComponent/textBold/textBold"
 import TextRegular from "../../../components/app/textComponent/textRegular/textRegular"
 import CreatePostModal from "../../../modals/createPostModal/createPostModal"
 
-import { RPW, RPH } from "../../../constants/utils"
+import { RPW, RPH } from "../../../constants/utils/utils"
 import Icons from "../../../constants/icons"
 
 import useSliceSelector from "../../../hooks/useSliceSelector"

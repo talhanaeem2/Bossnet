@@ -6,7 +6,7 @@ import InputField from "../../../app/inputField/InputField";
 import TextBold from "../../../app/textComponent/textBold/textBold";
 import TextRegular from "../../../app/textComponent/textRegular/textRegular";
 
-import { RPH, RPW } from "../../../../constants/utils";
+import { RPH, RPW } from "../../../../constants/utils/utils";
 import messages from "../../../../constants/messages";
 
 import SignUpNameProps from "./interfaces/signUpNameProps";
