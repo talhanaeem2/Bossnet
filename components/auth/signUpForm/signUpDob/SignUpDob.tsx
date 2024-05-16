@@ -5,8 +5,8 @@ import moment from "moment";
 import Checkbox from "expo-checkbox";
 
 import AuthLogoHeader from "../../authLogoHeader/authLogoHeader";
-import TextBold from "../../../app/textComponent/textBold/textBold";
-import TextRegular from "../../../app/textComponent/textRegular/textRegular";
+import TextBold from "../../../app/common/textComponent/textBold/textBold";
+import TextRegular from "../../../app/common/textComponent/textRegular/textRegular";
 
 import { RPH, RPW } from "../../../../constants/utils/utils";
 import messages from "../../../../constants/messages";

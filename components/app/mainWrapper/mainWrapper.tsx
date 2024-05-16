@@ -1,6 +1,6 @@
 import MainHeader from "../mainHeader/mainHeader"
 import Footer from "../footer/footer"
-import SafeAreaViewComponent from "../SafeAreaViewComponent/SafeAreaViewComponent";
+import SafeAreaViewComponent from "../common/SafeAreaViewComponent/SafeAreaViewComponent";
 import MainWrapperProps from "./interfaces/mainWrapperProps";
 
 const MainWapper = (props: MainWrapperProps) => {

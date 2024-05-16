@@ -1,6 +1,6 @@
 import { Modal, View, Image, StyleSheet } from "react-native";
 
-import TextRegular from "../../components/app/textComponent/textRegular/textRegular";
+import TextRegular from "../../components/app/common/textComponent/textRegular/textRegular";
 
 import useSliceSelector from "../../hooks/useSliceSelector";
 import useReducerDispatch from "../../hooks/useReducerDispatch";

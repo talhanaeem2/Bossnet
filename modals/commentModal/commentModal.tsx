@@ -3,9 +3,9 @@ import { useRef, useState, memo } from "react"
 import { Circle, Path } from "react-native-svg"
 import moment from "moment"
 
-import TextBold from "../../components/app/textComponent/textBold/textBold"
-import TextRegular from "../../components/app/textComponent/textRegular/textRegular"
-import IconContainer from "../../components/app/iconContainer/iconContainer"
+import TextBold from "../../components/app/common/textComponent/textBold/textBold"
+import TextRegular from "../../components/app/common/textComponent/textRegular/textRegular"
+import IconContainer from "../../components/app/common/iconContainer/iconContainer"
 
 import Icons from "../../constants/icons"
 

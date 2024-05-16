@@ -2,9 +2,9 @@ import { StyleSheet, View } from "react-native"
 import { memo, useState } from "react";
 
 import AuthLogoHeader from "../../authLogoHeader/authLogoHeader";
-import InputField from "../../../app/inputField/InputField";
-import TextBold from "../../../app/textComponent/textBold/textBold";
-import TextRegular from "../../../app/textComponent/textRegular/textRegular";
+import InputField from "../../../app/common/inputField/InputField";
+import TextBold from "../../../app/common/textComponent/textBold/textBold";
+import TextRegular from "../../../app/common/textComponent/textRegular/textRegular";
 
 import { RPH, RPW } from "../../../../constants/utils/utils";
 import messages from "../../../../constants/messages";

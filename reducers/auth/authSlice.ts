@@ -9,6 +9,7 @@ const initialState: AuthStateInterface = {
     isLoading: false,
     userData: {
         email: '',
+        userId: '',
         firstName: '',
         lastName: '',
         userName: '',

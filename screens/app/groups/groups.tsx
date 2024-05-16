@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper"
-import TextRegular from "../../../components/app/textComponent/textRegular/textRegular"
+import TextRegular from "../../../components/app/common/textComponent/textRegular/textRegular"
 
 import messages from "../../../constants/messages"
 import { RPH, RPW, RFS } from "../../../constants/utils/utils"

@@ -5,8 +5,8 @@ import { useCallback, useState } from "react"
 import * as ImagePicker from 'expo-image-picker'
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper"
-import TextBold from "../../../components/app/textComponent/textBold/textBold"
-import TextRegular from "../../../components/app/textComponent/textRegular/textRegular"
+import TextBold from "../../../components/app/common/textComponent/textBold/textBold"
+import TextRegular from "../../../components/app/common/textComponent/textRegular/textRegular"
 import CreatePostModal from "../../../modals/createPostModal/createPostModal"
 
 import { RPW, RPH } from "../../../constants/utils/utils"

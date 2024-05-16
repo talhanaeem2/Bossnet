@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
-import TextBold from "../../../components/app/textComponent/textBold/textBold";
+import TextBold from "../../../components/app/common/textComponent/textBold/textBold";
 
 import Icons from "../../../constants/icons";
 import messages from "../../../constants/messages";

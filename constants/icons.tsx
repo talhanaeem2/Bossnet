@@ -1,7 +1,7 @@
 import { Circle, ClipPath, Defs, Ellipse, G, Path, Rect } from "react-native-svg";
 import React from "react";
 
-import IconContainer from "../components/app/iconContainer/iconContainer";
+import IconContainer from "../components/app/common/iconContainer/iconContainer";
 
 import IconsInterface from "../interfaces/iconsInterface";
 

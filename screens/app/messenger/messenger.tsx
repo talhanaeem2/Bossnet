@@ -4,8 +4,8 @@ import { useCallback, useEffect, useState } from "react"
 import axios from "axios"
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper"
-import TextRegular from "../../../components/app/textComponent/textRegular/textRegular"
-import TextBold from "../../../components/app/textComponent/textBold/textBold"
+import TextBold from "../../../components/app/common/textComponent/textBold/textBold"
+import TextRegular from "../../../components/app/common/textComponent/textRegular/textRegular"
 
 import messages from "../../../constants/messages"
 import { truncateText, RPH, RPW, RFS } from "../../../constants/utils/utils"
@@ -24,7 +24,7 @@ const Messenger = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(0)
-    const userId = useSliceSelector(state => state.auth.userData.id)
+    const userId = useSliceSelector(state => state.auth.userData.userId)
 
     const fetchData = useCallback(async (page: number) => {
         try {

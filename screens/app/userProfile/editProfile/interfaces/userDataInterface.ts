@@ -1,4 +1,5 @@
 export default interface UserDataInterface {
+    userId: string;
     email: string;
     firstName: string;
     lastName: string;

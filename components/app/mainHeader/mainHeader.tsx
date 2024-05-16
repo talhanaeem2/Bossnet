@@ -3,8 +3,8 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import Svg, { Ellipse, Path } from "react-native-svg"
 
-import TextBold from "../textComponent/textBold/textBold";
-import TextRegular from "../textComponent/textRegular/textRegular";
+import TextBold from "../common/textComponent/textBold/textBold";
+import TextRegular from "../common/textComponent/textRegular/textRegular";
 
 import Icons from "../../../constants/icons";
 import { RPW, RPH } from "../../../constants/utils/utils";

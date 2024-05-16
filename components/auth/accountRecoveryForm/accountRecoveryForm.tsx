@@ -7,8 +7,8 @@ import * as Yup from 'yup';
 import axios, { AxiosError } from "axios";
 import Toast from "react-native-toast-message";
 
-import TextBold from "../../app/textComponent/textBold/textBold"
-import TextRegular from "../../app/textComponent/textRegular/textRegular"
+import TextBold from "../../app/common/textComponent/textBold/textBold"
+import TextRegular from "../../app/common/textComponent/textRegular/textRegular"
 import AccountRecoveryEmailForm from "./accountRecoveryEmailForm/accountRecoveryEmailForm";
 import AccountRecoveryCodeForm from "./accountRecoveryCodeForm/accountRecoveryCodeForm";
 import AuthHeader from "../authHeader/authHeader";

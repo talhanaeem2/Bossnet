@@ -1,5 +1,5 @@
 export default interface AuthData {
-    userId: number;
+    userId: string;
     email: string;
     firstName: string;
     lastName: string;

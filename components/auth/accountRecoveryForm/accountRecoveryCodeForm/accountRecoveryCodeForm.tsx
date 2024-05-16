@@ -1,8 +1,8 @@
 import { View, StyleSheet, TextInput } from "react-native"
 import { useRef, useState } from "react"
 
-import TextBold from "../../../app/textComponent/textBold/textBold"
-import TextRegular from "../../../app/textComponent/textRegular/textRegular"
+import TextBold from "../../../app/common/textComponent/textBold/textBold"
+import TextRegular from "../../../app/common/textComponent/textRegular/textRegular"
 import AuthLogoHeader from "../../authLogoHeader/authLogoHeader"
 
 import messages from "../../../../constants/messages"

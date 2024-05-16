@@ -6,7 +6,7 @@ import axios from "axios";
 import Header from "../../../components/app/header/header";
 import Footer from "../../../components/app/footer/footer";
 import NewsFeed from "../../../components/app/newsFeed/newsFeed";
-import SafeAreaViewComponent from "../../../components/app/SafeAreaViewComponent/SafeAreaViewComponent";
+import SafeAreaViewComponent from "../../../components/app/common/SafeAreaViewComponent/SafeAreaViewComponent";
 import CreatePostModal from "../../../modals/createPostModal/createPostModal";
 
 import { RPH } from "../../../constants/utils/utils";

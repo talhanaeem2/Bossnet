@@ -3,10 +3,10 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Path } from "react-native-svg";
 
-import IconContainer from "../../../components/app/iconContainer/iconContainer";
+import IconContainer from "../../../components/app/common/iconContainer/iconContainer";
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
-import TextBold from "../../../components/app/textComponent/textBold/textBold";
-import TextRegular from "../../../components/app/textComponent/textRegular/textRegular";
+import TextBold from "../../../components/app/common/textComponent/textBold/textBold";
+import TextRegular from "../../../components/app/common/textComponent/textRegular/textRegular";
 
 import Icons from "../../../constants/icons"
 import { RPH, RPW } from "../../../constants/utils/utils"

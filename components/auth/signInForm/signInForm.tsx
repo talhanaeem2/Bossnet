@@ -5,23 +5,26 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import axios from "axios";
 
 import AuthLogoHeader from "../authLogoHeader/authLogoHeader";
-import InputField from "../../app/inputField/InputField";
-import TextBold from "../../app/textComponent/textBold/textBold";
-import TextRegular from "../../app/textComponent/textRegular/textRegular";
+import InputField from "../../app/common/inputField/InputField";
+import TextBold from "../../app/common/textComponent/textBold/textBold";
+import TextRegular from "../../app/common/textComponent/textRegular/textRegular";
 
 import messages from "../../../constants/messages";
 import { RPH, RPW } from "../../../constants/utils/utils";
 import Icons from "../../../constants/icons";
 import Apis from "../../../constants/apis";
+import requestUtils from "../../../constants/utils/requestUtils";
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { login, setIsLoading } from "../../../reducers/auth/authSlice";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
-import SignInFormInterface from "./interfaces/signInFormInterface";
+import ResponseData from "./interfaces/responseData";
+import RequestData from "./interfaces/requestData";
+import { AxiosError } from "axios";
+import Toast from "react-native-toast-message";
 
 const SignInForm = () => {
     const route = useRoute();
@@ -64,35 +67,57 @@ const SignInForm = () => {
         }
     };
 
-    const handleSignIn = async (values: SignInFormInterface) => {
-        try {
-            let data = JSON.stringify({
-                "email_or_username": values.username,
-                "password": values.password
-            });
+    const showErrorToast = (errorMessage: string) => {
+        Toast.show({
+            type: 'error',
+            text1: errorMessage,
+            position: 'top',
+            visibilityTime: 3000,
+            autoHide: true,
+            swipeable: true,
+            text1Style: {
+                fontSize: 13,
+                fontWeight: "400",
+                fontFamily: "Lato-Regular",
+                color: '#000'
+            },
 
-            let config = {
-                method: 'POST',
-                url: Apis.loginApi,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: data
-            };
+        });
+    }
+
+    const handleAxiosError = (error: unknown) => {
+        if (error instanceof AxiosError) {
+            const errorMessage = error.response?.data?.message || 'An Axios error occurred';
+            showErrorToast(errorMessage)
+        } else if (error instanceof Error) {
+            showErrorToast(error.message)
+        } else {
+            showErrorToast('Unknown error occurred')
+        }
+    };
+
+    const handleSignIn = async (values: RequestData) => {
+        try {
             dispatch(setIsLoading(true))
 
-            const response = await axios.request(config);
+            const response = await requestUtils.request<ResponseData, RequestData>(
+                Apis.loginApi,
+                'POST',
+                {
+                    email_or_username: values.email_or_username,
+                    password: values.password,
+                }
+            );
+            console.log(response.token)
 
-            if (response.data && response.data.token) {
-                const token = response.data.token;
-
-                await AsyncStorage.setItem('token', JSON.stringify(token));
-                handleRememberMe(values.username, values.password);
-                dispatch(login(token));
+            if (response) {
+                await AsyncStorage.setItem('token', JSON.stringify(response.token));
+                handleRememberMe(values.email_or_username, values.password);
+                dispatch(login(response.token));
                 dispatch(setIsLoading(false));
             }
         } catch (error) {
-            console.error('Sign in error:', error);
+            handleAxiosError(error)
             formik.setFieldError('password', 'Invalid password');
             formik.setFieldError('username', 'Invalid username');
             dispatch(setIsLoading(false));
@@ -101,8 +126,8 @@ const SignInForm = () => {
 
     const formik = useFormik({
         initialValues: {
-            username: 'ansss',
-            password: 'anasnawaz',
+            email_or_username: 'ansss',
+            password: 'Kaartoos@123',
             selectedLanguage: selectedLanguage
         },
         validationSchema,
@@ -111,7 +136,7 @@ const SignInForm = () => {
 
     useEffect(() => {
         if (params != undefined && params.prefillUsername && params.prefillPassword) {
-            handleSignIn({ username: params.prefillUsername, password: params.prefillPassword });
+            handleSignIn({ email_or_username: params.prefillUsername, password: params.prefillPassword });
             // handleRememberMe(params.prefillUsername, params.prefillPassword);
         }
     }, [params]);
@@ -139,11 +164,11 @@ const SignInForm = () => {
                     placeholder={messages.name}
                     type="text"
                     onChangeText={formik.handleChange('username')}
-                    value={formik.values.username}
+                    value={formik.values.email_or_username}
                 />
-                {formik.touched.username && formik.errors.username &&
+                {formik.touched.email_or_username && formik.errors.email_or_username &&
                     <TextRegular fontSize={12} color="red">
-                        {formik.errors.username}
+                        {formik.errors.email_or_username}
                     </TextRegular>
                 }
                 <InputField

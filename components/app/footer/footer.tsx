@@ -1,12 +1,12 @@
-import { memo, useMemo, useState } from "react"
+import { memo, useMemo } from "react"
 import { TouchableOpacity, View, StyleSheet, Platform } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { StackNavigationProp } from "@react-navigation/stack"
 import { Path, Circle } from "react-native-svg"
 
-import TextBold from "../textComponent/textBold/textBold"
-import TextRegular from "../textComponent/textRegular/textRegular"
-import IconContainer from "../iconContainer/iconContainer"
+import TextBold from "../common/textComponent/textBold/textBold"
+import TextRegular from "../common/textComponent/textRegular/textRegular"
+import IconContainer from "../common/iconContainer/iconContainer"
 
 import { RPW, RPH } from "../../../constants/utils/utils"
 

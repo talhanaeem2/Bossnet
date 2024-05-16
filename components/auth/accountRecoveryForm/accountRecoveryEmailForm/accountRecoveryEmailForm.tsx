@@ -1,9 +1,9 @@
 import { View, StyleSheet } from "react-native"
 import { useState } from "react"
 
-import InputField from "../../../app/inputField/InputField"
-import TextBold from "../../../app/textComponent/textBold/textBold"
-import TextRegular from "../../../app/textComponent/textRegular/textRegular"
+import InputField from "../../../app/common/inputField/InputField"
+import TextBold from "../../../app/common/textComponent/textBold/textBold"
+import TextRegular from "../../../app/common/textComponent/textRegular/textRegular"
 import AuthLogoHeader from "../../authLogoHeader/authLogoHeader"
 
 import messages from "../../../../constants/messages"

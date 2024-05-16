@@ -1,7 +1,7 @@
 import { View, StyleSheet, TouchableOpacity, Image, Pressable, ImageSourcePropType } from "react-native"
 import { memo, useState } from "react";
 
-import TextRegular from "../textComponent/textRegular/textRegular";
+import TextRegular from "../common/textComponent/textRegular/textRegular";
 
 import messages from "../../../constants/messages"
 import { RPW, RPH } from "../../../constants/utils/utils"

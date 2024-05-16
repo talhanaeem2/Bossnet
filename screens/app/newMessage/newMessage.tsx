@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Image, TouchableOpacity, ActivityIndicator, ScrollView, FlatList } from "react-native"
+import { View, StyleSheet, TextInput, Image, TouchableOpacity, ActivityIndicator, FlatList } from "react-native"
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -6,7 +6,7 @@ import axios from "axios";
 import moment from "moment"
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
-import TextBold from "../../../components/app/textComponent/textBold/textBold";
+import TextBold from "../../../components/app/common/textComponent/textBold/textBold";
 
 import { RPW, RFS, RPH } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
@@ -25,7 +25,7 @@ const NewMessage = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(0)
-    const userId = useSliceSelector(state => state.auth.userData.id)
+    const userId = useSliceSelector(state => state.auth.userData.userId)
 
     const fetchData = useCallback(async (page: number) => {
         try {

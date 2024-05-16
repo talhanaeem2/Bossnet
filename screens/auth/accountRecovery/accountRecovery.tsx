@@ -1,7 +1,7 @@
 import { ScrollView } from "react-native"
 
 import AccountRecoveryForm from "../../../components/auth/accountRecoveryForm/accountRecoveryForm"
-import SafeAreaViewComponent from "../../../components/app/SafeAreaViewComponent/SafeAreaViewComponent"
+import SafeAreaViewComponent from "../../../components/app/common/SafeAreaViewComponent/SafeAreaViewComponent"
 import AuthContainer from "../../../components/auth/authContainer/authContainer"
 
 const AccountRecovery = () => {

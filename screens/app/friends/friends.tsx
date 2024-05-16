@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react"
 import axios from "axios"
 
 import MainWrapper from "../../../components/app/mainWrapper/mainWrapper"
-import TextBold from "../../../components/app/textComponent/textBold/textBold"
+import TextBold from "../../../components/app/common/textComponent/textBold/textBold"
 
 import messages from "../../../constants/messages"
 import { RPH, RPW, RFS } from "../../../constants/utils/utils"

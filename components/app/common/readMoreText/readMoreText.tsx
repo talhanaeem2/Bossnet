@@ -3,8 +3,8 @@ import { Text, TouchableOpacity, StyleSheet, View, TextLayoutEventData } from 'r
 
 import TextRegular from '../textComponent/textRegular/textRegular';
 
-import messages from '../../../constants/messages';
-import { RFS, RLH, RLS } from '../../../constants/utils/utils';
+import messages from '../../../../constants/messages';
+import { RFS, RLH, RLS } from '../../../../constants/utils/utils';
 
 import ReadMoreProps from './interfaces/ReadMoreProps';
 

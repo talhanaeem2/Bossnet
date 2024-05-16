@@ -2,8 +2,8 @@ import { View, StyleSheet, TouchableOpacity, TextInput, Animated, Image, ScrollV
 import { memo, useState } from "react"
 import { Path } from "react-native-svg"
 
-import IconContainer from "../../../components/app/iconContainer/iconContainer"
-import TextBold from "../../../components/app/textComponent/textBold/textBold"
+import IconContainer from "../../../components/app/common/iconContainer/iconContainer"
+import TextBold from "../../../components/app/common/textComponent/textBold/textBold"
 
 import Icons from "../../../constants/icons"
 import messages from "../../../constants/messages"

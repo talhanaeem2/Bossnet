@@ -4,11 +4,10 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 
 import MainWapper from "../../../../components/app/mainWrapper/mainWrapper"
-import TextBold from "../../../../components/app/textComponent/textBold/textBold"
+import TextBold from "../../../../components/app/common/textComponent/textBold/textBold"
+import TextRegular from "../../../../components/app/common/textComponent/textRegular/textRegular"
 
 import { RPH } from "../../../../constants/utils/utils"
-
-import TextRegular from "../../../../components/app/textComponent/textRegular/textRegular"
 import Apis from "../../../../constants/apis"
 
 import UserDataInterface from "./interfaces/userDataInterface"

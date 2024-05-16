@@ -1,7 +1,7 @@
 import { memo } from "react"
 import { StyleSheet, View, Image } from "react-native"
 
-import TextBold from "../../../app/textComponent/textBold/textBold"
+import TextBold from "../../../app/common/textComponent/textBold/textBold"
 
 import { RPH } from "../../../../constants/utils/utils"
 

@@ -8,7 +8,7 @@ import moment from 'moment';
 import axios from "axios";
 
 import AuthHeader from "../authHeader/authHeader";
-import TextRegular from "../../app/textComponent/textRegular/textRegular";
+import TextRegular from "../../app/common/textComponent/textRegular/textRegular";
 import SignUpDob from "./signUpDob/SignUpDob";
 import SignUpEmail from "./signUpEmail/signUpEmail";
 import SignUpName from "./signUpName/signUpName";
