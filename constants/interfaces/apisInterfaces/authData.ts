@@ -4,8 +4,7 @@ export default interface AuthData {
     firstName: string;
     lastName: string;
     userName: string;
-    nickName: string;
-    day: number;
-    month: number;
-    year: number;
+    dayOfBirth: string;
+    profileImage: string;
+    token: string;
 }

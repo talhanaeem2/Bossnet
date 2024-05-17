@@ -1,11 +1,53 @@
-import { memo } from "react"
+import { memo, useCallback, useState } from "react"
 import { StyleSheet, View, Image } from "react-native"
+import * as ImagePicker from 'expo-image-picker'
 
 import TextBold from "../../../app/common/textComponent/textBold/textBold"
 
 import { RPH } from "../../../../constants/utils/utils"
+import { TouchableOpacity } from "react-native-gesture-handler"
+import TextRegular from "../../../app/common/textComponent/textRegular/textRegular"
 
-const SignUpProfilePicture = () => {
+import SignUpProfilePictureProps from "./interfaces/signUpProfilePictureProps"
+
+const SignUpProfilePicture = (props: SignUpProfilePictureProps) => {
+    const { formik } = props
+    const [showButtons, setShowButtons] = useState<boolean>(false)
+
+    const showUploadButtons = () => {
+        setShowButtons(true)
+    }
+
+    const handleImagePicker = useCallback(async (action: 'gallery' | 'camera') => {
+        let result: ImagePicker.ImagePickerResult;
+        if (action === 'gallery') {
+            result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                aspect: [1, 1],
+                quality: 1,
+                allowsMultipleSelection: false
+            });
+            if (!result.canceled) {
+                const selectedImage = result.assets[0].uri;
+                formik.setFieldValue('image', selectedImage)
+                setShowButtons(false)
+            }
+
+        } else if (action === 'camera') {
+            result = await ImagePicker.launchCameraAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 1,
+            });
+            if (!result.canceled) {
+                const selectedImage = result.assets[0].uri;
+                formik.setFieldValue('image', selectedImage)
+                setShowButtons(false)
+            }
+        }
+    }, [])
+    console.log(formik.values.image)
 
     return (
         <View style={styles.inner}>
@@ -15,12 +57,28 @@ const SignUpProfilePicture = () => {
                 </TextBold>
             </View>
             <View style={styles.fieldContainer}>
-                <View style={styles.circle}>
-                    <Image style={styles.roundImg} source={require("../../../../assets/signup-picture.png")} />
+                <TouchableOpacity style={[styles.circle, formik.values.image ? {} : { backgroundColor: '#767676' }]} onPress={showUploadButtons}>
+                    {formik.values.image ? (
+                        <Image style={styles.roundImg} source={{ uri: formik.values.image }} />
+                    ) : (
+                        <Image style={styles.roundImg} source={require("../../../../assets/signup-picture.png")} />
+                    )}
                     <View style={styles.editImage}>
                         <Image source={require("../../../../assets/icons/editImg.png")} />
                     </View>
-                </View>
+                </TouchableOpacity>
+                {
+                    showButtons && (
+                        <View style={{ flexDirection: 'row', gap: 16 }}>
+                            <TouchableOpacity style={styles.nextButton} onPress={() => handleImagePicker('gallery')}>
+                                <TextRegular fontSize={16} color="#fff">Open Gallery</TextRegular>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.nextButton} onPress={() => handleImagePicker('camera')}>
+                                <TextRegular fontSize={16} color="#fff">Open Camera</TextRegular>
+                            </TouchableOpacity>
+                        </View>
+                    )
+                }
             </View>
         </View>
     )
@@ -48,7 +106,6 @@ const styles = StyleSheet.create({
         borderColor: '#5890FF',
         borderRadius: 90,
         position: 'relative',
-        backgroundColor: '#767676',
         padding: 30,
         marginBottom: 52
     },
@@ -63,5 +120,15 @@ const styles = StyleSheet.create({
         paddingTop: RPH(4),
         gap: RPH(2),
         alignItems: 'center'
-    }
+    },
+    nextButton: {
+        backgroundColor: "#308AFF",
+        borderRadius: 34,
+        alignItems: "center",
+        justifyContent: "center",
+        alignSelf: "center",
+        width: '100%',
+        paddingVertical: 11,
+        paddingHorizontal: 16
+    },
 })

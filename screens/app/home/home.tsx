@@ -22,7 +22,7 @@ import AuthData from "../../../constants/interfaces/apisInterfaces/authData";
 const Home = () => {
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const [images, setImages] = useState<string[]>([]);
-    const token = useSliceSelector(state => state.auth.token)
+    const token = useSliceSelector(state => state.auth.userData.token)
     const dispatch = useReducerDispatch()
 
     const handleImagePicker = useCallback(async (action: 'gallery' | 'camera' | 'giphy') => {

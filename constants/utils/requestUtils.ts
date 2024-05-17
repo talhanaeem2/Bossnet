@@ -7,11 +7,9 @@ const requestUtils = {
         url: string,
         method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
         body?: T,
-        extraHeaders: Record<string, string> = {},
     ): Promise<R> {
         const headers = {
-            ...this.baseHeaders,
-            ...extraHeaders,
+            ...this.baseHeaders
         };
 
         const options: RequestInit = {
@@ -32,7 +30,7 @@ const requestUtils = {
 
             return result.data;
         } catch (error) {
-            console.error('Request error:', error);
+
             throw error;
         }
     },

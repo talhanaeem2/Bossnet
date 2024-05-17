@@ -5,7 +5,6 @@ import UserDataInterface from './interfaces/userDataInterface';
 
 const initialState: AuthStateInterface = {
     isAuthenticated: false,
-    token: "",
     isLoading: false,
     userData: {
         email: '',
@@ -13,10 +12,9 @@ const initialState: AuthStateInterface = {
         firstName: '',
         lastName: '',
         userName: '',
-        nickName: '',
-        day: 0,
-        month: 0,
-        year: 0
+        token: '',
+        profileImage: '',
+        dayOfBirth: ''
     }
 };
 
@@ -26,11 +24,11 @@ const authSlice = createSlice({
     reducers: {
         login(state, action: PayloadAction<string>) {
             state.isAuthenticated = true,
-                state.token = action.payload
+                state.userData.token = action.payload
         },
         logout(state) {
             state.isAuthenticated = false,
-                state.token = ""
+                state.userData.token = ""
         },
         setIsLoading(state, action: PayloadAction<boolean>) {
             state.isLoading = action.payload

@@ -4,8 +4,7 @@ export default interface UserDataInterface {
     firstName: string;
     lastName: string;
     userName: string;
-    nickName: string;
-    day: number;
-    month: number;
-    year: number;
+    token: string;
+    dayOfBirth: string;
+    profileImage: string;
 }

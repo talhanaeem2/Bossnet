@@ -5,7 +5,6 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import moment from 'moment';
-import axios from "axios";
 
 import AuthHeader from "../authHeader/authHeader";
 import TextRegular from "../../app/common/textComponent/textRegular/textRegular";
@@ -17,46 +16,42 @@ import SignUpProfilePicture from "./signUpProfilePicture/signUpProfilePicture";
 
 import { RPH, RPW } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
+import requestUtils from "../../../constants/utils/requestUtils";
+
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { setIsLoading } from "../../../reducers/auth/authSlice";
+import useErrorHandling from "../../../hooks/useErrorHandling";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import SignUpFormInterface from "./interfaces/signUpFormInterface";
+import SignUpResponseInterface from "./interfaces/signUpResponseInterface";
 
 const SignUpForm = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const dispatch = useReducerDispatch();
     const [currentStep, setCurrentStep] = useState(1);
+    const [skipImage, setSkipImage] = useState(false);
+    const { handleError } = useErrorHandling();
 
     const handleSignUp = async (values: SignUpFormInterface) => {
-
         try {
             const birthdayDate = moment(values.birthday);
-
-            let data = JSON.stringify({
-                "userName": values.userName,
-                "email": values.email,
-                "firstName": values.firstName,
-                "lastName": values.lastName,
-                "nickName": values.userName,
-                "password": values.password,
-                "day": birthdayDate.format('DD'),
-                "month": birthdayDate.format('MM'),
-                "year": birthdayDate.format('YYYY')
-
-            });
-
-            let config = {
-                method: 'POST',
-                url: Apis.signupApi,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: data
-            };
             dispatch(setIsLoading(true))
 
-            const response = await axios.request(config);
+            const response = await requestUtils.request<SignUpResponseInterface, SignUpFormInterface>(
+                Apis.signupApi,
+                'POST',
+                {
+                    firstName: values.firstName,
+                    lastName: values.lastName,
+                    userName: values.userName,
+                    email: values.email,
+                    password: values.password,
+                    birthday: birthdayDate.format('YYYY/MM/DD'),
+                    image: skipImage ? '' : values.image || ''
+                }
+            );
+            console.log(response)
 
             dispatch(setIsLoading(false))
             navigation.navigate('SignIn', {
@@ -65,7 +60,7 @@ const SignUpForm = () => {
             });
 
         } catch (error) {
-            console.error('Error fetching data:', error);
+            handleError(error)
         }
     };
 
@@ -88,16 +83,16 @@ const SignUpForm = () => {
                 dobFormik.handleSubmit();
                 break;
             case 5:
-                const allValues = {
-                    ...emailFormik.values,
-                    ...passwordFormik.values,
-                    ...nameFormik.values,
-                    ...dobFormik.values
-                }
-                handleSignUp(allValues);
+                profilePictureFormik.handleSubmit();
                 break;
         }
     };
+
+    const skipProfilePicture = () => {
+        setSkipImage(true);
+        profilePictureFormik.setFieldValue('image', '');
+        profilePictureFormik.submitForm();
+    }
 
     const emailFormik = useFormik({
         initialValues: {
@@ -190,6 +185,31 @@ const SignUpForm = () => {
         },
     });
 
+    const profilePictureFormik = useFormik({
+        initialValues: {
+            image: '',
+        },
+        validationSchema: () => {
+            if (skipImage) {
+                return Yup.object();
+            } else {
+                return Yup.object().shape({
+                    image: Yup.string().required('Profile picture is required')
+                });
+            }
+        },
+        onSubmit: () => {
+            const allValues = {
+                ...emailFormik.values,
+                ...passwordFormik.values,
+                ...nameFormik.values,
+                ...dobFormik.values,
+                ...profilePictureFormik.values,
+            };
+            handleSignUp(allValues);
+        },
+    });
+
     const formJSX = () => {
         switch (currentStep) {
             case 1:
@@ -201,7 +221,7 @@ const SignUpForm = () => {
             case 4:
                 return <SignUpDob formik={dobFormik} />;
             case 5:
-                return <SignUpProfilePicture />;
+                return <SignUpProfilePicture formik={profilePictureFormik} />;
         }
     }
 
@@ -217,9 +237,14 @@ const SignUpForm = () => {
                 </TextRegular>
             </TouchableOpacity>
             {currentStep === 5 && (
-                <TouchableOpacity style={styles.nextButton} onPress={navigateNext}>
+                <TouchableOpacity style={styles.nextButton} onPress={skipProfilePicture}>
                     <TextRegular fontSize={18} color='#fff'>Skip</TextRegular>
                 </TouchableOpacity>
+            )}
+            {currentStep === 5 && profilePictureFormik.errors.image && (
+                <TextRegular fontSize={13} color="red" style={styles.fieldError}>
+                    {profilePictureFormik.errors.image}
+                </TextRegular>
             )}
         </View>
     )
@@ -282,5 +307,9 @@ const styles = StyleSheet.create({
     agreeText: {
         alignSelf: "center",
         flex: 1
-    }
+    },
+    fieldError: {
+        marginLeft: RPW(2),
+        marginTop: RPH(1)
+    },
 })

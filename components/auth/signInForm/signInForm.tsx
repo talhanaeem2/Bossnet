@@ -23,8 +23,7 @@ import { login, setIsLoading } from "../../../reducers/auth/authSlice";
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import ResponseData from "./interfaces/responseData";
 import RequestData from "./interfaces/requestData";
-import { AxiosError } from "axios";
-import Toast from "react-native-toast-message";
+import useErrorHandling from "../../../hooks/useErrorHandling";
 
 const SignInForm = () => {
     const route = useRoute();
@@ -32,16 +31,17 @@ const SignInForm = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>();
     const dispatch = useReducerDispatch()
+    const { handleError } = useErrorHandling()
 
     const validationSchema = Yup.object().shape({
         username: Yup.string().required('Username is required'),
         password: Yup.string().required('Password is required')
     });
 
-    const handleRememberMe = async (username: string, password: string) => {
-        const userData = {
-            username: username,
-            password: password
+    const handleRememberMe = async (values: RequestData) => {
+        const userData: RequestData = {
+            email_or_username: values.email_or_username,
+            password: values.password
         };
 
         try {
@@ -56,43 +56,17 @@ const SignInForm = () => {
             const storedUserData = await AsyncStorage.getItem("userData");
 
             if (storedUserData) {
-                const userData = JSON.parse(storedUserData);
-                formik.setFieldValue('username', userData.username);
+                const userData: RequestData = JSON.parse(storedUserData);
+                formik.setFieldValue('username', userData.email_or_username);
                 formik.setFieldValue('password', userData.password);
 
-                handleSignIn(userData)
+                // handleSignIn({
+                //     email_or_username: userData.email_or_username,
+                //     password: userData.password
+                // })
             }
         } catch (error) {
             console.error("Error loading stored credentials:", error);
-        }
-    };
-
-    const showErrorToast = (errorMessage: string) => {
-        Toast.show({
-            type: 'error',
-            text1: errorMessage,
-            position: 'top',
-            visibilityTime: 3000,
-            autoHide: true,
-            swipeable: true,
-            text1Style: {
-                fontSize: 13,
-                fontWeight: "400",
-                fontFamily: "Lato-Regular",
-                color: '#000'
-            },
-
-        });
-    }
-
-    const handleAxiosError = (error: unknown) => {
-        if (error instanceof AxiosError) {
-            const errorMessage = error.response?.data?.message || 'An Axios error occurred';
-            showErrorToast(errorMessage)
-        } else if (error instanceof Error) {
-            showErrorToast(error.message)
-        } else {
-            showErrorToast('Unknown error occurred')
         }
     };
 
@@ -108,30 +82,35 @@ const SignInForm = () => {
                     password: values.password,
                 }
             );
-            console.log(response.token)
 
             if (response) {
                 await AsyncStorage.setItem('token', JSON.stringify(response.token));
-                handleRememberMe(values.email_or_username, values.password);
+                handleRememberMe(values);
                 dispatch(login(response.token));
                 dispatch(setIsLoading(false));
             }
         } catch (error) {
-            handleAxiosError(error)
-            formik.setFieldError('password', 'Invalid password');
-            formik.setFieldError('username', 'Invalid username');
+            console.error('Error:', error);
+            handleError(error)
+            formik.setFieldError('password', formik.errors.password);
+            formik.setFieldError('username', formik.errors.email_or_username);
             dispatch(setIsLoading(false));
         }
     };
 
     const formik = useFormik({
         initialValues: {
-            email_or_username: 'ansss',
-            password: 'Kaartoos@123',
+            email_or_username: '',
+            password: '',
             selectedLanguage: selectedLanguage
         },
         validationSchema,
-        onSubmit: handleSignIn
+        onSubmit: () => {
+            handleSignIn({
+                email_or_username: formik.values.email_or_username,
+                password: formik.values.password
+            })
+        }
     });
 
     useEffect(() => {
