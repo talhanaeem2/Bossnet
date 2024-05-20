@@ -1,3 +1,3 @@
 export default interface AccountRecoveryVerificationFormValues {
-    verificationCode: string;
+    otp_code: string;
 }

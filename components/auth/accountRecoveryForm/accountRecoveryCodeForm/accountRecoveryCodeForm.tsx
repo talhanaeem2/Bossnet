@@ -33,7 +33,7 @@ const AccountRecoveryCodeForm = (props: AccountRecoveryVerificationFormProps) =>
             inputRefs[index + 1].current?.focus();
         }
 
-        formik.setFieldValue("verificationCode", updatedCode.join(""));
+        formik.setFieldValue("otp_code", updatedCode.join(""));
     };
 
     const handleBackspace = (index: number) => {
@@ -45,7 +45,7 @@ const AccountRecoveryCodeForm = (props: AccountRecoveryVerificationFormProps) =>
             // Clear the current field
             updatedCode[index] = "";
             setVerificationCode(updatedCode);
-            formik.setFieldValue("verificationCode", updatedCode.join(""));
+            formik.setFieldValue("otp_code", updatedCode.join(""));
         }
     };
 
@@ -67,7 +67,7 @@ const AccountRecoveryCodeForm = (props: AccountRecoveryVerificationFormProps) =>
                         value={value}
                         style={styles.codeInput}
                         onChangeText={(text) => handleChange(text, index)}
-                        onBlur={() => formik.handleBlur("verificationCode")}
+                        onBlur={() => formik.handleBlur("otp_code")}
                         ref={inputRefs[index]}
                         keyboardType="numeric"
                         maxLength={1}
@@ -80,9 +80,9 @@ const AccountRecoveryCodeForm = (props: AccountRecoveryVerificationFormProps) =>
                     />
                 ))}
             </View>
-            {formik.touched.verificationCode && formik.errors.verificationCode && (
+            {formik.touched.otp_code && formik.errors.otp_code && (
                 <TextRegular fontSize={12} color="red" style={styles.fieldError}>
-                    {formik.errors.verificationCode}
+                    {formik.errors.otp_code}
                 </TextRegular>
             )}
         </View>

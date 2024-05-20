@@ -1,5 +1,5 @@
 export default interface AccountRecoveryFormValuesInterface {
     email: string;
-    verificationCode: string;
+    otp_code: string;
     password: string;
 }

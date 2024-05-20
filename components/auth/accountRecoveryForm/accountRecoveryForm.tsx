@@ -4,8 +4,6 @@ import { StackNavigationProp } from "@react-navigation/stack"
 import { useState } from "react"
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import axios, { AxiosError } from "axios";
-import Toast from "react-native-toast-message";
 
 import TextBold from "../../app/common/textComponent/textBold/textBold"
 import TextRegular from "../../app/common/textComponent/textRegular/textRegular"
@@ -18,36 +16,24 @@ import SuccesModal from "../../../modals/succesModal/succesModal";
 import messages from "../../../constants/messages"
 import { RFS, RPH, RPW } from "../../../constants/utils/utils"
 import Apis from "../../../constants/apis";
+import requestUtils from "../../../constants/utils/requestUtils";
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { setIsLoading } from "../../../reducers/auth/authSlice";
 import { setSuccessModal } from "../../../reducers/app/appSlice";
+import useErrorHandling from "../../../hooks/useErrorHandling";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
 import AccountRecoveryFormValuesInterface from "./interfaces/accountRecoveryFormValuesInterface";
+import IError from "../../../interfaces/IError";
+
+interface AccountRecoveryResponse extends IError { }
 
 const AccountRecoveryForm = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const [currentStep, setCurrentStep] = useState(1);
     const dispatch = useReducerDispatch();
-
-    const showErrorToast = (errorMessage: string) => {
-        Toast.show({
-            type: 'error',
-            text1: errorMessage,
-            position: 'top',
-            visibilityTime: 3000,
-            autoHide: true,
-            swipeable: true,
-            text1Style: {
-                fontSize: 13,
-                fontWeight: "400",
-                fontFamily: "Lato-Regular",
-                color: '#000'
-            },
-
-        });
-    }
+    const { handleError } = useErrorHandling();
 
     const navigateToSignIn = () => {
         navigation.navigate("SignIn",
@@ -65,30 +51,23 @@ const AccountRecoveryForm = () => {
         }, 2000);
     };
 
-    const handleAxiosError = (error: unknown) => {
-        if (error instanceof AxiosError) {
-            const errorMessage = error.response?.data?.message || 'An Axios error occurred';
-            showErrorToast(errorMessage)
-        } else if (error instanceof Error) {
-            showErrorToast(error.message)
-        } else {
-            showErrorToast('Unknown error occurred')
-        }
-    };
-
     const sendRecoveryEmail = async (email: string) => {
         try {
             dispatch(setIsLoading(true))
 
-            const data = { email };
-
-            await axios.post(Apis.accountRecoveryEmail, data);
+            await requestUtils.request<AccountRecoveryResponse, { email: string }>(
+                Apis.accountRecoveryEmail,
+                'POST',
+                {
+                    email: email
+                }
+            );
 
             dispatch(setIsLoading(false))
             setCurrentStep(prevState => prevState + 1)
 
         } catch (error) {
-            handleAxiosError(error)
+            handleError(error)
             dispatch(setIsLoading(false))
         }
     };
@@ -97,36 +76,41 @@ const AccountRecoveryForm = () => {
         try {
             dispatch(setIsLoading(true))
 
-            const data = { email, otp_code: code };
-
-            await axios.post(Apis.accountVerificationCode, data);
+            await requestUtils.request<AccountRecoveryResponse, { email: string, otp_code: string }>(
+                Apis.accountVerificationCode,
+                'POST',
+                {
+                    email: email,
+                    otp_code: code
+                }
+            );
 
             dispatch(setIsLoading(false))
             setCurrentStep(prevState => prevState + 1)
 
         } catch (error) {
-            handleAxiosError(error)
+            handleError(error)
             dispatch(setIsLoading(false))
         }
     };
 
     const handleRecoverForm = async (values: AccountRecoveryFormValuesInterface) => {
         try {
-            let data = {
-                email: values.email,
-                otp_code: values.verificationCode,
-                password: values.password
-            };
-            dispatch(setIsLoading(true))
-
-            await axios.post(Apis.accountChangePassword, data);
+            await requestUtils.request<AccountRecoveryResponse, AccountRecoveryFormValuesInterface>(
+                Apis.accountChangePassword,
+                'POST',
+                {
+                    email: values.email,
+                    otp_code: values.otp_code,
+                    password: values.password
+                }
+            );
 
             dispatch(setIsLoading(false))
-
             showSuccessModal();
 
         } catch (error) {
-            handleAxiosError(error)
+            handleError(error)
             dispatch(setIsLoading(false))
         }
     };
@@ -145,10 +129,10 @@ const AccountRecoveryForm = () => {
 
     const verificationCodeFormik = useFormik({
         initialValues: {
-            verificationCode: "",
+            otp_code: "",
         },
         validationSchema: Yup.object({
-            verificationCode: Yup.string()
+            otp_code: Yup.string()
                 .required("Verification code is required")
                 .matches(
                     /^\d{5}$/,
@@ -156,7 +140,7 @@ const AccountRecoveryForm = () => {
                 ),
         }),
         onSubmit: (values) => {
-            CheckVerificationCode(emailFormik.values.email, values.verificationCode)
+            CheckVerificationCode(emailFormik.values.email, values.otp_code)
         },
     });
 
