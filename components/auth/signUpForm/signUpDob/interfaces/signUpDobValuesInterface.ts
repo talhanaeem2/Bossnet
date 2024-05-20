@@ -1,4 +1,4 @@
 export default interface SignUpDobValuesInterface {
-    birthday: Date;
+    dayOfBirth: Date;
     agreeToTerms: boolean;
 }

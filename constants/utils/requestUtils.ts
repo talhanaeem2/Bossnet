@@ -1,3 +1,4 @@
+import IError from "../../interfaces/IError";
 import IResponse from "../../interfaces/IResponse";
 
 const requestUtils = {
@@ -7,9 +8,11 @@ const requestUtils = {
         url: string,
         method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
         body?: T,
+        extraHeaders: Record<string, string> = {},
     ): Promise<R> {
         const headers = {
-            ...this.baseHeaders
+            ...this.baseHeaders,
+            ...extraHeaders,
         };
 
         const options: RequestInit = {
@@ -21,19 +24,30 @@ const requestUtils = {
         try {
             const response = await fetch(url, options);
 
-            if (!response.ok) {
-                const errorText = `HTTP error! Status: ${response.status} -> ${response.statusText}`;
-                console.error(errorText);
-                throw new Error(errorText);
+            // if (!response.ok) {
+            //     const errorText = `HTTP error! Status: ${response.status} -> ${response.statusText}`;
+            //     console.error(errorText);
+            //     throw new Error(errorText);
+            // }
+            const result: unknown = await response.json();
+
+            if (isError(result)) {
+                const errorResult = result as IError;
+                console.error('Error:', errorResult.message);
+                throw new Error(errorResult.message);
             }
-            const result: IResponse<R> = await response.json();
 
-            return result.data;
+            const successResult = result as IResponse<R>;
+            return successResult.data;
         } catch (error) {
-
+            console.log(error)
             throw error;
         }
     },
 };
+
+function isError(result: any): result is IError {
+    return result && result.status === false && 'message' in result;
+}
 
 export default requestUtils;

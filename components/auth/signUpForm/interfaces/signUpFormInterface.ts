@@ -1,3 +1,5 @@
+import ImageInterface from "../../../common/interfaces/imageInterface";
+
 export default interface SignUpFormInterface {
     email: string;
     confirmEmail?: string;
@@ -6,7 +8,7 @@ export default interface SignUpFormInterface {
     firstName: string;
     lastName: string;
     userName: string;
-    birthday: Date | string;
+    dayOfBirth: Date | string;
     agreeToTerms?: boolean;
-    image: string;
+    image: ImageInterface;
 }

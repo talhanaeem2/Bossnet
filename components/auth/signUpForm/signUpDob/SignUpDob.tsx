@@ -22,7 +22,7 @@ const SignUpDob = (props: SignUpDobProps) => {
     const handleDateChange = useCallback((selectedDate: Date) => {
         if (selectedDate) {
             const formattedDate = moment(selectedDate).startOf('day').toDate();
-            formik.setFieldValue('birthday', formattedDate)
+            formik.setFieldValue('dayOfBirth', formattedDate)
             setShowDatePicker(false);
         }
     }, [formik.setFieldValue])
@@ -46,17 +46,17 @@ const SignUpDob = (props: SignUpDobProps) => {
                     </TextBold>
                     <TouchableOpacity onPress={showDatepicker} style={styles.datePickerButton}>
                         <TextBold fontSize={14}>
-                            {moment(formik.values.birthday).format('MMMM DD YYYY')}
+                            {moment(formik.values.dayOfBirth).format('YYYY/MM/DD')}
                         </TextBold>
                     </TouchableOpacity>
                     {showDatePicker && (
                         <DateTimePicker
-                            value={formik.values.birthday}
+                            value={formik.values.dayOfBirth}
                             mode="date"
                             display="spinner"
                             onChange={(event, date) => {
                                 if (date) {
-                                    formik.setFieldValue('birthday', date)
+                                    formik.setFieldValue('dayOfBirth', date)
                                     handleDateChange(date);
                                 }
                             }}
@@ -65,9 +65,9 @@ const SignUpDob = (props: SignUpDobProps) => {
                 </View>
                 <View>
                     {
-                        formik.touched.birthday && formik.errors.birthday &&
+                        formik.touched.dayOfBirth && formik.errors.dayOfBirth &&
                         <TextRegular fontSize={12} color="red" style={styles.fieldError}>
-                            {formik.errors.birthday as string}
+                            {formik.errors.dayOfBirth as string}
                         </TextRegular>
                     }
                 </View>

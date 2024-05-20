@@ -35,10 +35,10 @@ const SignUpForm = () => {
 
     const handleSignUp = async (values: SignUpFormInterface) => {
         try {
-            const birthdayDate = moment(values.birthday);
+            const birthdayDate = moment(values.dayOfBirth);
             dispatch(setIsLoading(true))
 
-            const response = await requestUtils.request<SignUpResponseInterface, SignUpFormInterface>(
+            await requestUtils.request<SignUpResponseInterface, SignUpFormInterface>(
                 Apis.signupApi,
                 'POST',
                 {
@@ -47,11 +47,16 @@ const SignUpForm = () => {
                     userName: values.userName,
                     email: values.email,
                     password: values.password,
-                    birthday: birthdayDate.format('YYYY/MM/DD'),
-                    image: skipImage ? '' : values.image || ''
+                    dayOfBirth: birthdayDate.format('YYYY/MM/DD'),
+                    image: skipImage ? {
+                        uri: '',
+                        type: '',
+                        name: '',
+                        width: -1,
+                        height: -1
+                    } : values.image
                 }
             );
-            console.log(response)
 
             dispatch(setIsLoading(false))
             navigation.navigate('SignIn', {
@@ -90,7 +95,13 @@ const SignUpForm = () => {
 
     const skipProfilePicture = () => {
         setSkipImage(true);
-        profilePictureFormik.setFieldValue('image', '');
+        profilePictureFormik.setFieldValue('image', {
+            uri: '',
+            type: '',
+            name: '',
+            width: -1,
+            height: -1
+        });
         profilePictureFormik.submitForm();
     }
 
@@ -156,11 +167,11 @@ const SignUpForm = () => {
 
     const dobFormik = useFormik({
         initialValues: {
-            birthday: new Date(),
+            dayOfBirth: new Date(),
             agreeToTerms: false
         },
         validationSchema: Yup.object().shape({
-            birthday: Yup.string()
+            dayOfBirth: Yup.string()
                 .required('Birthday is required')
                 .test('is-adult', 'You must be 18 years old or older', function (value) {
                     const minAge = 18;
@@ -187,14 +198,20 @@ const SignUpForm = () => {
 
     const profilePictureFormik = useFormik({
         initialValues: {
-            image: '',
+            image: {
+                uri: '',
+                type: '',
+                name: '',
+                width: -1,
+                height: -1
+            },
         },
         validationSchema: () => {
             if (skipImage) {
                 return Yup.object();
             } else {
                 return Yup.object().shape({
-                    image: Yup.string().required('Profile picture is required')
+                    image: Yup.object().required('Profile picture is required')
                 });
             }
         },
@@ -243,7 +260,7 @@ const SignUpForm = () => {
             )}
             {currentStep === 5 && profilePictureFormik.errors.image && (
                 <TextRegular fontSize={13} color="red" style={styles.fieldError}>
-                    {profilePictureFormik.errors.image}
+                    {profilePictureFormik.errors.image as string}
                 </TextRegular>
             )}
         </View>

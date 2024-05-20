@@ -34,7 +34,7 @@ const SignInForm = () => {
     const { handleError } = useErrorHandling()
 
     const validationSchema = Yup.object().shape({
-        username: Yup.string().required('Username is required'),
+        email_or_username: Yup.string().required('Username is required'),
         password: Yup.string().required('Password is required')
     });
 
@@ -57,7 +57,7 @@ const SignInForm = () => {
 
             if (storedUserData) {
                 const userData: RequestData = JSON.parse(storedUserData);
-                formik.setFieldValue('username', userData.email_or_username);
+                formik.setFieldValue('email_or_username', userData.email_or_username);
                 formik.setFieldValue('password', userData.password);
 
                 // handleSignIn({
@@ -90,10 +90,9 @@ const SignInForm = () => {
                 dispatch(setIsLoading(false));
             }
         } catch (error) {
-            console.error('Error:', error);
             handleError(error)
             formik.setFieldError('password', formik.errors.password);
-            formik.setFieldError('username', formik.errors.email_or_username);
+            formik.setFieldError('email_or_username', formik.errors.email_or_username);
             dispatch(setIsLoading(false));
         }
     };
@@ -142,7 +141,7 @@ const SignInForm = () => {
                 <InputField
                     placeholder={messages.name}
                     type="text"
-                    onChangeText={formik.handleChange('username')}
+                    onChangeText={formik.handleChange('email_or_username')}
                     value={formik.values.email_or_username}
                 />
                 {formik.touched.email_or_username && formik.errors.email_or_username &&

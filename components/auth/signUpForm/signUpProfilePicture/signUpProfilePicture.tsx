@@ -1,12 +1,11 @@
 import { memo, useCallback, useState } from "react"
-import { StyleSheet, View, Image } from "react-native"
+import { StyleSheet, View, Image, TouchableOpacity } from "react-native"
 import * as ImagePicker from 'expo-image-picker'
 
 import TextBold from "../../../app/common/textComponent/textBold/textBold"
+import TextRegular from "../../../app/common/textComponent/textRegular/textRegular"
 
 import { RPH } from "../../../../constants/utils/utils"
-import { TouchableOpacity } from "react-native-gesture-handler"
-import TextRegular from "../../../app/common/textComponent/textRegular/textRegular"
 
 import SignUpProfilePictureProps from "./interfaces/signUpProfilePictureProps"
 
@@ -28,8 +27,15 @@ const SignUpProfilePicture = (props: SignUpProfilePictureProps) => {
                 allowsMultipleSelection: false
             });
             if (!result.canceled) {
-                const selectedImage = result.assets[0].uri;
-                formik.setFieldValue('image', selectedImage)
+                const selectedImage = result.assets[0];
+                const file = {
+                    uri: selectedImage.uri,
+                    type: selectedImage.type,
+                    name: selectedImage.uri.split('/').pop(),
+                    width: selectedImage.width,
+                    height: selectedImage.height
+                };
+                formik.setFieldValue('image', file)
                 setShowButtons(false)
             }
 
@@ -41,13 +47,20 @@ const SignUpProfilePicture = (props: SignUpProfilePictureProps) => {
                 quality: 1,
             });
             if (!result.canceled) {
-                const selectedImage = result.assets[0].uri;
-                formik.setFieldValue('image', selectedImage)
+                const selectedImage = result.assets[0];
+                console.log(result.assets)
+                const file = {
+                    uri: selectedImage.uri,
+                    type: selectedImage.type,
+                    name: selectedImage.uri,
+                    width: selectedImage.width,
+                    height: selectedImage.height
+                };
+                formik.setFieldValue('image', file)
                 setShowButtons(false)
             }
         }
-    }, [])
-    console.log(formik.values.image)
+    }, [formik])
 
     return (
         <View style={styles.inner}>
@@ -58,8 +71,8 @@ const SignUpProfilePicture = (props: SignUpProfilePictureProps) => {
             </View>
             <View style={styles.fieldContainer}>
                 <TouchableOpacity style={[styles.circle, formik.values.image ? {} : { backgroundColor: '#767676' }]} onPress={showUploadButtons}>
-                    {formik.values.image ? (
-                        <Image style={styles.roundImg} source={{ uri: formik.values.image }} />
+                    {formik.values.image.uri ? (
+                        <Image style={styles.roundImg} source={{ uri: formik.values.image.uri }} />
                     ) : (
                         <Image style={styles.roundImg} source={require("../../../../assets/signup-picture.png")} />
                     )}
@@ -111,7 +124,8 @@ const styles = StyleSheet.create({
     },
     roundImg: {
         width: "100%",
-        objectFit: "contain"
+        height: "100%",
+        resizeMode: "contain"
     },
     inner: {
         marginTop: 94
@@ -127,7 +141,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         alignSelf: "center",
-        width: '100%',
         paddingVertical: 11,
         paddingHorizontal: 16
     },
