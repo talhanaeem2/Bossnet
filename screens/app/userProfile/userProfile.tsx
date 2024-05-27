@@ -89,7 +89,10 @@ const UserProfile = () => {
             <View style={styles.container}>
                 <View style={styles.content}>
                     <View style={styles.circle}>
-                        <Image style={styles.roundImg} source={require("../../../assets/user-placeholder.png")} />
+                        {userData.profileImage
+                            ? <Image style={styles.roundImg} source={{ uri: userData.profileImage }} />
+                            : <Image style={styles.roundImg} source={require("../../../assets/user-placeholder.png")} />
+                        }
                     </View>
                     <TextBold fontSize={35} style={{ paddingTop: 20, textTransform: 'capitalize' }}>
                         {userData.firstName}

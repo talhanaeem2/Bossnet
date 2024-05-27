@@ -18,47 +18,36 @@ const SignUpProfilePicture = (props: SignUpProfilePictureProps) => {
     }
 
     const handleImagePicker = useCallback(async (action: 'gallery' | 'camera') => {
-        let result: ImagePicker.ImagePickerResult;
-        if (action === 'gallery') {
-            result = await ImagePicker.launchImageLibraryAsync({
+        const result = action === 'gallery' ?
+            await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 aspect: [1, 1],
                 quality: 1,
+                allowsEditing: true,
                 allowsMultipleSelection: false
-            });
-            if (!result.canceled) {
-                const selectedImage = result.assets[0];
-                const file = {
-                    uri: selectedImage.uri,
-                    type: selectedImage.type,
-                    name: selectedImage.uri.split('/').pop(),
-                    width: selectedImage.width,
-                    height: selectedImage.height
-                };
-                formik.setFieldValue('image', file)
-                setShowButtons(false)
-            }
-
-        } else if (action === 'camera') {
-            result = await ImagePicker.launchCameraAsync({
+            }) :
+            await ImagePicker.launchCameraAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
                 aspect: [1, 1],
                 quality: 1,
             });
-            if (!result.canceled) {
-                const selectedImage = result.assets[0];
-                console.log(result.assets)
-                const file = {
-                    uri: selectedImage.uri,
-                    type: selectedImage.type,
-                    name: selectedImage.uri,
-                    width: selectedImage.width,
-                    height: selectedImage.height
-                };
-                formik.setFieldValue('image', file)
-                setShowButtons(false)
-            }
+
+        if (!result.canceled && result.assets.length > 0) {
+            let selectedImage = result.assets[0];
+            let filename = selectedImage.uri.split('/').pop();
+            let uri = selectedImage.uri
+
+            // Infer the type of the image
+            let match = /\.(\w+)$/.exec(filename as string);
+            let type = match ? `image/${match[1]}` : `image`;
+
+            const file = {
+                uri: uri,
+                type: type,
+                filename: filename || ''
+            };
+            formik.setFieldValue('image', file)
         }
     }, [formik])
 

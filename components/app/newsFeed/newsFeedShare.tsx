@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard, Pressable } from "react-native"
+import { View, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard, Pressable, Image } from "react-native"
 import { memo, useCallback } from "react"
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
@@ -11,14 +11,15 @@ import useSliceSelector from "../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { setCreatePostModal } from "../../../reducers/app/appSlice";
 
-import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import NewsFeedShareProps from "./interfaces/newsFeedShareProps";
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 
 const NewsFeedShare = (props: NewsFeedShareProps) => {
     const { handleImagePicker } = props
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
+    const userData = useSliceSelector(state => state.auth.userData)
 
     const handleToggleCreatePostModal = useCallback(() => {
         dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));
@@ -33,9 +34,12 @@ const NewsFeedShare = (props: NewsFeedShareProps) => {
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.shareContainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>
-                        {Icons.userPlaceholderIcon}
-                    </TouchableOpacity>
+                    {userData.profileImage
+                        ? <Image style={styles.roundImg} source={{ uri: userData.profileImage }} />
+                        : <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>
+                            {Icons.userPlaceholderIcon}
+                        </TouchableOpacity>
+                    }
                     <Pressable onPress={handleToggleCreatePostModal}>
                         <TextInput
                             style={styles.input}
@@ -77,5 +81,11 @@ const styles = StyleSheet.create({
         fontSize: RFS(12),
         fontFamily: "Lato-Regular",
         fontWeight: "400"
-    }
+    },
+    roundImg: {
+        borderRadius: 80,
+        width: 34,
+        objectFit: "contain",
+        height: 34
+    },
 })

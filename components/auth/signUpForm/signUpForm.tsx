@@ -25,6 +25,7 @@ import useErrorHandling from "../../../hooks/useErrorHandling";
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import SignUpFormInterface from "./interfaces/signUpFormInterface";
 import SignUpResponseInterface from "./interfaces/signUpResponseInterface";
+import ImageInterface from "../../common/interfaces/imageInterface";
 
 const SignUpForm = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
@@ -51,9 +52,7 @@ const SignUpForm = () => {
                     image: skipImage ? {
                         uri: '',
                         type: '',
-                        name: '',
-                        width: -1,
-                        height: -1
+                        filename: ''
                     } : values.image
                 }
             );
@@ -196,15 +195,15 @@ const SignUpForm = () => {
         },
     });
 
+    const initialValues: ImageInterface = {
+        uri: '',
+        type: '',
+        filename: ''
+    }
+
     const profilePictureFormik = useFormik({
         initialValues: {
-            image: {
-                uri: '',
-                type: '',
-                name: '',
-                width: -1,
-                height: -1
-            },
+            image: initialValues,
         },
         validationSchema: () => {
             if (skipImage) {

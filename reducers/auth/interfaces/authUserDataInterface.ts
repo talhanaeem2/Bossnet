@@ -1,4 +1,4 @@
-export default interface UserDataInterface {
+export default interface AuthUserDataInterface {
     email: string;
     userId: string;
     firstName: string;

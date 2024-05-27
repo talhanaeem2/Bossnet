@@ -1,11 +1,17 @@
+import ImageInterface from "../../../../../components/common/interfaces/imageInterface";
+
 export default interface UserDataInterface {
     userId: string;
     email: string;
     firstName: string;
     lastName: string;
     userName: string;
-    dayofBirth: string;
-    profileImage: string;
+    dayOfBirth: string;
+    profileImage: ImageInterface;
     token: string;
-    [key: string]: string | number | undefined;
+    bio?: string;
+    phone?: string;
+    education?: string;
+    socials?: string;
+    work?: string;
 }

@@ -9,6 +9,8 @@ import Icons from "../../../constants/icons"
 import messages from "../../../constants/messages"
 import { RPW, RPH, RFS } from "../../../constants/utils/utils"
 
+import useSliceSelector from "../../../hooks/useSliceSelector"
+
 import CreatePostProps from "./interfaces/createPostProps"
 // import {
 //     GiphyContent,
@@ -23,7 +25,8 @@ import CreatePostProps from "./interfaces/createPostProps"
 // GiphySDK.configure({ apiKey: giphyAPIKey })
 
 const CreatePost = (props: CreatePostProps) => {
-    const { closeModal, images, removeImage, handleImagePicker } = props
+    const { closeModal, images, removeImage, handleImagePicker } = props;
+    const userData = useSliceSelector(state => state.auth.userData)
 
     // const [searchQuery, setSearchQuery] = useState<string>('')
     // const [media, setMedia] = useState<GiphyMedia | null>(null)
@@ -40,12 +43,15 @@ const CreatePost = (props: CreatePostProps) => {
             </View>
             <View style={styles.body}>
                 <View style={styles.content}>
-                    <View>
-                        {Icons.userPlaceholderIcon}
-                    </View>
+                    {userData.profileImage
+                        ? <Image style={styles.roundImg} source={{ uri: userData.profileImage }} />
+                        : <View>
+                            {Icons.userPlaceholderIcon}
+                        </View>
+                    }
                     <View>
                         <TextBold fontSize={17}>
-                            Aldin Mahmutovic
+                            {`${userData.firstName} ${userData.lastName}`}
                         </TextBold>
                     </View>
                 </View>
@@ -53,7 +59,7 @@ const CreatePost = (props: CreatePostProps) => {
                     style={styles.input}
                     multiline={true}
                     numberOfLines={8}
-                    placeholder={`${messages.shareMind} Aldin Mahmutovic`}
+                    placeholder={`${messages.shareMind} ${userData.firstName} ${userData.lastName}`}
                 />
             </View>
             <View style={styles.iconContainer}>
@@ -205,5 +211,11 @@ const styles = StyleSheet.create({
         borderBottomColor: "#EBEFF2",
         paddingBottom: RPH(.6),
         justifyContent: "center"
-    }
+    },
+    roundImg: {
+        borderRadius: 80,
+        width: 34,
+        objectFit: "contain",
+        height: 34
+    },
 })

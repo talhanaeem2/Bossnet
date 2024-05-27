@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import AuthStateInterface from './interfaces/authStateInterface';
-import UserDataInterface from './interfaces/userDataInterface';
+import UserDataInterface from './interfaces/authUserDataInterface';
 
 const initialState: AuthStateInterface = {
     isAuthenticated: false,

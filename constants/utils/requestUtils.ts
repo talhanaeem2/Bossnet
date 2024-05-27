@@ -2,13 +2,16 @@ import IError from "../../interfaces/IError";
 import IResponse from "../../interfaces/IResponse";
 
 const requestUtils = {
-    baseHeaders: { 'Content-Type': 'application/json' },
+    baseHeaders: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
 
     async request<R, T>(
         url: string,
         method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
         body?: T,
-        extraHeaders: Record<string, string> = {},
+        extraHeaders: HeadersInit = {},
     ): Promise<R> {
         const headers = {
             ...this.baseHeaders,
@@ -18,7 +21,7 @@ const requestUtils = {
         const options: RequestInit = {
             method,
             headers,
-            body: body ? JSON.stringify(body) : undefined,
+            body: body instanceof FormData ? body : JSON.stringify(body),
         };
 
         try {
@@ -38,6 +41,8 @@ const requestUtils = {
             }
 
             const successResult = result as IResponse<R>;
+
+            console.log(successResult);
             return successResult.data;
         } catch (error) {
             console.log(error)
