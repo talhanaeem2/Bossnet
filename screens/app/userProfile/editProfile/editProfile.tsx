@@ -1,6 +1,6 @@
 import { StyleSheet, View, Image, ScrollView, TouchableOpacity, Modal, TextInput, ImageProps, TouchableWithoutFeedback } from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { memo, useCallback, useEffect, useState } from "react"
+import { memo, useCallback, useState } from "react"
 import * as ImagePicker from "expo-image-picker"
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import moment from "moment"
@@ -33,7 +33,7 @@ const editSocialsIcon = require("../../../../assets/icons/editSocials.png");
 const editWorkIcon = require("../../../../assets/icons/editWork.png");
 
 const EditProfile = () => {
-    const data = useSliceSelector(state => state.auth.userData)
+    const data = useSliceSelector(state => state.auth.userData.data)
     const [editingField, setEditingField] = useState("")
     const [editValue, setEditValue] = useState("")
     const [isModalVisible, setIsModalVisible] = useState(false)
@@ -75,7 +75,7 @@ const EditProfile = () => {
                 myHeaders
             );
             console.log(response)
-            dispatch(setUserData(response.data))
+            dispatch(setUserData(response))
 
         } catch (error) {
             handleError(error)
@@ -260,7 +260,7 @@ const EditProfile = () => {
                     <View style={styles.content}>
                         <TouchableOpacity style={styles.circle} onPress={showUploadButtons}>
                             {data.profileImage ?
-                                <Image style={styles.roundImg} source={{ uri: data.profileImage }} /> :
+                                <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${data.profileImage}` }} /> :
                                 <Image style={styles.roundImg} source={userPlaceholder} />
                             }
                             <View style={styles.editImage}>

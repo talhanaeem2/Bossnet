@@ -11,6 +11,7 @@ import CreatePostModal from "../../../modals/createPostModal/createPostModal"
 
 import { RPW, RPH } from "../../../constants/utils/utils"
 import Icons from "../../../constants/icons"
+import Apis from "../../../constants/apis"
 
 import useSliceSelector from "../../../hooks/useSliceSelector"
 import useReducerDispatch from "../../../hooks/useReducerDispatch"
@@ -40,7 +41,7 @@ const footerIcons: footerIconsInterface[] = [
 ]
 
 const UserProfile = () => {
-    const userData = useSliceSelector(state => state.auth.userData)
+    const userData = useSliceSelector(state => state.auth.userData.data)
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const [images, setImages] = useState<string[]>([]);
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
@@ -90,7 +91,7 @@ const UserProfile = () => {
                 <View style={styles.content}>
                     <View style={styles.circle}>
                         {userData.profileImage
-                            ? <Image style={styles.roundImg} source={{ uri: userData.profileImage }} />
+                            ? <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
                             : <Image style={styles.roundImg} source={require("../../../assets/user-placeholder.png")} />
                         }
                     </View>
@@ -179,12 +180,12 @@ const styles = StyleSheet.create({
         height: 139,
         justifyContent: "center",
         alignItems: "center",
+        overflow: "hidden",
+        borderRadius: 70,
     },
     roundImg: {
-        borderRadius: 80,
         width: "100%",
-        objectFit: "contain",
-        height: 139
+        height: '100%'
     },
     followContainer: {
         flexDirection: "row",

@@ -22,7 +22,7 @@ const Menu = () => {
     const [isLoading, setIsLoading] = useState(false)
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const dispatch = useReducerDispatch();
-    const data = useSliceSelector(state => state.auth.userData)
+    const data = useSliceSelector(state => state.auth.userData.data)
     console.log(data)
 
     const handleLogout = async () => {

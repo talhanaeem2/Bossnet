@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import Icons from "../../../constants/icons";
 import messages from "../../../constants/messages";
 import { RPW, RPH, RFS } from "../../../constants/utils/utils";
+import Apis from "../../../constants/apis";
 
 import useSliceSelector from "../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
@@ -19,7 +20,7 @@ const NewsFeedShare = (props: NewsFeedShareProps) => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
-    const userData = useSliceSelector(state => state.auth.userData)
+    const userData = useSliceSelector(state => state.auth.userData.data)
 
     const handleToggleCreatePostModal = useCallback(() => {
         dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));
@@ -34,9 +35,9 @@ const NewsFeedShare = (props: NewsFeedShareProps) => {
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.shareContainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>
+                    <TouchableOpacity style={styles.circle} onPress={() => navigation.navigate("UserProfile")}>
                         {userData.profileImage
-                            ? <Image style={styles.roundImg} source={{ uri: userData.profileImage }} />
+                            ? <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
                             : Icons.userPlaceholderIcon}
                     </TouchableOpacity>
                     <Pressable onPress={handleToggleCreatePostModal}>
@@ -82,9 +83,15 @@ const styles = StyleSheet.create({
         fontWeight: "400"
     },
     roundImg: {
-        borderRadius: 80,
-        width: 34,
-        objectFit: "contain",
-        height: 34
+        width: '100%',
+        height: '100%'
     },
+    circle: {
+        width: 34,
+        height: 34,
+        justifyContent: "center",
+        alignItems: "center",
+        overflow: "hidden",
+        borderRadius: 70,
+    }
 })

@@ -1,9 +1,7 @@
 export default interface EditProfileResponse {
-    status: boolean;
-    message: string;
     data: {
-        userId: string;
         email: string;
+        userId: string;
         firstName: string;
         lastName: string;
         userName: string;

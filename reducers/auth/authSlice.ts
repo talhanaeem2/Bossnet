@@ -7,13 +7,15 @@ const initialState: AuthStateInterface = {
     isAuthenticated: false,
     isLoading: false,
     userData: {
-        email: '',
-        userId: '',
-        firstName: '',
-        lastName: '',
-        userName: '',
-        profileImage: '',
-        dayOfBirth: ''
+        data: {
+            email: '',
+            userId: '',
+            firstName: '',
+            lastName: '',
+            userName: '',
+            profileImage: '',
+            dayOfBirth: ''
+        }
     }
 };
 

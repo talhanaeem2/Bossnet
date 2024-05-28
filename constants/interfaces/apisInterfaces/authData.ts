@@ -6,5 +6,4 @@ export default interface AuthData {
     userName: string;
     dayOfBirth: string;
     profileImage: string;
-    token: string;
 }

@@ -86,7 +86,7 @@ const SignInForm = () => {
             if (response) {
                 await AsyncStorage.setItem('token', JSON.stringify(response.token));
                 handleRememberMe(values);
-                dispatch(login(response.token));
+                dispatch(login());
                 dispatch(setIsLoading(false));
             }
         } catch (error) {

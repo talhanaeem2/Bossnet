@@ -32,7 +32,7 @@ const emojiIcon = <IconContainer width="18" height="18" viewBox="0 0 18 18" fill
 
 const CommmentModal = () => {
     const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible)
-    const userData = useSliceSelector(state => state.auth.userData)
+    const userData = useSliceSelector(state => state.auth.userData.data)
     const name = `${userData.firstName} ${userData.lastName}`
     const dispatch = useReducerDispatch()
     const [newCommentText, setNewCommentText] = useState<string>("");

@@ -2,6 +2,7 @@ import { StyleSheet, View } from "react-native"
 import { memo, useCallback, useEffect, useState } from "react";
 import * as ImagePicker from 'expo-image-picker'
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Header from "../../../components/app/header/header";
 import Footer from "../../../components/app/footer/footer";
@@ -16,14 +17,17 @@ import useSliceSelector from "../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { setUserData } from "../../../reducers/auth/authSlice";
 
-import ProfileResponse from "../../../constants/interfaces/apisInterfaces/profileResponse";
-import AuthData from "../../../constants/interfaces/apisInterfaces/authData";
+import ProfileResponse from "./interfaces/profileResponse";
 
 const Home = () => {
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const [images, setImages] = useState<string[]>([]);
-    const token = useSliceSelector(state => state.auth.userData.token)
     const dispatch = useReducerDispatch()
+
+    const getToken = useCallback(async () => {
+        const accessToken = await AsyncStorage.getItem("token");
+        return accessToken && JSON.parse(accessToken);
+    }, []);
 
     const handleImagePicker = useCallback(async (action: 'gallery' | 'camera' | 'giphy') => {
         let result: ImagePicker.ImagePickerResult;
@@ -60,14 +64,17 @@ const Home = () => {
     }, [images])
 
     const fetchData = async () => {
+        const accessToken = await getToken();
+        if (!accessToken) return;
+
         try {
-            const response: ProfileResponse<AuthData> = await axios.get(Apis.profileApi, {
+            const response: ProfileResponse = await axios.get(Apis.profileApi, {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${accessToken}`
                 }
             });
 
-            dispatch(setUserData(response.data.data))
+            dispatch(setUserData(response.data))
 
         } catch (error) {
             console.log(error);
