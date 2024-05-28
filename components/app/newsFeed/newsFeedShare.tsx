@@ -34,12 +34,11 @@ const NewsFeedShare = (props: NewsFeedShareProps) => {
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.shareContainer}>
-                    {userData.profileImage
-                        ? <Image style={styles.roundImg} source={{ uri: userData.profileImage }} />
-                        : <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>
-                            {Icons.userPlaceholderIcon}
-                        </TouchableOpacity>
-                    }
+                    <TouchableOpacity onPress={() => navigation.navigate("UserProfile")}>
+                        {userData.profileImage
+                            ? <Image style={styles.roundImg} source={{ uri: userData.profileImage }} />
+                            : Icons.userPlaceholderIcon}
+                    </TouchableOpacity>
                     <Pressable onPress={handleToggleCreatePostModal}>
                         <TextInput
                             style={styles.input}

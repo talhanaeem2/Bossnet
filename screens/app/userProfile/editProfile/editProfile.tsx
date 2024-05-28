@@ -15,8 +15,10 @@ import requestUtils from "../../../../constants/utils/requestUtils"
 
 import useErrorHandling from "../../../../hooks/useErrorHandling"
 import useSliceSelector from "../../../../hooks/useSliceSelector";
+import useReducerDispatch from "../../../../hooks/useReducerDispatch";
+import { setUserData } from "../../../../reducers/auth/authSlice";
 
-import IError from "../../../../interfaces/IError"
+import EditProfileResponse from "./interfaces/editProfileResponse";
 import ImageInterface from "../../../../components/common/interfaces/imageInterface";
 
 const userPlaceholder = require("../../../../assets/user-placeholder.png");
@@ -30,8 +32,6 @@ const editEduIcon = require("../../../../assets/icons/editEdu.png");
 const editSocialsIcon = require("../../../../assets/icons/editSocials.png");
 const editWorkIcon = require("../../../../assets/icons/editWork.png");
 
-interface EditProfileResponse extends IError { }
-
 const EditProfile = () => {
     const data = useSliceSelector(state => state.auth.userData)
     const [editingField, setEditingField] = useState("")
@@ -44,6 +44,7 @@ const EditProfile = () => {
     const [firstName, setFirstName] = useState(data?.firstName || "");
     const [lastName, setLastName] = useState(data?.lastName || "");
     const { handleError } = useErrorHandling();
+    const dispatch = useReducerDispatch()
 
     const getToken = useCallback(async () => {
         const accessToken = await AsyncStorage.getItem("token");
@@ -74,6 +75,8 @@ const EditProfile = () => {
                 myHeaders
             );
             console.log(response)
+            dispatch(setUserData(response.data))
+
         } catch (error) {
             handleError(error)
         }
@@ -256,7 +259,7 @@ const EditProfile = () => {
                 <ScrollView style={{ width: 400, height: 460 }}>
                     <View style={styles.content}>
                         <TouchableOpacity style={styles.circle} onPress={showUploadButtons}>
-                            {data?.profileImage ?
+                            {data.profileImage ?
                                 <Image style={styles.roundImg} source={{ uri: data.profileImage }} /> :
                                 <Image style={styles.roundImg} source={userPlaceholder} />
                             }

@@ -12,7 +12,6 @@ const initialState: AuthStateInterface = {
         firstName: '',
         lastName: '',
         userName: '',
-        token: '',
         profileImage: '',
         dayOfBirth: ''
     }
@@ -22,13 +21,11 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        login(state, action: PayloadAction<string>) {
-            state.isAuthenticated = true,
-                state.userData.token = action.payload
+        login(state) {
+            state.isAuthenticated = true
         },
         logout(state) {
-            state.isAuthenticated = false,
-                state.userData.token = ""
+            state.isAuthenticated = false
         },
         setIsLoading(state, action: PayloadAction<boolean>) {
             state.isLoading = action.payload
