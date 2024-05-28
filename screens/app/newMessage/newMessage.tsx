@@ -25,7 +25,7 @@ const NewMessage = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(0)
-    const userId = useSliceSelector(state => state.auth.userData.data.userId)
+    const userId = useSliceSelector(state => state.auth.userData.userId)
 
     const fetchData = useCallback(async (page: number) => {
         try {

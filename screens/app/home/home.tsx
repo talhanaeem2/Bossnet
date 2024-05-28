@@ -17,7 +17,9 @@ import useSliceSelector from "../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { setUserData } from "../../../reducers/auth/authSlice";
 
-import ProfileResponse from "./interfaces/profileResponse";
+import IResponse from "../../../interfaces/IResponse";
+import IProfileData from "../../../interfaces/IProfileData";
+import requestUtils from "../../../constants/utils/requestUtils";
 
 const Home = () => {
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
@@ -68,13 +70,15 @@ const Home = () => {
         if (!accessToken) return;
 
         try {
-            const response: ProfileResponse = await axios.get(Apis.profileApi, {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            });
+            const response = await requestUtils.request<IResponse<IProfileData>, FormData>(
+                Apis.profileApi,
+                'GET',
+                undefined,
+                { 'Authorization': `Bearer ${accessToken}` }
+            );
 
-            dispatch(setUserData(response.data))
+            console.log(response)
+            dispatch(setUserData(response))
 
         } catch (error) {
             console.log(error);

@@ -41,11 +41,12 @@ const footerIcons: footerIconsInterface[] = [
 ]
 
 const UserProfile = () => {
-    const userData = useSliceSelector(state => state.auth.userData.data)
+    const userData = useSliceSelector(state => state.auth.userData)
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const [images, setImages] = useState<string[]>([]);
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
+    console.log(userData)
 
     const handleToggleCreatePostModal = useCallback(() => {
         dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));

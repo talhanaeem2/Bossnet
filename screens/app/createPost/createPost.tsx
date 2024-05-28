@@ -26,7 +26,7 @@ import CreatePostProps from "./interfaces/createPostProps"
 
 const CreatePost = (props: CreatePostProps) => {
     const { closeModal, images, removeImage, handleImagePicker } = props;
-    const userData = useSliceSelector(state => state.auth.userData.data)
+    const userData = useSliceSelector(state => state.auth.userData)
 
     // const [searchQuery, setSearchQuery] = useState<string>('')
     // const [media, setMedia] = useState<GiphyMedia | null>(null)

@@ -18,8 +18,10 @@ import useSliceSelector from "../../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../../hooks/useReducerDispatch";
 import { setUserData } from "../../../../reducers/auth/authSlice";
 
-import EditProfileResponse from "./interfaces/editProfileResponse";
+import IProfileData from "../../../../interfaces/IProfileData";
 import ImageInterface from "../../../../components/common/interfaces/imageInterface";
+import IResponse from "../../../../interfaces/IResponse";
+import useSuccessHandling from "../../../../hooks/useSuccessHandling";
 
 const userPlaceholder = require("../../../../assets/user-placeholder.png");
 const editImgIcon = require("../../../../assets/icons/editImg.png");
@@ -33,7 +35,7 @@ const editSocialsIcon = require("../../../../assets/icons/editSocials.png");
 const editWorkIcon = require("../../../../assets/icons/editWork.png");
 
 const EditProfile = () => {
-    const data = useSliceSelector(state => state.auth.userData.data)
+    const data = useSliceSelector(state => state.auth.userData)
     const [editingField, setEditingField] = useState("")
     const [editValue, setEditValue] = useState("")
     const [isModalVisible, setIsModalVisible] = useState(false)
@@ -44,14 +46,15 @@ const EditProfile = () => {
     const [firstName, setFirstName] = useState(data?.firstName || "");
     const [lastName, setLastName] = useState(data?.lastName || "");
     const { handleError } = useErrorHandling();
-    const dispatch = useReducerDispatch()
+    const dispatch = useReducerDispatch();
+    const { handleSuccess } = useSuccessHandling()
 
     const getToken = useCallback(async () => {
         const accessToken = await AsyncStorage.getItem("token");
         return accessToken && JSON.parse(accessToken);
     }, []);
 
-    const handleProfileUpdate = useCallback(async () => {
+    const handleProfileUpdate = useCallback(async (file?: ImageInterface) => {
         const accessToken = await getToken();
         if (!accessToken) return;
 
@@ -65,33 +68,24 @@ const EditProfile = () => {
             if (editingField !== "firstName" && editingField !== "lastName") {
                 formdata.append(editingField, editValue);
             }
-            // @ts-ignore:next-line
-            formdata.append("image", { type: image?.type, uri: image?.uri, name: image?.filename }, "file");
+            if (file) {
+                // @ts-ignore: Unreachable code error
+                formdata.append("image", { uri: file.uri, type: file.type, name: file.filename });
+            }
 
-            const response = await requestUtils.request<EditProfileResponse, FormData>(
+            const response = await requestUtils.request<IResponse<IProfileData>, FormData>(
                 Apis.profileApi,
                 'POST',
                 formdata,
-                myHeaders
+                { Authorization: `Bearer ${accessToken}` },
+                true
             );
-            console.log(response)
-            dispatch(setUserData(response))
-
+            dispatch(setUserData(response));
+            handleSuccess('Profile Updated!');
         } catch (error) {
-            handleError(error)
+            handleError(error);
         }
-
-        // const requestOptions = {
-        //     method: "POST",
-        //     headers: myHeaders,
-        //     body: formdata,
-        // };
-
-        // fetch("https://app.bosnett.com/api/v1/profile", requestOptions)
-        //     .then((response) => response.text())
-        //     .then((result) => console.log(result))
-        //     .catch((error) => console.error(error));
-    }, [firstName, lastName, editingField, editValue, image, getToken]);
+    }, [firstName, lastName, editingField, editValue, getToken]);
 
     const handleImagePicker = useCallback(async (action: "gallery" | "camera") => {
         const result = action === "gallery"
@@ -125,7 +119,7 @@ const EditProfile = () => {
             };
             setImage(file);
             setShowButtons(false);
-            handleProfileUpdate();
+            handleProfileUpdate(file);
         }
     }, [handleProfileUpdate]);
 

@@ -15,6 +15,7 @@ import { setCommentModal } from "../../reducers/app/appSlice"
 
 import CommentsModalInterface from "./interfaces/commentsModalInterface"
 import CommentsModalReplyInterface from "./interfaces/CommentsModalReplyInterface"
+import Apis from "../../constants/apis"
 
 const likedIcon = <IconContainer width="16" height="16" viewBox="0 0 16 16" fill="none">
     <Circle cx="8" cy="8" r="8" fill="#4A5BF6" />
@@ -32,7 +33,7 @@ const emojiIcon = <IconContainer width="18" height="18" viewBox="0 0 18 18" fill
 
 const CommmentModal = () => {
     const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible)
-    const userData = useSliceSelector(state => state.auth.userData.data)
+    const userData = useSliceSelector(state => state.auth.userData)
     const name = `${userData.firstName} ${userData.lastName}`
     const dispatch = useReducerDispatch()
     const [newCommentText, setNewCommentText] = useState<string>("");
@@ -137,7 +138,11 @@ const CommmentModal = () => {
                 <View style={styles.commentContainer}>
                     <View style={{ flexDirection: 'row', gap: 10 }}>
                         <View style={styles.circle}>
-                            <Image style={styles.roundImg} source={require("../../assets/dummy-profile.png")} />
+                            {
+                                userData.profileImage
+                                    ? <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
+                                    : <Image style={styles.roundImg} source={require("../../assets/dummy-profile.png")} />
+                            }
                         </View>
                         <View style={styles.commentContent}>
                             <TextBold fontSize={12} style={{ textTransform: 'capitalize' }}>
@@ -174,7 +179,11 @@ const CommmentModal = () => {
                                 <View style={styles.replyContainer}>
                                     <View style={{ flexDirection: 'row', gap: 8 }}>
                                         <View style={styles.circle}>
-                                            <Image style={styles.roundImg} source={require("../../assets/dummy-profile.png")} />
+                                            {
+                                                userData.profileImage
+                                                    ? <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
+                                                    : <Image style={styles.roundImg} source={require("../../assets/dummy-profile.png")} />
+                                            }
                                         </View>
                                         <View style={styles.commentContent}>
                                             <TextBold fontSize={12} style={{ textTransform: 'capitalize' }}>
@@ -247,7 +256,11 @@ const CommmentModal = () => {
                     </View>
                     <View style={styles.writeComment}>
                         <View style={styles.circle}>
-                            <Image style={styles.roundImg} source={require("../../assets/dummy-profile.png")} />
+                            {
+                                userData.profileImage
+                                    ? <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
+                                    : <Image style={styles.roundImg} source={require("../../assets/dummy-profile.png")} />
+                            }
                         </View>
                         <TextInput
                             style={styles.input}
@@ -314,14 +327,15 @@ const styles = StyleSheet.create({
     },
     circle: {
         width: 40,
+        height: 40,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        borderRadius: 70,
+        overflow: 'hidden'
     },
     roundImg: {
-        borderRadius: 50,
         width: "100%",
-        objectFit: "contain",
-        height: 40
+        height: '100%'
     },
     commentContainer: {
         flexDirection: "column",

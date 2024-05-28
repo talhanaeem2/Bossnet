@@ -20,7 +20,7 @@ const NewsFeedShare = (props: NewsFeedShareProps) => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
-    const userData = useSliceSelector(state => state.auth.userData.data)
+    const userData = useSliceSelector(state => state.auth.userData)
 
     const handleToggleCreatePostModal = useCallback(() => {
         dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));
