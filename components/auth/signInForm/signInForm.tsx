@@ -169,7 +169,7 @@ const SignInForm = () => {
                 style={styles.nextButton}
                 onPress={() => formik.handleSubmit()}
             >
-                <TextRegular fontSize={18} color='#fff'>Login</TextRegular>
+                <TextRegular fontSize={18} color='#fff'>{messages.login}</TextRegular>
             </TouchableOpacity>
             <View style={styles.buttonSpacing}>
                 <TouchableOpacity onPress={navigateToAccountRecovery}>

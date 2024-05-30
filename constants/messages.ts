@@ -7,6 +7,7 @@ const messages = {
     terms: "Terms of Service",
     and: " and ",
     privacy: "Privacy Policy",
+    login: 'Login',
     // sgnUp
     agree: "I agree to the Terms of Service and Privacy Policy.",
     birthday: "Birthday",
