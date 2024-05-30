@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import AuthStateInterface from './interfaces/authStateInterface';
-import UserDataInterface from './interfaces/authUserDataInterface';
+import IProfileData from '../../interfaces/IProfileData';
 
 const initialState: AuthStateInterface = {
     isAuthenticated: false,
@@ -30,7 +30,7 @@ const authSlice = createSlice({
         setIsLoading(state, action: PayloadAction<boolean>) {
             state.isLoading = action.payload
         },
-        setUserData(state, action: PayloadAction<UserDataInterface>) {
+        setUserData(state, action: PayloadAction<IProfileData>) {
             state.userData = action.payload
         }
     },

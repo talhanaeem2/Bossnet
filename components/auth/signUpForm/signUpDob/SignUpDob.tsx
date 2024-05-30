@@ -21,8 +21,7 @@ const SignUpDob = (props: SignUpDobProps) => {
 
     const handleDateChange = useCallback((selectedDate: Date) => {
         if (selectedDate) {
-            const formattedDate = moment(selectedDate).startOf('day').toDate();
-            formik.setFieldValue('dayOfBirth', formattedDate)
+            formik.setFieldValue('dayOfBirth', selectedDate)
             setShowDatePicker(false);
         }
     }, [formik.setFieldValue])
@@ -54,7 +53,7 @@ const SignUpDob = (props: SignUpDobProps) => {
                             value={formik.values.dayOfBirth}
                             mode="date"
                             display="spinner"
-                            onChange={(event, date) => {
+                            onChange={(_, date) => {
                                 if (date) {
                                     formik.setFieldValue('dayOfBirth', date)
                                     handleDateChange(date);

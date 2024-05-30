@@ -23,10 +23,6 @@ const useErrorHandling = () => {
         if (error instanceof Error) {
             const errorMessage = error.message || 'An error occurred';
             showErrorToast(errorMessage);
-        } else if (typeof error === 'object' && error !== null && 'response' in error) {
-            const response = (error as any).response;
-            const errorMessage = await response.text();
-            showErrorToast(`HTTP error! Status: ${response.status} -> ${errorMessage}`);
         } else {
             showErrorToast('Unknown error occurred');
         }

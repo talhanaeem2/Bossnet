@@ -1,10 +1,10 @@
 export default interface ResponseData {
     userId: string;
     email: string;
+    token: string;
     firstName: string;
     lastName: string;
     userName: string;
-    profileImage: string;
-    token: string;
     dayOfBirth: string;
+    profileImage: string;
 }

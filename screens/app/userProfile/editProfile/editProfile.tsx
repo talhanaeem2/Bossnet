@@ -1,27 +1,28 @@
-import { StyleSheet, View, Image, ScrollView, TouchableOpacity, Modal, TextInput, ImageProps, TouchableWithoutFeedback } from "react-native"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { memo, useCallback, useState } from "react"
-import * as ImagePicker from "expo-image-picker"
+import { StyleSheet, View, Image, ScrollView, TouchableOpacity, ImageProps } from "react-native";
+import { memo, useCallback, useState } from "react";
+import * as ImagePicker from "expo-image-picker";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-import moment from "moment"
+import moment from "moment";
 
-import MainWapper from "../../../../components/app/mainWrapper/mainWrapper"
-import TextBold from "../../../../components/app/common/textComponent/textBold/textBold"
-import TextRegular from "../../../../components/app/common/textComponent/textRegular/textRegular"
+import MainWapper from "../../../../components/app/mainWrapper/mainWrapper";
+import TextBold from "../../../../components/app/common/textComponent/textBold/textBold";
+import TextRegular from "../../../../components/app/common/textComponent/textRegular/textRegular";
+import ImagePickerButtonsModal from "../../../../modals/imagePickerButtonsModal/imagePickerButtonsModal";
+import EditProfileFieldsModal from "../../../../modals/editProfileFieldsModal/editProfileFieldsModal";
 
-import { RPH } from "../../../../constants/utils/utils"
-import Apis from "../../../../constants/apis"
-import requestUtils from "../../../../constants/utils/requestUtils"
+import { RPH } from "../../../../constants/utils/utils";
+import Apis from "../../../../constants/apis";
+import requestUtils from "../../../../constants/utils/requestUtils";
 
-import useErrorHandling from "../../../../hooks/useErrorHandling"
+import useErrorHandling from "../../../../hooks/useErrorHandling";
 import useSliceSelector from "../../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../../hooks/useReducerDispatch";
-import { setUserData } from "../../../../reducers/auth/authSlice";
+import useSuccessHandling from "../../../../hooks/useSuccessHandling";
+import useToken from "../../../../hooks/useToken";
+import { setIsLoading, setUserData } from "../../../../reducers/auth/authSlice";
 
 import IProfileData from "../../../../interfaces/IProfileData";
 import ImageInterface from "../../../../components/common/interfaces/imageInterface";
-import IResponse from "../../../../interfaces/IResponse";
-import useSuccessHandling from "../../../../hooks/useSuccessHandling";
 
 const userPlaceholder = require("../../../../assets/user-placeholder.png");
 const editImgIcon = require("../../../../assets/icons/editImg.png");
@@ -42,23 +43,19 @@ const EditProfile = () => {
     const [showButtons, setShowButtons] = useState(false)
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-    const [image, setImage] = useState<ImageInterface>();
     const [firstName, setFirstName] = useState(data?.firstName || "");
     const [lastName, setLastName] = useState(data?.lastName || "");
     const { handleError } = useErrorHandling();
     const dispatch = useReducerDispatch();
-    const { handleSuccess } = useSuccessHandling()
-
-    const getToken = useCallback(async () => {
-        const accessToken = await AsyncStorage.getItem("token");
-        return accessToken && JSON.parse(accessToken);
-    }, []);
+    const { handleSuccess } = useSuccessHandling();
+    const { getToken } = useToken();
 
     const handleProfileUpdate = useCallback(async (file?: ImageInterface) => {
         const accessToken = await getToken();
         if (!accessToken) return;
 
         try {
+            dispatch(setIsLoading(true))
             const myHeaders = new Headers();
             myHeaders.append("Authorization", `Bearer ${accessToken}`);
 
@@ -73,7 +70,7 @@ const EditProfile = () => {
                 formdata.append("image", { uri: file.uri, type: file.type, name: file.filename });
             }
 
-            const response = await requestUtils.request<IResponse<IProfileData>, FormData>(
+            const response = await requestUtils.request<IProfileData, FormData>(
                 Apis.profileApi,
                 'POST',
                 formdata,
@@ -81,11 +78,13 @@ const EditProfile = () => {
                 true
             );
             dispatch(setUserData(response));
+            dispatch(setIsLoading(false))
             handleSuccess('Profile Updated!');
         } catch (error) {
+            dispatch(setIsLoading(false))
             handleError(error);
         }
-    }, [firstName, lastName, editingField, editValue, getToken]);
+    }, [firstName, lastName, editingField, editValue, getToken, dispatch, handleError, handleSuccess]);
 
     const handleImagePicker = useCallback(async (action: "gallery" | "camera") => {
         const result = action === "gallery"
@@ -117,7 +116,6 @@ const EditProfile = () => {
                 type: type,
                 filename: filename || ""
             };
-            setImage(file);
             setShowButtons(false);
             handleProfileUpdate(file);
         }
@@ -227,26 +225,6 @@ const EditProfile = () => {
         },
     ];
 
-    const Fieldlabel = useCallback(() => {
-        let fieldName;
-        editingField === 'bio'
-            ? fieldName = 'Biography:'
-            : editingField === 'phone'
-                ? fieldName = 'Phone:'
-                : editingField === 'email'
-                    ? fieldName = 'Email:'
-                    : editingField === 'education'
-                        ? fieldName = 'Education:'
-                        : editingField === 'work'
-                            ? fieldName = 'Work Experiences:'
-                            : editingField === 'socials'
-                                ? fieldName = 'Social Networks:'
-                                : fieldName = ''
-
-        return fieldName
-
-    }, [editingField])
-
     return (
         <MainWapper isHeader={true} isFooter={false} icon={true}>
             <View style={styles.container}>
@@ -264,18 +242,6 @@ const EditProfile = () => {
                         <TextBold fontSize={23} style={[{ paddingTop: 20 }, extraSpacing]}>
                             Edit profile
                         </TextBold>
-                        {
-                            showButtons && (
-                                <View style={{ flexDirection: "row", gap: 16, paddingBottom: 20 }}>
-                                    <TouchableOpacity style={styles.nextButton} onPress={() => handleImagePicker("gallery")}>
-                                        <TextRegular fontSize={16} color="#fff">Open Gallery</TextRegular>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={styles.nextButton} onPress={() => handleImagePicker("camera")}>
-                                        <TextRegular fontSize={16} color="#fff">Open Camera</TextRegular>
-                                    </TouchableOpacity>
-                                </View>
-                            )
-                        }
                         {fieldGroups.map((group, index) => {
                             return (
                                 <View key={index} style={{ width: '100%', paddingHorizontal: 30 }}>
@@ -302,56 +268,20 @@ const EditProfile = () => {
                     </View>
                 </ScrollView>
             </View>
-            <Modal
-                visible={isModalVisible}
-                animationType="fade"
-                transparent={true}
-            >
-                <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
-                    <View style={styles.modalContainer}>
-                        <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
-                            <View style={styles.modalContent}>
-                                {editingField === 'firstName'
-                                    ? <View style={styles.modalFields}>
-                                        <View style={styles.modalField}>
-                                            <TextRegular fontSize={15}>
-                                                First Name:
-                                            </TextRegular>
-                                            <TextInput
-                                                style={styles.input}
-                                                onChangeText={setFirstName}
-                                                autoFocus={true}
-                                            />
-                                        </View>
-                                        <View style={styles.modalField}>
-                                            <TextRegular fontSize={15}>
-                                                Last Name:
-                                            </TextRegular>
-                                            <TextInput
-                                                style={styles.input}
-                                                onChangeText={setLastName}
-                                            />
-                                        </View>
-                                    </View>
-                                    : <View style={{ width: '100%', alignItems: 'flex-start', gap: 10 }}>
-                                        <TextRegular fontSize={15}>
-                                            {Fieldlabel()}
-                                        </TextRegular>
-                                        <TextInput
-                                            style={styles.input}
-                                            onChangeText={setEditValue}
-                                            autoFocus={true}
-                                        />
-                                    </View>
-                                }
-                                <TouchableOpacity onPress={handleSave} style={styles.nextButton}>
-                                    <TextRegular fontSize={17} color='#fff'>Save</TextRegular>
-                                </TouchableOpacity>
-                            </View>
-                        </TouchableWithoutFeedback>
-                    </View>
-                </TouchableWithoutFeedback>
-            </Modal>
+            <ImagePickerButtonsModal
+                handleImagePicker={handleImagePicker}
+                showButtons={showButtons}
+                setShowButtons={setShowButtons}
+            />
+            <EditProfileFieldsModal
+                isModalVisible={isModalVisible}
+                setIsModalVisible={setIsModalVisible}
+                editingField={editingField}
+                setEditValue={setEditValue}
+                setFirstName={setFirstName}
+                setLastName={setLastName}
+                handleSave={handleSave}
+            />
             {showDatePicker && (
                 <DateTimePicker
                     value={selectedDate}
@@ -469,47 +399,5 @@ const styles = StyleSheet.create({
         width: '75%',
         display: "flex",
         marginRight: 20
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-    },
-    modalContent: {
-        backgroundColor: "white",
-        padding: 20,
-        borderRadius: 10,
-        width: "80%",
-        alignItems: "center",
-    },
-    input: {
-        borderBottomWidth: 1,
-        borderBottomColor: '#eee',
-        width: '80%',
-        fontSize: 16,
-        color: '#000',
-        fontWeight: "400",
-        fontFamily: "Lato-Regular"
-    },
-    nextButton: {
-        backgroundColor: "#308AFF",
-        borderRadius: 34,
-        alignItems: "center",
-        justifyContent: "center",
-        alignSelf: "center",
-        paddingVertical: 11,
-        paddingHorizontal: 26,
-        marginTop: 15
-    },
-    modalFields: {
-        flexDirection: 'row',
-        width: '100%',
-        gap: 10,
-        justifyContent: 'space-evenly'
-    },
-    modalField: {
-        width: "30%",
-        gap: 6
     }
 })

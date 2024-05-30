@@ -1,5 +1,5 @@
 import { memo, useCallback, useState } from "react"
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native"
+import { StyleSheet, View, Image, TouchableOpacity, Modal, Pressable, TouchableWithoutFeedback } from "react-native"
 import * as ImagePicker from 'expo-image-picker'
 
 import TextBold from "../../../app/common/textComponent/textBold/textBold"
@@ -8,6 +8,8 @@ import TextRegular from "../../../app/common/textComponent/textRegular/textRegul
 import { RPH } from "../../../../constants/utils/utils"
 
 import SignUpProfilePictureProps from "./interfaces/signUpProfilePictureProps"
+
+const userPlaceholder = require("../../../../assets/user-placeholder.png");
 
 const SignUpProfilePicture = (props: SignUpProfilePictureProps) => {
     const { formik } = props
@@ -47,7 +49,8 @@ const SignUpProfilePicture = (props: SignUpProfilePictureProps) => {
                 type: type,
                 filename: filename || ''
             };
-            formik.setFieldValue('image', file)
+            formik.setFieldValue('image', file);
+            setShowButtons(false)
         }
     }, [formik])
 
@@ -63,25 +66,41 @@ const SignUpProfilePicture = (props: SignUpProfilePictureProps) => {
                     {formik.values.image.uri ? (
                         <Image style={styles.roundImg} source={{ uri: formik.values.image.uri }} />
                     ) : (
-                        <Image style={styles.roundImg} source={require("../../../../assets/signup-picture.png")} />
+                        <Image style={styles.roundImg} source={userPlaceholder} />
                     )}
                     <View style={styles.editImage}>
                         <Image source={require("../../../../assets/icons/editImg.png")} />
                     </View>
                 </TouchableOpacity>
-                {
-                    showButtons && (
-                        <View style={{ flexDirection: 'row', gap: 16 }}>
-                            <TouchableOpacity style={styles.nextButton} onPress={() => handleImagePicker('gallery')}>
-                                <TextRegular fontSize={16} color="#fff">Open Gallery</TextRegular>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.nextButton} onPress={() => handleImagePicker('camera')}>
-                                <TextRegular fontSize={16} color="#fff">Open Camera</TextRegular>
-                            </TouchableOpacity>
-                        </View>
-                    )
-                }
             </View>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={showButtons}
+                onRequestClose={() => {
+                    setShowButtons(false);
+                }}
+            >
+                <TouchableWithoutFeedback onPress={() => setShowButtons(false)}>
+                    <View style={styles.modalContainer}>
+                        <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
+                            <View style={styles.modalView}>
+                                <TouchableOpacity style={styles.w100} onPress={() => handleImagePicker('gallery')}>
+                                    <TextRegular fontSize={16} color="#000">Open Gallery</TextRegular>
+                                </TouchableOpacity>
+                                <View style={styles.borderBottom}></View>
+                                <TouchableOpacity style={styles.w100} onPress={() => handleImagePicker('camera')}>
+                                    <TextRegular fontSize={16} color="#000">Open Camera</TextRegular>
+                                </TouchableOpacity>
+                                <View style={styles.borderBottom}></View>
+                                <Pressable style={styles.w100} onPress={() => setShowButtons(false)}>
+                                    <TextRegular fontSize={16} color="#000">Cancel</TextRegular>
+                                </Pressable>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>
         </View>
     )
 }
@@ -100,21 +119,19 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     circle: {
-        width: 174,
-        height: 174,
+        width: 170,
+        height: 170,
         justifyContent: "center",
         alignItems: "center",
         borderWidth: 6,
-        borderColor: '#5890FF',
+        borderColor: "#5890FF",
         borderRadius: 90,
-        position: 'relative',
-        padding: 30,
-        marginBottom: 52
+        position: "relative",
+        overflow: "hidden"
     },
     roundImg: {
         width: "100%",
-        height: "100%",
-        resizeMode: "contain"
+        height: "100%"
     },
     inner: {
         marginTop: 94
@@ -133,4 +150,26 @@ const styles = StyleSheet.create({
         paddingVertical: 11,
         paddingHorizontal: 16
     },
+    modalContainer: {
+        flex: 1,
+        justifyContent: "flex-end",
+        backgroundColor: "rgba(0, 0, 0, 0.5)"
+    },
+    modalView: {
+        backgroundColor: "#fff",
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        padding: 20,
+        alignItems: "flex-start",
+        justifyContent: "center",
+        gap: 10
+    },
+    borderBottom: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#cecece',
+        width: '100%'
+    },
+    w100: {
+        width: '100%'
+    }
 })

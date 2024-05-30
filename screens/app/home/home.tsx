@@ -1,8 +1,6 @@
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, View } from "react-native";
 import { memo, useCallback, useEffect, useState } from "react";
-import * as ImagePicker from 'expo-image-picker'
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as ImagePicker from 'expo-image-picker';
 
 import Header from "../../../components/app/header/header";
 import Footer from "../../../components/app/footer/footer";
@@ -15,21 +13,17 @@ import Apis from "../../../constants/apis";
 
 import useSliceSelector from "../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
+import useToken from "../../../hooks/useToken";
 import { setUserData } from "../../../reducers/auth/authSlice";
 
-import IResponse from "../../../interfaces/IResponse";
 import IProfileData from "../../../interfaces/IProfileData";
 import requestUtils from "../../../constants/utils/requestUtils";
 
 const Home = () => {
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const [images, setImages] = useState<string[]>([]);
-    const dispatch = useReducerDispatch()
-
-    const getToken = useCallback(async () => {
-        const accessToken = await AsyncStorage.getItem("token");
-        return accessToken && JSON.parse(accessToken);
-    }, []);
+    const dispatch = useReducerDispatch();
+    const { getToken } = useToken();
 
     const handleImagePicker = useCallback(async (action: 'gallery' | 'camera' | 'giphy') => {
         let result: ImagePicker.ImagePickerResult;
@@ -70,7 +64,7 @@ const Home = () => {
         if (!accessToken) return;
 
         try {
-            const response = await requestUtils.request<IResponse<IProfileData>, FormData>(
+            const response = await requestUtils.request<IProfileData, FormData>(
                 Apis.profileApi,
                 'GET',
                 undefined,

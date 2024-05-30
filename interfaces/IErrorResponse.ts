@@ -1,4 +1,4 @@
-export default interface IError {
+export default interface IErrorResponse {
     status: boolean;
     message: string;
 }

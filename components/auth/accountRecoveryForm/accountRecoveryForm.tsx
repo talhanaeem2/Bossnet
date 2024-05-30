@@ -25,9 +25,9 @@ import useErrorHandling from "../../../hooks/useErrorHandling";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
 import AccountRecoveryFormValuesInterface from "./interfaces/accountRecoveryFormValuesInterface";
-import IError from "../../../interfaces/IError";
+import IErrorResponse from "../../../interfaces/IErrorResponse";
 
-interface AccountRecoveryResponse extends IError { }
+interface AccountRecoveryResponse extends IErrorResponse { }
 
 const AccountRecoveryForm = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();

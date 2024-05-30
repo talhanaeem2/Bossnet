@@ -1,5 +1,5 @@
 import { StyleSheet, View, TouchableOpacity } from "react-native"
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -19,11 +19,11 @@ import requestUtils from "../../../constants/utils/requestUtils";
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { login, setIsLoading } from "../../../reducers/auth/authSlice";
+import useErrorHandling from "../../../hooks/useErrorHandling";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import ResponseData from "./interfaces/responseData";
 import RequestData from "./interfaces/requestData";
-import useErrorHandling from "../../../hooks/useErrorHandling";
 
 const SignInForm = () => {
     const route = useRoute();
@@ -70,7 +70,7 @@ const SignInForm = () => {
         }
     };
 
-    const handleSignIn = async (values: RequestData) => {
+    const handleSignIn = useCallback(async (values: RequestData) => {
         try {
             dispatch(setIsLoading(true))
 
@@ -90,12 +90,12 @@ const SignInForm = () => {
                 dispatch(setIsLoading(false));
             }
         } catch (error) {
+            dispatch(setIsLoading(false));
             handleError(error)
             formik.setFieldError('password', formik.errors.password);
             formik.setFieldError('email_or_username', formik.errors.email_or_username);
-            dispatch(setIsLoading(false));
         }
-    };
+    }, [dispatch, handleRememberMe, handleError])
 
     const formik = useFormik({
         initialValues: {

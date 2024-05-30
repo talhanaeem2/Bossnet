@@ -1,5 +1,5 @@
 import { StyleSheet, View, TouchableOpacity } from "react-native"
-import { memo, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useFormik } from 'formik';
@@ -21,6 +21,7 @@ import requestUtils from "../../../constants/utils/requestUtils";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { setIsLoading } from "../../../reducers/auth/authSlice";
 import useErrorHandling from "../../../hooks/useErrorHandling";
+import useSuccessHandling from "../../../hooks/useSuccessHandling";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import SignUpFormInterface from "./interfaces/signUpFormInterface";
@@ -33,40 +34,48 @@ const SignUpForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [skipImage, setSkipImage] = useState(false);
     const { handleError } = useErrorHandling();
+    const { handleSuccess } = useSuccessHandling()
 
-    const handleSignUp = async (values: SignUpFormInterface) => {
+    const handleSignUp = useCallback(async (values: SignUpFormInterface) => {
+        const { firstName, lastName, userName, email, dayOfBirth, image, password, } = values
         try {
-            const birthdayDate = moment(values.dayOfBirth);
-            dispatch(setIsLoading(true))
+            const formattedDate = moment(dayOfBirth).format("YYYY/MM/DD");
+            dispatch(setIsLoading(true));
 
-            await requestUtils.request<SignUpResponseInterface, SignUpFormInterface>(
+            const formdata = new FormData();
+            formdata.append("userName", userName);
+            formdata.append("email", email);
+            formdata.append("firstName", firstName);
+            formdata.append("lastName", lastName);
+            formdata.append("dayOfBirth", formattedDate);
+            formdata.append("password", password);
+            if (image) {
+                // @ts-ignore: Unreachable code error
+                formdata.append("image", { uri: image.uri, type: image.type, name: image.filename });
+            }
+            console.log(formdata)
+            const response = await requestUtils.request<SignUpResponseInterface, FormData>(
                 Apis.signupApi,
                 'POST',
-                {
-                    firstName: values.firstName,
-                    lastName: values.lastName,
-                    userName: values.userName,
-                    email: values.email,
-                    password: values.password,
-                    dayOfBirth: birthdayDate.format('YYYY/MM/DD'),
-                    image: skipImage ? {
-                        uri: '',
-                        type: '',
-                        filename: ''
-                    } : values.image
-                }
+                formdata,
+                undefined,
+                true
             );
 
+            console.log(response)
+
             dispatch(setIsLoading(false))
+            handleSuccess('User Created!')
             navigation.navigate('SignIn', {
                 prefillUsername: values.userName,
                 prefillPassword: values.password
             });
 
         } catch (error) {
+            dispatch(setIsLoading(false))
             handleError(error)
         }
-    };
+    }, [setIsLoading, handleSuccess, handleError, dispatch, navigation]);
 
     const goBackToPreviousStep = () => {
         setCurrentStep((prev) => Math.max(1, prev - 1));
@@ -97,9 +106,7 @@ const SignUpForm = () => {
         profilePictureFormik.setFieldValue('image', {
             uri: '',
             type: '',
-            name: '',
-            width: -1,
-            height: -1
+            filename: ''
         });
         profilePictureFormik.submitForm();
     }
