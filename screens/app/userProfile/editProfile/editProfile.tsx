@@ -23,6 +23,7 @@ import { setIsLoading, setUserData } from "../../../../reducers/auth/authSlice";
 
 import IProfileData from "../../../../interfaces/IProfileData";
 import ImageInterface from "../../../../components/common/interfaces/imageInterface";
+import messages from "../../../../constants/messages";
 
 const userPlaceholder = require("../../../../assets/user-placeholder.png");
 const editImgIcon = require("../../../../assets/icons/editImg.png");
@@ -79,7 +80,7 @@ const EditProfile = () => {
             );
             dispatch(setUserData(response));
             dispatch(setIsLoading(false))
-            handleSuccess('Profile Updated!');
+            handleSuccess(messages.profileUpdated);
         } catch (error) {
             dispatch(setIsLoading(false))
             handleError(error);
@@ -201,26 +202,25 @@ const EditProfile = () => {
 
     const fieldGroups = [
         {
-            heading: "Personal Information",
+            heading: messages.personalInfo,
             fields: [
-                { fieldName: "firstName", icon: editUsernameIcon, label: data?.firstName || "Name", value: data.firstName },
-                { fieldName: "dayOfBirth", icon: editDobIcon, label: "Birthday", value: data.dayOfBirth },
-                { fieldName: "bio", icon: editBioIcon, label: "Biography", value: "bio", borderBottom: false },
+                { fieldName: "firstName", icon: editUsernameIcon, label: data?.firstName || messages.name, value: data.firstName },
+                { fieldName: "dayOfBirth", icon: editDobIcon, label: messages.birthday, value: data.dayOfBirth },
+                { fieldName: "bio", icon: editBioIcon, label: messages.biography, value: "bio", borderBottom: false },
             ],
         },
         {
-            heading: "Contact Information",
+            heading: messages.contactInfo,
             fields: [
-                { fieldName: "phone", icon: editPhoneIcon, label: "Phone", value: "phone" },
-                { fieldName: "email", icon: editPhoneIcon, label: "Email", value: "email", borderBottom: false },
+                { fieldName: "phone", icon: editPhoneIcon, label: messages.phone, value: "phone" }
             ],
         },
         {
-            heading: "Preferences",
+            heading: messages.preferences,
             fields: [
-                { fieldName: "education", icon: editEduIcon, label: "Education", value: "education" },
-                { fieldName: "socials", icon: editSocialsIcon, label: "Social Networks", value: "socials" },
-                { fieldName: "work", icon: editWorkIcon, label: "Work Experiences", value: "work", borderBottom: false },
+                { fieldName: "education", icon: editEduIcon, label: messages.education, value: "education" },
+                { fieldName: "socials", icon: editSocialsIcon, label: messages.socials, value: "socials" },
+                { fieldName: "work", icon: editWorkIcon, label: messages.work, value: "work", borderBottom: false },
             ],
         },
     ];

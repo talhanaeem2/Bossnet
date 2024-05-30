@@ -3,6 +3,8 @@ import { Modal, TouchableWithoutFeedback, View, TouchableOpacity, Pressable, Sty
 
 import TextRegular from "../../components/app/common/textComponent/textRegular/textRegular"
 
+import messages from "../../constants/messages";
+
 import ImagePickerButtonsModalProps from "./interfaces/imagePickerButtonsModalProps";
 
 const ImagePickerButtonsModal = (props: ImagePickerButtonsModalProps) => {
@@ -22,15 +24,15 @@ const ImagePickerButtonsModal = (props: ImagePickerButtonsModalProps) => {
                     <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
                         <View style={styles.modalView}>
                             <TouchableOpacity style={styles.w100} onPress={() => handleImagePicker('gallery')}>
-                                <TextRegular fontSize={16} color="#000">Open Gallery</TextRegular>
+                                <TextRegular fontSize={16} color="#000">{messages.openGallery}</TextRegular>
                             </TouchableOpacity>
                             <View style={styles.borderBottom}></View>
                             <TouchableOpacity style={styles.w100} onPress={() => handleImagePicker('camera')}>
-                                <TextRegular fontSize={16} color="#000">Open Camera</TextRegular>
+                                <TextRegular fontSize={16} color="#000">{messages.openCamera}</TextRegular>
                             </TouchableOpacity>
                             <View style={styles.borderBottom}></View>
                             <Pressable style={styles.w100} onPress={() => setShowButtons(false)}>
-                                <TextRegular fontSize={16} color="#000">Cancel</TextRegular>
+                                <TextRegular fontSize={16} color="#000">{messages.cancel}</TextRegular>
                             </Pressable>
                         </View>
                     </TouchableWithoutFeedback>

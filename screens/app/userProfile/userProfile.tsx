@@ -12,6 +12,7 @@ import CreatePostModal from "../../../modals/createPostModal/createPostModal"
 import { RPW, RPH } from "../../../constants/utils/utils"
 import Icons from "../../../constants/icons"
 import Apis from "../../../constants/apis"
+import messages from "../../../constants/messages"
 
 import useSliceSelector from "../../../hooks/useSliceSelector"
 import useReducerDispatch from "../../../hooks/useReducerDispatch"
@@ -23,20 +24,20 @@ import RootStackParamListInterface from "../../../interfaces/RootStackParamListI
 const footerIcons: footerIconsInterface[] = [
     {
         icon: Icons.blockedIcon,
-        text: "Blocked Members"
+        text: messages.blockedMembers
 
     },
     {
         icon: Icons.groupIcon,
-        text: "Group Invites"
+        text: messages.groupInvites
     },
     {
         icon: Icons.exportIcon,
-        text: "Export Data"
+        text: messages.exportData
     },
     {
         icon: Icons.delIcon,
-        text: "Delete Account"
+        text: messages.deleteAcc
     }
 ]
 
@@ -51,7 +52,7 @@ const UserProfile = () => {
         dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));
     }, [isCreatePostModalVisible]);
 
-    const handleImagePicker = useCallback(async (action: 'gallery' | 'camera' | 'giphy') => {
+    const handleImagePicker = useCallback(async (action: 'gallery' | 'camera') => {
         let result: ImagePicker.ImagePickerResult;
         if (action === 'gallery') {
             result = await ImagePicker.launchImageLibraryAsync({

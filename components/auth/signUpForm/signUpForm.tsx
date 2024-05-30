@@ -16,6 +16,7 @@ import SignUpProfilePicture from "./signUpProfilePicture/signUpProfilePicture";
 
 import { RPH, RPW } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
+import messages from "../../../constants/messages";
 import requestUtils from "../../../constants/utils/requestUtils";
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
@@ -63,7 +64,7 @@ const SignUpForm = () => {
             );
 
             dispatch(setIsLoading(false))
-            handleSuccess('User Created!')
+            handleSuccess(messages.userCreated)
             navigation.navigate('SignIn', {
                 prefillUsername: values.userName,
                 prefillPassword: values.password
@@ -115,9 +116,9 @@ const SignUpForm = () => {
             confirmEmail: '',
         },
         validationSchema: Yup.object().shape({
-            email: Yup.string().email('Invalid email').required('Email is required'),
-            confirmEmail: Yup.string().required('Email is required')
-                .oneOf([Yup.ref('email'), ""], 'Emails must match'),
+            email: Yup.string().email(messages.invalidEmail).required(messages.emailRequired),
+            confirmEmail: Yup.string().required(messages.emailRequired)
+                .oneOf([Yup.ref('email'), ""], messages.emailsMatch),
         }),
         onSubmit: () => {
             setCurrentStep(prevState => prevState + 1)
@@ -135,14 +136,14 @@ const SignUpForm = () => {
         },
         validationSchema: Yup.object({
             password: Yup.string()
-                .required("Password is required")
+                .required(messages.passwordRequired)
                 .matches(
                     passwordRegex,
-                    "Password must include at least one uppercase letter, one lowercase letter, one special character, and must be at least 8 characters long"
+                    messages.passwordInclude
                 ),
             confirmPassword: Yup.string()
-                .required("Confirm your password")
-                .oneOf([Yup.ref("password")], "Passwords must match"),
+                .required(messages.confirmPassword)
+                .oneOf([Yup.ref("password")], messages.passwordsMatch),
         }),
         onSubmit: () => {
             setCurrentStep(prevState => prevState + 1)
@@ -158,9 +159,9 @@ const SignUpForm = () => {
             userName: "",
         },
         validationSchema: Yup.object().shape({
-            firstName: Yup.string().required('First Name is required'),
-            lastName: Yup.string().required('Last Name is required'),
-            userName: Yup.string().required('User Name is required'),
+            firstName: Yup.string().required(messages.firstnameRequired),
+            lastName: Yup.string().required(messages.lastnameRequired),
+            userName: Yup.string().required(messages.usernameRequired),
         }),
         onSubmit: () => {
             setCurrentStep(prevState => prevState + 1)
@@ -176,8 +177,8 @@ const SignUpForm = () => {
         },
         validationSchema: Yup.object().shape({
             dayOfBirth: Yup.string()
-                .required('Birthday is required')
-                .test('is-adult', 'You must be 18 years old or older', function (value) {
+                .required(messages.birthdayRequired)
+                .test('is-adult', messages.ageRestriction, function (value) {
                     const minAge = 18;
                     const today = new Date();
                     const birthDate = new Date(value);
@@ -193,7 +194,7 @@ const SignUpForm = () => {
 
                     return age >= minAge;
                 }),
-            agreeToTerms: Yup.boolean().oneOf([true], 'You must agree to terms').required('You must agree to terms'),
+            agreeToTerms: Yup.boolean().oneOf([true], messages.agreeToTerms).required(messages.agreeToTerms),
         }),
         onSubmit: () => {
             setCurrentStep(prevState => prevState + 1)
@@ -215,7 +216,7 @@ const SignUpForm = () => {
                 return Yup.object();
             } else {
                 return Yup.object().shape({
-                    image: Yup.object().required('Profile picture is required')
+                    image: Yup.object().required(messages.profilePictureRequired)
                 });
             }
         },
@@ -246,7 +247,7 @@ const SignUpForm = () => {
         }
     }
 
-    const buttonText = currentStep === 5 ? "Continue" : "Next";
+    const buttonText = currentStep === 5 ? messages.continue : messages.next;
 
     return (
         <View style={styles.inner}>

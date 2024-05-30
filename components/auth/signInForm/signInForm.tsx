@@ -34,8 +34,8 @@ const SignInForm = () => {
     const { handleError } = useErrorHandling()
 
     const validationSchema = Yup.object().shape({
-        email_or_username: Yup.string().required('Username is required'),
-        password: Yup.string().required('Password is required')
+        email_or_username: Yup.string().required(messages.usernameRequired),
+        password: Yup.string().required(messages.passwordRequired)
     });
 
     const handleRememberMe = async (values: RequestData) => {
@@ -141,7 +141,7 @@ const SignInForm = () => {
             </TextBold>
             <View style={styles.fieldContainer}>
                 <InputField
-                    placeholder={messages.name}
+                    placeholder={messages.username}
                     type="text"
                     onChangeText={formik.handleChange('email_or_username')}
                     value={formik.values.email_or_username}

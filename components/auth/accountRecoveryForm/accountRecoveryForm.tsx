@@ -66,7 +66,7 @@ const AccountRecoveryForm = () => {
             );
 
             dispatch(setIsLoading(false))
-            handleSuccess('Email Sent!')
+            handleSuccess(messages.emailSent)
             setCurrentStep(prevState => prevState + 1)
 
         } catch (error) {
@@ -89,7 +89,7 @@ const AccountRecoveryForm = () => {
             );
 
             dispatch(setIsLoading(false))
-            handleSuccess('Code Verified!')
+            handleSuccess(messages.codeVerified)
             setCurrentStep(prevState => prevState + 1)
 
         } catch (error) {
@@ -124,7 +124,7 @@ const AccountRecoveryForm = () => {
             email: "",
         },
         validationSchema: Yup.object({
-            email: Yup.string().email("Invalid email").required("Email is required"),
+            email: Yup.string().email(messages.invalidEmail).required(messages.emailRequired),
         }),
         onSubmit: (values) => {
             sendRecoveryEmail(values.email)
@@ -137,10 +137,10 @@ const AccountRecoveryForm = () => {
         },
         validationSchema: Yup.object({
             otp_code: Yup.string()
-                .required("Verification code is required")
+                .required(messages.codeRequired)
                 .matches(
                     /^\d{5}$/,
-                    "Verification code must be 5 digits"
+                    messages.codeDigits
                 ),
         }),
         onSubmit: (values) => {
@@ -157,14 +157,14 @@ const AccountRecoveryForm = () => {
         },
         validationSchema: Yup.object({
             password: Yup.string()
-                .required("Password is required")
+                .required(messages.passwordRequired)
                 .matches(
                     passwordRegex,
-                    "Password must include at least one uppercase letter, one lowercase letter, one special character, and must be at least 8 characters long"
+                    messages.passwordInclude
                 ),
             confirmPassword: Yup.string()
-                .required("Confirm your password")
-                .oneOf([Yup.ref("password")], "Passwords must match"),
+                .required(messages.confirmPassword)
+                .oneOf([Yup.ref("password")], messages.passwordsMatch),
         }),
         onSubmit: (values) => {
             const allValues = {
@@ -204,7 +204,7 @@ const AccountRecoveryForm = () => {
         }
     }
 
-    const buttonText = currentStep === 1 ? messages.requestLink : 'Continue';
+    const buttonText = currentStep === 1 ? messages.requestLink : messages.continue;
 
     return (
         <View style={styles.inner}>

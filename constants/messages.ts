@@ -13,12 +13,12 @@ const messages = {
     requestLink: 'Request Link',
     // placeholders
     firstName: "First Name",
-    name: "Username",
+    username: "Username",
     password: "Password",
     cofirmPass: "Confirm Password",
     email: "Email",
     confirmEmail: "Confirm Email",
-    nick: "User Name",
+    name: "Name",
     lastName: "Last Name",
     address: "Address (optional)",
     // Account Recovery
@@ -26,6 +26,8 @@ const messages = {
     accountRecoverySubHeading: "Please enter your username or email address. You will receive an email message with instructions on how to reset your password.",
     requestReset: "Request Reset Link",
     passwordChanged: 'Password Reset successful You’ll be redirected to the login screen now',
+    continue: 'Continue',
+    next: 'Next',
     // Password
     passwordFormHeading: 'Create new password',
     passwordFormContent: 'Type your new strong password. Your password must include: One capital letter & one small letter at least, One special character & Minimum 8 digits long.',
@@ -77,7 +79,47 @@ const messages = {
     friends: "Friends",
     // Messenger
     myFriends: "My Friends",
-    active: "Active"
+    active: "Active",
+    // Success
+    emailSent: 'Email Sent!',
+    codeVerified: 'Code Verified!',
+    userCreated: 'User Created!',
+    profileUpdated: 'Profile Updated!',
+    //Errors
+    invalidEmail: "Invalid email",
+    emailRequired: 'Email is required',
+    emailsMatch: 'Emails must match',
+    codeRequired: 'Verification code is required',
+    codeDigits: 'Verification code must be 5 digits',
+    passwordRequired: 'Password is required',
+    passwordInclude: 'Password must include at least one uppercase letter, one lowercase letter, one special character, and must be at least 8 characters long',
+    confirmPassword: 'Confirm your password',
+    passwordsMatch: 'Passwords must match',
+    usernameRequired: 'Username is required',
+    firstnameRequired: 'First Name is required',
+    lastnameRequired: 'Last Name is required',
+    birthdayRequired: 'Birthday is required',
+    ageRestriction: 'You must be 18 years old or older',
+    agreeToTerms: 'You must agree to terms',
+    profilePictureRequired: 'Profile picture is required',
+    // Modals
+    biography: 'Biography:',
+    phone: 'Phone:',
+    education: 'Education:',
+    work: 'Work Experiences:',
+    socials: 'Social Networks:',
+    openCamera: 'Open Camera',
+    openGallery: 'Open Gallery',
+    cancel: 'Cancel',
+    // Edit Profile
+    personalInfo: 'Personal Information',
+    contactInfo: 'Contact Information',
+    preferences: 'Preferences',
+    // User Profile
+    blockedMembers: 'Blocked Members',
+    groupInvites: 'Group Invites',
+    exportData: 'Export Data',
+    deleteAcc: 'Delete Account'
 }
 
 export default messages

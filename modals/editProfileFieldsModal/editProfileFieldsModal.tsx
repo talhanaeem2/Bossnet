@@ -3,6 +3,8 @@ import { Modal, TouchableWithoutFeedback, View, TextInput, TouchableOpacity, Sty
 
 import TextRegular from "../../components/app/common/textComponent/textRegular/textRegular";
 
+import messages from "../../constants/messages";
+
 import EditProfileFieldsModalProps from "./interfaces/editProfileFieldsModalProps";
 
 const EditProfileFieldsModal = (props: EditProfileFieldsModalProps) => {
@@ -11,18 +13,16 @@ const EditProfileFieldsModal = (props: EditProfileFieldsModalProps) => {
     const Fieldlabel = useCallback(() => {
         let fieldName;
         editingField === 'bio'
-            ? fieldName = 'Biography:'
+            ? fieldName = messages.biography
             : editingField === 'phone'
-                ? fieldName = 'Phone:'
-                : editingField === 'email'
-                    ? fieldName = 'Email:'
-                    : editingField === 'education'
-                        ? fieldName = 'Education:'
-                        : editingField === 'work'
-                            ? fieldName = 'Work Experiences:'
-                            : editingField === 'socials'
-                                ? fieldName = 'Social Networks:'
-                                : fieldName = ''
+                ? fieldName = messages.phone
+                : editingField === 'education'
+                    ? fieldName = messages.education
+                    : editingField === 'work'
+                        ? fieldName = messages.work
+                        : editingField === 'socials'
+                            ? fieldName = messages.socials
+                            : fieldName = ''
 
         return fieldName
 
