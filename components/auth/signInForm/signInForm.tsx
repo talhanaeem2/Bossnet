@@ -92,8 +92,10 @@ const SignInForm = () => {
         } catch (error) {
             dispatch(setIsLoading(false));
             handleError(error)
-            formik.setFieldError('password', formik.errors.password);
-            formik.setFieldError('email_or_username', formik.errors.email_or_username);
+            formik.setErrors({
+                email_or_username: formik.errors.email_or_username,
+                password: formik.errors.password
+            });
         }
     }, [dispatch, handleRememberMe, handleError])
 
