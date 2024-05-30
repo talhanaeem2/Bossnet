@@ -53,7 +53,7 @@ const SignUpForm = () => {
                 // @ts-ignore: Unreachable code error
                 formdata.append("image", { uri: image.uri, type: image.type, name: image.filename });
             }
-            console.log(formdata)
+
             const response = await requestUtils.request<SignUpResponseInterface, FormData>(
                 Apis.signupApi,
                 'POST',
@@ -61,8 +61,6 @@ const SignUpForm = () => {
                 undefined,
                 true
             );
-
-            console.log(response)
 
             dispatch(setIsLoading(false))
             handleSuccess('User Created!')

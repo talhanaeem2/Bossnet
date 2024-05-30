@@ -16,14 +16,11 @@ import { logout } from "../../../reducers/auth/authSlice";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
-import useSliceSelector from "../../../hooks/useSliceSelector";
 
 const Menu = () => {
     const [isLoading, setIsLoading] = useState(false)
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const dispatch = useReducerDispatch();
-    const data = useSliceSelector(state => state.auth.userData)
-    console.log(data)
 
     const handleLogout = async () => {
         try {

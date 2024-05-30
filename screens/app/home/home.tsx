@@ -71,7 +71,6 @@ const Home = () => {
                 { 'Authorization': `Bearer ${accessToken}` }
             );
 
-            console.log(response)
             dispatch(setUserData(response))
 
         } catch (error) {

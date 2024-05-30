@@ -46,7 +46,6 @@ const UserProfile = () => {
     const [images, setImages] = useState<string[]>([]);
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
-    console.log(userData)
 
     const handleToggleCreatePostModal = useCallback(() => {
         dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));
