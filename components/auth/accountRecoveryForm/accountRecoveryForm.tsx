@@ -22,6 +22,7 @@ import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { setIsLoading } from "../../../reducers/auth/authSlice";
 import { setSuccessModal } from "../../../reducers/app/appSlice";
 import useErrorHandling from "../../../hooks/useErrorHandling";
+import useSuccessHandling from "../../../hooks/useSuccessHandling";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
 import AccountRecoveryFormValuesInterface from "./interfaces/accountRecoveryFormValuesInterface";
@@ -34,6 +35,7 @@ const AccountRecoveryForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const dispatch = useReducerDispatch();
     const { handleError } = useErrorHandling();
+    const { handleSuccess } = useSuccessHandling();
 
     const navigateToSignIn = () => {
         navigation.navigate("SignIn",
@@ -64,6 +66,7 @@ const AccountRecoveryForm = () => {
             );
 
             dispatch(setIsLoading(false))
+            handleSuccess('Email Sent!')
             setCurrentStep(prevState => prevState + 1)
 
         } catch (error) {
@@ -86,6 +89,7 @@ const AccountRecoveryForm = () => {
             );
 
             dispatch(setIsLoading(false))
+            handleSuccess('Code Verified!')
             setCurrentStep(prevState => prevState + 1)
 
         } catch (error) {

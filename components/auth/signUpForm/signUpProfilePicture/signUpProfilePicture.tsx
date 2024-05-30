@@ -1,9 +1,9 @@
 import { memo, useCallback, useState } from "react"
-import { StyleSheet, View, Image, TouchableOpacity, Modal, Pressable, TouchableWithoutFeedback } from "react-native"
+import { StyleSheet, View, Image, TouchableOpacity } from "react-native"
 import * as ImagePicker from 'expo-image-picker'
 
 import TextBold from "../../../app/common/textComponent/textBold/textBold"
-import TextRegular from "../../../app/common/textComponent/textRegular/textRegular"
+import ImagePickerButtonsModal from "../../../../modals/imagePickerButtonsModal/imagePickerButtonsModal"
 
 import { RPH } from "../../../../constants/utils/utils"
 
@@ -73,34 +73,11 @@ const SignUpProfilePicture = (props: SignUpProfilePictureProps) => {
                     </View>
                 </TouchableOpacity>
             </View>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={showButtons}
-                onRequestClose={() => {
-                    setShowButtons(false);
-                }}
-            >
-                <TouchableWithoutFeedback onPress={() => setShowButtons(false)}>
-                    <View style={styles.modalContainer}>
-                        <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
-                            <View style={styles.modalView}>
-                                <TouchableOpacity style={styles.w100} onPress={() => handleImagePicker('gallery')}>
-                                    <TextRegular fontSize={16} color="#000">Open Gallery</TextRegular>
-                                </TouchableOpacity>
-                                <View style={styles.borderBottom}></View>
-                                <TouchableOpacity style={styles.w100} onPress={() => handleImagePicker('camera')}>
-                                    <TextRegular fontSize={16} color="#000">Open Camera</TextRegular>
-                                </TouchableOpacity>
-                                <View style={styles.borderBottom}></View>
-                                <Pressable style={styles.w100} onPress={() => setShowButtons(false)}>
-                                    <TextRegular fontSize={16} color="#000">Cancel</TextRegular>
-                                </Pressable>
-                            </View>
-                        </TouchableWithoutFeedback>
-                    </View>
-                </TouchableWithoutFeedback>
-            </Modal>
+            <ImagePickerButtonsModal
+                handleImagePicker={handleImagePicker}
+                showButtons={showButtons}
+                setShowButtons={setShowButtons}
+            />
         </View>
     )
 }
