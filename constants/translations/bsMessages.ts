@@ -6,7 +6,7 @@ const bsMessages = {
     createAcc: "Kreirajte račun",
     terms: "Uslovi korištenja",
     and: " i ",
-    privacy: "Politika privatnosti",
+    privacyPolicy: "Politika privatnosti",
     login: 'Prijavi se',
     // signUp
     agree: "Slažem se s Uslovima korištenja i Politikom privatnosti.",
@@ -142,6 +142,12 @@ const bsMessages = {
     personalInfo: 'Lični podaci',
     contactInfo: 'Kontakt informacije',
     preferences: 'Preferencije',
+    editProfile: 'Uredi Profil',
+    followers: 'pratitelji',
+    following: 'pratioci',
+    loginInfo: 'Podaci za Prijavu',
+    notificationSettings: 'Postavke Obavijesti',
+    privacy: 'Privatnost',
     // User Profile
     blockedMembers: 'Blokirani članovi',
     groupInvites: 'Pozivnice za grupu',

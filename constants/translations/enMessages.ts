@@ -6,7 +6,7 @@ const enMessages = {
     createAcc: "Create an Account",
     terms: "Terms of Service",
     and: " and ",
-    privacy: "Privacy Policy",
+    privacyPolicy: "Privacy Policy",
     login: 'Login',
     // sgnUp
     agree: "I agree to the Terms of Service and Privacy Policy.",
@@ -142,6 +142,12 @@ const enMessages = {
     personalInfo: 'Personal Information',
     contactInfo: 'Contact Information',
     preferences: 'Preferences',
+    editProfile: 'Edit Profile',
+    followers: 'followers',
+    following: 'following',
+    loginInfo: 'Login Information',
+    notificationSettings: 'Notification Settings',
+    privacy: 'Privacy',
     // User Profile
     blockedMembers: 'Blocked Members',
     groupInvites: 'Group Invites',

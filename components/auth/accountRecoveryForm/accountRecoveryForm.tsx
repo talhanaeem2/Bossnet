@@ -237,7 +237,7 @@ const AccountRecoveryForm = () => {
                     </TextRegular>
                     <TouchableOpacity>
                         <TextBold fontSize={16} color="#5F6373">
-                            {messages.privacy}
+                            {messages.privacyPolicy}
                         </TextBold>
                     </TouchableOpacity>
                 </View>

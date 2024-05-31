@@ -101,23 +101,23 @@ const UserProfile = () => {
                     </TextBold>
                     <View style={styles.followContainer}>
                         <TextRegular fontSize={19} color="#787878">
-                            1 followers
+                            1 {messages.followers}
                         </TextRegular>
                         <TextRegular fontSize={19} color="#787878">
-                            2 following
+                            2 {messages.following}
                         </TextRegular>
                     </View>
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity style={styles.createBtn} onPress={handleToggleCreatePostModal}>
                             {Icons.userPlusIcon}
                             <TextBold fontSize={19} color="#fff">
-                                Create post
+                                {messages.createPost}
                             </TextBold>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.editBtn} onPress={() => navigation.navigate("EditProfile")}>
                             {Icons.userEditIcon}
                             <TextRegular fontSize={19}>
-                                Edit Profile
+                                {messages.editProfile}
                             </TextRegular>
                         </TouchableOpacity>
                     </View>
@@ -126,21 +126,21 @@ const UserProfile = () => {
                     <TouchableOpacity style={styles.setting}>
                         {Icons.logoutIcon}
                         <TextRegular fontSize={22} color="#1B1B1B">
-                            Login Information
+                            {messages.loginInfo}
                         </TextRegular>
                     </TouchableOpacity>
                     <View style={styles.divider}></View>
                     <TouchableOpacity style={styles.setting}>
                         {Icons.notificationIcon}
                         <TextRegular fontSize={22} color="#1B1B1B">
-                            Notification Settings
+                            {messages.notificationSettings}
                         </TextRegular>
                     </TouchableOpacity>
                     <View style={styles.divider}></View>
                     <TouchableOpacity style={styles.setting}>
                         {Icons.privacyIcon}
                         <TextRegular fontSize={22} color="#1B1B1B">
-                            Privacy
+                            {messages.privacy}
                         </TextRegular>
                     </TouchableOpacity>
                 </View>
