@@ -1,14 +1,15 @@
-import { memo } from "react"
-import { Modal, TouchableWithoutFeedback, View, TouchableOpacity, Pressable, StyleSheet } from "react-native"
+import { memo } from "react";
+import { Modal, TouchableWithoutFeedback, View, TouchableOpacity, Pressable, StyleSheet } from "react-native";
 
-import TextRegular from "../../components/app/common/textComponent/textRegular/textRegular"
+import TextRegular from "../../components/app/common/textComponent/textRegular/textRegular";
 
-import messages from "../../constants/messages";
+import useSliceSelector from "../../hooks/useSliceSelector";
 
 import ImagePickerButtonsModalProps from "./interfaces/imagePickerButtonsModalProps";
 
 const ImagePickerButtonsModal = (props: ImagePickerButtonsModalProps) => {
     const { handleImagePicker, showButtons, setShowButtons } = props;
+    const messages = useSliceSelector(state => state.language.messages);
 
     return (
         <Modal

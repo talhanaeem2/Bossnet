@@ -4,7 +4,6 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 
 import Icons from "../../../constants/icons";
-import messages from "../../../constants/messages";
 import { RPW, RPH, RFS } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
 
@@ -20,7 +19,8 @@ const NewsFeedShare = (props: NewsFeedShareProps) => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
-    const userData = useSliceSelector(state => state.auth.userData)
+    const userData = useSliceSelector(state => state.auth.userData);
+    const messages = useSliceSelector(state => state.language.messages);
 
     const handleToggleCreatePostModal = useCallback(() => {
         dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));

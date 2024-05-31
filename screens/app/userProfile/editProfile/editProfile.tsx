@@ -23,7 +23,6 @@ import { setIsLoading, setUserData } from "../../../../reducers/auth/authSlice";
 
 import IProfileData from "../../../../interfaces/IProfileData";
 import ImageInterface from "../../../../components/common/interfaces/imageInterface";
-import messages from "../../../../constants/messages";
 
 const userPlaceholder = require("../../../../assets/user-placeholder.png");
 const editImgIcon = require("../../../../assets/icons/editImg.png");
@@ -37,11 +36,11 @@ const editSocialsIcon = require("../../../../assets/icons/editSocials.png");
 const editWorkIcon = require("../../../../assets/icons/editWork.png");
 
 const EditProfile = () => {
-    const data = useSliceSelector(state => state.auth.userData)
-    const [editingField, setEditingField] = useState("")
-    const [editValue, setEditValue] = useState("")
-    const [isModalVisible, setIsModalVisible] = useState(false)
-    const [showButtons, setShowButtons] = useState(false)
+    const data = useSliceSelector(state => state.auth.userData);
+    const [editingField, setEditingField] = useState("");
+    const [editValue, setEditValue] = useState("");
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [showButtons, setShowButtons] = useState(false);
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [firstName, setFirstName] = useState(data?.firstName || "");
@@ -50,6 +49,7 @@ const EditProfile = () => {
     const dispatch = useReducerDispatch();
     const { handleSuccess } = useSuccessHandling();
     const { getToken } = useToken();
+    const messages = useSliceSelector(state => state.language.messages);
 
     const handleProfileUpdate = useCallback(async (file?: ImageInterface) => {
         const accessToken = await getToken();

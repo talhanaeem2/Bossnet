@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity } from "react-native"
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { memo, useCallback, useState } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from "moment";
@@ -9,15 +9,16 @@ import TextBold from "../../../app/common/textComponent/textBold/textBold";
 import TextRegular from "../../../app/common/textComponent/textRegular/textRegular";
 
 import { RPH, RPW } from "../../../../constants/utils/utils";
-import messages from "../../../../constants/messages";
+
+import useSliceSelector from "../../../../hooks/useSliceSelector";
 
 import SignUpDobProps from "./interfaces/signUpDobProps";
 
 const SignUpDob = (props: SignUpDobProps) => {
     const { formik } = props
-    const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>();
     const [isChecked, setChecked] = useState(false);
     const [showDatePicker, setShowDatePicker] = useState(false);
+    const messages = useSliceSelector(state => state.language.messages);
 
     const handleDateChange = useCallback((selectedDate: Date) => {
         if (selectedDate) {
@@ -32,10 +33,10 @@ const SignUpDob = (props: SignUpDobProps) => {
 
     return (
         <View style={styles.inner}>
-            <AuthLogoHeader selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
+            <AuthLogoHeader />
             <View>
                 <TextBold fontSize={23}>
-                    What's your birthday
+                    {messages.yourBirthday}
                 </TextBold>
             </View>
             <View style={styles.fieldContainer}>

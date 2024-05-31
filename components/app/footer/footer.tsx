@@ -66,47 +66,48 @@ const UserPlaceholderIcon = ({ isActive }: IconProps) => (
     </IconContainer>
 );
 
-const footerButtons: FooterButtonsInterface[] = [
-    {
-        icon: <NewsFeedIcon isActive={false} />,
-        activeIcon: <NewsFeedIcon isActive={true} />,
-        text: "Newsfeed",
-        screenName: "Home"
-    },
-    {
-        icon: <FriendsIcon isActive={false} />,
-        activeIcon: <FriendsIcon isActive={true} />,
-        text: "My friends",
-        screenName: "Friends"
-    },
-    {
-        icon: <GroupIcon isActive={false} />,
-        activeIcon: <GroupIcon isActive={true} />,
-        text: "Groups",
-        screenName: "Groups"
-    },
-    {
-        icon: <NotificationIcon isActive={false} />,
-        activeIcon: <NotificationIcon isActive={true} />,
-        text: "Notification",
-        screenName: "Notifications"
-    },
-    {
-        icon: <UserPlaceholderIcon isActive={false} />,
-        activeIcon: <UserPlaceholderIcon isActive={true} />,
-        screenName: "Menu"
-    }
-]
-
 const Footer = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const dispatch = useReducerDispatch();
     const activeTab = useSliceSelector(state => state.app.footerActiveButton.activeTab);
+    const messages = useSliceSelector(state => state.language.messages);
 
     const handlePress = (screenName: string) => {
         dispatch(setActiveTab(screenName));
         navigation.navigate(screenName);
     };
+
+    const footerButtons: FooterButtonsInterface[] = [
+        {
+            icon: <NewsFeedIcon isActive={false} />,
+            activeIcon: <NewsFeedIcon isActive={true} />,
+            text: messages.newsfeed,
+            screenName: "Home"
+        },
+        {
+            icon: <FriendsIcon isActive={false} />,
+            activeIcon: <FriendsIcon isActive={true} />,
+            text: messages.myFriends,
+            screenName: "Friends"
+        },
+        {
+            icon: <GroupIcon isActive={false} />,
+            activeIcon: <GroupIcon isActive={true} />,
+            text: messages.myGroups,
+            screenName: "Groups"
+        },
+        {
+            icon: <NotificationIcon isActive={false} />,
+            activeIcon: <NotificationIcon isActive={true} />,
+            text: messages.notifications,
+            screenName: "Notifications"
+        },
+        {
+            icon: <UserPlaceholderIcon isActive={false} />,
+            activeIcon: <UserPlaceholderIcon isActive={true} />,
+            screenName: "Menu"
+        }
+    ]
 
     const footerJSX = useMemo(() => (
         footerButtons.map((item, index) => {

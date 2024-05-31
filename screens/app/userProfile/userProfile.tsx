@@ -1,52 +1,32 @@
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native"
-import { useNavigation } from "@react-navigation/native"
-import { StackNavigationProp } from "@react-navigation/stack"
-import { useCallback, useState } from "react"
-import * as ImagePicker from 'expo-image-picker'
+import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useCallback, useState } from "react";
+import * as ImagePicker from 'expo-image-picker';
 
-import MainWapper from "../../../components/app/mainWrapper/mainWrapper"
-import TextBold from "../../../components/app/common/textComponent/textBold/textBold"
-import TextRegular from "../../../components/app/common/textComponent/textRegular/textRegular"
-import CreatePostModal from "../../../modals/createPostModal/createPostModal"
+import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
+import TextBold from "../../../components/app/common/textComponent/textBold/textBold";
+import TextRegular from "../../../components/app/common/textComponent/textRegular/textRegular";
+import CreatePostModal from "../../../modals/createPostModal/createPostModal";
 
-import { RPW, RPH } from "../../../constants/utils/utils"
-import Icons from "../../../constants/icons"
-import Apis from "../../../constants/apis"
-import messages from "../../../constants/messages"
+import { RPW, RPH } from "../../../constants/utils/utils";
+import Icons from "../../../constants/icons";
+import Apis from "../../../constants/apis";
 
-import useSliceSelector from "../../../hooks/useSliceSelector"
-import useReducerDispatch from "../../../hooks/useReducerDispatch"
-import { setCreatePostModal } from "../../../reducers/app/appSlice"
+import useSliceSelector from "../../../hooks/useSliceSelector";
+import useReducerDispatch from "../../../hooks/useReducerDispatch";
+import { setCreatePostModal } from "../../../reducers/app/appSlice";
 
-import footerIconsInterface from "./interfaces/footerIconsInterface"
-import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
-
-const footerIcons: footerIconsInterface[] = [
-    {
-        icon: Icons.blockedIcon,
-        text: messages.blockedMembers
-
-    },
-    {
-        icon: Icons.groupIcon,
-        text: messages.groupInvites
-    },
-    {
-        icon: Icons.exportIcon,
-        text: messages.exportData
-    },
-    {
-        icon: Icons.delIcon,
-        text: messages.deleteAcc
-    }
-]
+import footerIconsInterface from "./interfaces/footerIconsInterface";
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 
 const UserProfile = () => {
-    const userData = useSliceSelector(state => state.auth.userData)
+    const userData = useSliceSelector(state => state.auth.userData);
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const [images, setImages] = useState<string[]>([]);
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
+    const messages = useSliceSelector(state => state.language.messages);
 
     const handleToggleCreatePostModal = useCallback(() => {
         dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));
@@ -85,6 +65,26 @@ const UserProfile = () => {
         newImages.splice(index, 1);
         setImages(newImages);
     }, [images])
+
+    const footerIcons: footerIconsInterface[] = [
+        {
+            icon: Icons.blockedIcon,
+            text: messages.blockedMembers
+
+        },
+        {
+            icon: Icons.groupIcon,
+            text: messages.groupInvites
+        },
+        {
+            icon: Icons.exportIcon,
+            text: messages.exportData
+        },
+        {
+            icon: Icons.delIcon,
+            text: messages.deleteAcc
+        }
+    ]
 
     return (
         <MainWapper isHeader={true} isFooter={false} icon={true}>

@@ -1,4 +1,4 @@
-const messages = {
+const enMessages = {
     // signIn
     signInHeading: "Sign in",
     rememberMe: "Remember Me",
@@ -12,11 +12,15 @@ const messages = {
     agree: "I agree to the Terms of Service and Privacy Policy.",
     birthday: "Birthday",
     requestLink: 'Request Link',
+    yourEmail: "What's your email",
+    yourBirthday: "What's your birthday",
+    yourName: "What's your name",
+    createPassword: 'Create a password',
+    updateProfilePicture: 'Update Profile Picture',
     // placeholders
     firstName: "First Name",
     username: "Username",
     password: "Password",
-    cofirmPass: "Confirm Password",
     email: "Email",
     confirmEmail: "Confirm Email",
     name: "Name",
@@ -38,6 +42,9 @@ const messages = {
     // header
     headerTitle: "News Feed",
     headerSubTitle: "All Updates",
+    // Footer
+    newsfeed: 'Newsfeed',
+    notifications: 'Notifications',
     // newsfeed
     newsfeedPlaceholder: "Share what's on your mind, Aldin Mahmutovic",
     newsfeedTitle: "became a registered member",
@@ -76,11 +83,23 @@ const messages = {
     shareMind: "Share what's on your mind,",
     // Groups
     myGroups: "Groups",
+    searchGroups: 'Search Groups',
     // Friends
     friends: "Friends",
+    searchFriends: 'Search Friends',
+    friend: 'Friend',
+    // Notifications
+    new: 'New',
+    earlier: 'Earlier',
     // Messenger
     myFriends: "My Friends",
     active: "Active",
+    to: 'To:',
+    addFriends: 'Add Some Friends',
+    invalidDate: 'Invalid date',
+    notActive: 'Not recently active',
+    daysAgo: 'days ago',
+    hoursAgo: 'hours ago',
     // Success
     emailSent: 'Email Sent!',
     codeVerified: 'Code Verified!',
@@ -112,6 +131,13 @@ const messages = {
     openCamera: 'Open Camera',
     openGallery: 'Open Gallery',
     cancel: 'Cancel',
+    reply: 'Reply',
+    noComments: 'No comments yet. Add one!',
+    replyingTo: 'Replying to',
+    writeComment: 'Write a comment',
+    comment: 'Comment',
+    comments: 'Comments',
+    add: 'Add',
     // Edit Profile
     personalInfo: 'Personal Information',
     contactInfo: 'Contact Information',
@@ -123,4 +149,4 @@ const messages = {
     deleteAcc: 'Delete Account'
 }
 
-export default messages
+export default enMessages

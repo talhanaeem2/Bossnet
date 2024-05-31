@@ -1,24 +1,25 @@
-import { View, StyleSheet } from "react-native"
-import { useState } from "react"
+import { View, StyleSheet } from "react-native";
+import { memo } from "react";
 
-import InputField from "../../../app/common/inputField/InputField"
-import TextBold from "../../../app/common/textComponent/textBold/textBold"
-import TextRegular from "../../../app/common/textComponent/textRegular/textRegular"
-import AuthLogoHeader from "../../authLogoHeader/authLogoHeader"
+import InputField from "../../../app/common/inputField/InputField";
+import TextBold from "../../../app/common/textComponent/textBold/textBold";
+import TextRegular from "../../../app/common/textComponent/textRegular/textRegular";
+import AuthLogoHeader from "../../authLogoHeader/authLogoHeader";
 
-import messages from "../../../../constants/messages"
-import { RPH, RPW } from "../../../../constants/utils/utils"
+import { RPH, RPW } from "../../../../constants/utils/utils";
 import Icons from "../../../../constants/icons";
+
+import useSliceSelector from "../../../../hooks/useSliceSelector";
 
 import AccountRecoveryPasswordFormProps from "./interfaces/accountRecoveryPasswordFormProps";
 
 const AccountRecoveryPasswordForm = (props: AccountRecoveryPasswordFormProps) => {
-    const { formik } = props
-    const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>();
+    const { formik } = props;
+    const messages = useSliceSelector(state => state.language.messages);
 
     return (
         <View style={styles.inner}>
-            <AuthLogoHeader selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
+            <AuthLogoHeader />
             <View>
                 <TextBold fontSize={23}>
                     {messages.passwordFormHeading}
@@ -46,7 +47,7 @@ const AccountRecoveryPasswordForm = (props: AccountRecoveryPasswordFormProps) =>
                     type="password"
                     rightIcon={Icons.eyeIcon}
                     secureTextEntry={true}
-                    placeholder={messages.cofirmPass}
+                    placeholder={messages.confirmPassword}
                     value={formik.values.confirmPassword}
                     onChangeText={formik.handleChange("confirmPassword")}
                     onBlur={formik.handleBlur("confirmPassword")}
@@ -61,7 +62,7 @@ const AccountRecoveryPasswordForm = (props: AccountRecoveryPasswordFormProps) =>
     )
 }
 
-export default AccountRecoveryPasswordForm
+export default memo(AccountRecoveryPasswordForm)
 
 const styles = StyleSheet.create({
     inner: {

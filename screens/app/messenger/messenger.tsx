@@ -1,30 +1,30 @@
-import { View, StyleSheet, TouchableOpacity, TextInput, Image, ScrollView, TouchableWithoutFeedback, Keyboard, ActivityIndicator, FlatList } from "react-native"
-import Svg, { Path } from "react-native-svg"
-import { useCallback, useEffect, useState } from "react"
-import axios from "axios"
+import { View, StyleSheet, TouchableOpacity, TextInput, Image, ScrollView, TouchableWithoutFeedback, Keyboard, ActivityIndicator, FlatList } from "react-native";
+import Svg, { Path } from "react-native-svg";
+import { useCallback, useEffect, useState } from "react";
+import axios from "axios";
 
-import MainWapper from "../../../components/app/mainWrapper/mainWrapper"
-import TextBold from "../../../components/app/common/textComponent/textBold/textBold"
-import TextRegular from "../../../components/app/common/textComponent/textRegular/textRegular"
+import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
+import TextBold from "../../../components/app/common/textComponent/textBold/textBold";
+import TextRegular from "../../../components/app/common/textComponent/textRegular/textRegular";
 
-import messages from "../../../constants/messages"
-import { truncateText, RPH, RPW, RFS } from "../../../constants/utils/utils"
-import Apis from "../../../constants/apis"
+import { truncateText, RPH, RPW, RFS } from "../../../constants/utils/utils";
+import Apis from "../../../constants/apis";
 
-import useSliceSelector from "../../../hooks/useSliceSelector"
+import useSliceSelector from "../../../hooks/useSliceSelector";
 
-import UsersInterface from "../friends/interfaces/usersInterface"
+import UsersInterface from "../friends/interfaces/usersInterface";
 
 const imageSize = "thumb";
 
 const Messenger = () => {
-    const [searchQuery, setSearchQuery] = useState('')
+    const [searchQuery, setSearchQuery] = useState('');
     const [isInputFocused, setIsInputFocused] = useState(false);
     const [users, setUsers] = useState<UsersInterface[]>([]);
-    const [isLoading, setIsLoading] = useState(true)
-    const [currentPage, setCurrentPage] = useState(1)
-    const [totalPages, setTotalPages] = useState(0)
-    const userId = useSliceSelector(state => state.auth.userData.userId)
+    const [isLoading, setIsLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const userId = useSliceSelector(state => state.auth.userData.userId);
+    const messages = useSliceSelector(state => state.language.messages);
 
     const fetchData = useCallback(async (page: number) => {
         try {

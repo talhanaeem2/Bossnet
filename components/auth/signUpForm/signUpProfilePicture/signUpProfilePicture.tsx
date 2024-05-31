@@ -1,19 +1,22 @@
-import { memo, useCallback, useState } from "react"
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native"
-import * as ImagePicker from 'expo-image-picker'
+import { memo, useCallback, useState } from "react";
+import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import * as ImagePicker from 'expo-image-picker';
 
-import TextBold from "../../../app/common/textComponent/textBold/textBold"
-import ImagePickerButtonsModal from "../../../../modals/imagePickerButtonsModal/imagePickerButtonsModal"
+import TextBold from "../../../app/common/textComponent/textBold/textBold";
+import ImagePickerButtonsModal from "../../../../modals/imagePickerButtonsModal/imagePickerButtonsModal";
 
-import { RPH } from "../../../../constants/utils/utils"
+import { RPH } from "../../../../constants/utils/utils";
 
-import SignUpProfilePictureProps from "./interfaces/signUpProfilePictureProps"
+import useSliceSelector from "../../../../hooks/useSliceSelector";
+
+import SignUpProfilePictureProps from "./interfaces/signUpProfilePictureProps";
 
 const userPlaceholder = require("../../../../assets/user-placeholder.png");
 
 const SignUpProfilePicture = (props: SignUpProfilePictureProps) => {
-    const { formik } = props
-    const [showButtons, setShowButtons] = useState<boolean>(false)
+    const { formik } = props;
+    const [showButtons, setShowButtons] = useState<boolean>(false);
+    const messages = useSliceSelector(state => state.language.messages);
 
     const showUploadButtons = () => {
         setShowButtons(true)
@@ -58,7 +61,7 @@ const SignUpProfilePicture = (props: SignUpProfilePictureProps) => {
         <View style={styles.inner}>
             <View style={{ alignSelf: 'center' }}>
                 <TextBold fontSize={23}>
-                    Update Profile Picture
+                    {messages.updateProfilePicture}
                 </TextBold>
             </View>
             <View style={styles.fieldContainer}>

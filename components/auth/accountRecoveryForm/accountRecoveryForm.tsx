@@ -1,20 +1,19 @@
-import { View, StyleSheet, TouchableOpacity } from "react-native"
-import { useNavigation } from "@react-navigation/native"
-import { StackNavigationProp } from "@react-navigation/stack"
-import { useState } from "react"
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { memo, useState } from "react";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import TextBold from "../../app/common/textComponent/textBold/textBold"
-import TextRegular from "../../app/common/textComponent/textRegular/textRegular"
+import TextBold from "../../app/common/textComponent/textBold/textBold";
+import TextRegular from "../../app/common/textComponent/textRegular/textRegular";
 import AccountRecoveryEmailForm from "./accountRecoveryEmailForm/accountRecoveryEmailForm";
 import AccountRecoveryCodeForm from "./accountRecoveryCodeForm/accountRecoveryCodeForm";
 import AuthHeader from "../authHeader/authHeader";
 import AccountRecoveryPasswordForm from "./accountRecoveryPasswordForm/accountRecoveryPasswordForm";
 import SuccesModal from "../../../modals/succesModal/succesModal";
 
-import messages from "../../../constants/messages"
-import { RFS, RPH, RPW } from "../../../constants/utils/utils"
+import { RFS, RPH, RPW } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
 import requestUtils from "../../../constants/utils/requestUtils";
 
@@ -23,8 +22,9 @@ import { setIsLoading } from "../../../reducers/auth/authSlice";
 import { setSuccessModal } from "../../../reducers/app/appSlice";
 import useErrorHandling from "../../../hooks/useErrorHandling";
 import useSuccessHandling from "../../../hooks/useSuccessHandling";
+import useSliceSelector from "../../../hooks/useSliceSelector";
 
-import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface"
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import AccountRecoveryFormValuesInterface from "./interfaces/accountRecoveryFormValuesInterface";
 import IErrorResponse from "../../../interfaces/IErrorResponse";
 
@@ -36,6 +36,7 @@ const AccountRecoveryForm = () => {
     const dispatch = useReducerDispatch();
     const { handleError } = useErrorHandling();
     const { handleSuccess } = useSuccessHandling();
+    const messages = useSliceSelector(state => state.language.messages);
 
     const navigateToSignIn = () => {
         navigation.navigate("SignIn",
@@ -246,7 +247,7 @@ const AccountRecoveryForm = () => {
     )
 }
 
-export default AccountRecoveryForm
+export default memo(AccountRecoveryForm)
 
 const styles = StyleSheet.create({
     bottomContainer: {

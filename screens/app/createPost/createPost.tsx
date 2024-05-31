@@ -1,17 +1,17 @@
-import { View, StyleSheet, TouchableOpacity, TextInput, Animated, Image, ScrollView, PanResponder } from "react-native"
-import { memo, useState } from "react"
-import { Path } from "react-native-svg"
+import { View, StyleSheet, TouchableOpacity, TextInput, Image, ScrollView } from "react-native";
+import { memo } from "react";
+import { Path } from "react-native-svg";
 
-import IconContainer from "../../../components/app/common/iconContainer/iconContainer"
-import TextBold from "../../../components/app/common/textComponent/textBold/textBold"
+import IconContainer from "../../../components/app/common/iconContainer/iconContainer";
+import TextBold from "../../../components/app/common/textComponent/textBold/textBold";
 
-import Icons from "../../../constants/icons"
-import messages from "../../../constants/messages"
-import { RPW, RPH, RFS } from "../../../constants/utils/utils"
+import Icons from "../../../constants/icons";
+import { RPW, RPH, RFS } from "../../../constants/utils/utils";
 
-import useSliceSelector from "../../../hooks/useSliceSelector"
+import useSliceSelector from "../../../hooks/useSliceSelector";
 
-import CreatePostProps from "./interfaces/createPostProps"
+import CreatePostProps from "./interfaces/createPostProps";
+import Apis from "../../../constants/apis";
 // import {
 //     GiphyContent,
 //     GiphyGridView,
@@ -26,7 +26,8 @@ import CreatePostProps from "./interfaces/createPostProps"
 
 const CreatePost = (props: CreatePostProps) => {
     const { closeModal, images, removeImage, handleImagePicker } = props;
-    const userData = useSliceSelector(state => state.auth.userData)
+    const userData = useSliceSelector(state => state.auth.userData);
+    const messages = useSliceSelector(state => state.language.messages);
 
     // const [searchQuery, setSearchQuery] = useState<string>('')
     // const [media, setMedia] = useState<GiphyMedia | null>(null)
@@ -44,7 +45,7 @@ const CreatePost = (props: CreatePostProps) => {
             <View style={styles.body}>
                 <View style={styles.content}>
                     {userData.profileImage
-                        ? <Image style={styles.roundImg} source={{ uri: userData.profileImage }} />
+                        ? <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
                         : <View>
                             {Icons.userPlaceholderIcon}
                         </View>

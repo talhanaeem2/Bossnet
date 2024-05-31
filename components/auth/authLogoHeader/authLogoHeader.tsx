@@ -2,13 +2,36 @@ import { StyleSheet, View, Text } from "react-native"
 import { Picker } from '@react-native-picker/picker';
 import { memo } from "react";
 
-import { languageOptions } from "../../../constants/constants";
 import { RPH, RPW, RFS } from "../../../constants/utils/utils";
 
+import useSliceSelector from "../../../hooks/useSliceSelector";
+import useReducerDispatch from "../../../hooks/useReducerDispatch";
+import { setLanguage } from "../../../reducers/language/languageSlice";
+
 import AuthLogoHeaderProps from "./interfaces/AuthLogoHeaderProps";
+import LanguageOptionInterface from "../../../interfaces/languageOptionInterface";
 
 const AuthLogoHeader = (props: AuthLogoHeaderProps) => {
-    const { formik, selectedLanguage, setSelectedLanguage } = props
+    const { formik } = props;
+    const currentLanguage = useSliceSelector(state => state.language.language);
+    const dispatch = useReducerDispatch();
+    const messages = useSliceSelector(state => state.language.messages);
+
+    const handleLanguageChange = (itemValue: string) => {
+        dispatch(setLanguage(itemValue));
+        formik?.setFieldValue('selectedLanguage', itemValue);
+    };
+
+    const languageOptions: LanguageOptionInterface[] = [
+        {
+            label: messages.english,
+            value: 'en'
+        },
+        {
+            label: messages.bosnia,
+            value: 'bs'
+        }
+    ];
 
     return (
         <View>
@@ -16,11 +39,8 @@ const AuthLogoHeader = (props: AuthLogoHeaderProps) => {
                 <Picker
                     mode="dropdown"
                     dropdownIconColor="#000"
-                    selectedValue={selectedLanguage}
-                    onValueChange={(itemValue) => {
-                        setSelectedLanguage(itemValue);
-                        formik?.setFieldValue('selectedLanguage', itemValue);
-                    }}>
+                    selectedValue={currentLanguage}
+                    onValueChange={handleLanguageChange}>
                     {languageOptions.map((item, index) => {
                         return (
                             <Picker.Item style={styles.dropdownText} key={index} label={item.label} value={item.value} />

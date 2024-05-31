@@ -1,21 +1,25 @@
-import { ScrollView, StyleSheet, TouchableOpacity, View, Image } from "react-native"
-import { LinearGradient } from "expo-linear-gradient"
+import { ScrollView, StyleSheet, TouchableOpacity, View, Image } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
-import MainWapper from "../../../components/app/mainWrapper/mainWrapper"
-import TextBold from "../../../components/app/common/textComponent/textBold/textBold"
-import TextRegular from "../../../components/app/common/textComponent/textRegular/textRegular"
+import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
+import TextBold from "../../../components/app/common/textComponent/textBold/textBold";
+import TextRegular from "../../../components/app/common/textComponent/textRegular/textRegular";
 
-import { RPH, RPW } from "../../../constants/utils/utils"
+import { RPH, RPW } from "../../../constants/utils/utils";
+
+import useSliceSelector from "../../../hooks/useSliceSelector";
 
 const Notifications = () => {
+    const messages = useSliceSelector(state => state.language.messages);
+
     return (
-        <MainWapper isHeader={true} icon={true} headerText="Notifications">
+        <MainWapper isHeader={true} icon={true} headerText={messages.notifications}>
             <LinearGradient
                 colors={['rgba(39, 60, 255, 0.20)', 'rgba(0, 163, 255, 0.20)']}
                 style={styles.container}
             >
                 <View style={styles.headText}>
-                    <TextBold fontSize={16}>New</TextBold>
+                    <TextBold fontSize={16}>{messages.new}</TextBold>
                 </View>
                 <ScrollView>
                     <View style={styles.friendListContainer}>
@@ -66,7 +70,7 @@ const Notifications = () => {
                             </View>
                         </View>
                         <View style={styles.headText}>
-                            <TextBold fontSize={16}>Earlier</TextBold>
+                            <TextBold fontSize={16}>{messages.earlier}</TextBold>
                         </View>
                         <View style={styles.friendListItem}>
                             <View style={styles.friendListContent}>

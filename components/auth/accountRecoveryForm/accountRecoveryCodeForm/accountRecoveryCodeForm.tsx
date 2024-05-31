@@ -1,19 +1,20 @@
-import { View, StyleSheet, TextInput } from "react-native"
-import { useRef, useState } from "react"
+import { View, StyleSheet, TextInput } from "react-native";
+import { memo, useRef, useState } from "react";
 
-import TextBold from "../../../app/common/textComponent/textBold/textBold"
-import TextRegular from "../../../app/common/textComponent/textRegular/textRegular"
-import AuthLogoHeader from "../../authLogoHeader/authLogoHeader"
+import TextBold from "../../../app/common/textComponent/textBold/textBold";
+import TextRegular from "../../../app/common/textComponent/textRegular/textRegular";
+import AuthLogoHeader from "../../authLogoHeader/authLogoHeader";
 
-import messages from "../../../../constants/messages"
-import { RFS, RLS, RPH, RPW } from "../../../../constants/utils/utils"
+import { RFS, RLS, RPH, RPW } from "../../../../constants/utils/utils";
+
+import useSliceSelector from "../../../../hooks/useSliceSelector";
 
 import AccountRecoveryVerificationFormProps from "./interfaces/accountRecoveryVerificationFormProps";
 
 const AccountRecoveryCodeForm = (props: AccountRecoveryVerificationFormProps) => {
     const { formik } = props
-    const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>();
     const [verificationCode, setVerificationCode] = useState(["", "", "", "", ""]);
+    const messages = useSliceSelector(state => state.language.messages);
 
     const inputRefs = [
         useRef<TextInput>(null),
@@ -51,7 +52,7 @@ const AccountRecoveryCodeForm = (props: AccountRecoveryVerificationFormProps) =>
 
     return (
         <View style={styles.inner}>
-            <AuthLogoHeader selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
+            <AuthLogoHeader />
             <View>
                 <TextBold fontSize={23}>
                     {messages.verification}
@@ -89,7 +90,7 @@ const AccountRecoveryCodeForm = (props: AccountRecoveryVerificationFormProps) =>
     )
 }
 
-export default AccountRecoveryCodeForm
+export default memo(AccountRecoveryCodeForm)
 
 const styles = StyleSheet.create({
     inner: {

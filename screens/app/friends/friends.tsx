@@ -1,27 +1,27 @@
-import { View, StyleSheet, TextInput, Image, TouchableOpacity, ActivityIndicator, TouchableWithoutFeedback, Keyboard, FlatList } from "react-native"
-import Svg, { Path } from "react-native-svg"
-import { useCallback, useEffect, useState } from "react"
-import axios from "axios"
+import { View, StyleSheet, TextInput, Image, TouchableOpacity, ActivityIndicator, TouchableWithoutFeedback, Keyboard, FlatList } from "react-native";
+import Svg, { Path } from "react-native-svg";
+import { useCallback, useEffect, useState } from "react";
+import axios from "axios";
 
-import MainWrapper from "../../../components/app/mainWrapper/mainWrapper"
-import TextBold from "../../../components/app/common/textComponent/textBold/textBold"
+import MainWrapper from "../../../components/app/mainWrapper/mainWrapper";
+import TextBold from "../../../components/app/common/textComponent/textBold/textBold";
 
-import messages from "../../../constants/messages"
-import { RPH, RPW, RFS } from "../../../constants/utils/utils"
-import Apis from "../../../constants/apis"
+import { RPH, RPW, RFS } from "../../../constants/utils/utils";
+import Apis from "../../../constants/apis";
 
-import UsersInterface from "./interfaces/usersInterface"
-import useSliceSelector from "../../../hooks/useSliceSelector"
+import UsersInterface from "./interfaces/usersInterface";
+import useSliceSelector from "../../../hooks/useSliceSelector";
 
 const imageSize = "thumb";
 
 const Friends = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState<UsersInterface[]>([]);
-    const [isLoading, setIsLoading] = useState(true)
-    const [currentPage, setCurrentPage] = useState(1)
-    const [totalPages, setTotalPages] = useState(0)
-    const userId = useSliceSelector(state => state.auth.userData.userId)
+    const [isLoading, setIsLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const userId = useSliceSelector(state => state.auth.userData.userId);
+    const messages = useSliceSelector(state => state.language.messages);
 
     const fetchData = useCallback(async (page: number) => {
         try {
@@ -31,6 +31,7 @@ const Friends = () => {
             setIsLoading(false)
         } catch (error) {
             console.error('Error fetching data:', error);
+            setIsLoading(false)
         }
     }, [currentPage])
 
@@ -86,7 +87,7 @@ const Friends = () => {
                             </Svg>
                         </View>
                         <TextInput
-                            placeholder="Search Friends"
+                            placeholder={messages.searchFriends}
                             style={styles.input}
                             value={searchQuery}
                             onChangeText={(text) => setSearchQuery(text)}
@@ -96,8 +97,8 @@ const Friends = () => {
                         <TextBold style={styles.friendsText} fontSize={18}>
                             {
                                 filteredUsers.length === 1 ?
-                                    `${filteredUsers.length} Friend` :
-                                    `${filteredUsers.length} Friends`
+                                    `${filteredUsers.length} ${messages.friend}` :
+                                    `${filteredUsers.length} ${messages.friends}`
                             }
                         </TextBold>
                         <View style={styles.content}>

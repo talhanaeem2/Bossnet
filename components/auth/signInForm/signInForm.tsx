@@ -1,5 +1,5 @@
-import { StyleSheet, View, TouchableOpacity } from "react-native"
-import { memo, useCallback, useEffect, useState } from "react";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { memo, useCallback, useEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -11,7 +11,6 @@ import InputField from "../../app/common/inputField/InputField";
 import TextBold from "../../app/common/textComponent/textBold/textBold";
 import TextRegular from "../../app/common/textComponent/textRegular/textRegular";
 
-import messages from "../../../constants/messages";
 import { RPH, RPW } from "../../../constants/utils/utils";
 import Icons from "../../../constants/icons";
 import Apis from "../../../constants/apis";
@@ -24,14 +23,16 @@ import useErrorHandling from "../../../hooks/useErrorHandling";
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import ResponseData from "./interfaces/responseData";
 import RequestData from "./interfaces/requestData";
+import useSliceSelector from "../../../hooks/useSliceSelector";
 
 const SignInForm = () => {
     const route = useRoute();
-    const params = route.params as { prefillUsername: string; prefillPassword: string }
+    const params = route.params as { prefillUsername: string; prefillPassword: string };
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
-    const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>();
-    const dispatch = useReducerDispatch()
-    const { handleError } = useErrorHandling()
+    const dispatch = useReducerDispatch();
+    const { handleError } = useErrorHandling();
+    const messages = useSliceSelector(state => state.language.messages);
+    const language = useSliceSelector(state => state.language.language);
 
     const validationSchema = Yup.object().shape({
         email_or_username: Yup.string().required(messages.usernameRequired),
@@ -103,7 +104,7 @@ const SignInForm = () => {
         initialValues: {
             email_or_username: '',
             password: '',
-            selectedLanguage: selectedLanguage
+            selectedLanguage: language
         },
         validationSchema,
         onSubmit: () => {
@@ -135,7 +136,7 @@ const SignInForm = () => {
 
     return (
         <View style={styles.inner}>
-            <AuthLogoHeader formik={formik} selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
+            <AuthLogoHeader />
             <TextBold fontSize={23}>
                 {messages.signInHeading}
             </TextBold>

@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity } from "react-native"
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { memo, useCallback, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -16,13 +16,13 @@ import SignUpProfilePicture from "./signUpProfilePicture/signUpProfilePicture";
 
 import { RPH, RPW } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
-import messages from "../../../constants/messages";
 import requestUtils from "../../../constants/utils/requestUtils";
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { setIsLoading } from "../../../reducers/auth/authSlice";
 import useErrorHandling from "../../../hooks/useErrorHandling";
 import useSuccessHandling from "../../../hooks/useSuccessHandling";
+import useSliceSelector from "../../../hooks/useSliceSelector";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import SignUpFormInterface from "./interfaces/signUpFormInterface";
@@ -35,7 +35,8 @@ const SignUpForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [skipImage, setSkipImage] = useState(false);
     const { handleError } = useErrorHandling();
-    const { handleSuccess } = useSuccessHandling()
+    const { handleSuccess } = useSuccessHandling();
+    const messages = useSliceSelector(state => state.language.messages);
 
     const handleSignUp = useCallback(async (values: SignUpFormInterface) => {
         const { firstName, lastName, userName, email, dayOfBirth, image, password, } = values

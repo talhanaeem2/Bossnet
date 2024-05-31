@@ -1,21 +1,21 @@
-import { Modal, TouchableOpacity, View, TextInput, StyleSheet, Image, FlatList } from "react-native"
-import { useRef, useState, memo } from "react"
-import { Circle, Path } from "react-native-svg"
-import moment from "moment"
+import { Modal, TouchableOpacity, View, TextInput, StyleSheet, Image, FlatList } from "react-native";
+import { useRef, useState, memo } from "react";
+import { Circle, Path } from "react-native-svg";
+import moment from "moment";
 
-import TextBold from "../../components/app/common/textComponent/textBold/textBold"
-import TextRegular from "../../components/app/common/textComponent/textRegular/textRegular"
-import IconContainer from "../../components/app/common/iconContainer/iconContainer"
+import TextBold from "../../components/app/common/textComponent/textBold/textBold";
+import TextRegular from "../../components/app/common/textComponent/textRegular/textRegular";
+import IconContainer from "../../components/app/common/iconContainer/iconContainer";
 
-import Icons from "../../constants/icons"
+import Icons from "../../constants/icons";
 
-import useSliceSelector from "../../hooks/useSliceSelector"
-import useReducerDispatch from "../../hooks/useReducerDispatch"
-import { setCommentModal } from "../../reducers/app/appSlice"
+import useSliceSelector from "../../hooks/useSliceSelector";
+import useReducerDispatch from "../../hooks/useReducerDispatch";
+import { setCommentModal } from "../../reducers/app/appSlice";
 
-import CommentsModalInterface from "./interfaces/commentsModalInterface"
-import CommentsModalReplyInterface from "./interfaces/CommentsModalReplyInterface"
-import Apis from "../../constants/apis"
+import CommentsModalInterface from "./interfaces/commentsModalInterface";
+import CommentsModalReplyInterface from "./interfaces/CommentsModalReplyInterface";
+import Apis from "../../constants/apis";
 
 const likedIcon = <IconContainer width="16" height="16" viewBox="0 0 16 16" fill="none">
     <Circle cx="8" cy="8" r="8" fill="#4A5BF6" />
@@ -32,16 +32,16 @@ const emojiIcon = <IconContainer width="18" height="18" viewBox="0 0 18 18" fill
 </IconContainer>;
 
 const CommmentModal = () => {
-    const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible)
-    const userData = useSliceSelector(state => state.auth.userData)
-    const name = `${userData.firstName} ${userData.lastName}`
-    const dispatch = useReducerDispatch()
+    const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible);
+    const userData = useSliceSelector(state => state.auth.userData);
+    const name = `${userData.firstName} ${userData.lastName}`;
+    const dispatch = useReducerDispatch();
     const [newCommentText, setNewCommentText] = useState<string>("");
     const flatListRef = useRef<FlatList>(null);
     const [comments, setComments] = useState<CommentsModalInterface[]>([]);
     const [replyTo, setReplyTo] = useState<number | null>(null);
     const [newText, setNewText] = useState("");
-    const postId = useSliceSelector(state => state.app.newsFeedActiveItem.postId);
+    const messages = useSliceSelector(state => state.language.messages);
 
     const closeModal = () => {
         dispatch(setCommentModal({ isVisible: !isCommentModalVisible }))
@@ -164,7 +164,7 @@ const CommmentModal = () => {
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => handleReply(item.id)}>
                             <TextBold fontSize={12} color="#555">
-                                Reply
+                                {messages.reply}
                             </TextBold>
                         </TouchableOpacity>
                         <TextBold fontSize={12} color="#555" style={{ textTransform: 'capitalize' }}>
@@ -241,13 +241,13 @@ const CommmentModal = () => {
                             </TextRegular>
                         </View>
                         <TextRegular fontSize={11}>
-                            {comments.length.toString()} {comments.length === 1 ? 'Comment' : 'Comments'}
+                            {comments.length.toString()} {comments.length === 1 ? messages.comment : messages.comments}
                         </TextRegular>
                     </View>
                     <View style={{ paddingTop: 10 }}>
                         {comments.length === 0 ? (
                             <TextRegular fontSize={14} style={{ textAlign: 'center' }}>
-                                No comments yet. Add one!
+                                {messages.noComments}
                             </TextRegular>
                         ) : (
                             <CommentList />
@@ -264,7 +264,7 @@ const CommmentModal = () => {
                         </View>
                         <TextInput
                             style={styles.input}
-                            placeholder={replyTo ? `Replying to ${name}` : "Write a comment..."}
+                            placeholder={replyTo ? `${messages.replyingTo} ${name}` : `${messages.writeComment}...`}
                             value={replyTo ? newText : newCommentText}
                             onChangeText={replyTo ? setNewText : setNewCommentText}
                         />
@@ -277,7 +277,7 @@ const CommmentModal = () => {
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => (replyTo ? addReply(replyTo) : addComment())}>
                                 <TextRegular fontSize={14} color='#308AFF'>
-                                    {replyTo ? "Reply" : "Add"}
+                                    {replyTo ? messages.reply : messages.add}
                                 </TextRegular>
                             </TouchableOpacity>
                         </View>

@@ -1,4 +1,4 @@
-import { View, StyleSheet, Platform, TouchableOpacity, ActivityIndicator } from "react-native"
+import { View, StyleSheet, Platform, TouchableOpacity, ActivityIndicator } from "react-native";
 import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
@@ -8,19 +8,20 @@ import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
 import TextBold from "../../../components/app/common/textComponent/textBold/textBold";
 
 import Icons from "../../../constants/icons";
-import messages from "../../../constants/messages";
 import { RPH, RPW } from "../../../constants/utils/utils";
-import { menuButtons } from "./constants/menuButtons";
 
 import { logout } from "../../../reducers/auth/authSlice";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
+import useSliceSelector from "../../../hooks/useSliceSelector";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
+import menuButtonsInterface from "./interfaces/menuButtonsInterface";
 
 const Menu = () => {
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const dispatch = useReducerDispatch();
+    const messages = useSliceSelector(state => state.language.messages);
 
     const handleLogout = async () => {
         try {
@@ -46,6 +47,58 @@ const Menu = () => {
             </View>
         )
     }
+
+    const menuButtons: menuButtonsInterface[] = [
+        {
+            icon: Icons.forumsIcon,
+            text: messages.forums
+        },
+        {
+            icon: Icons.historyIcon,
+            text: messages.history
+        },
+        {
+            icon: Icons.ebooksIcon,
+            text: messages.ebooks
+        },
+        {
+            icon: Icons.photosIcon,
+            text: messages.photos
+        },
+        {
+            icon: Icons.accSettingsIcon,
+            text: messages.accSettings
+        },
+        {
+            icon: Icons.timelineIcon,
+            text: messages.timeline
+        },
+        {
+            icon: Icons.profileIcon,
+            text: messages.profile,
+            screenName: 'UserProfile'
+        },
+        {
+            icon: Icons.documentsIcon,
+            text: messages.documents
+        },
+        {
+            icon: Icons.videosIcon,
+            text: messages.videos
+        },
+        {
+            icon: Icons.emailIcon,
+            text: messages.emailInvites
+        },
+        {
+            icon: Icons.membersIcon,
+            text: messages.members
+        },
+        {
+            icon: Icons.donateIcon,
+            text: messages.donate
+        }
+    ]
 
     return (
         <MainWapper headerText={messages.menu} icon={true} isHeader={true}>

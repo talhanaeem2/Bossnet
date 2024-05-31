@@ -1,16 +1,17 @@
-import { View, StyleSheet, Image, TouchableOpacity, TextInput, ActivityIndicator, TouchableWithoutFeedback, Keyboard, Text, Dimensions, ScrollView } from "react-native"
-import { Path, Svg } from "react-native-svg"
-import { useEffect, useState } from "react"
-import axios from "axios"
+import { View, StyleSheet, Image, TouchableOpacity, TextInput, ActivityIndicator, TouchableWithoutFeedback, Keyboard, Text, Dimensions, ScrollView } from "react-native";
+import { Path, Svg } from "react-native-svg";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-import MainWapper from "../../../components/app/mainWrapper/mainWrapper"
-import TextRegular from "../../../components/app/common/textComponent/textRegular/textRegular"
+import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
+import TextRegular from "../../../components/app/common/textComponent/textRegular/textRegular";
 
-import messages from "../../../constants/messages"
-import { RPH, RPW, RFS } from "../../../constants/utils/utils"
-import Apis from "../../../constants/apis"
+import { RPH, RPW, RFS } from "../../../constants/utils/utils";
+import Apis from "../../../constants/apis";
 
-import GroupsInterface from "./interfaces/groupsInterface"
+import useSliceSelector from "../../../hooks/useSliceSelector";
+
+import GroupsInterface from "./interfaces/groupsInterface";
 
 const { width } = Dimensions.get("window");
 // first is padding second is gap
@@ -18,9 +19,9 @@ const boxWidth = (width - RPW(3) * 2 - RPW(2) * 3) / 4;
 
 const Groups = () => {
     const [searchQuery, setSearchQuery] = useState('');
-
     const [groupsData, setGroupsData] = useState<GroupsInterface[]>([]);
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
+    const messages = useSliceSelector(state => state.language.messages);
 
     useEffect(() => {
 
@@ -61,7 +62,7 @@ const Groups = () => {
                             </Svg>
                         </View>
                         <TextInput
-                            placeholder="Search Groups"
+                            placeholder={messages.searchGroups}
                             style={styles.input}
                             value={searchQuery}
                             onChangeText={(text) => setSearchQuery(text)}

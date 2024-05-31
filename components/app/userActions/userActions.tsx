@@ -1,26 +1,26 @@
-import { View, StyleSheet, TouchableOpacity, Image, Pressable, ImageSourcePropType } from "react-native"
+import { View, StyleSheet, TouchableOpacity, Image, Pressable, ImageSourcePropType } from "react-native";
 import { memo, useState } from "react";
 
 import TextRegular from "../common/textComponent/textRegular/textRegular";
 
-import messages from "../../../constants/messages"
-import { RPW, RPH } from "../../../constants/utils/utils"
+import { RPW, RPH } from "../../../constants/utils/utils";
 
-import UserActionsInterface from "./interfaces/userActionsInterface"
-import UserActionsProps from "./interfaces/userActionsProps"
-import OverlayActionsInterface from "./interfaces/overlayActions"
+import UserActionsInterface from "./interfaces/userActionsInterface";
+import UserActionsProps from "./interfaces/userActionsProps";
+import OverlayActionsInterface from "./interfaces/overlayActions";
 
 import Icons from "../../../constants/icons";
 
-import useSliceSelector from "../../../hooks/useSliceSelector"
-import useReducerDispatch from "../../../hooks/useReducerDispatch"
-import { setActivePostId, setCommentModal } from "../../../reducers/app/appSlice"
+import useSliceSelector from "../../../hooks/useSliceSelector";
+import useReducerDispatch from "../../../hooks/useReducerDispatch";
+import { setActivePostId, setCommentModal } from "../../../reducers/app/appSlice";
 
 const UserActions = (props: UserActionsProps) => {
-    const { onLongPress, showOverlay, closeOverlay, activeId } = props
-    const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible)
-    const dispatch = useReducerDispatch()
-    const [selectedIcon, setSelectedIcon] = useState<string>('')
+    const { onLongPress, showOverlay, closeOverlay, activeId } = props;
+    const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible);
+    const dispatch = useReducerDispatch();
+    const [selectedIcon, setSelectedIcon] = useState<string>('');
+    const messages = useSliceSelector(state => state.language.messages);
 
     const changeIcon = (selectedIconText: string): ImageSourcePropType => {
         switch (selectedIconText) {

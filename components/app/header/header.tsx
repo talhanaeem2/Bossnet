@@ -7,7 +7,6 @@ import TextBold from "../common/textComponent/textBold/textBold"
 import TextRegular from "../common/textComponent/textRegular/textRegular"
 
 import Icons from "../../../constants/icons"
-import messages from "../../../constants/messages"
 import { RPW, RPH } from "../../../constants/utils/utils"
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch"
@@ -20,6 +19,7 @@ const Header = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>()
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
+    const messages = useSliceSelector(state => state.language.messages);
 
     const handleToggleCreatePostModal = useCallback(() => {
         dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));

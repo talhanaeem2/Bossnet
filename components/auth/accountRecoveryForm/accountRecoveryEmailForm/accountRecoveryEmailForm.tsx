@@ -1,23 +1,24 @@
-import { View, StyleSheet } from "react-native"
-import { useState } from "react"
+import { View, StyleSheet } from "react-native";
+import { memo } from "react";
 
-import InputField from "../../../app/common/inputField/InputField"
-import TextBold from "../../../app/common/textComponent/textBold/textBold"
-import TextRegular from "../../../app/common/textComponent/textRegular/textRegular"
-import AuthLogoHeader from "../../authLogoHeader/authLogoHeader"
+import InputField from "../../../app/common/inputField/InputField";
+import TextBold from "../../../app/common/textComponent/textBold/textBold";
+import TextRegular from "../../../app/common/textComponent/textRegular/textRegular";
+import AuthLogoHeader from "../../authLogoHeader/authLogoHeader";
 
-import messages from "../../../../constants/messages"
-import { RPH, RPW } from "../../../../constants/utils/utils"
+import { RPH, RPW } from "../../../../constants/utils/utils";
+
+import useSliceSelector from "../../../../hooks/useSliceSelector";
 
 import AccountRecoveryEmailFormProps from "./interfaces/accountRecoveryEmailFormProps";
 
 const AccountRecoveryEmailForm = (props: AccountRecoveryEmailFormProps) => {
-    const { formik } = props
-    const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>();
+    const { formik } = props;
+    const messages = useSliceSelector(state => state.language.messages);
 
     return (
         <View style={styles.inner}>
-            <AuthLogoHeader selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
+            <AuthLogoHeader />
             <View>
                 <TextBold fontSize={23}>
                     {messages.accountRecoveryHeading}
@@ -44,7 +45,7 @@ const AccountRecoveryEmailForm = (props: AccountRecoveryEmailFormProps) => {
     )
 }
 
-export default AccountRecoveryEmailForm
+export default memo(AccountRecoveryEmailForm)
 
 const styles = StyleSheet.create({
     inner: {

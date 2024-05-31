@@ -1,5 +1,5 @@
-import { StyleSheet, View } from "react-native"
-import { memo, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { memo } from "react";
 
 import AuthLogoHeader from "../../authLogoHeader/authLogoHeader";
 import InputField from "../../../app/common/inputField/InputField";
@@ -8,21 +8,22 @@ import TextRegular from "../../../app/common/textComponent/textRegular/textRegul
 
 import { RPH, RPW } from "../../../../constants/utils/utils";
 
-import messages from "../../../../constants/messages";
 import Icons from "../../../../constants/icons";
+
+import useSliceSelector from "../../../../hooks/useSliceSelector";
 
 import SignUpPasswordProps from "./interfaces/signUpPasswordProps";
 
 const SignUpPassword = (props: SignUpPasswordProps) => {
     const { formik } = props
-    const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>();
+    const messages = useSliceSelector(state => state.language.messages);
 
     return (
         <View style={styles.inner}>
-            <AuthLogoHeader selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
+            <AuthLogoHeader />
             <View>
                 <TextBold fontSize={23}>
-                    Create a password
+                    {messages.createPassword}
                 </TextBold>
             </View>
             <View style={styles.fieldContainer}>
@@ -45,7 +46,7 @@ const SignUpPassword = (props: SignUpPasswordProps) => {
                 </View>
                 <View>
                     <InputField
-                        placeholder={messages.cofirmPass}
+                        placeholder={messages.confirmPassword}
                         rightIcon={Icons.eyeIcon}
                         secureTextEntry={true}
                         type="password"

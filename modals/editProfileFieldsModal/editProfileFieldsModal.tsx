@@ -3,12 +3,13 @@ import { Modal, TouchableWithoutFeedback, View, TextInput, TouchableOpacity, Sty
 
 import TextRegular from "../../components/app/common/textComponent/textRegular/textRegular";
 
-import messages from "../../constants/messages";
+import useSliceSelector from "../../hooks/useSliceSelector";
 
 import EditProfileFieldsModalProps from "./interfaces/editProfileFieldsModalProps";
 
 const EditProfileFieldsModal = (props: EditProfileFieldsModalProps) => {
     const { isModalVisible, setIsModalVisible, editingField, setEditValue, setFirstName, setLastName, handleSave } = props;
+    const messages = useSliceSelector(state => state.language.messages);
 
     const Fieldlabel = useCallback(() => {
         let fieldName;

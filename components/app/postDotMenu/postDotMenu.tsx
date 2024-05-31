@@ -3,15 +3,17 @@ import { memo, useEffect } from "react";
 
 import TextRegular from "../common/textComponent/textRegular/textRegular";
 
-import messages from "../../../constants/messages";
 import Icons from "../../../constants/icons";
 import debounce from "../../../constants/utils/debounce";
 
 import PostDotMenuProps from "./interfaces/postDotMenuProps";
 import { RPH, RPW } from "../../../constants/utils/utils";
 
+import useSliceSelector from "../../../hooks/useSliceSelector";
+
 const PostDotMenu = (props: PostDotMenuProps) => {
-    const { activeIndex, onMenuPress, index, isMenuVisible, setIsMenuVisible, postId } = props
+    const { activeIndex, onMenuPress, index, isMenuVisible, setIsMenuVisible, postId } = props;
+    const messages = useSliceSelector(state => state.language.messages);
 
     useEffect(() => {
         setIsMenuVisible(activeIndex === index);

@@ -3,8 +3,9 @@ import { Text, TouchableOpacity, StyleSheet, View, TextLayoutEventData } from 'r
 
 import TextRegular from '../textComponent/textRegular/textRegular';
 
-import messages from '../../../../constants/messages';
 import { RFS, RLH, RLS } from '../../../../constants/utils/utils';
+
+import useSliceSelector from '../../../../hooks/useSliceSelector';
 
 import ReadMoreProps from './interfaces/ReadMoreProps';
 
@@ -12,6 +13,7 @@ const ReadMore = ({ text, numberOfLines = 2 }: ReadMoreProps) => {
     const [showFullText, setShowFullText] = useState(false);
     const [textLines, setTextLines] = useState(0);
     const textRef = useRef<Text>(null);
+    const messages = useSliceSelector(state => state.language.messages);
 
     const toggleReadMore = () => {
         setShowFullText(!showFullText);

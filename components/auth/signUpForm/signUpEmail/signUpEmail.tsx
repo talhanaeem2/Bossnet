@@ -1,5 +1,5 @@
-import { StyleSheet, View } from "react-native"
-import { memo, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { memo } from "react";
 
 import AuthLogoHeader from "../../authLogoHeader/authLogoHeader";
 import InputField from "../../../app/common/inputField/InputField";
@@ -7,20 +7,21 @@ import TextBold from "../../../app/common/textComponent/textBold/textBold";
 import TextRegular from "../../../app/common/textComponent/textRegular/textRegular";
 
 import { RPH, RPW } from "../../../../constants/utils/utils";
-import messages from "../../../../constants/messages";
+
+import useSliceSelector from "../../../../hooks/useSliceSelector";
 
 import SignUpEmailProps from "./interfaces/signUpEmailProps";
 
 const SignUpEmail = (props: SignUpEmailProps) => {
     const { formik } = props;
-    const [selectedLanguage, setSelectedLanguage] = useState<string | undefined>();
+    const messages = useSliceSelector(state => state.language.messages);
 
     return (
         <View style={styles.inner}>
-            <AuthLogoHeader selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
+            <AuthLogoHeader />
             <View>
                 <TextBold fontSize={23}>
-                    What's your email
+                    {messages.yourEmail}
                 </TextBold>
             </View>
             <View style={styles.fieldContainer}>

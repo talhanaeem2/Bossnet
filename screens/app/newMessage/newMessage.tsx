@@ -1,9 +1,9 @@
-import { View, StyleSheet, TextInput, Image, TouchableOpacity, ActivityIndicator, FlatList } from "react-native"
+import { View, StyleSheet, TextInput, Image, TouchableOpacity, ActivityIndicator, FlatList } from "react-native";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import axios from "axios";
-import moment from "moment"
+import moment from "moment";
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
 import TextBold from "../../../components/app/common/textComponent/textBold/textBold";
@@ -22,10 +22,11 @@ const NewMessage = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const [users, setUsers] = useState<UsersInterface[]>([]);
-    const [isLoading, setIsLoading] = useState(true)
-    const [currentPage, setCurrentPage] = useState(1)
-    const [totalPages, setTotalPages] = useState(0)
-    const userId = useSliceSelector(state => state.auth.userData.userId)
+    const [isLoading, setIsLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const userId = useSliceSelector(state => state.auth.userData.userId);
+    const messages = useSliceSelector(state => state.language.messages);
 
     const fetchData = useCallback(async (page: number) => {
         try {
@@ -68,22 +69,22 @@ const NewMessage = () => {
     }
 
     const calculateLastActivity = (lastActivityTimestamp: string) => {
-        if (lastActivityTimestamp && lastActivityTimestamp !== 'Not recently active') {
+        if (lastActivityTimestamp && lastActivityTimestamp !== messages.notActive) {
             const lastActivityMoment = moment(lastActivityTimestamp);
             if (lastActivityMoment.isValid()) {
                 const currentTime = moment();
                 const hoursSinceLastActivity = currentTime.diff(lastActivityMoment, 'hours');
                 if (hoursSinceLastActivity < 24) {
-                    return `${hoursSinceLastActivity} hours ago`;
+                    return `${hoursSinceLastActivity} ${messages.hoursAgo}`;
                 } else {
                     const daysSinceLastActivity = Math.floor(hoursSinceLastActivity / 24);
-                    return `${daysSinceLastActivity} days ago`;
+                    return `${daysSinceLastActivity} ${messages.daysAgo}`;
                 }
             } else {
-                return 'Invalid date';
+                return messages.invalidDate;
             }
         } else {
-            return 'Not recently active';
+            return messages.notActive;
         }
     };
 
@@ -116,12 +117,12 @@ const NewMessage = () => {
     }
 
     return (
-        <MainWapper headerText="Cancel" isHeader={true}>
+        <MainWapper headerText={messages.cancel} isHeader={true}>
             <View style={styles.container}>
                 <View style={styles.inputContainer}>
                     <TextInput
                         ref={inputRef}
-                        placeholder="To:"
+                        placeholder={messages.to}
                         style={styles.input}
                         value={searchQuery}
                         onChangeText={(text) => setSearchQuery(text)}
@@ -138,7 +139,7 @@ const NewMessage = () => {
                         />
                         :
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
-                            <TextBold fontSize={16}>Add Some Friends</TextBold>
+                            <TextBold fontSize={16}>{messages.addFriends}</TextBold>
                         </View>
                     }
                 </View>
