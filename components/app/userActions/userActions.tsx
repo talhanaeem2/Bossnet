@@ -24,17 +24,17 @@ const UserActions = (props: UserActionsProps) => {
 
     const changeIcon = (selectedIconText: string): ImageSourcePropType => {
         switch (selectedIconText) {
-            case 'Like':
+            case messages.likeAction:
                 return require("../../../assets/icons/liked.svg");
-            case 'Love':
+            case messages.love:
                 return require("../../../assets/icons/loved.png");
-            case 'Sad':
+            case messages.sad:
                 return require("../../../assets/icons/sadness.png");
-            case 'Shock':
+            case messages.shock:
                 return require("../../../assets/icons/shocked.png");
-            case 'Laugh':
+            case messages.laugh:
                 return require("../../../assets/icons/laughed.png");
-            case 'Angry':
+            case messages.angry:
                 return require("../../../assets/icons/angered.png");
             default:
                 return require("../../../assets/icons/likes.svg");
@@ -51,7 +51,7 @@ const UserActions = (props: UserActionsProps) => {
         if (selectedIcon) {
             setSelectedIcon('')
         } else {
-            setSelectedIcon('Liked')
+            setSelectedIcon(messages.liked)
         }
     }
 
@@ -69,34 +69,34 @@ const UserActions = (props: UserActionsProps) => {
 
     const overlayActions: OverlayActionsInterface[] = [
         {
-            text: 'Like',
+            text: messages.liked,
             icon: require("../../../assets/icons/like.gif"),
-            onPress: () => handleAction('Like')
+            onPress: () => handleAction(messages.liked)
         },
         {
-            text: 'Love',
+            text: messages.love,
             icon: require("../../../assets/icons/love.gif"),
-            onPress: () => handleAction('Love')
+            onPress: () => handleAction(messages.love)
         },
         {
-            text: 'Sad',
+            text: messages.sad,
             icon: require("../../../assets/icons/sad.gif"),
-            onPress: () => handleAction('Sad')
+            onPress: () => handleAction(messages.sad)
         },
         {
-            text: 'Shock',
+            text: messages.shock,
             icon: require("../../../assets/icons/shock.gif"),
-            onPress: () => handleAction('Shock')
+            onPress: () => handleAction(messages.shock)
         },
         {
-            text: 'Laugh',
+            text: messages.laugh,
             icon: require("../../../assets/icons/laugh.gif"),
-            onPress: () => handleAction('Laugh')
+            onPress: () => handleAction(messages.laugh)
         },
         {
-            text: 'Angry',
+            text: messages.angry,
             icon: require("../../../assets/icons/angry.gif"),
-            onPress: () => handleAction('Angry')
+            onPress: () => handleAction(messages.angry)
         }
     ];
 
@@ -133,10 +133,10 @@ const UserActions = (props: UserActionsProps) => {
                                 pressed && styles.actionOnPress
                             ]}
                         >{
-                                item.text === 'Like' ? Icons.likeIcon :
-                                    item.text === 'Liked' ? Icons.likedIcon :
-                                        item.text === 'Comment' ? Icons.commentIcon :
-                                            item.text === 'Share' ? Icons.shareIcon :
+                                item.text === messages.likeAction ? Icons.likeIcon :
+                                    item.text === messages.liked ? Icons.likedIcon :
+                                        item.text === messages.commentAction ? Icons.commentIcon :
+                                            item.text === messages.shareAction ? Icons.shareIcon :
                                                 <Image
                                                     source={item.icon}
                                                     style={{ width: 20, height: 20 }}
@@ -145,9 +145,9 @@ const UserActions = (props: UserActionsProps) => {
                             <TextRegular
                                 fontSize={11}
                                 color={index === 0 ?
-                                    (selectedIcon === 'Laugh' || selectedIcon === 'Sad' || selectedIcon === 'Shock' ? "#fcba03" :
-                                        selectedIcon === "Angry" || selectedIcon === "Love" ? "#fc0303" :
-                                            selectedIcon === "Like" ? "#308AFF" :
+                                    (selectedIcon === messages.laugh || selectedIcon === messages.sad || selectedIcon === messages.shock ? "#fcba03" :
+                                        selectedIcon === messages.angry || selectedIcon === messages.love ? "#fc0303" :
+                                            selectedIcon === messages.likeAction ? "#308AFF" :
                                                 "rgba(95, 99, 117, 0.74)") :
                                     "rgba(95, 99, 117, 0.74)"}
                                 style={styles.actionText}
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         paddingVertical: RPH(1.6),
-        paddingHorizontal: RPW(8)
+        paddingHorizontal: RPW(4)
     },
     actionOnPress: {
         backgroundColor: "#eee",

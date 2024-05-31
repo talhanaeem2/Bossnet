@@ -51,6 +51,12 @@ const bsMessages = {
     likeAction: "Sviđa mi se",
     commentAction: "Komentar",
     shareAction: "Podijeli",
+    liked: "Sviđa se",
+    love: "Ljubav",
+    sad: "Tužan",
+    shock: "Šok",
+    laugh: "Smijeh",
+    angry: "Ljut",
     // languageDropdown
     english: "Engleski (US)",
     bosnia: "Bosanski",

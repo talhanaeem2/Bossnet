@@ -240,7 +240,7 @@ const EditProfile = () => {
                             </View>
                         </TouchableOpacity>
                         <TextBold fontSize={23} style={[{ paddingTop: 20 }, extraSpacing]}>
-                            Edit profile
+                            {messages.editProfile}
                         </TextBold>
                         {fieldGroups.map((group, index) => {
                             return (

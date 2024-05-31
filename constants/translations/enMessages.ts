@@ -51,6 +51,12 @@ const enMessages = {
     likeAction: "Like",
     commentAction: "Comment",
     shareAction: "Share",
+    love: "Love",
+    sad: "Sad",
+    shock: "Shock",
+    laugh: "Laugh",
+    angry: "Angry",
+    liked: 'Liked',
     // languageDropdown
     english: "English (US)",
     bosnia: "Bosnia",
