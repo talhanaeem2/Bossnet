@@ -1,10 +1,10 @@
-import ResponseItemInterface from "./responseItemInterface";
+import FeedPostResponse from "./feedPostsResponse";
 
 export default interface NewsFeedItemProps {
-    item: ResponseItemInterface;
+    item: FeedPostResponse;
     index: number;
     activeIndex: number;
     setActiveIndex: (index: number) => void;
-    newsFeedPosts: ResponseItemInterface[];
-    setNewsFeedPosts: React.Dispatch<React.SetStateAction<ResponseItemInterface[]>>;
+    newsFeedPosts: FeedPostResponse[];
+    setNewsFeedPosts: React.Dispatch<React.SetStateAction<FeedPostResponse[]>>;
 }

@@ -6,7 +6,7 @@ enum Apis {
     loginApi = `${baseUrl}login`,
     signupApi = `${baseUrl}signup`,
     profileApi = `${baseUrl}profile`,
-    newsFeedApi = `https://bosnett.com/wp-json/buddyboss/v1/activity`,
+    newsFeedApi = `${baseUrl}/users/feed-post`,
     accountRecoveryEmail = `${baseUrl}password/email`,
     accountVerificationCode = `${baseUrl}password/verify-otp`,
     accountChangePassword = `${baseUrl}reset/password`,

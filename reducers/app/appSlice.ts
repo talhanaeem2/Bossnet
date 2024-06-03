@@ -22,7 +22,7 @@ const initialState: AppStateInterface = {
         activeTab: 'Home'
     },
     newsFeedActiveItem: {
-        postId: -1
+        postId: ''
     }
 };
 
@@ -48,7 +48,7 @@ const appSlice = createSlice({
         setActiveTab(state, action: PayloadAction<string>) {
             state.footerActiveButton.activeTab = action.payload
         },
-        setActivePostId(state, action: PayloadAction<number>) {
+        setActivePostId(state, action: PayloadAction<string>) {
             state.newsFeedActiveItem.postId = action.payload
         }
     }

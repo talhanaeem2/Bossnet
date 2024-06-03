@@ -3,9 +3,6 @@ import { useNavigation } from "@react-navigation/native"
 import { StackNavigationProp } from "@react-navigation/stack"
 import { useCallback } from "react"
 
-import TextBold from "../common/textComponent/textBold/textBold"
-import TextRegular from "../common/textComponent/textRegular/textRegular"
-
 import Icons from "../../../constants/icons"
 import { RPW, RPH } from "../../../constants/utils/utils"
 
@@ -19,7 +16,6 @@ const Header = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>()
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
-    const messages = useSliceSelector(state => state.language.messages);
 
     const handleToggleCreatePostModal = useCallback(() => {
         dispatch(setCreatePostModal(!isCreatePostModalVisible));
@@ -28,25 +24,15 @@ const Header = () => {
     return (
         <View style={styles.container}>
             <View style={styles.content}>
-                <View style={styles.headingsContainer}>
-                    <TextBold fontSize={23} >
-                        {messages.headerTitle}
-                    </TextBold>
-                    <TextRegular fontSize={15} style={{ paddingBottom: RPH(2) }}>
-                        {messages.headerSubTitle}
-                    </TextRegular>
-                </View>
-                <View style={styles.imagesContainer}>
-                    <TouchableOpacity onPress={handleToggleCreatePostModal}>
-                        {Icons.postIcon}
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        {Icons.searchIcon}
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.navigate("Messenger")}>
-                        {Icons.messagesIcon}
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity onPress={handleToggleCreatePostModal}>
+                    {Icons.postIcon}
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    {Icons.searchIcon}
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("Messenger")}>
+                    {Icons.messagesIcon}
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -63,13 +49,8 @@ const styles = StyleSheet.create({
     content: {
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between"
-    },
-    headingsContainer: {
-        gap: 2
-    },
-    imagesContainer: {
-        flexDirection: "row",
+        justifyContent: "flex-end",
+        paddingBottom: RPH(1.8),
         gap: RPW(5)
     }
 })

@@ -7,6 +7,7 @@ import useSliceSelector from "../../hooks/useSliceSelector";
 
 import Icons from "../../constants/icons";
 import { RPH, RPW } from "../../constants/utils/utils";
+import Apis from "../../constants/apis";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
@@ -54,7 +55,7 @@ const ImageFullScreenModal = () => {
                                     {Icons.grayCross}
                                 </TouchableOpacity>
                                 <Image
-                                    source={{ uri: uri }}
+                                    source={{ uri: `${Apis.homeUrl}${uri}` }}
                                     style={styles.modalImage}
                                 />
                             </View>

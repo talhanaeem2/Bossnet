@@ -57,12 +57,12 @@ const Home = () => {
         setImages(newImages);
     }, [images])
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         const accessToken = await getToken();
         if (!accessToken) return;
 
         try {
-            const response = await requestUtils.request<IProfileData, FormData>(
+            const response = await requestUtils.request<IProfileData, void>(
                 Apis.profileApi,
                 'GET',
                 undefined,
@@ -74,7 +74,7 @@ const Home = () => {
         } catch (error) {
             console.log(error);
         }
-    };
+    }, [getToken])
 
     useEffect(() => {
         fetchData()

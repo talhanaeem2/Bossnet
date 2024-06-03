@@ -56,7 +56,7 @@ const SignUpForm = () => {
                 formdata.append("image", { uri: image.uri, type: image.type, name: image.filename });
             }
 
-            const response = await requestUtils.request<SignUpResponseInterface, FormData>(
+            await requestUtils.request<SignUpResponseInterface, FormData>(
                 Apis.signupApi,
                 'POST',
                 formdata,
