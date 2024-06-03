@@ -14,15 +14,15 @@ const EditProfileFieldsModal = (props: EditProfileFieldsModalProps) => {
     const Fieldlabel = useCallback(() => {
         let fieldName;
         editingField === 'bio'
-            ? fieldName = messages.biography
+            ? fieldName = `${messages.biography}:`
             : editingField === 'phone'
-                ? fieldName = messages.phone
+                ? fieldName = `${messages.phone}:`
                 : editingField === 'education'
-                    ? fieldName = messages.education
+                    ? fieldName = `${messages.education}:`
                     : editingField === 'work'
-                        ? fieldName = messages.work
+                        ? fieldName = `${messages.work}:`
                         : editingField === 'socials'
-                            ? fieldName = messages.socials
+                            ? fieldName = `${messages.socials}:`
                             : fieldName = ''
 
         return fieldName

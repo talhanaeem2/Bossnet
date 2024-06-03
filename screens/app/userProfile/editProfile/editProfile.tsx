@@ -204,8 +204,8 @@ const EditProfile = () => {
         {
             heading: messages.personalInfo,
             fields: [
-                { fieldName: "firstName", icon: editUsernameIcon, label: data?.firstName || messages.name, value: data.firstName },
-                { fieldName: "dayOfBirth", icon: editDobIcon, label: messages.birthday, value: data.dayOfBirth },
+                { fieldName: "firstName", icon: editUsernameIcon, label: data.firstName || messages.name, value: data.firstName },
+                { fieldName: "dayOfBirth", icon: editDobIcon, label: data.dayOfBirth || messages.birthday, value: data.dayOfBirth },
                 { fieldName: "bio", icon: editBioIcon, label: messages.biography, value: "bio", borderBottom: false },
             ],
         },
