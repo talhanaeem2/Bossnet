@@ -1,5 +1,5 @@
-import { View, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard, Pressable, Image } from "react-native"
-import { memo, useCallback } from "react"
+import { View, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard, Pressable, Image } from "react-native";
+import { memo, useCallback } from "react";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 
@@ -15,7 +15,7 @@ import NewsFeedShareProps from "./interfaces/newsFeedShareProps";
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 
 const NewsFeedShare = (props: NewsFeedShareProps) => {
-    const { handleImagePicker } = props
+    const { showUploadButtons } = props;
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
@@ -23,13 +23,8 @@ const NewsFeedShare = (props: NewsFeedShareProps) => {
     const messages = useSliceSelector(state => state.language.messages);
 
     const handleToggleCreatePostModal = useCallback(() => {
-        dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));
+        dispatch(setCreatePostModal(!isCreatePostModalVisible));
     }, [isCreatePostModalVisible]);
-
-    const handleOpenGallery = useCallback(() => {
-        dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));
-        handleImagePicker('gallery')
-    }, [])
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -47,7 +42,7 @@ const NewsFeedShare = (props: NewsFeedShareProps) => {
                             editable={false}
                         />
                     </Pressable>
-                    <TouchableOpacity onPress={handleOpenGallery}>
+                    <TouchableOpacity onPress={() => showUploadButtons(true)}>
                         {Icons.uploadIcon}
                     </TouchableOpacity>
                 </View>

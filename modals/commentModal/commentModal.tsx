@@ -44,7 +44,7 @@ const CommmentModal = () => {
     const messages = useSliceSelector(state => state.language.messages);
 
     const closeModal = () => {
-        dispatch(setCommentModal({ isVisible: !isCommentModalVisible }))
+        dispatch(setCommentModal(!isCommentModalVisible))
     }
 
     const resetReplyTo = () => {

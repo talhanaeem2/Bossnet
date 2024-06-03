@@ -1,9 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import AppStateInterface from './interfaces/appStateInterface';
-import CreatePostModalPayload from './interfaces/createPosModalInterface/createPostModalPayload';
 import ImageFullScreenModalPayload from './interfaces/imageFullScreenModalInterface/imageFullScreenModalPayload';
-import CommentModalPayload from './interfaces/commentModalInterface/commentModalPayload';
 
 const initialState: AppStateInterface = {
     createPostModal: {
@@ -32,9 +30,8 @@ const appSlice = createSlice({
     name: 'app',
     initialState,
     reducers: {
-        setCreatePostModal(state, action: PayloadAction<CreatePostModalPayload>) {
-            const { isVisible } = action.payload
-            state.createPostModal.isVisible = isVisible
+        setCreatePostModal(state, action: PayloadAction<boolean>) {
+            state.createPostModal.isVisible = action.payload
         },
         setImageFullScreenModal(state, action: PayloadAction<ImageFullScreenModalPayload>) {
             const { isVisible, uris, startIndex } = action.payload
@@ -42,9 +39,8 @@ const appSlice = createSlice({
                 state.imageFullScreeenModal.imageUris = uris,
                 state.imageFullScreeenModal.startIndex = startIndex
         },
-        setCommentModal(state, action: PayloadAction<CommentModalPayload>) {
-            const { isVisible } = action.payload
-            state.commentModal.isVisible = isVisible
+        setCommentModal(state, action: PayloadAction<boolean>) {
+            state.commentModal.isVisible = action.payload
         },
         setSuccessModal(state, action: PayloadAction<boolean>) {
             state.successModal.isVisible = action.payload

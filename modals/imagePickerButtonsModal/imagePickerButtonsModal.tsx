@@ -13,7 +13,7 @@ const ImagePickerButtonsModal = (props: ImagePickerButtonsModalProps) => {
 
     return (
         <Modal
-            animationType="slide"
+            animationType="fade"
             transparent={true}
             visible={showButtons}
             onRequestClose={() => {

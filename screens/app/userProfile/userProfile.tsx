@@ -29,7 +29,7 @@ const UserProfile = () => {
     const messages = useSliceSelector(state => state.language.messages);
 
     const handleToggleCreatePostModal = useCallback(() => {
-        dispatch(setCreatePostModal({ isVisible: !isCreatePostModalVisible }));
+        dispatch(setCreatePostModal(!isCreatePostModalVisible));
     }, [isCreatePostModalVisible]);
 
     const handleImagePicker = useCallback(async (action: 'gallery' | 'camera') => {

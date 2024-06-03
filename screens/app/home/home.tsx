@@ -7,11 +7,11 @@ import Footer from "../../../components/app/footer/footer";
 import NewsFeed from "../../../components/app/newsFeed/newsFeed";
 import SafeAreaViewComponent from "../../../components/app/common/SafeAreaViewComponent/SafeAreaViewComponent";
 import CreatePostModal from "../../../modals/createPostModal/createPostModal";
+import ImagePickerButtonsModal from "../../../modals/imagePickerButtonsModal/imagePickerButtonsModal";
 
 import { RPH } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
 
-import useSliceSelector from "../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import useToken from "../../../hooks/useToken";
 import { setUserData } from "../../../reducers/auth/authSlice";
@@ -20,38 +20,36 @@ import IProfileData from "../../../interfaces/IProfileData";
 import requestUtils from "../../../constants/utils/requestUtils";
 
 const Home = () => {
-    const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const [images, setImages] = useState<string[]>([]);
     const dispatch = useReducerDispatch();
     const { getToken } = useToken();
+    const [showButtons, setShowButtons] = useState(false);
 
-    const handleImagePicker = useCallback(async (action: 'gallery' | 'camera' | 'giphy') => {
-        let result: ImagePicker.ImagePickerResult;
-        if (action === 'gallery') {
-            result = await ImagePicker.launchImageLibraryAsync({
+    const showUploadButtons = () => {
+        setShowButtons(!showButtons)
+    }
+
+    const handleImagePicker = useCallback(async (action: "gallery" | "camera") => {
+        const result = action === "gallery"
+            ? await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 aspect: [1, 1],
                 quality: 1,
                 allowsMultipleSelection: true
-            });
-            if (!result.canceled) {
-                const selectedImages = result.assets.map((asset) => asset.uri);
-                setImages((prevImages) => [...prevImages, ...selectedImages]);
-            }
-
-        } else if (action === 'camera') {
-            result = await ImagePicker.launchCameraAsync({
+            })
+            : await ImagePicker.launchCameraAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
                 aspect: [1, 1],
                 quality: 1,
             });
-            if (!result.canceled) {
-                const selectedImages = result.assets.map((asset) => asset.uri);
-                setImages((prevImages) => [...prevImages, ...selectedImages]);
-            }
+
+        if (!result.canceled && result.assets.length > 0) {
+            const selectedImages = result.assets.map((asset) => asset.uri);
+            setImages((prevImages) => [...prevImages, ...selectedImages]);
+            setShowButtons(false);
         }
-    }, [])
+    }, []);
 
     const removeImage = useCallback((index: number) => {
         const newImages = [...images];
@@ -86,13 +84,16 @@ const Home = () => {
         <SafeAreaViewComponent>
             <View style={styles.container}>
                 <Header />
-                <NewsFeed handleImagePicker={handleImagePicker} />
-                {isCreatePostModalVisible && (
-                    <CreatePostModal
-                        images={images}
-                        handleImagePicker={handleImagePicker}
-                        removeImage={removeImage} />
-                )}
+                <NewsFeed showUploadButtons={showUploadButtons} />
+                <CreatePostModal
+                    images={images}
+                    handleImagePicker={handleImagePicker}
+                    removeImage={removeImage} />
+                <ImagePickerButtonsModal
+                    handleImagePicker={handleImagePicker}
+                    showButtons={showButtons}
+                    setShowButtons={setShowButtons}
+                />
                 <View style={styles.footer}>
                     <Footer />
                 </View>

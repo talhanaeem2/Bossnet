@@ -1,3 +1,3 @@
 export default interface NewsFeedShareProps {
-    handleImagePicker: (action: 'gallery') => Promise<void>;
+    showUploadButtons: (value: boolean) => void;
 }

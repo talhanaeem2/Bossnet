@@ -16,7 +16,7 @@ import NewsFeedProps from "./interfaces/newsFeedShareProps"
 import useSliceSelector from "../../../hooks/useSliceSelector"
 
 const NewsFeed = (props: NewsFeedProps) => {
-    const { handleImagePicker } = props
+    const { showUploadButtons } = props
     const [newsFeedPosts, setNewsFeedPosts] = useState<ResponseItemInterface[]>([])
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
     const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible)
@@ -64,7 +64,7 @@ const NewsFeed = (props: NewsFeedProps) => {
                 keyExtractor={(item, index) => `${item.id}_${index}`}
                 onEndReached={loadMorePosts}
                 onEndReachedThreshold={0.5}
-                ListHeaderComponent={<NewsFeedShare handleImagePicker={handleImagePicker} />}
+                ListHeaderComponent={<NewsFeedShare showUploadButtons={showUploadButtons} />}
                 initialNumToRender={10}
                 maxToRenderPerBatch={10}
                 windowSize={5}
