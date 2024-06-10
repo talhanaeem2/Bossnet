@@ -87,6 +87,10 @@ const enMessages = {
     createPost: "Create post",
     postBtn: "Post",
     shareMind: "Share what's on your mind,",
+    photoVideo: 'Photo/Video',
+    tagPeople: 'Tag People',
+    camera: 'Camera',
+    gif: 'GIF',
     // Groups
     myGroups: "Groups",
     searchGroups: 'Search Groups',

@@ -42,3 +42,30 @@ export const RLS = (fontSize: number) => {
     const scaleFactor = 0.03;
     return fontSize * scaleFactor;
 };
+
+// Name Initials
+export const getUserInitials = (name: string): string => {
+    const initials = name.split(' ').map(part => part.charAt(0)).join('');
+    return initials.toUpperCase();
+};
+
+// Random Color
+export const getRandomColor = (): string => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+};
+
+// Insert @
+export const insertAtCursor = (
+    text: string,
+    selection: { start: number, end: number },
+    value: string
+) => {
+    const newText = text.slice(0, selection.start) + value + text.slice(selection.end);
+    const newCursorPos = selection.start + value.length;
+    return { newText, newCursorPos };
+};

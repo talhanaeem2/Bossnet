@@ -22,7 +22,7 @@ const SignUpProfilePicture = (props: SignUpProfilePictureProps) => {
         setShowButtons(true)
     }
 
-    const handleImagePicker = useCallback(async (action: 'gallery' | 'camera') => {
+    const handleImagePicker = useCallback(async (action: string) => {
         const result = action === 'gallery' ?
             await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,

@@ -1,27 +1,28 @@
-import { BlurView } from "expo-blur"
 import { Keyboard, Modal, ScrollView, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, Image } from "react-native"
-import { memo, useCallback } from "react";
-import { Path } from "react-native-svg";
+import { memo, useCallback, useState } from "react";
 
-import IconContainer from "../../components/app/common/iconContainer/iconContainer";
 import TextBold from "../../components/app/common/textComponent/textBold/textBold";
+import MultiButtons from "../../components/app/common/multiButtons/multiButtons";
 
 import Apis from "../../constants/apis";
 import Icons from "../../constants/icons";
-import { RPW, RPH, RFS } from "../../constants/utils/utils";
+import { RPW, RPH, RFS, getRandomColor, getUserInitials, insertAtCursor } from "../../constants/utils/utils";
 
 import useSliceSelector from "../../hooks/useSliceSelector";
 import useReducerDispatch from "../../hooks/useReducerDispatch";
 import { setCreatePostModal } from "../../reducers/app/appSlice";
 
 import CreatePostModalProps from "./interfaces/createPostModalProps";
+import ButtonsInterface from "../../components/app/common/multiButtons/interfaces/buttonsInterface";
 
 const CreatePostModal = (props: CreatePostModalProps) => {
-    const { images, removeImage, handleImagePicker } = props
+    const { images, removeImage, handleImagePicker, uploadImages, setDescription, setTitle, description } = props
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
-    const dispatch = useReducerDispatch();
+    const [selection, setSelection] = useState<{ start: number, end: number }>({ start: 0, end: 0 });
     const userData = useSliceSelector(state => state.auth.userData);
     const messages = useSliceSelector(state => state.language.messages);
+    const name = `${userData.firstName} ${userData.lastName}`;
+    const dispatch = useReducerDispatch();
 
     const handleToggleCreatePostModal = useCallback(() => {
         dispatch(setCreatePostModal(!isCreatePostModalVisible));
@@ -31,85 +32,110 @@ const CreatePostModal = (props: CreatePostModalProps) => {
         dispatch(setCreatePostModal(false));
     };
 
+    const buttons: ButtonsInterface[] = [
+        {
+            label: messages.photoVideo,
+            action: () => handleImagePicker('gallery'),
+            icon: Icons.galleryIcon,
+        },
+        {
+            label: messages.tagPeople,
+            action: () => handleTagPeople('@'),
+            icon: Icons.atIcon,
+        },
+        {
+            label: messages.camera,
+            action: () => handleImagePicker('camera'),
+            icon: Icons.cameraIcon,
+        },
+        {
+            label: messages.gif,
+            action: () => handleImagePicker('gallery'),
+            icon: Icons.gifIcon,
+        },
+    ];
+
+    const handleTagPeople = (at: string) => {
+        const { newText, newCursorPos } = insertAtCursor(description, selection, at);
+        if (setDescription) {
+            setSelection({ start: newCursorPos, end: newCursorPos });
+            setDescription(newText);
+        }
+    };
+
     return (
         <Modal
-            animationType="slide"
-            transparent={true}
+            animationType="fade"
             visible={isCreatePostModalVisible}
             onRequestClose={handleToggleCreatePostModal}
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                <BlurView
-                    intensity={100}
-                    tint="dark"
-                    style={StyleSheet.absoluteFill}
-                >
-                    <View style={styles.container}>
-                        <View style={styles.header}>
-                            <TextBold fontSize={18}>
+                <View style={styles.container}>
+                    <View style={styles.header}>
+                        <View style={{ flexDirection: 'row', gap: 12 }}>
+                            <TouchableOpacity onPress={() => closeModal()}>
+                                {Icons.backIcon}
+                            </TouchableOpacity>
+                            <TextBold fontSize={19}>
                                 {messages.createPost}
                             </TextBold>
-                            <TouchableOpacity onPress={() => closeModal()}>
-                                {Icons.crossIcon}
-                            </TouchableOpacity>
                         </View>
-                        <View style={styles.body}>
-                            <View style={styles.content}>
-                                {userData.profileImage
-                                    ? <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
-                                    : <View>
-                                        {Icons.userPlaceholderIcon}
-                                    </View>
-                                }
-                                <View>
-                                    <TextBold fontSize={17}>
-                                        {`${userData.firstName} ${userData.lastName}`}
-                                    </TextBold>
-                                </View>
-                            </View>
-                            <TextInput
-                                style={styles.input}
-                                multiline={true}
-                                numberOfLines={8}
-                                placeholder={`${messages.shareMind} ${userData.firstName} ${userData.lastName}`}
-                            />
-                        </View>
-                        <View style={styles.iconContainer}>
-                            <TouchableOpacity onPress={() => handleImagePicker("gallery")}>
-                                {Icons.galleryIcon}
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleImagePicker("camera")}>
-                                {Icons.cameraIcon}
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                {Icons.gifIcon}
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                {Icons.atIcon}
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                {Icons.emojiIcon}
-                            </TouchableOpacity>
-                        </View>
-                        <TouchableOpacity style={styles.btn}>
+                        <TouchableOpacity style={styles.btn} onPress={() => uploadImages && uploadImages()}>
                             <TextBold fontSize={16} color="#fff">
                                 {messages.postBtn}
                             </TextBold>
                         </TouchableOpacity>
-                        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                            {images && images.map((uri, index) => (
-                                <View key={index} style={styles.uploadedImageContainer}>
-                                    <TouchableOpacity onPress={() => removeImage(index)} style={styles.closeIcon}>
-                                        <IconContainer width="16px" height="16px" viewBox="0 0 24 24" fill="none">
-                                            <Path d="M16 8L8 16M8.00001 8L16 16M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                        </IconContainer>
-                                    </TouchableOpacity>
-                                    <Image style={styles.uploadedImage} source={{ uri }} />
-                                </View>
-                            ))}
-                        </ScrollView>
                     </View>
-                </BlurView>
+                    <View style={styles.body}>
+                        <View style={styles.content}>
+                            {userData.profileImage
+                                ? <View style={styles.circle}>
+                                    <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
+                                </View>
+                                : <View style={[styles.circle, { backgroundColor: getRandomColor() }]}>
+                                    <TextBold fontSize={16} color='#fff'>
+                                        {getUserInitials(name)}
+                                    </TextBold>
+                                </View>
+                            }
+                            <View>
+                                <TextBold fontSize={17}>
+                                    {name}
+                                </TextBold>
+                            </View>
+                        </View>
+                        <View>
+                            <TextInput
+                                style={styles.input}
+                                placeholder='Title'
+                                onChangeText={setTitle}
+                            />
+                            <TextInput
+                                style={styles.input}
+                                multiline={true}
+                                numberOfLines={8}
+                                placeholder={`${messages.shareMind} ${name}`}
+                                onChangeText={setDescription}
+                                value={description}
+                                selection={selection}
+                                onSelectionChange={({ nativeEvent: { selection } }) => setSelection(selection)}
+                            />
+                            <ScrollView showsVerticalScrollIndicator>
+                                {images && images.map((image, index) => (
+                                    <View key={index} style={styles.uploadedImageContainer}>
+                                        <TouchableOpacity onPress={() => removeImage(index)} style={styles.closeIcon}>
+                                            {Icons.grayCross}
+                                        </TouchableOpacity>
+                                        <Image style={styles.uploadedImage} source={{ uri: image.uri }} />
+                                    </View>
+                                ))}
+                            </ScrollView>
+                        </View>
+                    </View>
+                    <View style={styles.footer}>
+                        <MultiButtons buttons={buttons} />
+                    </View>
+                </View>
             </TouchableWithoutFeedback>
         </Modal>
     )
@@ -126,35 +152,42 @@ const styles = StyleSheet.create({
     },
     uploadedImage: {
         marginTop: RPH(1.2),
-        width: RPW(12.7),
-        height: RPH(6.2),
-        resizeMode: 'cover',
+        width: "100%",
+        height: "100%",
         borderRadius: 8
     },
-    gifContainer: {
-        flexDirection: "row",
-        flexGrow: 1,
-    },
     uploadedImageContainer: {
-        justifyContent: "flex-start",
+        // justifyContent: "flex-start",
         position: "relative",
         paddingHorizontal: RPW(2.5)
     },
     container: {
         backgroundColor: "#fff",
-        marginVertical: RPH(6.5),
         borderRadius: 24,
-        marginHorizontal: RPW(6.4),
-        paddingVertical: RPH(1.4)
+        justifyContent: 'flex-start',
+        flexDirection: 'column',
+        flex: 1
     },
     header: {
         borderBottomWidth: 1,
         borderBottomColor: "#EBEFF2",
-        paddingBottom: RPH(.8),
+        paddingVertical: RPH(2.4),
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: 'space-between',
         alignItems: "center",
         paddingHorizontal: RPW(4)
+    },
+    body: {
+        paddingHorizontal: RPW(3.8),
+        paddingVertical: RPH(3.4),
+        flexGrow: 1
+    },
+    footer: {
+        alignItems: 'center',
+        paddingVertical: RPH(2),
+        flexShrink: 0,
+        borderTopWidth: 1,
+        borderTopColor: "#EBEFF2",
     },
     input: {
         color: "rgba(118, 118, 118, 0.77)",
@@ -165,34 +198,25 @@ const styles = StyleSheet.create({
     btn: {
         backgroundColor: "#308AFF",
         borderRadius: 12,
-        marginHorizontal: RPW(8),
-        paddingHorizontal: RPW(2),
-        paddingVertical: RPH(1.2),
-        marginTop: RPH(1.4),
+        paddingHorizontal: RPW(6),
+        paddingVertical: RPH(1.4),
         alignItems: "center"
-    },
-    body: {
-        paddingHorizontal: RPW(3.8),
-        paddingVertical: RPH(1)
     },
     content: {
         flexDirection: "row",
-        gap: RPW(1.2),
+        gap: RPW(2.6),
         alignItems: "center"
     },
-    iconContainer: {
-        flexDirection: "row",
-        gap: RPW(12.2),
-        alignItems: "center",
-        borderBottomWidth: 1,
-        borderBottomColor: "#EBEFF2",
-        paddingBottom: RPH(.6),
-        justifyContent: "center"
-    },
     roundImg: {
-        borderRadius: 80,
-        width: 34,
-        objectFit: "contain",
-        height: 34
+        width: '100%',
+        height: '100%'
     },
+    circle: {
+        borderRadius: 80,
+        width: 50,
+        height: 50,
+        overflow: 'hidden',
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 })

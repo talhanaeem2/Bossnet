@@ -9,7 +9,7 @@ import TextBold from "../../../components/app/common/textComponent/textBold/text
 import TextRegular from "../../../components/app/common/textComponent/textRegular/textRegular";
 import CreatePostModal from "../../../modals/createPostModal/createPostModal";
 
-import { RPW, RPH } from "../../../constants/utils/utils";
+import { RPW, RPH, getRandomColor, getUserInitials } from "../../../constants/utils/utils";
 import Icons from "../../../constants/icons";
 import Apis from "../../../constants/apis";
 
@@ -19,11 +19,12 @@ import { setCreatePostModal } from "../../../reducers/app/appSlice";
 
 import footerIconsInterface from "./interfaces/footerIconsInterface";
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
+import ImageInterface from "../../../components/common/interfaces/imageInterface";
 
 const UserProfile = () => {
     const userData = useSliceSelector(state => state.auth.userData);
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
-    const [images, setImages] = useState<string[]>([]);
+    const [images, setImages] = useState<ImageInterface[]>([]);
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
     const messages = useSliceSelector(state => state.language.messages);
@@ -32,33 +33,39 @@ const UserProfile = () => {
         dispatch(setCreatePostModal(!isCreatePostModalVisible));
     }, [isCreatePostModalVisible]);
 
-    const handleImagePicker = useCallback(async (action: 'gallery' | 'camera') => {
-        let result: ImagePicker.ImagePickerResult;
-        if (action === 'gallery') {
-            result = await ImagePicker.launchImageLibraryAsync({
+    const handleImagePicker = useCallback(async (action: string) => {
+        const result = action === "gallery"
+            ? await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 aspect: [1, 1],
                 quality: 1,
                 allowsMultipleSelection: true
-            });
-            if (!result.canceled) {
-                const selectedImages = result.assets.map((asset) => asset.uri);
-                setImages((prevImages) => [...prevImages, ...selectedImages]);
-            }
-
-        } else if (action === 'camera') {
-            result = await ImagePicker.launchCameraAsync({
+            })
+            : await ImagePicker.launchCameraAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
                 aspect: [1, 1],
                 quality: 1,
             });
-            if (!result.canceled) {
-                const selectedImages = result.assets.map((asset) => asset.uri);
-                setImages((prevImages) => [...prevImages, ...selectedImages]);
-            }
+
+        if (!result.canceled && result.assets.length > 0) {
+            const selectedImages = result.assets.map((image) => {
+                let filename = image.uri.split("/").pop();
+                let uri = image.uri
+
+                // Infer the type of the image
+                let match = /\.(\w+)$/.exec(filename as string);
+                let type = match ? `image/${match[1]}` : `image`;
+
+                return {
+                    uri: uri,
+                    type: type,
+                    filename: filename || ""
+                };
+            })
+            setImages((prevImages) => [...prevImages, ...selectedImages]);
         }
-    }, [])
+    }, []);
 
     const removeImage = useCallback((index: number) => {
         const newImages = [...images];
@@ -86,16 +93,22 @@ const UserProfile = () => {
         }
     ]
 
+    const name = `${userData.firstName} ${userData.lastName}`;
+
     return (
         <MainWapper isHeader={true} isFooter={false} icon={true}>
             <View style={styles.container}>
                 <View style={styles.content}>
-                    <View style={styles.circle}>
-                        {userData.profileImage
-                            ? <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
-                            : <Image style={styles.roundImg} source={require("../../../assets/user-placeholder.png")} />
-                        }
-                    </View>
+                    {userData.profileImage
+                        ? <View style={styles.circle}>
+                            <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
+                        </View>
+                        : <View style={[styles.circle, { backgroundColor: getRandomColor() }]}>
+                            <TextBold fontSize={16} color='#fff'>
+                                {getUserInitials(name)}
+                            </TextBold>
+                        </View>
+                    }
                     <TextBold fontSize={35} style={{ paddingTop: 20, textTransform: 'capitalize' }}>
                         {userData.firstName}
                     </TextBold>
@@ -110,13 +123,13 @@ const UserProfile = () => {
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity style={styles.createBtn} onPress={handleToggleCreatePostModal}>
                             {Icons.userPlusIcon}
-                            <TextBold fontSize={19} color="#fff">
+                            <TextBold fontSize={17} color="#fff">
                                 {messages.createPost}
                             </TextBold>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.editBtn} onPress={() => navigation.navigate("EditProfile")}>
                             {Icons.userEditIcon}
-                            <TextRegular fontSize={19}>
+                            <TextRegular fontSize={17}>
                                 {messages.editProfile}
                             </TextRegular>
                         </TouchableOpacity>
@@ -154,12 +167,10 @@ const UserProfile = () => {
                     })}
                 </View>
             </View>
-            {isCreatePostModalVisible && (
-                <CreatePostModal
-                    images={images}
-                    handleImagePicker={handleImagePicker}
-                    removeImage={removeImage} />
-            )}
+            <CreatePostModal
+                images={images}
+                handleImagePicker={handleImagePicker}
+                removeImage={removeImage} description={""} />
         </MainWapper>
     )
 }
@@ -201,7 +212,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#385DFF",
         borderRadius: 38,
         flexDirection: "row",
-        paddingHorizontal: RPW(2.4),
+        paddingHorizontal: RPW(3),
         paddingVertical: RPH(1.5),
         alignItems: "center",
         justifyContent: "center"
@@ -210,7 +221,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#BEBEBE",
         borderRadius: 38,
         flexDirection: "row",
-        paddingHorizontal: RPW(2.4),
+        paddingHorizontal: RPW(3),
         paddingVertical: RPH(1.5),
         alignItems: "center",
         justifyContent: "center",

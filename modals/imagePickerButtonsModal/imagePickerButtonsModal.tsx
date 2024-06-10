@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     },
     borderBottom: {
         borderBottomWidth: 1,
-        borderBottomColor: '#cecece',
+        borderBottomColor: '#EBEFF2',
         width: '100%'
     },
     w100: {

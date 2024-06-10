@@ -3,8 +3,10 @@ import { memo, useCallback } from "react";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 
+import TextBold from "../common/textComponent/textBold/textBold";
+
 import Icons from "../../../constants/icons";
-import { RPW, RPH, RFS } from "../../../constants/utils/utils";
+import { RPW, RPH, RFS, getRandomColor, getUserInitials } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
 
 import useSliceSelector from "../../../hooks/useSliceSelector";
@@ -26,15 +28,25 @@ const NewsFeedShare = (props: NewsFeedShareProps) => {
         dispatch(setCreatePostModal(!isCreatePostModalVisible));
     }, [isCreatePostModalVisible]);
 
+    const name = `${userData.firstName} ${userData.lastName}`;
+
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.shareContainer}>
-                    <TouchableOpacity style={styles.circle} onPress={() => navigation.navigate("UserProfile")}>
-                        {userData.profileImage
-                            ? <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
-                            : Icons.userPlaceholderIcon}
-                    </TouchableOpacity>
+                    {userData.profileImage
+                        ? <TouchableOpacity style={styles.circle} onPress={() => navigation.navigate("UserProfile")}>
+                            <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
+                        </TouchableOpacity>
+                        : <TouchableOpacity
+                            style={[styles.circle, { backgroundColor: getRandomColor() }]}
+                            onPress={() => navigation.navigate("UserProfile")}
+                        >
+                            <TextBold fontSize={16} color='#fff'>
+                                {getUserInitials(name)}
+                            </TextBold>
+                        </TouchableOpacity>
+                    }
                     <Pressable onPress={handleToggleCreatePostModal}>
                         <TextInput
                             style={styles.input}
@@ -51,7 +63,7 @@ const NewsFeedShare = (props: NewsFeedShareProps) => {
     )
 }
 
-export default memo(NewsFeedShare)
+export default memo(NewsFeedShare);
 
 const styles = StyleSheet.create({
     shareContainer: {

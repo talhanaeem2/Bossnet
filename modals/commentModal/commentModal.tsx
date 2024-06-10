@@ -16,6 +16,7 @@ import { setCommentModal } from "../../reducers/app/appSlice";
 
 import CommentsModalInterface from "./interfaces/commentsModalInterface";
 import CommentsModalReplyInterface from "./interfaces/CommentsModalReplyInterface";
+import { getRandomColor, getUserInitials } from "../../constants/utils/utils";
 
 const likedIcon = <IconContainer width="16" height="16" viewBox="0 0 16 16" fill="none">
     <Circle cx="8" cy="8" r="8" fill="#4A5BF6" />
@@ -74,6 +75,7 @@ const CommmentModal = () => {
             replies: [],
         };
 
+        flatListRef.current?.scrollToEnd({ animated: true })
         setComments(prevComments => [...prevComments, newComment]);
         setNewCommentText("");
     };
@@ -144,13 +146,16 @@ const CommmentModal = () => {
             renderItem={({ item }) => (
                 <View style={styles.commentContainer}>
                     <View style={styles.commentBody}>
-                        <View style={styles.circle}>
-                            {
-                                userData.profileImage
-                                    ? <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
-                                    : <Image style={styles.roundImg} source={require("../../assets/dummy-profile.png")} />
-                            }
-                        </View>
+                        {userData.profileImage
+                            ? <View style={styles.circle}>
+                                <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
+                            </View>
+                            : <View style={[styles.circle, { backgroundColor: getRandomColor() }]}>
+                                <TextBold fontSize={16} color='#fff'>
+                                    {getUserInitials(name)}
+                                </TextBold>
+                            </View>
+                        }
                         <View style={styles.commentContent}>
                             <TextBold fontSize={12} style={{ textTransform: 'capitalize' }}>
                                 {item.name}
@@ -185,13 +190,16 @@ const CommmentModal = () => {
                             renderItem={({ item: reply }) => (
                                 <View style={styles.replyContainer}>
                                     <View style={{ flexDirection: 'row', gap: 8 }}>
-                                        <View style={styles.circle}>
-                                            {
-                                                userData.profileImage
-                                                    ? <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
-                                                    : <Image style={styles.roundImg} source={require("../../assets/dummy-profile.png")} />
-                                            }
-                                        </View>
+                                        {userData.profileImage
+                                            ? <View style={styles.circle}>
+                                                <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
+                                            </View>
+                                            : <View style={[styles.circle, { backgroundColor: getRandomColor() }]}>
+                                                <TextBold fontSize={16} color='#fff'>
+                                                    {getUserInitials(name)}
+                                                </TextBold>
+                                            </View>
+                                        }
                                         <View style={styles.commentContent}>
                                             <TextBold fontSize={12} style={{ textTransform: 'capitalize' }}>
                                                 {reply.name}
@@ -232,40 +240,46 @@ const CommmentModal = () => {
                 onPress={resetReplyTo}
             >
                 <View style={styles.commentModalContainer}>
-                    <View style={styles.reactedContainer}>
-                        <TouchableOpacity onPress={closeModal} style={styles.backIcon}>
-                            {Icons.backIcon}
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.likeContainer}>
-                        <View style={styles.likeText}>
-                            {likedIcon}
+                    <View style={{ flex: 1, flexGrow: 1, paddingBottom: 20 }}>
+                        <View style={styles.reactedContainer}>
+                            <TouchableOpacity onPress={closeModal} style={styles.backIcon}>
+                                {Icons.backIcon}
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.likeContainer}>
+                            <View style={styles.likeText}>
+                                {likedIcon}
+                                <TextRegular fontSize={11}>
+                                    You, Anin Kale and 205 others
+                                </TextRegular>
+                            </View>
                             <TextRegular fontSize={11}>
-                                You, Anin Kale and 205 others
+                                {comments.length.toString()} {comments.length === 1 ? messages.comment : messages.comments}
                             </TextRegular>
                         </View>
-                        <TextRegular fontSize={11}>
-                            {comments.length.toString()} {comments.length === 1 ? messages.comment : messages.comments}
-                        </TextRegular>
-                    </View>
-                    <View style={{ paddingTop: 10 }}>
-                        {comments.length === 0 ? (
-                            <TextRegular fontSize={14} style={{ textAlign: 'center' }}>
-                                {messages.noComments}
-                            </TextRegular>
-                        ) : (
-                            <CommentList />
-                        )
-                        }
-                    </View>
-                    <View style={styles.writeComment}>
-                        <View style={styles.circle}>
-                            {
-                                userData.profileImage
-                                    ? <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
-                                    : <Image style={styles.roundImg} source={require("../../assets/dummy-profile.png")} />
+                        <View style={{ paddingTop: 10 }}>
+                            {comments.length === 0 ? (
+                                <TextRegular fontSize={14} style={{ textAlign: 'center' }}>
+                                    {messages.noComments}
+                                </TextRegular>
+                            ) : (
+                                <CommentList />
+                            )
                             }
                         </View>
+                    </View>
+                    <View style={{ flexDirection: "row", marginTop: 30, gap: 10 }}>
+                        {userData.profileImage
+                            ? <View style={styles.circle}>
+                                <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
+                            </View>
+                            : <View style={[styles.circle, { backgroundColor: getRandomColor() }]}>
+                                <TextBold fontSize={16} color='#fff'>
+                                    {getUserInitials(name)}
+                                </TextBold>
+                            </View>
+                        }
+                        {/* need to add done function */}
                         <TextInput
                             ref={inputRef}
                             style={styles.input}
@@ -367,13 +381,6 @@ const styles = StyleSheet.create({
         gap: 8,
         paddingLeft: 55,
         paddingBottom: 12
-    },
-    writeComment: {
-        position: "absolute",
-        bottom: 40,
-        left: 10,
-        flexDirection: "row",
-        gap: 10
     },
     input: {
         borderRadius: 10,

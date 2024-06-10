@@ -10,7 +10,8 @@ enum Apis {
     accountRecoveryEmail = `${baseUrl}password/email`,
     accountVerificationCode = `${baseUrl}password/verify-otp`,
     accountChangePassword = `${baseUrl}reset/password`,
-    homeUrl = 'https://app.bosnett.com/'
+    homeUrl = 'https://app.bosnett.com/',
+    uploadMedia = `${baseUrl}users/media-file`
 }
 
 export default Apis

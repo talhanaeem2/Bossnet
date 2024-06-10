@@ -1,6 +1,5 @@
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, RefreshControl } from "react-native";
 import { memo, useCallback, useEffect, useState } from "react";
-import axios from "axios";
 
 import ImageFullScreenModal from "../../../modals/imageFullScreenModal/imageFullScreenModal";
 import CommmentModal from "../../../modals/commentModal/commentModal";
@@ -19,7 +18,7 @@ import useErrorHandling from "../../../hooks/useErrorHandling";
 import FeedPostResponse from "./interfaces/feedPostsResponse";
 
 const NewsFeed = (props: NewsFeedProps) => {
-    const { showUploadButtons } = props;
+    const { showUploadButtons, isPostCreated } = props;
     const [newsFeedPosts, setNewsFeedPosts] = useState<FeedPostResponse[]>([]);
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
     const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible);
@@ -31,6 +30,7 @@ const NewsFeed = (props: NewsFeedProps) => {
     const { handleError } = useErrorHandling();
 
     const fetchData = useCallback(async () => {
+        setIsLoading(true);
         const accessToken = await getToken();
         if (!accessToken) return;
 
@@ -41,7 +41,6 @@ const NewsFeed = (props: NewsFeedProps) => {
                 undefined,
                 { 'Authorization': `Bearer ${accessToken}` }
             );
-            console.log(response)
 
             setNewsFeedPosts(response);
             setIsLoading(false);
@@ -49,22 +48,29 @@ const NewsFeed = (props: NewsFeedProps) => {
         } catch (error) {
             handleError(error);
         }
-    }, [getToken])
+    }, [getToken, isPostCreated])
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [isPostCreated, fetchData]);
 
-    const loadMorePosts = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage((prevPage) => prevPage + 1);
-        }
-    };
+    // const loadMorePosts = () => {
+    //     if (currentPage < totalPages) {
+    //         setCurrentPage((prevPage) => prevPage + 1);
+    //     }
+    // };
+
+    const onRefresh = useCallback(() => {
+        fetchData();
+    }, [fetchData]);
 
     return (
         <View style={styles.container}>
             <FlatList
                 data={newsFeedPosts}
+                refreshControl={
+                    <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+                }
                 renderItem={({ item, index }) =>
                     <NewsFeedItem
                         activeIndex={activeIndex}

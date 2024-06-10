@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity, Image, Pressable, ImageSourcePropType } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Image, Pressable, ImageSourcePropType, Share } from "react-native";
 import { memo, useState } from "react";
 
 import TextRegular from "../common/textComponent/textRegular/textRegular";
@@ -41,6 +41,30 @@ const UserActions = (props: UserActionsProps) => {
         }
     };
 
+    const onShare = async () => {
+        try {
+            const result = await Share.share({
+                message: 'Check out this awesome content!',
+            }, {
+                dialogTitle: 'test',
+                subject: 'auh',
+                tintColor: '#fff'
+            });
+            if (result.action === Share.sharedAction) {
+                console.log(result)
+                if (result.activityType) {
+                    console.log(`Shared with activity type: ${result.activityType}`);
+                } else {
+                    console.log('Shared successfully');
+                }
+            } else if (result.action === Share.dismissedAction) {
+                console.log('Share dismissed');
+            }
+        } catch (error: any) {
+            console.log(error.message);
+        }
+    };
+
     const handleAction = (text: string) => {
         closeOverlay();
         setSelectedIcon(text)
@@ -64,6 +88,7 @@ const UserActions = (props: UserActionsProps) => {
 
     const handleShare = () => {
         console.log('Shared!');
+        onShare();
         closeOverlay();
     }
 

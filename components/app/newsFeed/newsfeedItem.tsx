@@ -7,7 +7,7 @@ import TextBold from "../common/textComponent/textBold/textBold";
 import TextRegular from "../common/textComponent/textRegular/textRegular";
 import UserActions from "../userActions/userActions";
 
-import { RPH, RPW } from "../../../constants/utils/utils";
+import { RPH, RPW, getRandomColor, getUserInitials } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
@@ -69,6 +69,7 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
     const postId = item._id;
     const imageUris = item.media.map((media) => media.path).filter(uri => uri);
     const datePostedAgo = moment(item.date_posted).fromNow();
+    const name = `${userData.firstName} ${userData.lastName}`;
 
     return (
         <TouchableWithoutFeedback onPress={() => { handleCloseOverlay(); closeMenu(); }}>
@@ -84,15 +85,20 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
                     />
                 </View>
                 <View style={styles.post}>
-                    <TouchableOpacity>
-                        <View style={styles.circle}>
+                    {userData.profileImage
+                        ? <View style={styles.circle}>
                             <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
                         </View>
-                    </TouchableOpacity>
+                        : <View style={[styles.circle, { backgroundColor: getRandomColor() }]}>
+                            <TextBold fontSize={16} color='#fff'>
+                                {getUserInitials(name)}
+                            </TextBold>
+                        </View>
+                    }
                     <View style={styles.textContainer}>
                         <View style={styles.postTextContainer}>
                             <TextBold fontSize={13} color="#5F6373">
-                                {title}
+                                {`${userData.firstName} ${userData.lastName}`}
                             </TextBold>
                         </View>
                         <TextRegular fontSize={9} color="#5F6373">
@@ -137,8 +143,11 @@ export default memo(NewsFeedItem)
 const styles = StyleSheet.create({
     circle: {
         width: RPW(11.5),
-        justifyContent: "center",
-        alignItems: "center"
+        height: RPH(5.6),
+        borderRadius: 50,
+        overflow: 'hidden',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     imagesContainer: {
         flexDirection: 'row',
@@ -146,10 +155,8 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     roundImg: {
-        borderRadius: 50,
         width: "100%",
-        objectFit: "contain",
-        height: RPH(5.6)
+        height: '100%'
     },
     readmoreContainer: {
         paddingRight: RPW(5),

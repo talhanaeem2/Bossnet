@@ -87,6 +87,10 @@ const bsMessages = {
     createPost: "Kreiraj objavu",
     postBtn: "Objavi",
     shareMind: "Podijelite šta vam je na umu,",
+    photoVideo: 'Fotografija/Video',
+    tagPeople: 'Označi Osobe',
+    camera: 'Kamera',
+    gif: 'GIF',
     // Groups
     myGroups: "Grupe",
     searchGroups: 'Pretraži Grupe',

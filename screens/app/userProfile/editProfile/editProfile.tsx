@@ -10,7 +10,7 @@ import TextRegular from "../../../../components/app/common/textComponent/textReg
 import ImagePickerButtonsModal from "../../../../modals/imagePickerButtonsModal/imagePickerButtonsModal";
 import EditProfileFieldsModal from "../../../../modals/editProfileFieldsModal/editProfileFieldsModal";
 
-import { RPH } from "../../../../constants/utils/utils";
+import { RPH, getRandomColor, getUserInitials } from "../../../../constants/utils/utils";
 import Apis from "../../../../constants/apis";
 import requestUtils from "../../../../constants/utils/requestUtils";
 
@@ -87,7 +87,7 @@ const EditProfile = () => {
         }
     }, [firstName, lastName, editingField, editValue, getToken, dispatch, handleError, handleSuccess]);
 
-    const handleImagePicker = useCallback(async (action: "gallery" | "camera") => {
+    const handleImagePicker = useCallback(async (action: string) => {
         const result = action === "gallery"
             ? await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -225,15 +225,26 @@ const EditProfile = () => {
         },
     ];
 
+    const name = `${data.firstName} ${data.lastName}`;
+
     return (
         <MainWapper isHeader={true} isFooter={false} icon={true}>
             <View style={styles.container}>
                 <ScrollView style={{ width: 400, height: 460 }}>
                     <View style={styles.content}>
                         <TouchableOpacity style={styles.circle} onPress={showUploadButtons}>
-                            {data.profileImage ?
-                                <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${data.profileImage}` }} /> :
-                                <Image style={styles.roundImg} source={userPlaceholder} />
+                            {data.profileImage
+                                ? <TouchableOpacity style={styles.circle} onPress={showUploadButtons}>
+                                    <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${data.profileImage}` }} />
+                                </TouchableOpacity>
+                                : <TouchableOpacity
+                                    style={[styles.circle, { backgroundColor: getRandomColor() }]}
+                                    onPress={showUploadButtons}
+                                >
+                                    <TextBold fontSize={16} color='#fff'>
+                                        {getUserInitials(name)}
+                                    </TextBold>
+                                </TouchableOpacity>
                             }
                             <View style={styles.editImage}>
                                 <Image source={editImgIcon} />
@@ -272,6 +283,7 @@ const EditProfile = () => {
                 handleImagePicker={handleImagePicker}
                 showButtons={showButtons}
                 setShowButtons={setShowButtons}
+
             />
             <EditProfileFieldsModal
                 isModalVisible={isModalVisible}

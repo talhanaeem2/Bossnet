@@ -1,5 +1,7 @@
 import IErrorResponse from "../../interfaces/IErrorResponse";
 import IResponse from "../../interfaces/IResponse";
+import MediaUploadResponse from "../interfaces/apisInterfaces/mediaUploadResponse";
+import MediaUploadResponseData from "../interfaces/apisInterfaces/mediaUploadResponseData";
 
 const requestUtils = {
     baseHeaders: { 'Accept': 'application/json', },
@@ -36,8 +38,8 @@ const requestUtils = {
                 throw new Error(errorResult.message);
             }
 
-            const successResult = result as IResponse<R>;
-            return successResult.data;
+            const successResult = result as IResponse<R> | MediaUploadResponse;
+            return (successResult as IResponse<R>).data || (successResult as MediaUploadResponse).filePath as MediaUploadResponseData[] as R;
         } catch (error) {
             console.error('Request failed:', error);
             throw error;

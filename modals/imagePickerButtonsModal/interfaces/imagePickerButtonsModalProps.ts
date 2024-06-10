@@ -1,5 +1,5 @@
 export default interface ImagePickerButtonsModalProps {
-    handleImagePicker: (action: 'gallery' | 'camera') => Promise<void>;
+    handleImagePicker: (action: string) => Promise<void>;
     showButtons: boolean;
     setShowButtons: (value: boolean) => void;
 }
