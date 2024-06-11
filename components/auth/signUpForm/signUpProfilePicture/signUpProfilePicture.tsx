@@ -40,6 +40,7 @@ const SignUpProfilePicture = (props: SignUpProfilePictureProps) => {
 
         if (!result.canceled && result.assets.length > 0) {
             let selectedImage = result.assets[0];
+            console.log(selectedImage);
             let filename = selectedImage.uri.split('/').pop();
             let uri = selectedImage.uri
 
@@ -50,7 +51,7 @@ const SignUpProfilePicture = (props: SignUpProfilePictureProps) => {
             const file = {
                 uri: uri,
                 type: type,
-                filename: filename || ''
+                filename: filename || 'image'
             };
             formik.setFieldValue('image', file);
             setShowButtons(false)
