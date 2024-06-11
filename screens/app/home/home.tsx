@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { memo, useCallback, useEffect, useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
 
@@ -111,37 +111,43 @@ const Home = () => {
     }, [createPost, isUploadComplete]);
 
     const handleImagePicker = useCallback(async (action: string) => {
-        const result = action === "gallery"
-            ? await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                aspect: [1, 1],
-                quality: 1,
-                allowsMultipleSelection: true
-            })
-            : await ImagePicker.launchCameraAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: true,
-                aspect: [1, 1],
-                quality: 1,
-            });
+        const permission = await ImagePicker.requestCameraPermissionsAsync();
 
-        if (!result.canceled && result.assets.length > 0) {
-            const selectedImages = result.assets.map((image) => {
-                let filename = image.uri.split("/").pop();
-                let uri = image.uri
+        if (permission.granted === false) {
+            Alert.alert("You've refused to allow this app to access your photos!");
+        } else {
+            const result = action === "gallery"
+                ? await ImagePicker.launchImageLibraryAsync({
+                    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                    aspect: [1, 1],
+                    quality: 1,
+                    allowsMultipleSelection: true
+                })
+                : await ImagePicker.launchCameraAsync({
+                    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                    allowsEditing: true,
+                    aspect: [1, 1],
+                    quality: 1,
+                });
 
-                // Infer the type of the image
-                let match = /\.(\w+)$/.exec(filename as string);
-                let type = match ? `image/${match[1]}` : `image`;
+            if (!result.canceled && result.assets.length > 0) {
+                const selectedImages = result.assets.map((image) => {
+                    let filename = image.uri.split("/").pop();
+                    let uri = image.uri
 
-                return {
-                    uri: uri,
-                    type: type,
-                    filename: filename || ""
-                };
-            })
-            setShowButtons(false);
-            setImages((prevImages) => [...prevImages, ...selectedImages]);
+                    // Infer the type of the image
+                    let match = /\.(\w+)$/.exec(filename as string);
+                    let type = match ? `image/${match[1]}` : `image`;
+
+                    return {
+                        uri: uri,
+                        type: type,
+                        filename: filename || ""
+                    };
+                })
+                setShowButtons(false);
+                setImages((prevImages) => [...prevImages, ...selectedImages]);
+            }
         }
     }, []);
 

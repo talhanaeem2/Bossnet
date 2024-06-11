@@ -1,4 +1,4 @@
-import { Keyboard, Modal, ScrollView, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, Image } from "react-native"
+import { Keyboard, Modal, ScrollView, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, Image, SafeAreaView } from "react-native"
 import { memo, useCallback, useState } from "react";
 
 import TextBold from "../../components/app/common/textComponent/textBold/textBold";
@@ -69,74 +69,76 @@ const CreatePostModal = (props: CreatePostModalProps) => {
             visible={isCreatePostModalVisible}
             onRequestClose={handleToggleCreatePostModal}
         >
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                <View style={styles.container}>
-                    <View style={styles.header}>
-                        <View style={{ flexDirection: 'row', gap: 12 }}>
-                            <TouchableOpacity onPress={() => closeModal()}>
-                                {Icons.backIcon}
-                            </TouchableOpacity>
-                            <TextBold fontSize={19}>
-                                {messages.createPost}
-                            </TextBold>
-                        </View>
-                        <TouchableOpacity style={styles.btn} onPress={() => uploadImages && uploadImages()}>
-                            <TextBold fontSize={16} color="#fff">
-                                {messages.postBtn}
-                            </TextBold>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.body}>
-                        <View style={styles.content}>
-                            {userData.profileImage
-                                ? <View style={styles.circle}>
-                                    <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
-                                </View>
-                                : <View style={[styles.circle, { backgroundColor: getRandomColor() }]}>
-                                    <TextBold fontSize={16} color='#fff'>
-                                        {getUserInitials(name)}
-                                    </TextBold>
-                                </View>
-                            }
-                            <View>
-                                <TextBold fontSize={17}>
-                                    {name}
+            <SafeAreaView style={{ flex: 1 }}>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+                    <View style={styles.container}>
+                        <View style={styles.header}>
+                            <View style={{ flexDirection: 'row', gap: 12 }}>
+                                <TouchableOpacity onPress={() => closeModal()}>
+                                    {Icons.backIcon}
+                                </TouchableOpacity>
+                                <TextBold fontSize={19}>
+                                    {messages.createPost}
                                 </TextBold>
                             </View>
+                            <TouchableOpacity style={styles.btn} onPress={() => uploadImages && uploadImages()}>
+                                <TextBold fontSize={16} color="#fff">
+                                    {messages.postBtn}
+                                </TextBold>
+                            </TouchableOpacity>
                         </View>
-                        <View>
-                            <TextInput
-                                style={styles.input}
-                                placeholder='Title'
-                                onChangeText={setTitle}
-                            />
-                            <TextInput
-                                style={styles.input}
-                                multiline={true}
-                                numberOfLines={8}
-                                placeholder={`${messages.shareMind} ${name}`}
-                                onChangeText={setDescription}
-                                value={description}
-                                selection={selection}
-                                onSelectionChange={({ nativeEvent: { selection } }) => setSelection(selection)}
-                            />
-                            <ScrollView showsVerticalScrollIndicator>
-                                {images && images.map((image, index) => (
-                                    <View key={index} style={styles.uploadedImageContainer}>
-                                        <TouchableOpacity onPress={() => removeImage(index)} style={styles.closeIcon}>
-                                            {Icons.grayCross}
-                                        </TouchableOpacity>
-                                        <Image style={styles.uploadedImage} source={{ uri: image.uri }} />
+                        <View style={styles.body}>
+                            <View style={styles.content}>
+                                {userData.profileImage
+                                    ? <View style={styles.circle}>
+                                        <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
                                     </View>
-                                ))}
-                            </ScrollView>
+                                    : <View style={[styles.circle, { backgroundColor: getRandomColor() }]}>
+                                        <TextBold fontSize={16} color='#fff'>
+                                            {getUserInitials(name)}
+                                        </TextBold>
+                                    </View>
+                                }
+                                <View>
+                                    <TextBold fontSize={17}>
+                                        {name}
+                                    </TextBold>
+                                </View>
+                            </View>
+                            <View>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder='Title'
+                                    onChangeText={setTitle}
+                                />
+                                <TextInput
+                                    style={styles.input}
+                                    multiline={true}
+                                    numberOfLines={8}
+                                    placeholder={`${messages.shareMind} ${name}`}
+                                    onChangeText={setDescription}
+                                    value={description}
+                                    selection={selection}
+                                    onSelectionChange={({ nativeEvent: { selection } }) => setSelection(selection)}
+                                />
+                                <ScrollView showsVerticalScrollIndicator>
+                                    {images && images.map((image, index) => (
+                                        <View key={index} style={styles.uploadedImageContainer}>
+                                            <TouchableOpacity onPress={() => removeImage(index)} style={styles.closeIcon}>
+                                                {Icons.grayCross}
+                                            </TouchableOpacity>
+                                            <Image style={styles.uploadedImage} source={{ uri: image.uri }} />
+                                        </View>
+                                    ))}
+                                </ScrollView>
+                            </View>
+                        </View>
+                        <View style={styles.footer}>
+                            <MultiButtons buttons={buttons} />
                         </View>
                     </View>
-                    <View style={styles.footer}>
-                        <MultiButtons buttons={buttons} />
-                    </View>
-                </View>
-            </TouchableWithoutFeedback>
+                </TouchableWithoutFeedback>
+            </SafeAreaView>
         </Modal>
     )
 }
