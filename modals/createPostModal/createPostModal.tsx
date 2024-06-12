@@ -1,10 +1,11 @@
-import { Keyboard, Modal, ScrollView, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, Image, SafeAreaView } from "react-native"
+import { Keyboard, Modal, ScrollView, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, Image } from "react-native"
 import { memo, useCallback, useState } from "react";
 
 import TextBold from "../../components/app/common/textComponent/textBold/textBold";
 import MultiButtons from "../../components/app/common/multiButtons/multiButtons";
 import TextRegular from "../../components/app/common/textComponent/textRegular/textRegular";
 import PostVisibilityModal from "../postVisibilityModal/postVisibilityModal";
+import SafeAreaViewComponent from "../../components/app/common/SafeAreaViewComponent/SafeAreaViewComponent";
 
 import Apis from "../../constants/apis";
 import Icons from "../../constants/icons";
@@ -16,7 +17,6 @@ import { setCreatePostModal } from "../../reducers/app/appSlice";
 
 import CreatePostModalProps from "./interfaces/createPostModalProps";
 import ButtonsInterface from "../../components/app/common/multiButtons/interfaces/buttonsInterface";
-import SafeAreaViewComponent from "../../components/app/common/SafeAreaViewComponent/SafeAreaViewComponent";
 
 const CreatePostModal = (props: CreatePostModalProps) => {
     const { images, removeImage, handleImagePicker, uploadImages, setDescription, setTitle, description } = props
@@ -183,7 +183,8 @@ const styles = StyleSheet.create({
         padding: 4,
         alignItems: 'center',
         borderRadius: 5,
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
+        gap: 6
     },
     uploadedImage: {
         marginTop: RPH(1.2),
@@ -192,7 +193,6 @@ const styles = StyleSheet.create({
         borderRadius: 8
     },
     uploadedImageContainer: {
-        // justifyContent: "flex-start",
         position: "relative",
         paddingHorizontal: RPW(2.5)
     },
