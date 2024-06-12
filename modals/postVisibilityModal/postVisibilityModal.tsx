@@ -13,7 +13,7 @@ import OptionsInterface from "./interfaces/optionsInterface";
 
 const PostVisibilityModal = (props: PostVisibilityModalProps) => {
     const { isModalVisible, setIsModalVisible, setSelectedOption } = props;
-    const [selectedOptionIndex, setSelectedOptionIndex] = useState<number | null>(null);
+    const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
     const messages = useSliceSelector(state => state.language.messages);
 
     const options: OptionsInterface[] = [

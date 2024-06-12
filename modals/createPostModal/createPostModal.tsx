@@ -137,8 +137,10 @@ const CreatePostModal = (props: CreatePostModalProps) => {
                                     selection={selection}
                                     onSelectionChange={({ nativeEvent: { selection } }) => setSelection(selection)}
                                 />
-                                <ScrollView showsVerticalScrollIndicator>
-                                    {images && images.map((image, index) => (
+                            </View>
+                            {images && (
+                                <ScrollView>
+                                    {images.map((image, index) => (
                                         <View key={index} style={styles.uploadedImageContainer}>
                                             <TouchableOpacity onPress={() => removeImage(index)} style={styles.closeIcon}>
                                                 {Icons.grayCross}
@@ -147,7 +149,7 @@ const CreatePostModal = (props: CreatePostModalProps) => {
                                         </View>
                                     ))}
                                 </ScrollView>
-                            </View>
+                            )}
                         </View>
                         <View style={styles.footer}>
                             <MultiButtons buttons={buttons} />
@@ -160,7 +162,7 @@ const CreatePostModal = (props: CreatePostModalProps) => {
                     setSelectedOption={setSelectedOption}
                 />
             </SafeAreaViewComponent>
-        </Modal>
+        </Modal >
     )
 }
 
@@ -189,7 +191,7 @@ const styles = StyleSheet.create({
     uploadedImage: {
         marginTop: RPH(1.2),
         width: "100%",
-        height: "100%",
+        height: '100%',
         borderRadius: 8
     },
     uploadedImageContainer: {
@@ -220,7 +222,6 @@ const styles = StyleSheet.create({
     footer: {
         alignItems: 'center',
         paddingVertical: RPH(2),
-        flexShrink: 0,
         borderTopWidth: 1,
         borderTopColor: "#EBEFF2",
     },
