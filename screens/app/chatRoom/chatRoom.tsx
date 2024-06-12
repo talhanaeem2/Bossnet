@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { View, TouchableOpacity, StyleSheet, Image, ScrollView, TextInput, Text } from "react-native"
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -157,7 +158,7 @@ const ChatRoom = () => {
     )
 }
 
-export default ChatRoom
+export default memo(ChatRoom)
 
 const styles = StyleSheet.create({
     header: {

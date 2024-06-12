@@ -3,45 +3,44 @@ import { Modal, TouchableWithoutFeedback, View, StyleSheet, TouchableOpacity } f
 
 import PostVisibilityModalProps from "./interfaces/postVisibilityModalProps";
 import TextBold from "../../components/app/common/textComponent/textBold/textBold";
-
-import Icons from "../../constants/icons";
 import TextRegular from "../../components/app/common/textComponent/textRegular/textRegular";
 
-interface OptionsInterface {
-    icon: JSX.Element;
-    title: string;
-    description: string;
-}
+import Icons from "../../constants/icons";
+
+import useSliceSelector from "../../hooks/useSliceSelector";
+
+import OptionsInterface from "./interfaces/optionsInterface";
 
 const PostVisibilityModal = (props: PostVisibilityModalProps) => {
     const { isModalVisible, setIsModalVisible, setSelectedOption } = props;
     const [selectedOptionIndex, setSelectedOptionIndex] = useState<number | null>(null);
+    const messages = useSliceSelector(state => state.language.messages);
 
     const options: OptionsInterface[] = [
         {
             icon: Icons.public,
-            title: 'Public',
-            description: 'Visible to anyone, on or off this site'
+            title: messages.public,
+            description: messages.publicDesc
         },
         {
             icon: Icons.allMembers,
-            title: 'All Members',
-            description: 'Visible to all members on this site'
+            title: messages.allMembers,
+            description: messages.allMembersDesc
         },
         {
             icon: Icons.myFriends,
-            title: 'My Friends',
-            description: 'Visible only to your connections'
+            title: messages.myFriends,
+            description: messages.myFriendsDesc
         },
         {
             icon: Icons.lock,
-            title: 'Only Me',
-            description: 'Visible only to you'
+            title: messages.onlyMe,
+            description: messages.onlyMeDesc
         },
         {
             icon: Icons.myGroups,
-            title: 'Post in Group',
-            description: 'Visible to members of a group'
+            title: messages.postInGrp,
+            description: messages.postInGrpDesc
         }
     ];
 
@@ -64,7 +63,7 @@ const PostVisibilityModal = (props: PostVisibilityModalProps) => {
                             <View style={styles.container}>
                                 <View style={styles.header}>
                                     <TextBold fontSize={20}>
-                                        Who can see your post ?
+                                        {messages.whoPost}
                                     </TextBold>
                                     <TouchableOpacity onPress={() => setIsModalVisible(false)}>
                                         {Icons.crossIcon}

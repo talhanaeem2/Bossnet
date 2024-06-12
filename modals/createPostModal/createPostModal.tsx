@@ -27,7 +27,7 @@ const CreatePostModal = (props: CreatePostModalProps) => {
     const name = `${userData.firstName} ${userData.lastName}`;
     const dispatch = useReducerDispatch();
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [selectedOption, setSelectedOption] = useState('Public');
+    const [selectedOption, setSelectedOption] = useState(messages.public);
 
     const handleToggleCreatePostModal = useCallback(() => {
         dispatch(setCreatePostModal(!isCreatePostModalVisible));

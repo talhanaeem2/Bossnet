@@ -6,8 +6,11 @@ import Svg, { Ellipse, Path } from "react-native-svg"
 import TextBold from "../common/textComponent/textBold/textBold";
 import TextRegular from "../common/textComponent/textRegular/textRegular";
 
+import Apis from "../../../constants/apis";
 import Icons from "../../../constants/icons";
-import { RPW, RPH } from "../../../constants/utils/utils";
+import { RPW, RPH, getRandomColor, getUserInitials } from "../../../constants/utils/utils";
+
+import useSliceSelector from "../../../hooks/useSliceSelector";
 
 import MainHeaderProps from "./interfaces/mainHeaderProps";
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
@@ -15,6 +18,9 @@ import RootStackParamListInterface from "../../../interfaces/RootStackParamListI
 const MainHeader = (props: MainHeaderProps) => {
     const { chatHeader = false, icon = false } = props
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
+    const messages = useSliceSelector(state => state.language.messages);
+    const userData = useSliceSelector(state => state.auth.userData);
+    const name = `${userData.firstName} ${userData.lastName}`;
 
     const goBack = () => {
         navigation.goBack();
@@ -29,11 +35,19 @@ const MainHeader = (props: MainHeaderProps) => {
                             <TouchableOpacity onPress={goBack} style={styles.backIcon}>
                                 {Icons.backIcon}
                             </TouchableOpacity>
-                            <TouchableOpacity>
-                                <View style={styles.circle}>
-                                    <Image style={styles.roundImg} source={require("../../../assets/dummy-profile.png")} />
-                                </View>
-                            </TouchableOpacity>
+                            {userData.profileImage
+                                ? <TouchableOpacity style={styles.circle} onPress={() => navigation.navigate("UserProfile")}>
+                                    <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
+                                </TouchableOpacity>
+                                : <TouchableOpacity
+                                    style={[styles.circle, { backgroundColor: getRandomColor() }]}
+                                    onPress={() => navigation.navigate("UserProfile")}
+                                >
+                                    <TextBold fontSize={16} color='#fff'>
+                                        {getUserInitials(name)}
+                                    </TextBold>
+                                </TouchableOpacity>
+                            }
                             <TextBold fontSize={23}>
                                 {props.headerText as string}
                             </TextBold>
@@ -63,7 +77,7 @@ const MainHeader = (props: MainHeaderProps) => {
                                     </TextRegular>
                                 </TouchableOpacity>
                                 <TextBold fontSize={17} style={styles.friendstext}>
-                                    Friends
+                                    {messages.friends}
                                 </TextBold>
                                 <View style={styles.spacer}></View>
                             </>

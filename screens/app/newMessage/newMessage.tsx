@@ -1,5 +1,5 @@
 import { View, StyleSheet, TextInput, Image, TouchableOpacity, ActivityIndicator, FlatList } from "react-native";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import axios from "axios";
@@ -36,6 +36,8 @@ const NewMessage = () => {
             setIsLoading(false)
         } catch (error) {
             console.error('Error fetching data:', error);
+            setIsLoading(false)
+
         }
     }, [currentPage])
 
@@ -148,7 +150,7 @@ const NewMessage = () => {
     )
 }
 
-export default NewMessage
+export default memo(NewMessage)
 
 const styles = StyleSheet.create({
     loaderContainer: {

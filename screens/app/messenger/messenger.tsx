@@ -1,6 +1,6 @@
 import { View, StyleSheet, TouchableOpacity, TextInput, Image, ScrollView, TouchableWithoutFeedback, Keyboard, ActivityIndicator, FlatList } from "react-native";
 import Svg, { Path } from "react-native-svg";
-import { useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import axios from "axios";
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
@@ -34,6 +34,7 @@ const Messenger = () => {
             setIsLoading(false)
         } catch (error) {
             console.error('Error fetching data:', error);
+            setIsLoading(false)
         }
     }, [currentPage])
 
@@ -162,7 +163,7 @@ const Messenger = () => {
     )
 }
 
-export default Messenger
+export default memo(Messenger)
 
 const styles = StyleSheet.create({
     loaderContainer: {
