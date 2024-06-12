@@ -52,6 +52,13 @@ interface IconsInterface {
     delIcon: JSX.Element;
     postIcon: JSX.Element;
     grayCross: JSX.Element;
+    globe: JSX.Element;
+    downArrow: JSX.Element;
+    public: JSX.Element;
+    allMembers: JSX.Element;
+    myFriends: JSX.Element;
+    lock: JSX.Element;
+    myGroups: JSX.Element;
 }
 
 export default IconsInterface

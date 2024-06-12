@@ -3,6 +3,8 @@ import { memo, useCallback, useState } from "react";
 
 import TextBold from "../../components/app/common/textComponent/textBold/textBold";
 import MultiButtons from "../../components/app/common/multiButtons/multiButtons";
+import TextRegular from "../../components/app/common/textComponent/textRegular/textRegular";
+import PostVisibilityModal from "../postVisibilityModal/postVisibilityModal";
 
 import Apis from "../../constants/apis";
 import Icons from "../../constants/icons";
@@ -14,6 +16,7 @@ import { setCreatePostModal } from "../../reducers/app/appSlice";
 
 import CreatePostModalProps from "./interfaces/createPostModalProps";
 import ButtonsInterface from "../../components/app/common/multiButtons/interfaces/buttonsInterface";
+import SafeAreaViewComponent from "../../components/app/common/SafeAreaViewComponent/SafeAreaViewComponent";
 
 const CreatePostModal = (props: CreatePostModalProps) => {
     const { images, removeImage, handleImagePicker, uploadImages, setDescription, setTitle, description } = props
@@ -23,6 +26,8 @@ const CreatePostModal = (props: CreatePostModalProps) => {
     const messages = useSliceSelector(state => state.language.messages);
     const name = `${userData.firstName} ${userData.lastName}`;
     const dispatch = useReducerDispatch();
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [selectedOption, setSelectedOption] = useState('Public');
 
     const handleToggleCreatePostModal = useCallback(() => {
         dispatch(setCreatePostModal(!isCreatePostModalVisible));
@@ -30,6 +35,7 @@ const CreatePostModal = (props: CreatePostModalProps) => {
 
     const closeModal = () => {
         dispatch(setCreatePostModal(false));
+        setSelectedOption('Public');
     };
 
     const buttons: ButtonsInterface[] = [
@@ -69,7 +75,7 @@ const CreatePostModal = (props: CreatePostModalProps) => {
             visible={isCreatePostModalVisible}
             onRequestClose={handleToggleCreatePostModal}
         >
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaViewComponent>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                     <View style={styles.container}>
                         <View style={styles.header}>
@@ -99,10 +105,20 @@ const CreatePostModal = (props: CreatePostModalProps) => {
                                         </TextBold>
                                     </View>
                                 }
-                                <View>
+                                <View style={styles.nameContainer}>
                                     <TextBold fontSize={17}>
                                         {name}
                                     </TextBold>
+                                    <TouchableOpacity
+                                        style={styles.postVisibility}
+                                        onPress={() => setIsModalVisible(true)}
+                                    >
+                                        {Icons.globe}
+                                        <TextRegular fontSize={12} color='#fff'>
+                                            {selectedOption}
+                                        </TextRegular>
+                                        {Icons.downArrow}
+                                    </TouchableOpacity>
                                 </View>
                             </View>
                             <View>
@@ -138,7 +154,12 @@ const CreatePostModal = (props: CreatePostModalProps) => {
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
-            </SafeAreaView>
+                <PostVisibilityModal
+                    isModalVisible={isModalVisible}
+                    setIsModalVisible={setIsModalVisible}
+                    setSelectedOption={setSelectedOption}
+                />
+            </SafeAreaViewComponent>
         </Modal>
     )
 }
@@ -151,6 +172,18 @@ const styles = StyleSheet.create({
         zIndex: 2,
         top: RPW(.7),
         left: RPH(.4)
+    },
+    nameContainer: {
+        flexDirection: 'column',
+        gap: 4
+    },
+    postVisibility: {
+        backgroundColor: '#308AFF',
+        flexDirection: 'row',
+        padding: 4,
+        alignItems: 'center',
+        borderRadius: 5,
+        justifyContent: 'space-evenly'
     },
     uploadedImage: {
         marginTop: RPH(1.2),
