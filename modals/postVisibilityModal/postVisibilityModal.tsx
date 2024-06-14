@@ -167,13 +167,13 @@ const styles = StyleSheet.create({
     },
     checkboxInner: {
         backgroundColor: '#385DFF',
-        width: 18,
+        width: 19,
         height: 19,
         borderRadius: 19,
         overflow: 'hidden'
     },
     checkbox: {
-        width: 32,
+        width: 33,
         height: 33,
         borderColor: '#A7A7A7',
         borderWidth: 2,

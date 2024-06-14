@@ -200,7 +200,6 @@ const styles = StyleSheet.create({
     },
     container: {
         backgroundColor: "#fff",
-        borderRadius: 24,
         justifyContent: 'flex-start',
         flexDirection: 'column',
         flex: 1
@@ -208,7 +207,7 @@ const styles = StyleSheet.create({
     header: {
         borderBottomWidth: 1,
         borderBottomColor: "#EBEFF2",
-        paddingVertical: RPH(2.4),
+        paddingBottom: RPH(2.4),
         flexDirection: "row",
         justifyContent: 'space-between',
         alignItems: "center",
