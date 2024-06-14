@@ -1,5 +1,5 @@
 import { memo, useCallback, useState } from "react";
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Image, TouchableOpacity, Alert } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 
 import TextBold from "../../../app/common/textComponent/textBold/textBold";
@@ -23,38 +23,44 @@ const SignUpProfilePicture = (props: SignUpProfilePictureProps) => {
     }
 
     const handleImagePicker = useCallback(async (action: string) => {
-        const result = action === 'gallery' ?
-            await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                aspect: [1, 1],
-                quality: 1,
-                allowsEditing: true,
-                allowsMultipleSelection: false
-            }) :
-            await ImagePicker.launchCameraAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: true,
-                aspect: [1, 1],
-                quality: 1,
-            });
+        const permission = await ImagePicker.requestCameraPermissionsAsync();
 
-        if (!result.canceled && result.assets.length > 0) {
-            let selectedImage = result.assets[0];
-            console.log(selectedImage);
-            let filename = selectedImage.uri.split('/').pop();
-            let uri = selectedImage.uri
+        if (permission.granted === false) {
+            Alert.alert("You've refused to allow this app to access your photos!");
+        } else {
+            const result = action === 'gallery' ?
+                await ImagePicker.launchImageLibraryAsync({
+                    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                    aspect: [1, 1],
+                    quality: 1,
+                    allowsEditing: true,
+                    allowsMultipleSelection: false
+                }) :
+                await ImagePicker.launchCameraAsync({
+                    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                    allowsEditing: true,
+                    aspect: [1, 1],
+                    quality: 1,
+                });
 
-            // Infer the type of the image
-            let match = /\.(\w+)$/.exec(filename as string);
-            let type = match ? `image/${match[1]}` : `image`;
+            if (!result.canceled && result.assets.length > 0) {
+                let selectedImage = result.assets[0];
+                console.log(selectedImage);
+                let filename = selectedImage.uri.split('/').pop();
+                let uri = selectedImage.uri
 
-            const file = {
-                uri: uri,
-                type: type,
-                filename: filename || 'image'
-            };
-            formik.setFieldValue('image', file);
-            setShowButtons(false)
+                // Infer the type of the image
+                let match = /\.(\w+)$/.exec(filename as string);
+                let type = match ? `image/${match[1]}` : `image`;
+
+                const file = {
+                    uri: uri,
+                    type: type,
+                    filename: filename || 'image'
+                };
+                formik.setFieldValue('image', file);
+                setShowButtons(false)
+            }
         }
     }, [formik])
 
