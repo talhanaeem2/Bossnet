@@ -61,10 +61,10 @@ const SignInForm = () => {
                 formik.setFieldValue('email_or_username', userData.email_or_username);
                 formik.setFieldValue('password', userData.password);
 
-                // handleSignIn({
-                //     email_or_username: userData.email_or_username,
-                //     password: userData.password
-                // })
+                handleSignIn({
+                    email_or_username: userData.email_or_username,
+                    password: userData.password
+                })
             }
         } catch (error) {
             console.error("Error loading stored credentials:", error);
