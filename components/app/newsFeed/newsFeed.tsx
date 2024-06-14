@@ -6,22 +6,19 @@ import CommmentModal from "../../../modals/commentModal/commentModal";
 import NewsFeedItem from "./newsfeedItem";
 import NewsFeedShare from "./newsFeedShare";
 
-import { RPH, RPW } from "../../../constants/utils/utils";
+import { RPH } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
+import requestUtils from "../../../constants/utils/requestUtils";
 
 import NewsFeedProps from "./interfaces/newsFeedShareProps";
 
-import useSliceSelector from "../../../hooks/useSliceSelector";
 import useToken from "../../../hooks/useToken";
-import requestUtils from "../../../constants/utils/requestUtils";
 import useErrorHandling from "../../../hooks/useErrorHandling";
 import FeedPostResponse from "./interfaces/feedPostsResponse";
 
 const NewsFeed = (props: NewsFeedProps) => {
     const { showUploadButtons, isPostCreated } = props;
     const [newsFeedPosts, setNewsFeedPosts] = useState<FeedPostResponse[]>([]);
-    const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
-    const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
@@ -85,9 +82,9 @@ const NewsFeed = (props: NewsFeedProps) => {
                 // onEndReached={loadMorePosts}
                 // onEndReachedThreshold={0.5}
                 ListHeaderComponent={<NewsFeedShare showUploadButtons={showUploadButtons} />}
-            // initialNumToRender={10}
-            // maxToRenderPerBatch={10}
-            // windowSize={5}
+                initialNumToRender={10}
+                maxToRenderPerBatch={10}
+                windowSize={5}
             />
             <CommmentModal />
             <ImageFullScreenModal />

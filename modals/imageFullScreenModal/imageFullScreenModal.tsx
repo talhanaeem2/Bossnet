@@ -37,10 +37,13 @@ const ImageFullScreenModal = () => {
         }).start(() => {
             dispatch(setImageFullScreenModal({ isVisible: false }));
         });
-    }, [fadeAnim, dispatch])
+    }, [fadeAnim, dispatch]);
 
     return (
-        <Modal visible={isImageFullScreenModalVisible} onRequestClose={closeModal}>
+        <Modal
+            visible={isImageFullScreenModalVisible}
+            onRequestClose={closeModal}
+        >
             <Animated.View style={[styles.modalContainer, { opacity: fadeAnim }]}>
                 {imageModalUris && (
                     <ScrollView
