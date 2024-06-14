@@ -1,14 +1,16 @@
 import { memo, useCallback, useState } from "react";
 import { TouchableWithoutFeedback, View, TouchableOpacity, Image, StyleSheet } from "react-native";
+import moment from "moment";
 
-import PostDotMenu from "../postDotMenu/postDotMenu";
 import ReadMore from "../common/readMoreText/readMoreText";
 import TextBold from "../common/textComponent/textBold/textBold";
 import TextRegular from "../common/textComponent/textRegular/textRegular";
 import UserActions from "../userActions/userActions";
+import PostOptionsModal from "../../../modals/postOptionsModal/postOptionsModal";
 
-import { RPH, RPW, getRandomColor, getUserInitials } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
+import Icons from "../../../constants/icons";
+import { RPH, RPW, getRandomColor, getUserInitials } from "../../../constants/utils/utils";
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { setImageFullScreenModal } from "../../../reducers/app/appSlice";
@@ -16,7 +18,6 @@ import useSliceSelector from "../../../hooks/useSliceSelector";
 
 import NewsFeedItemProps from "./interfaces/newsFeedItemProps";
 import FeedPostResponse from "./interfaces/feedPostsResponse";
-import moment from "moment";
 
 const NewsFeedItem = (props: NewsFeedItemProps) => {
     const { item, index, activeIndex, setActiveIndex, newsFeedPosts, setNewsFeedPosts } = props;
@@ -74,16 +75,6 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
     return (
         <TouchableWithoutFeedback onPress={() => { handleCloseOverlay(); closeMenu(); }}>
             <View style={styles.postContainer}>
-                <View style={styles.dotsContainer}>
-                    <PostDotMenu
-                        activeIndex={activeIndex}
-                        index={index}
-                        onMenuPress={setActiveIndex}
-                        isMenuVisible={isMenuVisible}
-                        setIsMenuVisible={setIsMenuVisible}
-                        postId={postId}
-                    />
-                </View>
                 <View style={styles.post}>
                     {userData.profileImage
                         ? <View style={styles.circle}>
@@ -96,15 +87,16 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
                         </View>
                     }
                     <View style={styles.textContainer}>
-                        <View style={styles.postTextContainer}>
-                            <TextBold fontSize={13} color="#5F6373">
-                                {`${userData.firstName} ${userData.lastName}`}
-                            </TextBold>
-                        </View>
+                        <TextBold fontSize={13} color="#5F6373">
+                            {`${userData.firstName} ${userData.lastName}`}
+                        </TextBold>
                         <TextRegular fontSize={9} color="#5F6373">
                             {datePostedAgo}
                         </TextRegular>
                     </View>
+                    <TouchableOpacity style={styles.dots} onPress={() => setIsMenuVisible(!isMenuVisible)}>
+                        {Icons.dotsIcon}
+                    </TouchableOpacity>
                 </View>
                 {item.description && (
                     <View style={styles.readmoreContainer}>
@@ -133,6 +125,11 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
                     closeOverlay={handleCloseOverlay}
                     activeId={postId}
                 />
+                <PostOptionsModal
+                    isModalVisible={isMenuVisible}
+                    setIsModalVisible={setIsMenuVisible}
+                    postId={postId}
+                />
             </View>
         </TouchableWithoutFeedback>
     )
@@ -141,6 +138,20 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
 export default memo(NewsFeedItem)
 
 const styles = StyleSheet.create({
+    postContainer: {
+        borderRadius: 3,
+        borderWidth: 1,
+        borderColor: "#F0F0F0",
+        backgroundColor: "#fff",
+        paddingVertical: RPH(2.3),
+        borderLeftWidth: 0,
+        gap: 10
+    },
+    post: {
+        paddingLeft: RPW(7.2),
+        flexDirection: "row",
+        width: '100%'
+    },
     circle: {
         width: RPW(11.5),
         height: RPH(5.6),
@@ -148,6 +159,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         justifyContent: 'center',
         alignItems: 'center',
+        flexShrink: 1
     },
     imagesContainer: {
         flexDirection: 'row',
@@ -162,31 +174,16 @@ const styles = StyleSheet.create({
         paddingRight: RPW(5),
         paddingLeft: 30
     },
-    dotsContainer: {
-        position: "relative"
-    },
-    postContainer: {
-        borderRadius: 3,
-        borderWidth: 1,
-        borderColor: "#F0F0F0",
-        backgroundColor: "#fff",
-        paddingVertical: RPH(2.3),
-        position: "relative",
-        borderLeftWidth: 0,
-        gap: 10
-    },
-    postTextContainer: {
-        flexDirection: "row",
-        paddingRight: RPW(5)
-    },
-    post: {
-        paddingLeft: RPW(7.2),
-        flexDirection: "row",
-        alignContent: "center"
-    },
     textContainer: {
-        justifyContent: "center",
         paddingLeft: RPW(2.5),
-        flex: 1
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        flexGrow: 1,
+        flexDirection: "column",
+        gap: 4,
     },
+    dots: {
+        flexShrink: 1,
+        padding: 10
+    }
 })

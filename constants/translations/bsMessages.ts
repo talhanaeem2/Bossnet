@@ -158,6 +158,7 @@ const bsMessages = {
     postInGrp: 'Objavi u Grupi',
     postInGrpDesc: 'Vidljivo članovima grupe',
     whoPost: 'Ko može vidjeti vašu objavu?',
+    save: 'Sačuvaj',
     // Edit Profile
     personalInfo: 'Lični podaci',
     contactInfo: 'Kontakt informacije',

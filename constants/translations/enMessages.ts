@@ -158,6 +158,7 @@ const enMessages = {
     postInGrp: 'Post in Group',
     postInGrpDesc: 'Visible to members of a group',
     whoPost: 'Who can see your post ?',
+    save: 'Save',
     // Edit Profile
     personalInfo: 'Personal Information',
     contactInfo: 'Contact Information',

@@ -99,7 +99,6 @@ export default memo(NewsFeed)
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         flexDirection: "column",
         gap: RPH(1.2),
         paddingBottom: 60
