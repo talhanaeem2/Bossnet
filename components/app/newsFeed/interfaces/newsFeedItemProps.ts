@@ -7,4 +7,5 @@ export default interface NewsFeedItemProps {
     setActiveIndex: (index: number) => void;
     newsFeedPosts: FeedPostResponse[];
     setNewsFeedPosts: React.Dispatch<React.SetStateAction<FeedPostResponse[]>>;
+    isLoading: boolean;
 }

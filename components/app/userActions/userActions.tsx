@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     action: {
         flexDirection: "row",
         alignItems: "center",
-        paddingVertical: RPH(1.6),
+        paddingVertical: RPH(1),
         paddingHorizontal: RPW(4)
     },
     actionOnPress: {
@@ -228,7 +228,8 @@ const styles = StyleSheet.create({
     actionsContainer: {
         flexDirection: 'row',
         gap: RPW(6),
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     overlayContainer: {
         position: "absolute",

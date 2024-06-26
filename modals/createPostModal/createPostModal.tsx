@@ -35,7 +35,7 @@ const CreatePostModal = (props: CreatePostModalProps) => {
 
     const closeModal = () => {
         dispatch(setCreatePostModal(false));
-        setSelectedOption('Public');
+        setSelectedOption(messages.public);
     };
 
     const buttons: ButtonsInterface[] = [
@@ -121,7 +121,7 @@ const CreatePostModal = (props: CreatePostModalProps) => {
                                     </TouchableOpacity>
                                 </View>
                             </View>
-                            <View>
+                            <View style={{ flexShrink: 1 }}>
                                 <TextInput
                                     style={styles.input}
                                     placeholder='Title'
@@ -138,16 +138,25 @@ const CreatePostModal = (props: CreatePostModalProps) => {
                                     onSelectionChange={({ nativeEvent: { selection } }) => setSelection(selection)}
                                 />
                             </View>
-                            {images && (
-                                <ScrollView>
-                                    {images.map((image, index) => (
-                                        <View key={index} style={styles.uploadedImageContainer}>
-                                            <TouchableOpacity onPress={() => removeImage(index)} style={styles.closeIcon}>
+                            {images && images.length > 0 && (
+                                <ScrollView contentContainerStyle={styles.imagesContainer}>
+                                    {images.length === 1 ? (
+                                        <View style={styles.singleImageContainer}>
+                                            <TouchableOpacity onPress={() => removeImage(0)} style={styles.closeIcon}>
                                                 {Icons.grayCross}
                                             </TouchableOpacity>
-                                            <Image style={styles.uploadedImage} source={{ uri: image.uri }} />
+                                            <Image style={styles.uploadedImage} source={{ uri: images[0].uri }} />
                                         </View>
-                                    ))}
+                                    ) : (
+                                        images.map((image, index) => (
+                                            <View key={index} style={styles.uploadedImageContainer}>
+                                                <TouchableOpacity onPress={() => removeImage(index)} style={styles.closeIcon}>
+                                                    {Icons.grayCross}
+                                                </TouchableOpacity>
+                                                <Image style={styles.uploadedImage} source={{ uri: image.uri }} />
+                                            </View>
+                                        ))
+                                    )}
                                 </ScrollView>
                             )}
                         </View>
@@ -172,12 +181,23 @@ const styles = StyleSheet.create({
     closeIcon: {
         position: "absolute",
         zIndex: 2,
-        top: RPW(.7),
-        left: RPH(.4)
+        top: 0,
+        left: 0
     },
     nameContainer: {
         flexDirection: 'column',
         gap: 4
+    },
+    singleImageContainer: {
+        flexGrow: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    imagesContainer: {
+        flexGrow: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-start',
     },
     postVisibility: {
         backgroundColor: '#308AFF',
@@ -189,14 +209,16 @@ const styles = StyleSheet.create({
         gap: 6
     },
     uploadedImage: {
-        marginTop: RPH(1.2),
         width: "100%",
         height: '100%',
         borderRadius: 8
     },
     uploadedImageContainer: {
         position: "relative",
-        paddingHorizontal: RPW(2.5)
+        width: '30%',
+        aspectRatio: 1,
+        margin: '1.5%',
+        flexGrow: 1,
     },
     container: {
         backgroundColor: "#fff",
@@ -216,13 +238,15 @@ const styles = StyleSheet.create({
     body: {
         paddingHorizontal: RPW(3.8),
         paddingVertical: RPH(3.4),
-        flexGrow: 1
+        flexGrow: 1,
+        flex: 1
     },
     footer: {
         alignItems: 'center',
         paddingVertical: RPH(2),
         borderTopWidth: 1,
         borderTopColor: "#EBEFF2",
+        flexShrink: 1
     },
     input: {
         color: "rgba(118, 118, 118, 0.77)",

@@ -7,6 +7,7 @@ import TextBold from "../common/textComponent/textBold/textBold";
 import TextRegular from "../common/textComponent/textRegular/textRegular";
 import UserActions from "../userActions/userActions";
 import PostOptionsModal from "../../../modals/postOptionsModal/postOptionsModal";
+import Shimmer from "../common/shimmer/shimmer";
 
 import Apis from "../../../constants/apis";
 import Icons from "../../../constants/icons";
@@ -20,7 +21,7 @@ import NewsFeedItemProps from "./interfaces/newsFeedItemProps";
 import FeedPostResponse from "./interfaces/feedPostsResponse";
 
 const NewsFeedItem = (props: NewsFeedItemProps) => {
-    const { item, index, activeIndex, setActiveIndex, newsFeedPosts, setNewsFeedPosts } = props;
+    const { item, index, activeIndex, setActiveIndex, newsFeedPosts, setNewsFeedPosts, isLoading } = props;
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
     const dispatch = useReducerDispatch();
     const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -73,65 +74,84 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
     const name = `${userData.firstName} ${userData.lastName}`;
 
     return (
-        <TouchableWithoutFeedback onPress={() => { handleCloseOverlay(); closeMenu(); }}>
-            <View style={styles.postContainer}>
-                <View style={styles.post}>
-                    {userData.profileImage
-                        ? <View style={styles.circle}>
-                            <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
+        <View>
+            <TouchableWithoutFeedback onPress={() => { handleCloseOverlay(); closeMenu(); }}>
+                <View style={styles.postContainer}>
+                    <View style={styles.post}>
+                        {isLoading
+                            ? <Shimmer isLoading={isLoading} width={RPW(11.5)} height={RPH(5.6)} borderRadius={50} />
+                            : userData.profileImage
+                                ? <View style={styles.circle}>
+                                    <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
+                                </View>
+                                : <View style={[styles.circle, { backgroundColor: getRandomColor() }]}>
+                                    <TextBold fontSize={16} color='#fff'>
+                                        {getUserInitials(name)}
+                                    </TextBold>
+                                </View>
+                        }
+                        <View style={styles.textContainer}>
+                            {isLoading
+                                ? <Shimmer isLoading={isLoading} width='60%' height={14} borderRadius={20} />
+                                : <TextBold fontSize={13} color="#5F6373">
+                                    {`${userData.firstName} ${userData.lastName}`}
+                                </TextBold>
+                            }
+                            {
+                                isLoading
+                                    ? <Shimmer isLoading={isLoading} width='30%' height={10} borderRadius={20} />
+                                    : <TextRegular fontSize={9} color="#5F6373">
+                                        {datePostedAgo}
+                                    </TextRegular>
+                            }
                         </View>
-                        : <View style={[styles.circle, { backgroundColor: getRandomColor() }]}>
-                            <TextBold fontSize={16} color='#fff'>
-                                {getUserInitials(name)}
-                            </TextBold>
-                        </View>
-                    }
-                    <View style={styles.textContainer}>
-                        <TextBold fontSize={13} color="#5F6373">
-                            {`${userData.firstName} ${userData.lastName}`}
-                        </TextBold>
-                        <TextRegular fontSize={9} color="#5F6373">
-                            {datePostedAgo}
-                        </TextRegular>
+                        {isLoading
+                            ? <Shimmer isLoading={isLoading} width='10%' height={12} borderRadius={20} marginRight={10} />
+                            : <TouchableOpacity style={styles.dots} onPress={() => setIsMenuVisible(!isMenuVisible)}>
+                                {Icons.dotsIcon}
+                            </TouchableOpacity>}
                     </View>
-                    <TouchableOpacity style={styles.dots} onPress={() => setIsMenuVisible(!isMenuVisible)}>
-                        {Icons.dotsIcon}
-                    </TouchableOpacity>
+                    {isLoading
+                        ? <Shimmer isLoading={isLoading} width='40%' height={15} borderRadius={20} marginLeft={30} />
+                        : item.description && (
+                            <View style={styles.readmoreContainer}>
+                                <ReadMore text={item.description} />
+                            </View>
+                        )}
+                    {isLoading
+                        ? <Shimmer isLoading={isLoading} width={421} height={155} borderRadius={0} />
+                        : imageUris && imageUris.length > 0 && (
+                            <View style={styles.imagesContainer}>
+                                {imageUris.map((uri, i) => (
+                                    <TouchableWithoutFeedback key={i} onPress={() => toggleModal(i)}>
+                                        <Image
+                                            source={{ uri: `${Apis.homeUrl}${uri}` }}
+                                            style={{
+                                                width: imageUris.length === 1 ? 421 : "45%",
+                                                height: imageUris.length === 1 ? 177 : 140,
+                                                margin: imageUris.length === 1 ? 0 : 2
+                                            }}
+                                        />
+                                    </TouchableWithoutFeedback>
+                                ))}
+                            </View>
+                        )}
+                    {isLoading
+                        ? <Shimmer isLoading={isLoading} width='96%' height={35} borderRadius={8} marginLeft={10} marginRight={10} />
+                        : <UserActions
+                            showOverlay={item.showOverlay}
+                            onLongPress={() => handleLongPress(index)}
+                            closeOverlay={handleCloseOverlay}
+                            activeId={postId}
+                        />}
                 </View>
-                {item.description && (
-                    <View style={styles.readmoreContainer}>
-                        <ReadMore text={item.description} />
-                    </View>
-                )}
-                {imageUris && imageUris.length > 0 && (
-                    <View style={styles.imagesContainer}>
-                        {imageUris.map((uri, i) => (
-                            <TouchableWithoutFeedback key={i} onPress={() => toggleModal(i)}>
-                                <Image
-                                    source={{ uri: `${Apis.homeUrl}${uri}` }}
-                                    style={{
-                                        width: imageUris.length === 1 ? 421 : "45%",
-                                        height: imageUris.length === 1 ? 177 : 140,
-                                        margin: imageUris.length === 1 ? 0 : 2
-                                    }}
-                                />
-                            </TouchableWithoutFeedback>
-                        ))}
-                    </View>
-                )}
-                <UserActions
-                    showOverlay={item.showOverlay}
-                    onLongPress={() => handleLongPress(index)}
-                    closeOverlay={handleCloseOverlay}
-                    activeId={postId}
-                />
-                <PostOptionsModal
-                    isModalVisible={isMenuVisible}
-                    setIsModalVisible={setIsMenuVisible}
-                    postId={postId}
-                />
-            </View>
-        </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>
+            <PostOptionsModal
+                isModalVisible={isMenuVisible}
+                setIsModalVisible={setIsMenuVisible}
+                postId={postId}
+            />
+        </View>
     )
 }
 

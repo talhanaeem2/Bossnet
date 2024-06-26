@@ -60,7 +60,7 @@ const Home = () => {
                 { 'Authorization': `Bearer ${accessToken}` }
             );
             handleSuccess('Post Created!');
-            setIsPostCreated(!isPostCreated);
+            setIsPostCreated(true);
             dispatch(setCreatePostModal(false));
             resetPostState();
         } catch (error) {
@@ -75,8 +75,8 @@ const Home = () => {
         setFileIds([]);
         setImages([]);
         setIsUploadComplete(false);
+        setIsPostCreated(false)
     }, []);
-
     const uploadImages = useCallback(async () => {
         const accessToken = await getToken();
         if (!accessToken) return;
@@ -108,7 +108,7 @@ const Home = () => {
         if (isUploadComplete) {
             createPost();
         }
-    }, [createPost, isUploadComplete]);
+    }, [isUploadComplete]);
 
     const handleImagePicker = useCallback(async (action: string) => {
         const permission = await ImagePicker.requestCameraPermissionsAsync();

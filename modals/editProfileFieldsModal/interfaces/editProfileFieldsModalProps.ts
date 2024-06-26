@@ -6,4 +6,7 @@ export default interface EditProfileFieldsModalProps {
     setFirstName: (value: string) => void;
     setLastName: (value: string) => void;
     handleSave: () => void;
+    value: string;
+    firstName: string;
+    lastName: string;
 }

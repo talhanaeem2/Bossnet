@@ -24,11 +24,17 @@ const ImagePickerButtonsModal = (props: ImagePickerButtonsModalProps) => {
                 <View style={styles.modalContainer}>
                     <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
                         <View style={styles.modalView}>
-                            <TouchableOpacity style={styles.w100} onPress={() => handleImagePicker('gallery')}>
+                            <TouchableOpacity
+                                style={styles.w100}
+                                onPress={() => handleImagePicker('gallery', { allowsEditing: false, allowsMultipleSelection: true })}
+                            >
                                 <TextRegular fontSize={16} color="#000">{messages.openGallery}</TextRegular>
                             </TouchableOpacity>
                             <View style={styles.borderBottom}></View>
-                            <TouchableOpacity style={styles.w100} onPress={() => handleImagePicker('camera')}>
+                            <TouchableOpacity
+                                style={styles.w100}
+                                onPress={() => handleImagePicker('camera', { allowsEditing: true, allowsMultipleSelection: false })}
+                            >
                                 <TextRegular fontSize={16} color="#000">{messages.openCamera}</TextRegular>
                             </TouchableOpacity>
                             <View style={styles.borderBottom}></View>

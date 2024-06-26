@@ -1,6 +1,5 @@
-import { StyleSheet, View, Image, ScrollView, TouchableOpacity, ImageProps, Alert } from "react-native";
-import { memo, useCallback, useState } from "react";
-import * as ImagePicker from "expo-image-picker";
+import { StyleSheet, View, Image, ScrollView, TouchableOpacity, ImageProps } from "react-native";
+import { memo, useCallback, useEffect, useState } from "react";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import moment from "moment";
 
@@ -18,7 +17,9 @@ import useErrorHandling from "../../../../hooks/useErrorHandling";
 import useSliceSelector from "../../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../../hooks/useReducerDispatch";
 import useSuccessHandling from "../../../../hooks/useSuccessHandling";
+import useImagePicker from "../../../../hooks/useImagePicker/useImagePicker";
 import useToken from "../../../../hooks/useToken";
+
 import { setIsLoading, setUserData } from "../../../../reducers/auth/authSlice";
 
 import IProfileData from "../../../../interfaces/IProfileData";
@@ -60,10 +61,16 @@ const EditProfile = () => {
             myHeaders.append("Authorization", `Bearer ${accessToken}`);
 
             const formdata = new FormData();
-            formdata.append("firstName", firstName);
-            formdata.append("lastName", lastName);
-            if (editingField !== "firstName" && editingField !== "lastName") {
+            if (editingField != 'firstName') {
                 formdata.append(editingField, editValue);
+            }
+
+            if (firstName !== data?.firstName) {
+                formdata.append("firstName", firstName);
+            }
+
+            if (lastName !== data?.lastName) {
+                formdata.append("lastName", lastName);
             }
             if (file) {
                 // @ts-ignore: Unreachable code error
@@ -74,9 +81,10 @@ const EditProfile = () => {
                 Apis.profileApi,
                 'POST',
                 formdata,
-                { Authorization: `Bearer ${accessToken}` },
+                myHeaders,
                 true
             );
+
             dispatch(setUserData(response));
             dispatch(setIsLoading(false))
             handleSuccess(messages.profileUpdated);
@@ -86,59 +94,28 @@ const EditProfile = () => {
         }
     }, [firstName, lastName, editingField, editValue, getToken, dispatch, handleError, handleSuccess]);
 
-    const handleImagePicker = useCallback(async (action: string) => {
-        const permission = await ImagePicker.requestCameraPermissionsAsync();
-
-        if (permission.granted === false) {
-            Alert.alert("You've refused to allow this app to access your photos!");
-        } else {
-            const result = action === "gallery"
-                ? await ImagePicker.launchImageLibraryAsync({
-                    mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                    aspect: [1, 1],
-                    quality: 1,
-                    allowsEditing: true,
-                    allowsMultipleSelection: false
-                })
-                : await ImagePicker.launchCameraAsync({
-                    mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                    allowsEditing: true,
-                    aspect: [1, 1],
-                    quality: 1,
-                });
-
-            if (!result.canceled && result.assets.length > 0) {
-                let selectedImage = result.assets[0];
-                let filename = selectedImage.uri.split("/").pop();
-                let uri = selectedImage.uri
-
-                // Infer the type of the image
-                let match = /\.(\w+)$/.exec(filename as string);
-                let type = match ? `image/${match[1]}` : `image`;
-
-                const file = {
-                    uri: uri,
-                    type: type,
-                    filename: filename || ""
-                };
-                setShowButtons(false);
-                handleProfileUpdate(file);
-            }
-        }
+    const onImageSelected = useCallback((file: ImageInterface) => {
+        handleProfileUpdate(file);
     }, [handleProfileUpdate]);
 
-    const showUploadButtons = () => {
-        setShowButtons(!showButtons)
-    }
+    const handleImagePicker = useImagePicker({
+        onImageSelected,
+        handleProfileUpdate,
+        setShowButtons,
+    });
 
-    const handleEditClick = (fieldName: string, value: string) => {
+    const showUploadButtons = useCallback(() => {
+        setShowButtons(!showButtons)
+    }, []);
+
+    const handleEditClick = useCallback((fieldName: string, value: string) => {
         setShowDatePicker(fieldName === "dayOfBirth");
         setEditingField(fieldName)
         setEditValue(value)
         setIsModalVisible(true);
-    };
+    }, []);
 
-    const handleSave = () => {
+    const handleSave = useCallback(() => {
         if (!editingField) {
             setIsModalVisible(false);
             return;
@@ -146,22 +123,27 @@ const EditProfile = () => {
 
         setIsModalVisible(false);
         handleProfileUpdate();
-    };
+    }, [editingField, handleProfileUpdate]);
 
-    const handleDateChange = (event: DateTimePickerEvent, date: Date) => {
-        const formattedDate = moment(date).format("YYYY/MM/DD");
+    const handleDateChange = useCallback((event: DateTimePickerEvent, date: Date) => {
         if (event.type === 'dismissed') {
             setShowDatePicker(false);
             return;
         }
-
         if (date) {
-            setShowDatePicker(false);
+            const formattedDate = moment(date).format("YYYY/MM/DD");
             setSelectedDate(date);
+            setEditingField('dayOfBirth')
             setEditValue(formattedDate);
+            setShowDatePicker(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (editValue && editingField === 'dayOfBirth') {
             handleProfileUpdate();
         }
-    };
+    }, [editValue, editingField]);
 
     const EditField = ({
         fieldName,
@@ -285,7 +267,7 @@ const EditProfile = () => {
                 </ScrollView>
             </View>
             <ImagePickerButtonsModal
-                handleImagePicker={handleImagePicker}
+                handleImagePicker={(action) => handleImagePicker({ action })}
                 showButtons={showButtons}
                 setShowButtons={setShowButtons}
 
@@ -298,6 +280,9 @@ const EditProfile = () => {
                 setFirstName={setFirstName}
                 setLastName={setLastName}
                 handleSave={handleSave}
+                value={editValue}
+                firstName={firstName}
+                lastName={lastName}
             />
             {showDatePicker && (
                 <DateTimePicker

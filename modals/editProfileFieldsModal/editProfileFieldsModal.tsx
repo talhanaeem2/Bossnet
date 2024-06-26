@@ -8,7 +8,18 @@ import useSliceSelector from "../../hooks/useSliceSelector";
 import EditProfileFieldsModalProps from "./interfaces/editProfileFieldsModalProps";
 
 const EditProfileFieldsModal = (props: EditProfileFieldsModalProps) => {
-    const { isModalVisible, setIsModalVisible, editingField, setEditValue, setFirstName, setLastName, handleSave } = props;
+    const {
+        isModalVisible,
+        setIsModalVisible,
+        editingField,
+        setEditValue,
+        setFirstName,
+        setLastName,
+        handleSave,
+        value,
+        firstName,
+        lastName
+    } = props;
     const messages = useSliceSelector(state => state.language.messages);
 
     const Fieldlabel = useCallback(() => {
@@ -49,6 +60,7 @@ const EditProfileFieldsModal = (props: EditProfileFieldsModalProps) => {
                                             style={styles.input}
                                             onChangeText={setFirstName}
                                             autoFocus={true}
+                                            value={firstName}
                                         />
                                     </View>
                                     <View style={styles.modalField}>
@@ -58,6 +70,7 @@ const EditProfileFieldsModal = (props: EditProfileFieldsModalProps) => {
                                         <TextInput
                                             style={styles.input}
                                             onChangeText={setLastName}
+                                            value={lastName}
                                         />
                                     </View>
                                 </View>
@@ -69,6 +82,7 @@ const EditProfileFieldsModal = (props: EditProfileFieldsModalProps) => {
                                         style={styles.input}
                                         onChangeText={setEditValue}
                                         autoFocus={true}
+                                        value={value}
                                     />
                                 </View>
                             }
