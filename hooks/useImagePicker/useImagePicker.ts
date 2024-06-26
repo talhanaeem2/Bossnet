@@ -28,7 +28,8 @@ const useImagePicker = (props: UseImagePickerProps) => {
                 })
                 : await ImagePicker.launchCameraAsync({
                     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                    allowsEditing: options?.allowsEditing || false,
+                    allowsMultipleSelection: options?.allowsMultipleSelection || false,
+                    allowsEditing: options?.allowsEditing || true,
                     aspect: [1, 1],
                     quality: 1,
                 });
