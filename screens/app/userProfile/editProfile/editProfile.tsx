@@ -193,7 +193,7 @@ const EditProfile = () => {
             fields: [
                 { fieldName: "firstName", icon: editUsernameIcon, label: data.firstName || messages.name, value: data.firstName },
                 { fieldName: "dayOfBirth", icon: editDobIcon, label: data.dayOfBirth || messages.birthday, value: data.dayOfBirth },
-                { fieldName: "bio", icon: editBioIcon, label: messages.biography, value: "bio", borderBottom: false },
+                { fieldName: "bio", icon: editBioIcon, label: messages.biography, value: "bio" },
             ],
         },
         {

@@ -19,7 +19,7 @@ const MultiButtons = (props: MultiButtonsProps) => {
                                 {button.label}
                             </TextRegular>
                         </TouchableOpacity>
-                        <View style={styles.borderBottom}></View>
+                        {index !== buttons.length - 1 && <View style={styles.borderBottom}></View>}
                     </View>
                 )
             })}
