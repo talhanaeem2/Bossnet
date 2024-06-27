@@ -2,6 +2,7 @@ import { StyleSheet, View, Image, ScrollView, TouchableOpacity, ImageProps } fro
 import { memo, useCallback, useEffect, useState } from "react";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import moment from "moment";
+import { ImagePickerOptions } from "expo-image-picker";
 
 import MainWapper from "../../../../components/app/mainWrapper/mainWrapper";
 import TextBold from "../../../../components/app/common/textComponent/textBold/textBold";
@@ -17,7 +18,7 @@ import useErrorHandling from "../../../../hooks/useErrorHandling";
 import useSliceSelector from "../../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../../hooks/useReducerDispatch";
 import useSuccessHandling from "../../../../hooks/useSuccessHandling";
-import useImagePicker from "../../../../hooks/useImagePicker/useImagePicker";
+import useImagePicker from "../../../../hooks/useImagePicker";
 import useToken from "../../../../hooks/useToken";
 
 import { setIsLoading, setUserData } from "../../../../reducers/auth/authSlice";
@@ -50,6 +51,7 @@ const EditProfile = () => {
     const { handleSuccess } = useSuccessHandling();
     const { getToken } = useToken();
     const messages = useSliceSelector(state => state.language.messages);
+    const { handleImagePicker } = useImagePicker();
 
     const handleProfileUpdate = useCallback(async (file?: ImageInterface) => {
         const accessToken = await getToken();
@@ -94,15 +96,13 @@ const EditProfile = () => {
         }
     }, [firstName, lastName, editingField, editValue, getToken, dispatch, handleError, handleSuccess]);
 
-    const onImageSelected = useCallback((file: ImageInterface) => {
-        handleProfileUpdate(file);
-    }, [handleProfileUpdate]);
-
-    const handleImagePicker = useImagePicker({
-        onImageSelected,
-        handleProfileUpdate,
-        setShowButtons,
-    });
+    const pickImage = async (action: string, options?: ImagePickerOptions) => {
+        const selectedImage = await handleImagePicker(action, options);
+        if (selectedImage && selectedImage.length > 0) {
+            setShowButtons(false);
+            handleProfileUpdate(selectedImage[0]);
+        }
+    };
 
     const showUploadButtons = useCallback(() => {
         setShowButtons(!showButtons)
@@ -267,7 +267,7 @@ const EditProfile = () => {
                 </ScrollView>
             </View>
             <ImagePickerButtonsModal
-                handleImagePicker={(action) => handleImagePicker({ action })}
+                handleImagePicker={pickImage}
                 showButtons={showButtons}
                 setShowButtons={setShowButtons}
 

@@ -1,6 +1,6 @@
-import { Alert, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { memo, useCallback, useEffect, useState } from "react";
-import * as ImagePicker from 'expo-image-picker';
+import { ImagePickerOptions } from "expo-image-picker";
 
 import Header from "../../../components/app/header/header";
 import Footer from "../../../components/app/footer/footer";
@@ -18,6 +18,7 @@ import useToken from "../../../hooks/useToken";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import useErrorHandling from "../../../hooks/useErrorHandling";
 import useSuccessHandling from "../../../hooks/useSuccessHandling";
+import useImagePicker from "../../../hooks/useImagePicker";
 
 import { setCreatePostModal } from "../../../reducers/app/appSlice";
 import { setUserData } from "../../../reducers/auth/authSlice";
@@ -38,6 +39,7 @@ const Home = () => {
     const { handleSuccess } = useSuccessHandling();
     const [isPostCreated, setIsPostCreated] = useState(false);
     const [isUploadComplete, setIsUploadComplete] = useState(false);
+    const { handleImagePicker } = useImagePicker();
 
     const showUploadButtons = () => {
         setShowButtons(!showButtons)
@@ -110,46 +112,13 @@ const Home = () => {
         }
     }, [isUploadComplete]);
 
-    const handleImagePicker = useCallback(async (action: string) => {
-        const permission = await ImagePicker.requestCameraPermissionsAsync();
-
-        if (permission.granted === false) {
-            Alert.alert("You've refused to allow this app to access your photos!");
-        } else {
-            const result = action === "gallery"
-                ? await ImagePicker.launchImageLibraryAsync({
-                    mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                    aspect: [1, 1],
-                    quality: 1,
-                    allowsMultipleSelection: true
-                })
-                : await ImagePicker.launchCameraAsync({
-                    mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                    allowsEditing: true,
-                    aspect: [1, 1],
-                    quality: 1,
-                });
-
-            if (!result.canceled && result.assets.length > 0) {
-                const selectedImages = result.assets.map((image) => {
-                    let filename = image.uri.split("/").pop();
-                    let uri = image.uri
-
-                    // Infer the type of the image
-                    let match = /\.(\w+)$/.exec(filename as string);
-                    let type = match ? `image/${match[1]}` : `image`;
-
-                    return {
-                        uri: uri,
-                        type: type,
-                        filename: filename || ""
-                    };
-                })
-                setShowButtons(false);
-                setImages((prevImages) => [...prevImages, ...selectedImages]);
-            }
+    const pickImages = async (action: string, options?: ImagePickerOptions) => {
+        const selectedImages = await handleImagePicker(action, options);
+        if (selectedImages && selectedImages.length > 0) {
+            setShowButtons(false);
+            setImages((prevImages) => [...prevImages, ...selectedImages]);
         }
-    }, []);
+    };
 
     const removeImage = useCallback((index: number) => {
         const newImages = [...images];
@@ -188,14 +157,14 @@ const Home = () => {
                 <CreatePostModal
                     uploadImages={uploadImages}
                     images={images}
-                    handleImagePicker={handleImagePicker}
+                    handleImagePicker={pickImages}
                     removeImage={removeImage}
                     setTitle={setTitle}
                     setDescription={setDescription}
                     description={description}
                 />
                 <ImagePickerButtonsModal
-                    handleImagePicker={handleImagePicker}
+                    handleImagePicker={pickImages}
                     showButtons={showButtons}
                     setShowButtons={setShowButtons}
                 />

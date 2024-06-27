@@ -41,7 +41,7 @@ const CreatePostModal = (props: CreatePostModalProps) => {
     const buttons: ButtonsInterface[] = [
         {
             label: messages.photoVideo,
-            action: () => handleImagePicker('gallery'),
+            action: () => handleImagePicker('gallery', { allowsEditing: false, allowsMultipleSelection: true }),
             icon: Icons.galleryIcon,
         },
         {
@@ -51,12 +51,12 @@ const CreatePostModal = (props: CreatePostModalProps) => {
         },
         {
             label: messages.camera,
-            action: () => handleImagePicker('camera'),
+            action: () => handleImagePicker('camera', { allowsEditing: true, allowsMultipleSelection: false }),
             icon: Icons.cameraIcon,
         },
         {
             label: messages.gif,
-            action: () => handleImagePicker('gallery'),
+            action: () => handleImagePicker('gallery', { allowsEditing: false, allowsMultipleSelection: true }),
             icon: Icons.gifIcon,
         },
     ];
