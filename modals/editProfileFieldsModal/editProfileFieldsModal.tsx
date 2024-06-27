@@ -83,6 +83,8 @@ const EditProfileFieldsModal = (props: EditProfileFieldsModalProps) => {
                                         onChangeText={setEditValue}
                                         autoFocus={true}
                                         value={value}
+                                        multiline={editingField === 'bio'}
+                                        numberOfLines={editingField === 'bio' ? 4 : 1}
                                     />
                                 </View>
                             }
