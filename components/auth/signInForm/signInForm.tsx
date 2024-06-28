@@ -73,20 +73,21 @@ const SignInForm = () => {
 
     const handleSignIn = useCallback(async (values: RequestData) => {
         try {
-            dispatch(setIsLoading(true))
+            dispatch(setIsLoading(true));
+            const trimmedUsername = values.email_or_username.trim();
 
             const response = await requestUtils.request<ResponseData, RequestData>(
                 Apis.loginApi,
                 'POST',
                 {
-                    email_or_username: values.email_or_username,
+                    email_or_username: trimmedUsername,
                     password: values.password,
                 }
             );
 
             if (response) {
                 await AsyncStorage.setItem('token', JSON.stringify(response.token));
-                handleRememberMe(values);
+                handleRememberMe({ ...values, email_or_username: trimmedUsername });
                 dispatch(login());
                 dispatch(setIsLoading(false));
             }
