@@ -1,5 +1,5 @@
 import { Modal, View, Image, StyleSheet, Animated, ScrollView, Dimensions, TouchableOpacity } from "react-native";
-import { memo, useCallback, useEffect, useRef } from "react";
+import { memo, useCallback } from "react";
 
 import { setImageFullScreenModal } from "../../reducers/app/appSlice";
 import useReducerDispatch from "../../hooks/useReducerDispatch";
@@ -17,34 +17,16 @@ const ImageFullScreenModal = () => {
     const dispatch = useReducerDispatch();
     const startIndex = useSliceSelector(state => state.app.imageFullScreeenModal.startIndex);
 
-    const fadeAnim = useRef(new Animated.Value(0)).current;
-
-    useEffect(() => {
-        if (isImageFullScreenModalVisible) {
-            Animated.timing(fadeAnim, {
-                toValue: 1,
-                duration: 300,
-                useNativeDriver: true
-            }).start();
-        }
-    }, [isImageFullScreenModalVisible]);
-
     const closeModal = useCallback(() => {
-        Animated.timing(fadeAnim, {
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: true
-        }).start(() => {
-            dispatch(setImageFullScreenModal({ isVisible: false }));
-        });
-    }, [fadeAnim, dispatch]);
+        dispatch(setImageFullScreenModal({ isVisible: false }));
+    }, [dispatch]);
 
     return (
         <Modal
             visible={isImageFullScreenModalVisible}
-            onRequestClose={closeModal}
+            animationType="fade"
         >
-            <Animated.View style={[styles.modalContainer, { opacity: fadeAnim }]}>
+            <Animated.View style={styles.modalContainer}>
                 {imageModalUris && (
                     <ScrollView
                         horizontal
