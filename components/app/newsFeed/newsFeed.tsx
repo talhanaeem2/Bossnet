@@ -10,10 +10,10 @@ import { RPH } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
 import requestUtils from "../../../constants/utils/requestUtils";
 
-import NewsFeedProps from "./interfaces/newsFeedShareProps";
-
 import useToken from "../../../hooks/useToken";
 import useErrorHandling from "../../../hooks/useErrorHandling";
+
+import NewsFeedProps from "./interfaces/newsFeedShareProps";
 import FeedPostResponse from "./interfaces/feedPostsResponse";
 
 const NewsFeed = (props: NewsFeedProps) => {
