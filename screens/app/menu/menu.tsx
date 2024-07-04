@@ -10,9 +10,10 @@ import TextBold from "../../../components/app/common/textComponent/textBold/text
 import Icons from "../../../constants/icons";
 import { RPH, RPW } from "../../../constants/utils/utils";
 
-import { logout } from "../../../reducers/auth/authSlice";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import useSliceSelector from "../../../hooks/useSliceSelector";
+import { logout } from "../../../reducers/auth/authSlice";
+import { resetActiveTab } from "../../../reducers/app/appSlice";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import menuButtonsInterface from "./interfaces/menuButtonsInterface";
@@ -30,7 +31,8 @@ const Menu = () => {
             await AsyncStorage.removeItem('token');
             await AsyncStorage.removeItem('userData');
 
-            dispatch(logout())
+            dispatch(logout());
+            dispatch(resetActiveTab());
             setIsLoading(false);
 
         } catch (error) {

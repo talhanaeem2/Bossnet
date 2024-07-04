@@ -48,6 +48,9 @@ const appSlice = createSlice({
         setActiveTab(state, action: PayloadAction<string>) {
             state.footerActiveButton.activeTab = action.payload
         },
+        resetActiveTab: (state) => {
+            state.footerActiveButton.activeTab = 'Home';
+        },
         setActivePostId(state, action: PayloadAction<string>) {
             state.newsFeedActiveItem.postId = action.payload
         }
@@ -60,6 +63,7 @@ export const {
     setCommentModal,
     setSuccessModal,
     setActiveTab,
+    resetActiveTab,
     setActivePostId
 } = appSlice.actions;
 
