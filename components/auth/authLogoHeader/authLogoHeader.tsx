@@ -1,12 +1,12 @@
 import { StyleSheet, View, Text } from "react-native"
 import { Picker } from '@react-native-picker/picker';
-import { memo } from "react";
+import { memo, useEffect } from "react";
 
 import { RPH, RPW, RFS } from "../../../constants/utils/utils";
 
 import useSliceSelector from "../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
-import { setLanguage } from "../../../reducers/language/languageSlice";
+import { loadLanguage, setLanguage } from "../../../reducers/language/languageSlice";
 
 import AuthLogoHeaderProps from "./interfaces/AuthLogoHeaderProps";
 import LanguageOptionInterface from "../../../interfaces/languageOptionInterface";
@@ -16,6 +16,10 @@ const AuthLogoHeader = (props: AuthLogoHeaderProps) => {
     const currentLanguage = useSliceSelector(state => state.language.language);
     const dispatch = useReducerDispatch();
     const messages = useSliceSelector(state => state.language.messages);
+
+    useEffect(() => {
+        dispatch(loadLanguage());
+    }, [dispatch]);
 
     const handleLanguageChange = (itemValue: string) => {
         dispatch(setLanguage(itemValue));
