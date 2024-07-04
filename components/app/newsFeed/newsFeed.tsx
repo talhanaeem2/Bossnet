@@ -79,7 +79,7 @@ const NewsFeed = (props: NewsFeedProps) => {
                         isLoading={isLoading}
                     />
                 }
-                keyExtractor={(item, index) => `${item._id}_${index}`}
+                keyExtractor={(item, index) => `${item._id || index}`}
                 // onEndReached={loadMorePosts}
                 // onEndReachedThreshold={0.5}
                 ListHeaderComponent={<NewsFeedShare isLoading={isLoading} showUploadButtons={showUploadButtons} />}
