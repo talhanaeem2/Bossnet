@@ -143,7 +143,7 @@ const SignInForm = () => {
             </TextBold>
             <View style={styles.fieldContainer}>
                 <InputField
-                    placeholder={messages.username}
+                    placeholder={messages.userNameOrEmail}
                     type="text"
                     onChangeText={formik.handleChange('email_or_username')}
                     value={formik.values.email_or_username}

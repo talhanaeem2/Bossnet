@@ -51,7 +51,7 @@ const SignUpForm = () => {
             formdata.append("lastName", lastName);
             formdata.append("dayOfBirth", formattedDate);
             formdata.append("password", password);
-            if (image) {
+            if (image && image.uri) {
                 // @ts-ignore: Unreachable code error
                 formdata.append("image", { uri: image.uri, type: image.type, name: image.filename });
             }
@@ -261,7 +261,7 @@ const SignUpForm = () => {
             </TouchableOpacity>
             {currentStep === 5 && (
                 <TouchableOpacity style={styles.nextButton} onPress={skipProfilePicture}>
-                    <TextRegular fontSize={18} color='#fff'>Skip</TextRegular>
+                    <TextRegular fontSize={18} color='#fff'>{messages.skip}</TextRegular>
                 </TouchableOpacity>
             )}
             {currentStep === 5 && profilePictureFormik.errors.image && (

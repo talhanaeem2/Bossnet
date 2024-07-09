@@ -5,6 +5,7 @@ import ImageFullScreenModal from "../../../modals/imageFullScreenModal/imageFull
 import CommmentModal from "../../../modals/commentModal/commentModal";
 import NewsFeedItem from "./newsfeedItem";
 import NewsFeedShare from "./newsFeedShare";
+import TextRegular from "../common/textComponent/textRegular/textRegular";
 
 import { RPH } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
@@ -12,6 +13,7 @@ import requestUtils from "../../../constants/utils/requestUtils";
 
 import useToken from "../../../hooks/useToken";
 import useErrorHandling from "../../../hooks/useErrorHandling";
+import useSliceSelector from "../../../hooks/useSliceSelector";
 
 import NewsFeedProps from "./interfaces/newsFeedShareProps";
 import FeedPostResponse from "./interfaces/feedPostsResponse";
@@ -25,6 +27,7 @@ const NewsFeed = (props: NewsFeedProps) => {
     const [activeIndex, setActiveIndex] = useState<number>(-1);
     const { getToken } = useToken();
     const { handleError } = useErrorHandling();
+    const messages = useSliceSelector(state => state.language.messages);
 
     const fetchData = useCallback(async () => {
         setIsLoading(true);
@@ -86,6 +89,11 @@ const NewsFeed = (props: NewsFeedProps) => {
                 initialNumToRender={10}
                 maxToRenderPerBatch={10}
                 windowSize={5}
+                ListEmptyComponent={() => (
+                    <View style={styles.emptyContainer}>
+                        <TextRegular fontSize={14}>{messages.noPosts}</TextRegular>
+                    </View>
+                )}
             />
             <CommmentModal />
             <ImageFullScreenModal />
@@ -100,5 +108,10 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         gap: RPH(1.2),
         paddingBottom: 60
+    },
+    emptyContainer: {
+        alignItems: 'center',
+        padding: 20,
+        color: '#767676',
     },
 })

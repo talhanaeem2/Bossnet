@@ -8,7 +8,7 @@ const enMessages = {
     and: " and ",
     privacyPolicy: "Privacy Policy",
     login: 'Login',
-    // sgnUp
+    // signUp
     agree: "I agree to the Terms of Service and Privacy Policy.",
     birthday: "Birthday",
     requestLink: 'Request Link',
@@ -17,9 +17,11 @@ const enMessages = {
     yourName: "What's your name",
     createPassword: 'Create a password',
     updateProfilePicture: 'Update Profile Picture',
+    skip: 'Skip',
     // placeholders
     firstName: "First Name",
-    username: "Username or Email",
+    username: "Username",
+    userNameOrEmail: "Username or Email",
     password: "Password",
     email: "Email",
     confirmEmail: "Confirm Email",
@@ -57,6 +59,7 @@ const enMessages = {
     laugh: "Laugh",
     angry: "Angry",
     liked: 'Liked',
+    noPosts: 'No posts',
     // languageDropdown
     english: "English (US)",
     bosnia: "Bosnia",

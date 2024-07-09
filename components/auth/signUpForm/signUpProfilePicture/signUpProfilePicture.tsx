@@ -1,5 +1,5 @@
-import { memo, useCallback, useState } from "react";
-import { StyleSheet, View, Image, TouchableOpacity, Alert } from "react-native";
+import { memo, useState } from "react";
+import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 
 import TextBold from "../../../app/common/textComponent/textBold/textBold";
@@ -8,6 +8,7 @@ import ImagePickerButtonsModal from "../../../../modals/imagePickerButtonsModal/
 import { RPH } from "../../../../constants/utils/utils";
 
 import useSliceSelector from "../../../../hooks/useSliceSelector";
+import useImagePicker from "../../../../hooks/useImagePicker";
 
 import SignUpProfilePictureProps from "./interfaces/signUpProfilePictureProps";
 
@@ -17,55 +18,22 @@ const SignUpProfilePicture = (props: SignUpProfilePictureProps) => {
     const { formik } = props;
     const [showButtons, setShowButtons] = useState<boolean>(false);
     const messages = useSliceSelector(state => state.language.messages);
+    const { handleImagePicker } = useImagePicker();
 
     const showUploadButtons = () => {
         setShowButtons(true)
     }
 
-    const handleImagePicker = useCallback(async (action: string) => {
-        const permission = await ImagePicker.requestCameraPermissionsAsync();
-
-        if (permission.granted === false) {
-            Alert.alert("You've refused to allow this app to access your photos!");
-        } else {
-            const result = action === 'gallery' ?
-                await ImagePicker.launchImageLibraryAsync({
-                    mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                    aspect: [1, 1],
-                    quality: 1,
-                    allowsEditing: true,
-                    allowsMultipleSelection: false
-                }) :
-                await ImagePicker.launchCameraAsync({
-                    mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                    allowsEditing: true,
-                    aspect: [1, 1],
-                    quality: 1,
-                });
-
-            if (!result.canceled && result.assets.length > 0) {
-                let selectedImage = result.assets[0];
-                console.log(selectedImage);
-                let filename = selectedImage.uri.split('/').pop();
-                let uri = selectedImage.uri
-
-                // Infer the type of the image
-                let match = /\.(\w+)$/.exec(filename as string);
-                let type = match ? `image/${match[1]}` : `image`;
-
-                const file = {
-                    uri: uri,
-                    type: type,
-                    filename: filename || 'image'
-                };
-                formik.setFieldValue('image', file);
-                setShowButtons(false)
-            }
+    const pickImage = async (action: string, options?: ImagePicker.ImagePickerOptions) => {
+        const selectedImage = await handleImagePicker(action, options);
+        if (selectedImage && selectedImage.length > 0) {
+            setShowButtons(false);
+            formik.setFieldValue('image', selectedImage[0]);
         }
-    }, [formik])
+    };
 
     return (
-        <View style={styles.inner}>
+        <View>
             <View style={{ alignSelf: 'center' }}>
                 <TextBold fontSize={23}>
                     {messages.updateProfilePicture}
@@ -84,7 +52,7 @@ const SignUpProfilePicture = (props: SignUpProfilePictureProps) => {
                 </TouchableOpacity>
             </View>
             <ImagePickerButtonsModal
-                handleImagePicker={handleImagePicker}
+                handleImagePicker={pickImage}
                 showButtons={showButtons}
                 setShowButtons={setShowButtons}
             />
@@ -119,9 +87,6 @@ const styles = StyleSheet.create({
     roundImg: {
         width: "100%",
         height: "100%"
-    },
-    inner: {
-        marginTop: 94
     },
     fieldContainer: {
         paddingTop: RPH(4),

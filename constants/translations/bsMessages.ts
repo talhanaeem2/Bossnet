@@ -17,9 +17,11 @@ const bsMessages = {
     yourName: "Kako se zovete",
     createPassword: "Kreirajte lozinku",
     updateProfilePicture: "Ažurirajte profilnu sliku",
+    skip: 'Preskoči',
     // placeholders
     firstName: "Ime",
-    username: "Korisničko ime ili Email",
+    username: "Korisničko ime",
+    userNameOrEmail: 'Korisničko ime ili Email',
     password: "Lozinka",
     email: "Email",
     confirmEmail: "Potvrdi email",
@@ -57,6 +59,7 @@ const bsMessages = {
     shock: "Šok",
     laugh: "Smijeh",
     angry: "Ljut",
+    noPosts: 'Nema postova',
     // languageDropdown
     english: "Engleski (US)",
     bosnia: "Bosanski",

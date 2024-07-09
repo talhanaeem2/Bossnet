@@ -51,7 +51,7 @@ const SignUpDob = (props: SignUpDobProps) => {
                         <DateTimePicker
                             value={formik.values.dayOfBirth}
                             mode="date"
-                            display="calendar"
+                            display="spinner"
                             onChange={(_, date) => {
                                 if (date) {
                                     formik.setFieldValue('dayOfBirth', date)
