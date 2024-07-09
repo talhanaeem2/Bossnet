@@ -19,7 +19,7 @@ const enMessages = {
     updateProfilePicture: 'Update Profile Picture',
     // placeholders
     firstName: "First Name",
-    username: "Username",
+    username: "Username or Email",
     password: "Password",
     email: "Email",
     confirmEmail: "Confirm Email",

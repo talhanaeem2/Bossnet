@@ -19,7 +19,7 @@ const bsMessages = {
     updateProfilePicture: "Ažurirajte profilnu sliku",
     // placeholders
     firstName: "Ime",
-    username: "Korisničko ime",
+    username: "Korisničko ime ili Email",
     password: "Lozinka",
     email: "Email",
     confirmEmail: "Potvrdi email",
