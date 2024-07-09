@@ -91,7 +91,7 @@ const NewsFeed = (props: NewsFeedProps) => {
                 windowSize={5}
                 ListEmptyComponent={() => !isLoading && (
                     <View style={styles.emptyContainer}>
-                        <TextRegular fontSize={14}>{messages.noPosts}</TextRegular>
+                        <TextRegular fontSize={16}>{messages.noPosts}</TextRegular>
                     </View>
                 )}
             />
@@ -113,5 +113,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 20,
         color: '#767676',
+        backgroundColor: '#F9F9F9'
     },
 })

@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: RPH(.8),
-        backgroundColor: "#FFFDFA",
+        backgroundColor: "#F2F3F9",
         position: "relative"
     },
     footer: {

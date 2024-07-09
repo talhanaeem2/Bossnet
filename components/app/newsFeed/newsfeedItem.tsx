@@ -162,10 +162,11 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         borderWidth: 1,
         borderColor: "#F0F0F0",
-        backgroundColor: "#fff",
+        backgroundColor: "#F9F9F9",
         paddingVertical: RPH(2.3),
         borderLeftWidth: 0,
-        gap: 10
+        gap: 10,
+        marginBottom: 10
     },
     post: {
         paddingLeft: RPW(7.2),
