@@ -133,7 +133,6 @@ const CreatePostModal = (props: CreatePostModalProps) => {
                                     numberOfLines={8}
                                     placeholder={`${messages.shareMind} ${name}`}
                                     onChangeText={setDescription}
-                                    value={description}
                                     selection={selection}
                                     onSelectionChange={({ nativeEvent: { selection } }) => setSelection(selection)}
                                 />
