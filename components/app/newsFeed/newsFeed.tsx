@@ -89,7 +89,7 @@ const NewsFeed = (props: NewsFeedProps) => {
                 initialNumToRender={10}
                 maxToRenderPerBatch={10}
                 windowSize={5}
-                ListEmptyComponent={() => (
+                ListEmptyComponent={() => !isLoading && (
                     <View style={styles.emptyContainer}>
                         <TextRegular fontSize={14}>{messages.noPosts}</TextRegular>
                     </View>
