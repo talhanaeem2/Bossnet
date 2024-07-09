@@ -20,6 +20,7 @@ import { setCreatePostModal } from "../../../reducers/app/appSlice";
 import footerIconsInterface from "./interfaces/footerIconsInterface";
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import ImageInterface from "../../../components/common/interfaces/imageInterface";
+import AppHeader from "../../../components/app/appHeader/appHeader";
 
 const UserProfile = () => {
     const userData = useSliceSelector(state => state.auth.userData);
@@ -102,8 +103,9 @@ const UserProfile = () => {
     const name = `${userData.firstName} ${userData.lastName}`;
 
     return (
-        <MainWapper isHeader={true} isFooter={false} icon={true}>
+        <MainWapper>
             <View style={styles.container}>
+                <AppHeader icon={true} />
                 <View style={styles.content}>
                     {userData.profileImage
                         ? <View style={styles.circle}>
@@ -194,8 +196,8 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     circle: {
-        width: 139,
-        height: 139,
+        width: 137,
+        height: 137,
         justifyContent: "center",
         alignItems: "center",
         overflow: "hidden",

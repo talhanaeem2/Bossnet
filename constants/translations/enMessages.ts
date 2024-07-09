@@ -46,7 +46,7 @@ const enMessages = {
     newsfeed: 'Newsfeed',
     notifications: 'Notifications',
     // newsfeed
-    newsfeedPlaceholder: "Share what's on your mind, Aldin Mahmutovic",
+    newsfeedPlaceholder: "What's on your mind",
     newsfeedTitle: "became a registered member",
     likeAction: "Like",
     commentAction: "Comment",

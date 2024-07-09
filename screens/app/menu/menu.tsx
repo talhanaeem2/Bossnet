@@ -6,6 +6,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
 import TextBold from "../../../components/app/common/textComponent/textBold/textBold";
+import AppHeader from "../../../components/app/appHeader/appHeader";
 
 import Icons from "../../../constants/icons";
 import { RPH, RPW } from "../../../constants/utils/utils";
@@ -103,8 +104,9 @@ const Menu = () => {
     ]
 
     return (
-        <MainWapper headerText={messages.menu} icon={true} isHeader={true}>
+        <MainWapper>
             <View style={styles.container}>
+                <AppHeader headerText={messages.menu} icon={true} />
                 <View style={styles.contentContainer}>
                     <View style={styles.buttonsContainer}>
                         {menuButtons.map((item, index) => {

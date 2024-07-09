@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
 import TextBold from "../../../components/app/common/textComponent/textBold/textBold";
 import TextRegular from "../../../components/app/common/textComponent/textRegular/textRegular";
+import AppHeader from "../../../components/app/appHeader/appHeader";
 
 import { RPH, RPW } from "../../../constants/utils/utils";
 
@@ -13,7 +14,8 @@ const Notifications = () => {
     const messages = useSliceSelector(state => state.language.messages);
 
     return (
-        <MainWapper isHeader={true} icon={true} headerText={messages.notifications}>
+        <MainWapper>
+            <AppHeader icon={true} headerText={messages.notifications} />
             <LinearGradient
                 colors={['rgba(39, 60, 255, 0.20)', 'rgba(0, 163, 255, 0.20)']}
                 style={styles.container}

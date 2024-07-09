@@ -50,19 +50,21 @@ const NewsFeedShare = (props: NewsFeedShareProps) => {
                                 </TextBold>
                             </TouchableOpacity>
                     }
-                    {isLoading
-                        ? <Shimmer isLoading={isLoading} width='70%' height={RPH(5)} borderRadius={20} />
-                        : <Pressable onPress={handleToggleCreatePostModal}>
-                            <TextInput
-                                style={styles.input}
-                                placeholder={messages.newsfeedPlaceholder}
-                                editable={false}
-                            />
-                        </Pressable>
-                    }
+                    <View style={styles.inputContainer}>
+                        {isLoading
+                            ? <Shimmer isLoading={isLoading} width='100%' height={RPH(5)} borderRadius={20} />
+                            : <Pressable onPress={handleToggleCreatePostModal} style={{ flex: 1 }}>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder={messages.newsfeedPlaceholder}
+                                    editable={false}
+                                />
+                            </Pressable>
+                        }
+                    </View>
                     {isLoading
                         ? <Shimmer isLoading={isLoading} width={RPW(11)} height={RPH(5.2)} borderRadius={50} />
-                        : <TouchableOpacity onPress={() => showUploadButtons(true)}>
+                        : <TouchableOpacity onPress={() => showUploadButtons(true)} style={styles.uploadButton}>
                             {Icons.uploadIcon}
                         </TouchableOpacity>}
                 </View>
@@ -76,20 +78,21 @@ export default memo(NewsFeedShare);
 const styles = StyleSheet.create({
     shareContainer: {
         flexDirection: "row",
-        justifyContent: "space-between",
+        alignItems: "center",
         paddingHorizontal: RPW(5),
         paddingBottom: RPH(2),
         width: "100%",
-        alignItems: "center"
+    },
+    inputContainer: {
+        flex: 1,
+        marginHorizontal: RPW(3),
     },
     input: {
-        flex: 1,
+        width: '100%',
         backgroundColor: '#FFF',
         borderWidth: 1,
         borderColor: 'rgba(0, 0, 0, 0.26)',
         borderRadius: 25,
-        marginLeft: RPW(1.2),
-        marginRight: RPW(4),
         paddingHorizontal: RPW(2.5),
         paddingVertical: RPH(.6),
         color: "#767676",
@@ -108,5 +111,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         overflow: "hidden",
         borderRadius: 70,
+    },
+    uploadButton: {
+        flexShrink: 1,
     }
-})
+});

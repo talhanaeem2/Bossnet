@@ -1,9 +1,6 @@
 import { ReactNode } from "react";
 
-import MainHeaderProps from "../../mainHeader/interfaces/mainHeaderProps";
-
-export default interface MainWrapperProps extends MainHeaderProps {
+export default interface MainWrapperProps {
     children: ReactNode;
-    isHeader: boolean;
     isFooter?: boolean;
 }

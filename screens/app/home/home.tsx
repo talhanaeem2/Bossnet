@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { memo, useCallback, useEffect, useState } from "react";
 import { ImagePickerOptions } from "expo-image-picker";
 
-import Header from "../../../components/app/header/header";
+import AppHeader from "../../../components/app/appHeader/appHeader";
 import Footer from "../../../components/app/footer/footer";
 import NewsFeed from "../../../components/app/newsFeed/newsFeed";
 import SafeAreaViewComponent from "../../../components/app/common/SafeAreaViewComponent/SafeAreaViewComponent";
@@ -152,7 +152,9 @@ const Home = () => {
     return (
         <SafeAreaViewComponent>
             <View style={styles.container}>
-                <Header />
+                <View style={{ paddingVertical: RPH(1.8) }}>
+                    <AppHeader />
+                </View>
                 <NewsFeed showUploadButtons={showUploadButtons} isPostCreated={isPostCreated} />
                 <CreatePostModal
                     uploadImages={uploadImages}

@@ -2,7 +2,7 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 
 import Icons from '../../../constants/icons';
 import { RPH, RPW, RFS } from '../../../constants/utils/utils';
@@ -82,7 +82,7 @@ const AuthHeader = (props: AuthHeaderProps) => {
     )
 }
 
-export default AuthHeader
+export default memo(AuthHeader);
 
 const styles = StyleSheet.create({
     container: {

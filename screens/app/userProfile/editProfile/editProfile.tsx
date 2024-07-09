@@ -25,6 +25,7 @@ import { setIsLoading, setUserData } from "../../../../reducers/auth/authSlice";
 
 import IProfileData from "../../../../interfaces/IProfileData";
 import ImageInterface from "../../../../components/common/interfaces/imageInterface";
+import AppHeader from "../../../../components/app/appHeader/appHeader";
 
 const editImgIcon = require("../../../../assets/icons/editImg.png");
 const editUsernameIcon = require("../../../../assets/icons/editUsername.png");
@@ -215,8 +216,9 @@ const EditProfile = () => {
     const name = `${data.firstName} ${data.lastName}`;
 
     return (
-        <MainWapper isHeader={true} isFooter={false} icon={true}>
+        <MainWapper>
             <View style={styles.container}>
+                <AppHeader icon={true} />
                 <ScrollView style={{ width: 400, height: 460 }}>
                     <View style={styles.content}>
                         <TouchableOpacity style={styles.circle} onPress={showUploadButtons}>

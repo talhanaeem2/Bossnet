@@ -7,6 +7,7 @@ import moment from "moment";
 
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
 import TextBold from "../../../components/app/common/textComponent/textBold/textBold";
+import AppHeader from "../../../components/app/appHeader/appHeader";
 
 import { RPW, RFS, RPH } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
@@ -119,8 +120,9 @@ const NewMessage = () => {
     }
 
     return (
-        <MainWapper headerText={messages.cancel} isHeader={true}>
+        <MainWapper>
             <View style={styles.container}>
+                <AppHeader headerText={messages.cancel} />
                 <View style={styles.inputContainer}>
                     <TextInput
                         ref={inputRef}
@@ -180,7 +182,7 @@ const styles = StyleSheet.create({
     inputContainer: {
         flexDirection: "row",
         alignItems: "center",
-        marginVertical: RPH(1.6)
+        marginBottom: RPH(1.6)
     },
     circle: {
         width: RPW(11.5),

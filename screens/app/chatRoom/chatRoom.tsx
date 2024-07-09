@@ -48,7 +48,7 @@ const ChatRoom = () => {
     };
 
     return (
-        <MainWapper isHeader={false}>
+        <MainWapper>
             <View style={styles.header}>
                 <TouchableOpacity onPress={goBack}>
                     {Icons.backIcon}

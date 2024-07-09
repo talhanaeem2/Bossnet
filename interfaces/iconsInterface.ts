@@ -59,6 +59,8 @@ interface IconsInterface {
     myFriends: JSX.Element;
     lock: JSX.Element;
     myGroups: JSX.Element;
+    newMessage: JSX.Element;
+    inputSearchIcon: JSX.Element;
 }
 
 export default IconsInterface
