@@ -252,7 +252,7 @@ const SignUpForm = () => {
 
     return (
         <View style={styles.inner}>
-            <AuthHeader currentStep={currentStep} goBackToPreviousStep={goBackToPreviousStep} />
+            <AuthHeader currentStep={currentStep} goBackToPreviousStep={goBackToPreviousStep} showBackIcon={true} />
             {formJSX()}
             <TouchableOpacity style={styles.nextButton} onPress={navigateNext}>
                 <TextRegular fontSize={18} color='#fff'>

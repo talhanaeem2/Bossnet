@@ -6,10 +6,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import AuthLogoHeader from "../authLogoHeader/authLogoHeader";
 import InputField from "../../app/common/inputField/InputField";
 import TextBold from "../../app/common/textComponent/textBold/textBold";
 import TextRegular from "../../app/common/textComponent/textRegular/textRegular";
+import AuthHeader from "../authHeader/authHeader";
 
 import { RPH, RPW } from "../../../constants/utils/utils";
 import Icons from "../../../constants/icons";
@@ -19,11 +19,11 @@ import requestUtils from "../../../constants/utils/requestUtils";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { login, setIsLoading } from "../../../reducers/auth/authSlice";
 import useErrorHandling from "../../../hooks/useErrorHandling";
+import useSliceSelector from "../../../hooks/useSliceSelector";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import ResponseData from "./interfaces/responseData";
 import RequestData from "./interfaces/requestData";
-import useSliceSelector from "../../../hooks/useSliceSelector";
 
 const SignInForm = () => {
     const route = useRoute();
@@ -137,7 +137,7 @@ const SignInForm = () => {
 
     return (
         <View style={styles.inner}>
-            <AuthLogoHeader />
+            <AuthHeader showBackIcon={false} />
             <TextBold fontSize={23}>
                 {messages.signInHeading}
             </TextBold>

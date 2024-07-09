@@ -1,7 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { memo } from "react";
 
-import AuthLogoHeader from "../../authLogoHeader/authLogoHeader";
 import InputField from "../../../app/common/inputField/InputField";
 import TextBold from "../../../app/common/textComponent/textBold/textBold";
 import TextRegular from "../../../app/common/textComponent/textRegular/textRegular";
@@ -20,7 +19,6 @@ const SignUpPassword = (props: SignUpPasswordProps) => {
 
     return (
         <View style={styles.inner}>
-            <AuthLogoHeader />
             <View>
                 <TextBold fontSize={23}>
                     {messages.createPassword}

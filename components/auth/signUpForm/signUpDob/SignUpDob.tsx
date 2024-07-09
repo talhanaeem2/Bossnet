@@ -4,7 +4,6 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from "moment";
 import Checkbox from "expo-checkbox";
 
-import AuthLogoHeader from "../../authLogoHeader/authLogoHeader";
 import TextBold from "../../../app/common/textComponent/textBold/textBold";
 import TextRegular from "../../../app/common/textComponent/textRegular/textRegular";
 
@@ -33,7 +32,6 @@ const SignUpDob = (props: SignUpDobProps) => {
 
     return (
         <View style={styles.inner}>
-            <AuthLogoHeader />
             <View>
                 <TextBold fontSize={23}>
                     {messages.yourBirthday}

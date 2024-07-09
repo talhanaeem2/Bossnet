@@ -4,7 +4,6 @@ import { memo } from "react";
 import InputField from "../../../app/common/inputField/InputField";
 import TextBold from "../../../app/common/textComponent/textBold/textBold";
 import TextRegular from "../../../app/common/textComponent/textRegular/textRegular";
-import AuthLogoHeader from "../../authLogoHeader/authLogoHeader";
 
 import { RPH, RPW } from "../../../../constants/utils/utils";
 import Icons from "../../../../constants/icons";
@@ -19,7 +18,6 @@ const AccountRecoveryPasswordForm = (props: AccountRecoveryPasswordFormProps) =>
 
     return (
         <View style={styles.inner}>
-            <AuthLogoHeader />
             <View>
                 <TextBold fontSize={23}>
                     {messages.passwordFormHeading}

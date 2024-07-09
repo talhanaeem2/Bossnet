@@ -3,13 +3,13 @@ import { memo, useRef, useState } from "react";
 
 import TextBold from "../../../app/common/textComponent/textBold/textBold";
 import TextRegular from "../../../app/common/textComponent/textRegular/textRegular";
-import AuthLogoHeader from "../../authLogoHeader/authLogoHeader";
 
 import { RFS, RLS, RPH, RPW } from "../../../../constants/utils/utils";
 
 import useSliceSelector from "../../../../hooks/useSliceSelector";
 
 import AccountRecoveryVerificationFormProps from "./interfaces/accountRecoveryVerificationFormProps";
+import AuthHeader from "../../authHeader/authHeader";
 
 const AccountRecoveryCodeForm = (props: AccountRecoveryVerificationFormProps) => {
     const { formik } = props
@@ -52,7 +52,6 @@ const AccountRecoveryCodeForm = (props: AccountRecoveryVerificationFormProps) =>
 
     return (
         <View style={styles.inner}>
-            <AuthLogoHeader />
             <View>
                 <TextBold fontSize={23}>
                     {messages.verification}

@@ -209,7 +209,7 @@ const AccountRecoveryForm = () => {
 
     return (
         <View style={styles.inner}>
-            <AuthHeader currentStep={currentStep} goBackToPreviousStep={goBackToPreviousStep} />
+            <AuthHeader currentStep={currentStep} goBackToPreviousStep={goBackToPreviousStep} showBackIcon={true} />
             {formJSX()}
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.nextButton} onPress={navigateNext}>
@@ -217,13 +217,13 @@ const AccountRecoveryForm = () => {
                         {buttonText}
                     </TextRegular>
                 </TouchableOpacity>
-                {currentStep === 1 && (
+                {/* {currentStep === 1 && (
                     <TouchableOpacity style={styles.nextButton} onPress={navigateToSignIn}>
                         <TextRegular fontSize={18} color='#fff'>
                             {messages.signInHeading}
                         </TextRegular>
                     </TouchableOpacity>
-                )}
+                )} */}
             </View>
             <View style={styles.bottomContainer}>
                 <View style={styles.terms}>
