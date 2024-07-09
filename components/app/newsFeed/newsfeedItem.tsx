@@ -93,8 +93,8 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
                         <View style={styles.textContainer}>
                             {isLoading
                                 ? <Shimmer isLoading={isLoading} width='60%' height={14} borderRadius={20} />
-                                : <TextBold fontSize={13} color="#5F6373">
-                                    {`${userData.firstName} ${userData.lastName}`}
+                                : <TextBold fontSize={13} color="#52535A">
+                                    {name}
                                 </TextBold>
                             }
                             {
