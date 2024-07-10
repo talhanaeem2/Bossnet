@@ -1,7 +1,6 @@
 import IErrorResponse from "../../interfaces/IErrorResponse";
 import IResponse from "../../interfaces/IResponse";
-import MediaUploadResponse from "../interfaces/apisInterfaces/mediaUploadResponse";
-import MediaUploadResponseData from "../interfaces/apisInterfaces/mediaUploadResponseData";
+import PostsPagination from "../../interfaces/PostsPagination";
 
 const requestUtils = {
     baseHeaders: { 'Accept': 'application/json', },
@@ -12,7 +11,7 @@ const requestUtils = {
         body?: T,
         extraHeaders: HeadersInit = {},
         isFormData = false
-    ): Promise<R> {
+    ): Promise<{ data: R; pagination?: PostsPagination }> {
         const headers = {
             ...this.baseHeaders,
             ...extraHeaders,
@@ -38,8 +37,8 @@ const requestUtils = {
                 throw new Error(errorResult.message);
             }
 
-            const successResult = result as IResponse<R> | MediaUploadResponse;
-            return (successResult as IResponse<R>).data || (successResult as MediaUploadResponse).filePath as MediaUploadResponseData[] as R;
+            const successResult = result as IResponse<R>;
+            return { data: successResult.data, pagination: successResult.pagination };
         } catch (error) {
             console.error('Request failed:', error);
             throw error;

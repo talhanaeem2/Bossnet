@@ -1,5 +1,5 @@
 export default interface PostOptionsModalProps {
     isModalVisible: boolean;
     setIsModalVisible: (value: boolean) => void;
-    postId: string;
+    postId: string | undefined;
 }

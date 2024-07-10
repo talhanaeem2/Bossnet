@@ -81,7 +81,9 @@ const UserActions = (props: UserActionsProps) => {
 
     const handleComment = () => {
         console.log('Commented!');
-        dispatch(setActivePostId(activeId))
+        if (activeId) {
+            dispatch(setActivePostId(activeId))
+        }
         dispatch(setCommentModal(!isCommentModalVisible))
         closeOverlay();
     }

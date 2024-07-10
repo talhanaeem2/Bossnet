@@ -13,7 +13,7 @@ import PostOptionsModalProps from "./interfaces/postOptionsModal";
 const PostOptionsModal = (props: PostOptionsModalProps) => {
     const { isModalVisible, setIsModalVisible, postId } = props;
     const messages = useSliceSelector(state => state.language.messages);
-    const test = (val: string) => {
+    const test = (val: string | undefined) => {
         console.log(val)
     }
 

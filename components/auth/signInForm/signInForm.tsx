@@ -76,7 +76,7 @@ const SignInForm = () => {
             dispatch(setIsLoading(true));
             const trimmedUsername = values.email_or_username.trim();
 
-            const response = await requestUtils.request<ResponseData, RequestData>(
+            const { data } = await requestUtils.request<ResponseData, RequestData>(
                 Apis.loginApi,
                 'POST',
                 {
@@ -85,8 +85,8 @@ const SignInForm = () => {
                 }
             );
 
-            if (response) {
-                await AsyncStorage.setItem('token', JSON.stringify(response.token));
+            if (data) {
+                await AsyncStorage.setItem('token', JSON.stringify(data.token));
                 handleRememberMe({ ...values, email_or_username: trimmedUsername });
                 dispatch(login());
                 dispatch(setIsLoading(false));

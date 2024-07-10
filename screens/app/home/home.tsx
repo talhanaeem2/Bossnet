@@ -90,7 +90,7 @@ const Home = () => {
         })
 
         try {
-            const response = await requestUtils.request<MediaUploadResponseData[], FormData>(
+            const { data } = await requestUtils.request<MediaUploadResponseData[], FormData>(
                 Apis.uploadMedia,
                 'POST',
                 formData,
@@ -98,7 +98,7 @@ const Home = () => {
                 true
             );
 
-            const ids = response.map(item => item._id);
+            const ids = data.map(item => item._id);
             setFileIds(ids);
             setIsUploadComplete(true);
         } catch (error) {
@@ -131,14 +131,14 @@ const Home = () => {
         if (!accessToken) return;
 
         try {
-            const response = await requestUtils.request<IProfileData, void>(
+            const { data } = await requestUtils.request<IProfileData, void>(
                 Apis.profileApi,
                 'GET',
                 undefined,
                 { 'Authorization': `Bearer ${accessToken}` }
             );
 
-            dispatch(setUserData(response))
+            dispatch(setUserData(data))
 
         } catch (error) {
             console.log(error);

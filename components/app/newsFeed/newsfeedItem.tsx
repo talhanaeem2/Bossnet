@@ -20,29 +20,31 @@ import useSliceSelector from "../../../hooks/useSliceSelector";
 import NewsFeedItemProps from "./interfaces/newsFeedItemProps";
 import FeedPostResponse from "./interfaces/feedPostsResponse";
 
-const NewsFeedItem = (props: NewsFeedItemProps) => {
-    const { item, index, activeIndex, setActiveIndex, newsFeedPosts, setNewsFeedPosts, isLoading } = props;
+const NewsFeedItem = (props: NewsFeedItemProps & { loadingMore?: boolean }) => {
+    const { item, index, activeIndex, setActiveIndex, newsFeedPosts, setNewsFeedPosts, isLoading, loadingMore } = props;
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
     const dispatch = useReducerDispatch();
     const [isMenuVisible, setIsMenuVisible] = useState(false);
     const userData = useSliceSelector(state => state.auth.userData);
 
     const handleCloseOverlay = useCallback(() => {
-        setNewsFeedPosts(prevState => {
-            if (prevState) {
-                return prevState.map((post, i) => ({
-                    ...post,
-                    showOverlay: false
-                }));
-            }
-            return []
-        });
+        if (setNewsFeedPosts) {
+            setNewsFeedPosts(prevState => {
+                if (prevState) {
+                    return prevState.map((post, i) => ({
+                        ...post,
+                        showOverlay: false
+                    }));
+                }
+                return []
+            })
+        };
     }, [newsFeedPosts])
 
     const toggleModal = useCallback((startIndex: number) => {
-        const allUris = item.media?.map((media) => media.path).filter(uri => uri) || [];
+        const allUris = item?.media?.map((media) => media.path).filter(uri => uri) || [];
         dispatch(setImageFullScreenModal({ isVisible: !isImageFullScreenModalVisible, uris: allUris, startIndex }))
-    }, [dispatch, isImageFullScreenModalVisible, item.media]);
+    }, [dispatch, isImageFullScreenModalVisible, item?.media]);
 
     const toggleShowOverlay = useCallback((prevState: FeedPostResponse[], index: number) => {
         if (!prevState) return [];
@@ -58,28 +60,33 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
         return updatedPosts;
     }, []);
 
-    const handleLongPress = useCallback((index: number) => {
-        setNewsFeedPosts(prevState => toggleShowOverlay(prevState, index));
+    const handleLongPress = useCallback((index: number | undefined) => {
+        if (setNewsFeedPosts && index) {
+            setNewsFeedPosts(prevState => toggleShowOverlay(prevState, index));
+        }
     }, [newsFeedPosts]);
 
     const closeMenu = () => {
-        setIsMenuVisible(false)
-        setActiveIndex(-1)
+        setIsMenuVisible(false);
+        if (setActiveIndex) {
+            setActiveIndex(-1);
+        }
     }
 
-    const title = item.title;
-    const postId = item._id;
-    const imageUris = item.media.map((media) => media.path).filter(uri => uri);
-    const datePostedAgo = moment(item.date_posted).fromNow();
+    const title = item?.title;
+    const postId = item?._id;
+    const imageUris = item?.media.map((media) => media.path).filter(uri => uri);
+    const datePostedAgo = moment(item?.date_posted).fromNow();
     const name = `${userData.firstName} ${userData.lastName}`;
+    // console.log(item)
 
     return (
         <View>
             <TouchableWithoutFeedback onPress={() => { handleCloseOverlay(); closeMenu(); }}>
                 <View style={styles.postContainer}>
                     <View style={styles.post}>
-                        {isLoading
-                            ? <Shimmer isLoading={isLoading} width={RPW(11.5)} height={RPH(5.6)} borderRadius={50} />
+                        {isLoading || loadingMore
+                            ? <Shimmer isLoading={isLoading || loadingMore} width={RPW(11.5)} height={RPH(5.6)} borderRadius={50} />
                             : userData.profileImage
                                 ? <View style={styles.circle}>
                                     <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
@@ -91,35 +98,35 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
                                 </View>
                         }
                         <View style={styles.textContainer}>
-                            {isLoading
-                                ? <Shimmer isLoading={isLoading} width='60%' height={14} borderRadius={20} />
+                            {isLoading || loadingMore
+                                ? <Shimmer isLoading={isLoading || loadingMore} width='60%' height={14} borderRadius={20} />
                                 : <TextBold fontSize={13} color="#52535A">
                                     {name}
                                 </TextBold>
                             }
                             {
-                                isLoading
-                                    ? <Shimmer isLoading={isLoading} width='30%' height={10} borderRadius={20} />
+                                isLoading || loadingMore
+                                    ? <Shimmer isLoading={isLoading || loadingMore} width='30%' height={10} borderRadius={20} />
                                     : <TextRegular fontSize={9} color="#5F6373">
                                         {datePostedAgo}
                                     </TextRegular>
                             }
                         </View>
-                        {isLoading
-                            ? <Shimmer isLoading={isLoading} width='10%' height={12} borderRadius={20} marginRight={10} />
+                        {isLoading || loadingMore
+                            ? <Shimmer isLoading={isLoading || loadingMore} width='10%' height={12} borderRadius={20} marginRight={10} />
                             : <TouchableOpacity style={styles.dots} onPress={() => setIsMenuVisible(!isMenuVisible)}>
                                 {Icons.dotsIcon}
                             </TouchableOpacity>}
                     </View>
-                    {isLoading
-                        ? <Shimmer isLoading={isLoading} width='40%' height={15} borderRadius={20} marginLeft={30} />
-                        : item.description && (
+                    {isLoading || loadingMore
+                        ? <Shimmer isLoading={isLoading || loadingMore} width='40%' height={15} borderRadius={20} marginLeft={30} />
+                        : item?.description && (
                             <View style={styles.readmoreContainer}>
-                                <ReadMore text={item.description} />
+                                <ReadMore text={item?.description} />
                             </View>
                         )}
-                    {isLoading
-                        ? <Shimmer isLoading={isLoading} width={421} height={155} borderRadius={0} />
+                    {isLoading || loadingMore
+                        ? <Shimmer isLoading={isLoading || loadingMore} width={421} height={155} borderRadius={0} />
                         : imageUris && imageUris.length > 0 && (
                             <View style={styles.imagesContainer}>
                                 {imageUris.map((uri, i) => (
@@ -136,10 +143,10 @@ const NewsFeedItem = (props: NewsFeedItemProps) => {
                                 ))}
                             </View>
                         )}
-                    {isLoading
-                        ? <Shimmer isLoading={isLoading} width='96%' height={35} borderRadius={8} marginLeft={10} marginRight={10} />
+                    {isLoading || loadingMore
+                        ? <Shimmer isLoading={isLoading || loadingMore} width='96%' height={35} borderRadius={8} marginLeft={10} marginRight={10} />
                         : <UserActions
-                            showOverlay={item.showOverlay}
+                            showOverlay={item?.showOverlay}
                             onLongPress={() => handleLongPress(index)}
                             closeOverlay={handleCloseOverlay}
                             activeId={postId}

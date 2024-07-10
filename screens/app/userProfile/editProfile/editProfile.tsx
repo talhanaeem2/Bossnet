@@ -38,15 +38,15 @@ const editSocialsIcon = require("../../../../assets/icons/editSocials.png");
 const editWorkIcon = require("../../../../assets/icons/editWork.png");
 
 const EditProfile = () => {
-    const data = useSliceSelector(state => state.auth.userData);
+    const userData = useSliceSelector(state => state.auth.userData);
     const [editingField, setEditingField] = useState("");
     const [editValue, setEditValue] = useState("");
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [showButtons, setShowButtons] = useState(false);
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-    const [firstName, setFirstName] = useState(data?.firstName || "");
-    const [lastName, setLastName] = useState(data?.lastName || "");
+    const [firstName, setFirstName] = useState(userData?.firstName || "");
+    const [lastName, setLastName] = useState(userData?.lastName || "");
     const { handleError } = useErrorHandling();
     const dispatch = useReducerDispatch();
     const { handleSuccess } = useSuccessHandling();
@@ -68,11 +68,11 @@ const EditProfile = () => {
                 formdata.append(editingField, editValue);
             }
 
-            if (firstName !== data?.firstName) {
+            if (firstName !== userData?.firstName) {
                 formdata.append("firstName", firstName);
             }
 
-            if (lastName !== data?.lastName) {
+            if (lastName !== userData?.lastName) {
                 formdata.append("lastName", lastName);
             }
             if (file) {
@@ -80,7 +80,7 @@ const EditProfile = () => {
                 formdata.append("image", { uri: file.uri, type: file.type, name: file.filename });
             }
 
-            const response = await requestUtils.request<IProfileData, FormData>(
+            const { data } = await requestUtils.request<IProfileData, FormData>(
                 Apis.profileApi,
                 'POST',
                 formdata,
@@ -88,7 +88,7 @@ const EditProfile = () => {
                 true
             );
 
-            dispatch(setUserData(response));
+            dispatch(setUserData(data));
             dispatch(setIsLoading(false))
             handleSuccess(messages.profileUpdated);
         } catch (error) {
@@ -192,8 +192,8 @@ const EditProfile = () => {
         {
             heading: messages.personalInfo,
             fields: [
-                { fieldName: "firstName", icon: editUsernameIcon, label: data.firstName || messages.name, value: data.firstName },
-                { fieldName: "dayOfBirth", icon: editDobIcon, label: data.dayOfBirth || messages.birthday, value: data.dayOfBirth },
+                { fieldName: "firstName", icon: editUsernameIcon, label: userData.firstName || messages.name, value: userData.firstName },
+                { fieldName: "dayOfBirth", icon: editDobIcon, label: userData.dayOfBirth || messages.birthday, value: userData.dayOfBirth },
                 { fieldName: "bio", icon: editBioIcon, label: messages.biography, value: "bio" },
             ],
         },
@@ -213,7 +213,7 @@ const EditProfile = () => {
         },
     ];
 
-    const name = `${data.firstName} ${data.lastName}`;
+    const name = `${userData.firstName} ${userData.lastName}`;
 
     return (
         <MainWapper>
@@ -222,9 +222,9 @@ const EditProfile = () => {
                 <ScrollView style={{ width: 400, height: 460 }}>
                     <View style={styles.content}>
                         <TouchableOpacity style={styles.circle} onPress={showUploadButtons}>
-                            {data.profileImage
+                            {userData.profileImage
                                 ? <TouchableOpacity style={styles.circle} onPress={showUploadButtons}>
-                                    <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${data.profileImage}` }} />
+                                    <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
                                 </TouchableOpacity>
                                 : <TouchableOpacity
                                     style={[styles.circle, { backgroundColor: getRandomColor() }]}
