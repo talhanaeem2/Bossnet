@@ -1,5 +1,5 @@
-import { View, StyleSheet, Platform, TouchableOpacity, ActivityIndicator } from "react-native";
-import { useState } from "react";
+import { memo } from "react";
+import { View, StyleSheet, Platform, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -7,47 +7,48 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
 import TextBold from "../../../components/app/common/textComponent/textBold/textBold";
 import AppHeader from "../../../components/app/appHeader/appHeader";
+import Loader from "../../../components/common/loader";
 
 import Icons from "../../../constants/icons";
 import { RPH, RPW } from "../../../constants/utils/utils";
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import useSliceSelector from "../../../hooks/useSliceSelector";
+import useErrorHandling from "../../../hooks/useErrorHandling";
+
 import { logout } from "../../../reducers/auth/authSlice";
-import { resetActiveTab } from "../../../reducers/app/appSlice";
+import { resetActiveTab, setIsLoading } from "../../../reducers/app/appSlice";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 import menuButtonsInterface from "./interfaces/menuButtonsInterface";
 
 const Menu = () => {
-    const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const dispatch = useReducerDispatch();
     const messages = useSliceSelector(state => state.language.messages);
+    const isLoading = useSliceSelector(state => state.app.isLoading);
+    const { handleError } = useErrorHandling();
 
     const handleLogout = async () => {
         try {
-            setIsLoading(true);
+            dispatch(setIsLoading(true));
 
             await AsyncStorage.removeItem('token');
             await AsyncStorage.removeItem('userData');
 
             dispatch(logout());
             dispatch(resetActiveTab());
-            setIsLoading(false);
+            dispatch(setIsLoading(false));
 
         } catch (error) {
-            console.error('Error during logout:', error);
-            setIsLoading(false);
-            console.log('Error', 'An error occurred during logout. Please try again later.');
+            handleError(error);
+            dispatch(setIsLoading(false));
         }
     };
 
     if (isLoading) {
         return (
-            <View style={styles.loaderContainer}>
-                <ActivityIndicator size="large" color="#0000ff" />
-            </View>
+            <Loader />
         )
     }
 
@@ -149,7 +150,7 @@ const Menu = () => {
     )
 }
 
-export default Menu
+export default memo(Menu);
 
 const styles = StyleSheet.create({
     container: {
@@ -158,11 +159,6 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: 'space-between',
         backgroundColor: "#fff"
-    },
-    loaderContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     contentContainer: {
         paddingHorizontal: RPW(2),
