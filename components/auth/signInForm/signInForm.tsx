@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity, ActivityIndicator } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { memo, useCallback, useEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -10,6 +10,7 @@ import InputField from "../../app/common/inputField/InputField";
 import TextBold from "../../app/common/textComponent/textBold/textBold";
 import TextRegular from "../../app/common/textComponent/textRegular/textRegular";
 import AuthHeader from "../authHeader/authHeader";
+import Loader from "../../common/loader";
 
 import { RPH, RPW } from "../../../constants/utils/utils";
 import Icons from "../../../constants/icons";
@@ -138,9 +139,7 @@ const SignInForm = () => {
 
     if (isLoading) {
         return (
-            <View style={styles.loaderContainer}>
-                <ActivityIndicator size="large" color="#0000ff" />
-            </View>
+            <Loader />
         )
     }
 
@@ -256,10 +255,5 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#308AFF',
         paddingVertical: 11,
-    },
-    loaderContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
     }
 })

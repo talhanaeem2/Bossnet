@@ -1,4 +1,4 @@
-import { View, StyleSheet, FlatList, RefreshControl, ActivityIndicator } from "react-native";
+import { View, StyleSheet, FlatList, RefreshControl } from "react-native";
 import { memo, useCallback, useEffect, useState } from "react";
 
 import ImageFullScreenModal from "../../../modals/imageFullScreenModal/imageFullScreenModal";

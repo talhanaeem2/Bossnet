@@ -2,9 +2,10 @@ import * as Font from 'expo-font';
 import { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { StatusBar } from "expo-status-bar";
-import { View, ActivityIndicator } from 'react-native';
 import MainNavigator from './navigation/mainNavigator';
 import Toast from 'react-native-toast-message';
+
+import Loader from './components/common/loader';
 
 import store from './store';
 
@@ -48,9 +49,7 @@ const App = () => {
   // Render the app loading screen until the app is ready
   if (!isAppReady) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
+      <Loader />
     );
   }
 

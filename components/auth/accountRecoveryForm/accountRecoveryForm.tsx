@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { memo, useState } from "react";
@@ -12,6 +12,7 @@ import AccountRecoveryCodeForm from "./accountRecoveryCodeForm/accountRecoveryCo
 import AuthHeader from "../authHeader/authHeader";
 import AccountRecoveryPasswordForm from "./accountRecoveryPasswordForm/accountRecoveryPasswordForm";
 import SuccesModal from "../../../modals/succesModal/succesModal";
+import Loader from "../../common/loader";
 
 import { RFS, RPH, RPW } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
@@ -210,9 +211,7 @@ const AccountRecoveryForm = () => {
 
     if (isLoading) {
         return (
-            <View style={styles.loaderContainer}>
-                <ActivityIndicator size="large" color="#0000ff" />
-            </View>
+            <Loader />
         )
     }
 
@@ -315,10 +314,5 @@ const styles = StyleSheet.create({
     fieldError: {
         marginLeft: RPW(2),
         marginTop: RPH(.3)
-    },
-    loaderContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
     }
 })

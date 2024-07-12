@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { memo, useCallback, useEffect, useState } from "react";
 import { ImagePickerOptions } from "expo-image-picker";
 
@@ -9,6 +9,7 @@ import SafeAreaViewComponent from "../../../components/app/common/SafeAreaViewCo
 import CreatePostModal from "../../../modals/createPostModal/createPostModal";
 import ImagePickerButtonsModal from "../../../modals/imagePickerButtonsModal/imagePickerButtonsModal";
 import ImageInterface from "../../../components/common/interfaces/imageInterface";
+import Loader from "../../../components/common/loader";
 
 import Apis from "../../../constants/apis";
 import { RPH } from "../../../constants/utils/utils";
@@ -158,9 +159,7 @@ const Home = () => {
 
     if (isLoading) {
         return (
-            <View style={styles.loaderContainer}>
-                <ActivityIndicator size="large" color="#0000ff" />
-            </View>
+            <Loader />
         )
     }
 
@@ -207,11 +206,6 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    loaderContainer: {
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     }

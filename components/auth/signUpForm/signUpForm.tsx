@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity, ActivityIndicator } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { memo, useCallback, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -13,6 +13,7 @@ import SignUpEmail from "./signUpEmail/signUpEmail";
 import SignUpName from "./signUpName/signUpName";
 import SignUpPassword from "./signUpPassword/signUpPassword";
 import SignUpProfilePicture from "./signUpProfilePicture/signUpProfilePicture";
+import Loader from "../../common/loader";
 
 import { RPH, RPW } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
@@ -253,9 +254,7 @@ const SignUpForm = () => {
 
     if (isLoading) {
         return (
-            <View style={styles.loaderContainer}>
-                <ActivityIndicator size="large" color="#0000ff" />
-            </View>
+            <Loader />
         )
     }
 
@@ -343,10 +342,5 @@ const styles = StyleSheet.create({
     fieldError: {
         marginLeft: RPW(2),
         marginTop: RPH(1)
-    },
-    loaderContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
     }
 })

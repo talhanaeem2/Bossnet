@@ -1,14 +1,16 @@
 import { StyleSheet, View, Image, ScrollView, TouchableOpacity, ImageProps } from "react-native";
-import { memo, useCallback, useEffect, useState } from "react";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-import moment from "moment";
+import { memo, useCallback, useEffect, useState } from "react";
 import { ImagePickerOptions } from "expo-image-picker";
+import moment from "moment";
 
+import AppHeader from "../../../../components/app/appHeader/appHeader";
 import MainWapper from "../../../../components/app/mainWrapper/mainWrapper";
 import TextBold from "../../../../components/app/common/textComponent/textBold/textBold";
 import TextRegular from "../../../../components/app/common/textComponent/textRegular/textRegular";
 import ImagePickerButtonsModal from "../../../../modals/imagePickerButtonsModal/imagePickerButtonsModal";
 import EditProfileFieldsModal from "../../../../modals/editProfileFieldsModal/editProfileFieldsModal";
+import Loader from "../../../../components/common/loader";
 
 import { RPH, getRandomColor, getUserInitials } from "../../../../constants/utils/utils";
 import Apis from "../../../../constants/apis";
@@ -21,11 +23,11 @@ import useSuccessHandling from "../../../../hooks/useSuccessHandling";
 import useImagePicker from "../../../../hooks/useImagePicker";
 import useToken from "../../../../hooks/useToken";
 
-import { setIsLoading, setUserData } from "../../../../reducers/auth/authSlice";
+import { setUserData } from "../../../../reducers/auth/authSlice";
+import { setIsLoading } from "../../../../reducers/app/appSlice";
 
 import IProfileData from "../../../../interfaces/IProfileData";
 import ImageInterface from "../../../../components/common/interfaces/imageInterface";
-import AppHeader from "../../../../components/app/appHeader/appHeader";
 
 const editImgIcon = require("../../../../assets/icons/editImg.png");
 const editUsernameIcon = require("../../../../assets/icons/editUsername.png");
@@ -39,6 +41,7 @@ const editWorkIcon = require("../../../../assets/icons/editWork.png");
 
 const EditProfile = () => {
     const userData = useSliceSelector(state => state.auth.userData);
+    const isLoading = useSliceSelector(state => state.app.isLoading);
     const [editingField, setEditingField] = useState("");
     const [editValue, setEditValue] = useState("");
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -303,6 +306,12 @@ const EditProfile = () => {
             ],
         },
     ];
+
+    if (isLoading) {
+        return (
+            <Loader />
+        )
+    }
 
     return (
         <MainWapper>
