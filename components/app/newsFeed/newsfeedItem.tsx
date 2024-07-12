@@ -68,18 +68,18 @@ const NewsFeedItem = (props: NewsFeedItemProps & { loadingMore?: boolean }) => {
         if (setNewsFeedPosts && index) {
             setNewsFeedPosts(prevState => toggleShowOverlay(prevState, index));
         }
-    }, [newsFeedPosts]);
+    }, [newsFeedPosts, setNewsFeedPosts]);
 
     const closeMenu = () => {
         setIsMenuVisible(false);
         if (setActiveIndex) {
             setActiveIndex(-1);
         }
-    }
+    };
 
     const navigateToUserDetails = useCallback(() => {
         navigation.navigate('UserDetails', item?.userdetail);
-    }, []);
+    }, [navigation, item?.userdetail]);
 
     const title = item?.title;
     const postId = item?._id;

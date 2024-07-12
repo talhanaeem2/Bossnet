@@ -68,11 +68,11 @@ const NewsFeed = (props: NewsFeedProps) => {
         fetchData(1);
     }, [isPostCreated, fetchData]);
 
-    const loadMorePosts = () => {
+    const loadMorePosts = useCallback(() => {
         if (!isFetchingMore && currentPage < totalPages) {
             fetchData(currentPage + 1);
         }
-    };
+    }, [fetchData, currentPage, totalPages]);
 
     const onRefresh = useCallback(() => {
         setIsRefreshing(true);
@@ -80,13 +80,7 @@ const NewsFeed = (props: NewsFeedProps) => {
     }, [fetchData]);
 
     const renderFooter = () => {
-        if (!isFetchingMore) return null;
-        return (
-            <NewsFeedItem
-                isLoading={true}
-                loadingMore={true}
-            />
-        );
+        return isFetchingMore ? <NewsFeedItem isLoading loadingMore /> : null;
     };
 
     const renderNoPosts = () => {
