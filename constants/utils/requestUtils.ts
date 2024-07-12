@@ -11,7 +11,7 @@ const requestUtils = {
         body?: T,
         extraHeaders: HeadersInit = {},
         isFormData = false
-    ): Promise<{ data: R; pagination?: PostsPagination }> {
+    ): Promise<{ data: R; pagination?: PostsPagination, message?: string }> {
         const headers = {
             ...this.baseHeaders,
             ...extraHeaders,
@@ -38,7 +38,7 @@ const requestUtils = {
             }
 
             const successResult = result as IResponse<R>;
-            return { data: successResult.data, pagination: successResult.pagination };
+            return { data: successResult.data, pagination: successResult.pagination, message: successResult.message };
         } catch (error) {
             console.error('Request failed:', error);
             throw error;

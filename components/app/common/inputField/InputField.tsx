@@ -62,8 +62,7 @@ const styles = StyleSheet.create({
     input: {
         borderRadius: 16,
         backgroundColor: "#fff",
-        paddingTop: RPH(1.4),
-        paddingBottom: RPH(1.4),
+        paddingVertical: RPH(1.4),
         flex: 1,
         color: "#000",
         fontFamily: "Lato-Regular",

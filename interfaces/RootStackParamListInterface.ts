@@ -1,7 +1,8 @@
 import { ParamListBase } from "@react-navigation/native";
 
 import chatRoomParamsInterface from "./chatRoomInterface";
-import { SignInParamsInterface } from "./signInParamsInterface";
+import SignInParamsInterface from "./signInParamsInterface";
+import IProfileData from "./IProfileData";
 
 export default interface RootStackParamListInterface extends ParamListBase {
     SignIn: SignInParamsInterface | undefined;
@@ -17,4 +18,5 @@ export default interface RootStackParamListInterface extends ParamListBase {
     UserProfile: undefined;
     Notifications: undefined;
     EditProfile: undefined;
+    UserDetails: IProfileData | undefined;
 }

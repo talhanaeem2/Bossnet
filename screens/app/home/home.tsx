@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { memo, useCallback, useEffect, useState } from "react";
 import { ImagePickerOptions } from "expo-image-picker";
 
@@ -19,8 +19,9 @@ import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import useErrorHandling from "../../../hooks/useErrorHandling";
 import useSuccessHandling from "../../../hooks/useSuccessHandling";
 import useImagePicker from "../../../hooks/useImagePicker";
+import useSliceSelector from "../../../hooks/useSliceSelector";
 
-import { setCreatePostModal } from "../../../reducers/app/appSlice";
+import { setCreatePostModal, setIsLoading } from "../../../reducers/app/appSlice";
 import { setUserData } from "../../../reducers/auth/authSlice";
 
 import MediaUploadResponseData from "../../../constants/interfaces/apisInterfaces/mediaUploadResponseData";
@@ -40,16 +41,18 @@ const Home = () => {
     const [isPostCreated, setIsPostCreated] = useState(false);
     const [isUploadComplete, setIsUploadComplete] = useState(false);
     const { handleImagePicker } = useImagePicker();
+    const isLoading = useSliceSelector(state => state.app.isLoading);
 
     const showUploadButtons = () => {
         setShowButtons(!showButtons)
-    }
+    };
 
     const createPost = useCallback(async () => {
         const accessToken = await getToken();
         if (!accessToken) return;
 
         try {
+            dispatch(setIsLoading(true));
             await requestUtils.request<CreatePostResponse, { title: string, description: string, media?: string[] }>(
                 Apis.newsFeedApi,
                 'POST',
@@ -61,6 +64,7 @@ const Home = () => {
                 },
                 { 'Authorization': `Bearer ${accessToken}` }
             );
+            dispatch(setIsLoading(false));
             handleSuccess('Post Created!');
             setIsPostCreated(true);
             dispatch(setCreatePostModal(false));
@@ -69,7 +73,7 @@ const Home = () => {
             handleError(error);
         }
 
-    }, [getToken, title, description, fileIds, isPostCreated, handleError, dispatch])
+    }, [getToken, title, description, fileIds, isPostCreated, handleError, dispatch]);
 
     const resetPostState = useCallback(() => {
         setTitle('');
@@ -79,6 +83,7 @@ const Home = () => {
         setIsUploadComplete(false);
         setIsPostCreated(false)
     }, []);
+
     const uploadImages = useCallback(async () => {
         const accessToken = await getToken();
         if (!accessToken) return;
@@ -124,13 +129,14 @@ const Home = () => {
         const newImages = [...images];
         newImages.splice(index, 1);
         setImages(newImages);
-    }, [images])
+    }, [images]);
 
     const fetchData = useCallback(async () => {
         const accessToken = await getToken();
         if (!accessToken) return;
 
         try {
+            dispatch(setIsLoading(true));
             const { data } = await requestUtils.request<IProfileData, void>(
                 Apis.profileApi,
                 'GET',
@@ -138,16 +144,25 @@ const Home = () => {
                 { 'Authorization': `Bearer ${accessToken}` }
             );
 
-            dispatch(setUserData(data))
+            dispatch(setIsLoading(false));
+            dispatch(setUserData(data));
 
         } catch (error) {
             console.log(error);
         }
-    }, [getToken, dispatch])
+    }, [getToken, dispatch]);
 
     useEffect(() => {
         fetchData()
-    }, [fetchData])
+    }, [fetchData]);
+
+    if (isLoading) {
+        return (
+            <View style={styles.loaderContainer}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        )
+    }
 
     return (
         <SafeAreaViewComponent>
@@ -192,6 +207,11 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    loaderContainer: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     }

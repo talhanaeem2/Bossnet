@@ -19,7 +19,7 @@ const useSuccessHandling = () => {
         });
     };
 
-    const handleSuccess = (response: string) => {
+    const handleSuccess = (response: string | undefined) => {
         if (response) {
             const successMessage = response;
             showSuccessToast(successMessage);

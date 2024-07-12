@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity, ActivityIndicator } from "react-native";
 import { memo, useCallback, useEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -22,8 +22,8 @@ import useErrorHandling from "../../../hooks/useErrorHandling";
 import useSliceSelector from "../../../hooks/useSliceSelector";
 
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
-import ResponseData from "./interfaces/responseData";
 import RequestData from "./interfaces/requestData";
+import IProfileData from "../../../interfaces/IProfileData";
 
 const SignInForm = () => {
     const route = useRoute();
@@ -33,6 +33,7 @@ const SignInForm = () => {
     const { handleError } = useErrorHandling();
     const messages = useSliceSelector(state => state.language.messages);
     const language = useSliceSelector(state => state.language.language);
+    const isLoading = useSliceSelector(state => state.auth.isLoading);
 
     const validationSchema = Yup.object().shape({
         email_or_username: Yup.string().required(messages.usernameRequired),
@@ -76,7 +77,7 @@ const SignInForm = () => {
             dispatch(setIsLoading(true));
             const trimmedUsername = values.email_or_username.trim();
 
-            const { data } = await requestUtils.request<ResponseData, RequestData>(
+            const { data } = await requestUtils.request<IProfileData, RequestData>(
                 Apis.loginApi,
                 'POST',
                 {
@@ -88,8 +89,8 @@ const SignInForm = () => {
             if (data) {
                 await AsyncStorage.setItem('token', JSON.stringify(data.token));
                 handleRememberMe({ ...values, email_or_username: trimmedUsername });
-                dispatch(login());
                 dispatch(setIsLoading(false));
+                dispatch(login());
             }
         } catch (error) {
             dispatch(setIsLoading(false));
@@ -132,7 +133,15 @@ const SignInForm = () => {
     }
 
     const navigateToAccountRecovery = () => {
-        navigation.navigate("AccountRecovery")
+        navigation.navigate("AccountRecovery");
+    }
+
+    if (isLoading) {
+        return (
+            <View style={styles.loaderContainer}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        )
     }
 
     return (
@@ -247,5 +256,10 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#308AFF',
         paddingVertical: 11,
+    },
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 })

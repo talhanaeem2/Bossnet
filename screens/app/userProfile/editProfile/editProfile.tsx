@@ -47,12 +47,75 @@ const EditProfile = () => {
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
     const [firstName, setFirstName] = useState(userData?.firstName || "");
     const [lastName, setLastName] = useState(userData?.lastName || "");
+    const messages = useSliceSelector(state => state.language.messages);
+    const [socialMedia, setSocialMedia] = useState(userData?.socialMedia || []);
+    const [education, setEducation] = useState(userData?.education || []);
+    const [workExperience, setWorkExperience] = useState(userData?.workExperience || []);
     const { handleError } = useErrorHandling();
     const dispatch = useReducerDispatch();
     const { handleSuccess } = useSuccessHandling();
     const { getToken } = useToken();
-    const messages = useSliceSelector(state => state.language.messages);
     const { handleImagePicker } = useImagePicker();
+
+    const handleSaveKeyValuePair = useCallback((field: string, index: number, name: string, value: string) => {
+        let updatedArray;
+        switch (field) {
+            case 'socialMedia':
+                updatedArray = [...socialMedia];
+                updatedArray[index] = { name, value };
+                setSocialMedia(updatedArray);
+                break;
+            case 'education':
+                updatedArray = [...education];
+                updatedArray[index] = { name, value };
+                setEducation(updatedArray);
+                break;
+            case 'workExperience':
+                updatedArray = [...workExperience];
+                updatedArray[index] = { name, value };
+                setWorkExperience(updatedArray);
+                break;
+        }
+    }, [socialMedia, education, workExperience]);
+
+    const handleAddKeyValuePair = useCallback((field: string) => {
+        let updatedArray;
+        switch (field) {
+            case 'socialMedia':
+                updatedArray = [...socialMedia, { name: '', value: '' }];
+                setSocialMedia(updatedArray);
+                break;
+            case 'education':
+                updatedArray = [...education, { name: '', value: '' }];
+                setEducation(updatedArray);
+                break;
+            case 'workExperience':
+                updatedArray = [...workExperience, { name: '', value: '' }];
+                setWorkExperience(updatedArray);
+                break;
+        }
+    }, [socialMedia, education, workExperience]);
+
+    const handleRemoveKeyValuePair = useCallback((field: string, index: number) => {
+        let updatedArray;
+        switch (field) {
+            case 'socialMedia':
+                updatedArray = [...socialMedia];
+                updatedArray.splice(index, 1);
+                setSocialMedia(updatedArray);
+                break;
+            case 'education':
+                updatedArray = [...education];
+                updatedArray.splice(index, 1);
+                setEducation(updatedArray);
+                break;
+            case 'workExperience':
+                updatedArray = [...workExperience];
+                updatedArray.splice(index, 1);
+                setWorkExperience(updatedArray);
+                break;
+        }
+    }, [socialMedia, education, workExperience]);
 
     const handleProfileUpdate = useCallback(async (file?: ImageInterface) => {
         const accessToken = await getToken();
@@ -64,7 +127,11 @@ const EditProfile = () => {
             myHeaders.append("Authorization", `Bearer ${accessToken}`);
 
             const formdata = new FormData();
-            if (editingField != 'firstName') {
+            if (editingField && editValue &&
+                editingField != 'firstName' &&
+                editingField != 'socialMedia' &&
+                editingField != 'education' &&
+                editingField != 'workExperience') {
                 formdata.append(editingField, editValue);
             }
 
@@ -75,12 +142,34 @@ const EditProfile = () => {
             if (lastName !== userData?.lastName) {
                 formdata.append("lastName", lastName);
             }
+
             if (file) {
                 // @ts-ignore: Unreachable code error
                 formdata.append("image", { uri: file.uri, type: file.type, name: file.filename });
             }
 
-            const { data } = await requestUtils.request<IProfileData, FormData>(
+            socialMedia.forEach((item, index) => {
+                if (userData.socialMedia.length !== socialMedia.length && item.name && item.value) {
+                    formdata.append(`socialMedia[${index}][name]`, item.name);
+                    formdata.append(`socialMedia[${index}][value]`, item.value);
+                }
+            });
+
+            education.forEach((item, index) => {
+                if (userData.education.length !== education.length && item.name && item.value) {
+                    formdata.append(`education[${index}][name]`, item.name);
+                    formdata.append(`education[${index}][value]`, item.value);
+                }
+            });
+
+            workExperience.forEach((item, index) => {
+                if (userData.workExperience.length !== workExperience.length && item.name && item.value) {
+                    formdata.append(`workExperience[${index}][name]`, item.name);
+                    formdata.append(`workExperience[${index}][value]`, item.value);
+                }
+            });
+
+            const { data, message } = await requestUtils.request<IProfileData, FormData>(
                 Apis.profileApi,
                 'POST',
                 formdata,
@@ -90,12 +179,13 @@ const EditProfile = () => {
 
             dispatch(setUserData(data));
             dispatch(setIsLoading(false))
-            handleSuccess(messages.profileUpdated);
+            handleSuccess(message);
         } catch (error) {
             dispatch(setIsLoading(false))
             handleError(error);
         }
-    }, [firstName, lastName, editingField, editValue, getToken, dispatch, handleError, handleSuccess]);
+    }, [firstName, lastName, editingField, editValue, socialMedia, education, workExperience,
+        getToken, dispatch, handleError, handleSuccess]);
 
     const pickImage = async (action: string, options?: ImagePickerOptions) => {
         const selectedImage = await handleImagePicker(action, options);
@@ -169,7 +259,7 @@ const EditProfile = () => {
                 <View style={styles.fieldText}>
                     <View style={fieldName === "firstName" ? styles.iconContainer
                         : fieldName === "education" ? styles.iconContainerEd
-                            : fieldName === "work" ? styles.iconContainerWork
+                            : fieldName === "workExperience" ? styles.iconContainerWork
                                 : styles.iconContainerWithout}>
                         <Image source={icon} />
                     </View>
@@ -187,33 +277,32 @@ const EditProfile = () => {
     );
 
     const extraSpacing = !showButtons ? { paddingBottom: 35 } : { paddingBottom: 20 };
+    const name = `${userData.firstName} ${userData.lastName}`;
 
     const fieldGroups = [
         {
             heading: messages.personalInfo,
             fields: [
-                { fieldName: "firstName", icon: editUsernameIcon, label: userData.firstName || messages.name, value: userData.firstName },
-                { fieldName: "dayOfBirth", icon: editDobIcon, label: userData.dayOfBirth || messages.birthday, value: userData.dayOfBirth },
-                { fieldName: "bio", icon: editBioIcon, label: messages.biography, value: "bio" },
+                { fieldName: "firstName", icon: editUsernameIcon, label: userData.firstName || messages.name, value: name, borderBottom: true },
+                { fieldName: "dayOfBirth", icon: editDobIcon, label: userData.dayOfBirth || messages.birthday, value: userData.dayOfBirth, borderBottom: true },
+                { fieldName: "bio", icon: editBioIcon, label: userData.bio || messages.biography, value: userData.bio, borderBottom: false },
             ],
         },
         {
             heading: messages.contactInfo,
             fields: [
-                { fieldName: "phone", icon: editPhoneIcon, label: messages.phone, value: "phone" }
+                { fieldName: "phone", icon: editPhoneIcon, label: messages.phone, value: "phone", borderBottom: false }
             ],
         },
         {
             heading: messages.preferences,
             fields: [
-                { fieldName: "education", icon: editEduIcon, label: messages.education, value: "education" },
-                { fieldName: "socials", icon: editSocialsIcon, label: messages.socials, value: "socials" },
-                { fieldName: "work", icon: editWorkIcon, label: messages.work, value: "work", borderBottom: false },
+                { fieldName: "education", icon: editEduIcon, label: messages.education, value: userData.education, borderBottom: true },
+                { fieldName: "socialMedia", icon: editSocialsIcon, label: messages.socials, value: userData.socialMedia, borderBottom: true },
+                { fieldName: "workExperience", icon: editWorkIcon, label: messages.work, value: userData.workExperience, borderBottom: false },
             ],
         },
     ];
-
-    const name = `${userData.firstName} ${userData.lastName}`;
 
     return (
         <MainWapper>
@@ -285,6 +374,15 @@ const EditProfile = () => {
                 value={editValue}
                 firstName={firstName}
                 lastName={lastName}
+                handleAddKeyValuePair={handleAddKeyValuePair}
+                handleSaveKeyValuePair={handleSaveKeyValuePair}
+                handleRemoveKeyValuePair={handleRemoveKeyValuePair}
+                keyValuePairs={
+                    editingField === 'socialMedia' ? socialMedia :
+                        editingField === 'education' ? education :
+                            editingField === 'workExperience' ? workExperience :
+                                []
+                }
             />
             {showDatePicker && (
                 <DateTimePicker

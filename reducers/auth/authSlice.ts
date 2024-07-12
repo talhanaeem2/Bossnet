@@ -13,7 +13,11 @@ const initialState: AuthStateInterface = {
         lastName: '',
         userName: '',
         profileImage: '',
-        dayOfBirth: ''
+        dayOfBirth: '',
+        bio: '',
+        socialMedia: [],
+        education: [],
+        workExperience: []
     }
 };
 

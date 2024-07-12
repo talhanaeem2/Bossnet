@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { memo, useState } from "react";
@@ -37,6 +37,7 @@ const AccountRecoveryForm = () => {
     const { handleError } = useErrorHandling();
     const { handleSuccess } = useSuccessHandling();
     const messages = useSliceSelector(state => state.language.messages);
+    const isLoading = useSliceSelector(state => state.auth.isLoading);
 
     const navigateToSignIn = () => {
         navigation.navigate("SignIn",
@@ -207,6 +208,14 @@ const AccountRecoveryForm = () => {
 
     const buttonText = currentStep === 1 ? messages.requestLink : messages.continue;
 
+    if (isLoading) {
+        return (
+            <View style={styles.loaderContainer}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        )
+    }
+
     return (
         <View style={styles.inner}>
             <AuthHeader currentStep={currentStep} goBackToPreviousStep={goBackToPreviousStep} showBackIcon={true} />
@@ -306,5 +315,10 @@ const styles = StyleSheet.create({
     fieldError: {
         marginLeft: RPW(2),
         marginTop: RPH(.3)
+    },
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 })

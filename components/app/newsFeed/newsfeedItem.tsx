@@ -1,5 +1,7 @@
 import { memo, useCallback, useState } from "react";
 import { TouchableWithoutFeedback, View, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import moment from "moment";
 
 import ReadMore from "../common/readMoreText/readMoreText";
@@ -19,10 +21,12 @@ import useSliceSelector from "../../../hooks/useSliceSelector";
 
 import NewsFeedItemProps from "./interfaces/newsFeedItemProps";
 import FeedPostResponse from "./interfaces/feedPostsResponse";
+import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 
 const NewsFeedItem = (props: NewsFeedItemProps & { loadingMore?: boolean }) => {
     const { item, index, activeIndex, setActiveIndex, newsFeedPosts, setNewsFeedPosts, isLoading, loadingMore } = props;
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
+    const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const dispatch = useReducerDispatch();
     const [isMenuVisible, setIsMenuVisible] = useState(false);
     const userData = useSliceSelector(state => state.auth.userData);
@@ -73,12 +77,15 @@ const NewsFeedItem = (props: NewsFeedItemProps & { loadingMore?: boolean }) => {
         }
     }
 
+    const navigateToUserDetails = useCallback(() => {
+        navigation.navigate('UserDetails', item?.userdetail);
+    }, []);
+
     const title = item?.title;
     const postId = item?._id;
     const imageUris = item?.media.map((media) => media.path).filter(uri => uri);
     const datePostedAgo = moment(item?.date_posted).fromNow();
     const name = `${userData.firstName} ${userData.lastName}`;
-    // console.log(item)
 
     return (
         <View>
@@ -88,14 +95,20 @@ const NewsFeedItem = (props: NewsFeedItemProps & { loadingMore?: boolean }) => {
                         {isLoading || loadingMore
                             ? <Shimmer isLoading={isLoading || loadingMore} width={RPW(11.5)} height={RPH(5.6)} borderRadius={50} />
                             : userData.profileImage
-                                ? <View style={styles.circle}>
+                                ? <TouchableOpacity
+                                    style={styles.circle}
+                                    onPress={navigateToUserDetails}
+                                >
                                     <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
-                                </View>
-                                : <View style={[styles.circle, { backgroundColor: getRandomColor() }]}>
+                                </TouchableOpacity>
+                                : <TouchableOpacity
+                                    style={[styles.circle, { backgroundColor: getRandomColor() }]}
+                                    onPress={navigateToUserDetails}
+                                >
                                     <TextBold fontSize={16} color='#fff'>
                                         {getUserInitials(name)}
                                     </TextBold>
-                                </View>
+                                </TouchableOpacity>
                         }
                         <View style={styles.textContainer}>
                             {isLoading || loadingMore

@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity, ActivityIndicator } from "react-native";
 import { memo, useCallback, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -37,6 +37,7 @@ const SignUpForm = () => {
     const { handleError } = useErrorHandling();
     const { handleSuccess } = useSuccessHandling();
     const messages = useSliceSelector(state => state.language.messages);
+    const isLoading = useSliceSelector(state => state.auth.isLoading);
 
     const handleSignUp = useCallback(async (values: SignUpFormInterface) => {
         const { firstName, lastName, userName, email, dayOfBirth, image, password, } = values
@@ -250,6 +251,14 @@ const SignUpForm = () => {
 
     const buttonText = currentStep === 5 ? messages.continue : messages.next;
 
+    if (isLoading) {
+        return (
+            <View style={styles.loaderContainer}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        )
+    }
+
     return (
         <View style={styles.inner}>
             <AuthHeader currentStep={currentStep} goBackToPreviousStep={goBackToPreviousStep} showBackIcon={true} />
@@ -335,4 +344,9 @@ const styles = StyleSheet.create({
         marginLeft: RPW(2),
         marginTop: RPH(1)
     },
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 })

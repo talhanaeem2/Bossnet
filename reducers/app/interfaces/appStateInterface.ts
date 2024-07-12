@@ -1,6 +1,7 @@
 import ImageFullScreenModalStateInterface from "./imageFullScreenModalInterface/imageFullScreenModalStateInterface";
 
 export default interface AppStateInterface {
+    isLoading: boolean;
     createPostModal: { isVisible: boolean };
     imageFullScreeenModal: ImageFullScreenModalStateInterface;
     commentModal: { isVisible: boolean };

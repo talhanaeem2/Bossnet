@@ -1,3 +1,5 @@
+import UserValuePairs from "./userValuePairs";
+
 export default interface IProfileData {
     email: string;
     userId: string;
@@ -6,4 +8,9 @@ export default interface IProfileData {
     userName: string;
     dayOfBirth: string;
     profileImage: string;
+    bio: string;
+    socialMedia: UserValuePairs[];
+    education: UserValuePairs[];
+    workExperience: UserValuePairs[];
+    token?: string;
 }

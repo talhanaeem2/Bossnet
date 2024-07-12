@@ -61,6 +61,8 @@ interface IconsInterface {
     myGroups: JSX.Element;
     newMessage: JSX.Element;
     inputSearchIcon: JSX.Element;
+    dotsEncircled: JSX.Element;
+    userNotification: JSX.Element;
 }
 
 export default IconsInterface

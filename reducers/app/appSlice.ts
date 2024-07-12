@@ -4,6 +4,7 @@ import AppStateInterface from './interfaces/appStateInterface';
 import ImageFullScreenModalPayload from './interfaces/imageFullScreenModalInterface/imageFullScreenModalPayload';
 
 const initialState: AppStateInterface = {
+    isLoading: false,
     createPostModal: {
         isVisible: false
     },
@@ -30,6 +31,9 @@ const appSlice = createSlice({
     name: 'app',
     initialState,
     reducers: {
+        setIsLoading(state, action: PayloadAction<boolean>) {
+            state.isLoading = action.payload
+        },
         setCreatePostModal(state, action: PayloadAction<boolean>) {
             state.createPostModal.isVisible = action.payload
         },
@@ -58,6 +62,7 @@ const appSlice = createSlice({
 });
 
 export const {
+    setIsLoading,
     setCreatePostModal,
     setImageFullScreenModal,
     setCommentModal,

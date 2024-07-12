@@ -1,3 +1,5 @@
+import UserValuePairs from "../../../interfaces/userValuePairs";
+
 export default interface EditProfileFieldsModalProps {
     isModalVisible: boolean;
     setIsModalVisible: (value: boolean) => void;
@@ -9,4 +11,8 @@ export default interface EditProfileFieldsModalProps {
     value: string;
     firstName: string;
     lastName: string;
+    handleSaveKeyValuePair: (field: string, index: number, name: string, value: string) => void;
+    handleAddKeyValuePair: (field: string) => void;
+    keyValuePairs: UserValuePairs[];
+    handleRemoveKeyValuePair: (field: string, index: number) => void;
 }
