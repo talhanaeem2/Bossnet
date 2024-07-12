@@ -154,14 +154,14 @@ const Home = () => {
     }, [getToken, dispatch]);
 
     useEffect(() => {
-        fetchData()
+        fetchData();
     }, [fetchData]);
 
     if (isLoading) {
         return (
             <Loader />
         )
-    }
+    };
 
     return (
         <SafeAreaViewComponent>
