@@ -11,7 +11,8 @@ import NewMessage from '../screens/app/newMessage/newMessage';
 import UserProfile from '../screens/app/userProfile/userProfile';
 import Notifications from '../screens/app/notifications/notifications';
 import EditProfile from '../screens/app/userProfile/editProfile/editProfile';
-import userDetails from '../screens/app/userDetails/userDetails';
+import UserDetails from '../screens/app/userDetails/userDetails';
+import Language from '../screens/language/language';
 
 const Stack = createStackNavigator();
 
@@ -29,7 +30,8 @@ const AppStack = () => {
             <Stack.Screen name="UserProfile" component={UserProfile} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="Notifications" component={Notifications} />
-            <Stack.Screen name="UserDetails" component={userDetails} />
+            <Stack.Screen name="UserDetails" component={UserDetails} />
+            <Stack.Screen name="Language" component={Language} />
         </Stack.Navigator>
     );
 };

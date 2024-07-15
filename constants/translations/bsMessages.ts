@@ -163,6 +163,12 @@ const bsMessages = {
     whoPost: 'Ko može vidjeti vašu objavu?',
     save: 'Sačuvaj',
     // Edit Profile
+    editProfileInfo: 'Uredi informacije profila',
+    language: 'Jezik',
+    security: 'Sigurnost',
+    helpSupport: 'Pomoć i podrška',
+    contactUs: 'Kontaktirajte nas',
+    privacy: 'Politika privatnosti',
     personalInfo: 'Lični podaci',
     contactInfo: 'Kontakt informacije',
     preferences: 'Preferencije',
@@ -171,7 +177,6 @@ const bsMessages = {
     following: 'pratioci',
     loginInfo: 'Podaci za Prijavu',
     notificationSettings: 'Postavke Obavijesti',
-    privacy: 'Privatnost',
     // User Profile
     blockedMembers: 'Blokirani članovi',
     groupInvites: 'Pozivnice za grupu',

@@ -63,6 +63,12 @@ interface IconsInterface {
     inputSearchIcon: JSX.Element;
     dotsEncircled: JSX.Element;
     userNotification: JSX.Element;
+    editProfile: JSX.Element;
+    editLanguage: JSX.Element;
+    editSecurity: JSX.Element;
+    editHelp: JSX.Element;
+    editContact: JSX.Element;
+    editPrivacy: JSX.Element;
 }
 
 export default IconsInterface

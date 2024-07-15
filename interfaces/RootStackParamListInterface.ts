@@ -19,4 +19,5 @@ export default interface RootStackParamListInterface extends ParamListBase {
     Notifications: undefined;
     EditProfile: undefined;
     UserDetails: IProfileData | undefined;
+    Language: undefined;
 }

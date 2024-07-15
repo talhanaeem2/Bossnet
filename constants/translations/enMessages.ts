@@ -163,6 +163,12 @@ const enMessages = {
     whoPost: 'Who can see your post ?',
     save: 'Save',
     // Edit Profile
+    editProfileInfo: 'Edit profile information',
+    language: 'Language',
+    security: 'Security',
+    helpSupport: 'Help & Support',
+    contactUs: 'Contact Us',
+    privacy: 'Privacy Policy',
     personalInfo: 'Personal Information',
     contactInfo: 'Contact Information',
     preferences: 'Preferences',
@@ -171,7 +177,6 @@ const enMessages = {
     following: 'following',
     loginInfo: 'Login Information',
     notificationSettings: 'Notification Settings',
-    privacy: 'Privacy',
     // User Profile
     blockedMembers: 'Blocked Members',
     groupInvites: 'Group Invites',
