@@ -26,7 +26,6 @@ const NewsFeed = (props: NewsFeedProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [isFetchingMore, setIsFetchingMore] = useState(false);
-    const [activeIndex, setActiveIndex] = useState(-1);
     const { getToken } = useToken();
     const { handleError } = useErrorHandling();
     const messages = useSliceSelector(state => state.language.messages);
@@ -62,7 +61,7 @@ const NewsFeed = (props: NewsFeedProps) => {
         } catch (error) {
             handleError(error);
         }
-    }, [getToken, isPostCreated, pageSize])
+    }, [getToken, isPostCreated, pageSize]);
 
     useEffect(() => {
         fetchData(1);
@@ -101,8 +100,6 @@ const NewsFeed = (props: NewsFeedProps) => {
                 }
                 renderItem={({ item, index }) =>
                     <NewsFeedItem
-                        activeIndex={activeIndex}
-                        setActiveIndex={setActiveIndex}
                         item={item}
                         index={index}
                         newsFeedPosts={newsFeedPosts}

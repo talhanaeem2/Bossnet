@@ -31,7 +31,6 @@ interface IconsInterface {
     membersIcon: JSX.Element;
     donateIcon: JSX.Element;
     dotsIcon: JSX.Element;
-    deleteIcon: JSX.Element;
     reportIcon: JSX.Element;
     pinIcon: JSX.Element;
     newPostIcon: JSX.Element;
@@ -45,9 +44,6 @@ interface IconsInterface {
     userArrowUpIcon: JSX.Element;
     notificationIcon: JSX.Element;
     privacyIcon: JSX.Element;
-    blockedIcon: JSX.Element;
-    groupIcon: JSX.Element;
-    exportIcon: JSX.Element;
     arrowUpIcon: JSX.Element;
     delIcon: JSX.Element;
     postIcon: JSX.Element;

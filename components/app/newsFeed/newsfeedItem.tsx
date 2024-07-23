@@ -24,7 +24,7 @@ import FeedPostResponse from "./interfaces/feedPostsResponse";
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 
 const NewsFeedItem = (props: NewsFeedItemProps & { loadingMore?: boolean }) => {
-    const { item, index, activeIndex, setActiveIndex, newsFeedPosts, setNewsFeedPosts, isLoading, loadingMore } = props;
+    const { item, index, newsFeedPosts, setNewsFeedPosts, isLoading, loadingMore } = props;
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const dispatch = useReducerDispatch();
@@ -72,16 +72,12 @@ const NewsFeedItem = (props: NewsFeedItemProps & { loadingMore?: boolean }) => {
 
     const closeMenu = () => {
         setIsMenuVisible(false);
-        if (setActiveIndex) {
-            setActiveIndex(-1);
-        }
     };
 
     const navigateToUserDetails = useCallback(() => {
         navigation.navigate('UserDetails', item?.userdetail);
     }, [navigation, item?.userdetail]);
 
-    const title = item?.title;
     const postId = item?._id;
     const imageUris = item?.media.map((media) => media.path).filter(uri => uri);
     const datePostedAgo = moment(item?.date_posted).fromNow();
@@ -170,6 +166,7 @@ const NewsFeedItem = (props: NewsFeedItemProps & { loadingMore?: boolean }) => {
                 isModalVisible={isMenuVisible}
                 setIsModalVisible={setIsMenuVisible}
                 postId={postId}
+                setPosts={setNewsFeedPosts}
             />
         </View>
     )

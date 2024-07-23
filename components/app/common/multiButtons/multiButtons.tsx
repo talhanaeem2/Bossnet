@@ -12,7 +12,7 @@ const MultiButtons = (props: MultiButtonsProps) => {
         <View style={styles.container}>
             {buttons.map((button, index) => {
                 return (
-                    <View style={{ gap: 8 }} key={index}>
+                    <View style={styles.spacing} key={index}>
                         <TouchableOpacity style={styles.w100} onPress={() => button.action()}>
                             {button.icon}
                             <TextRegular fontSize={16} color="#000">
@@ -43,6 +43,9 @@ const styles = StyleSheet.create({
     w100: {
         width: '100%',
         flexDirection: 'row',
-        gap: 14
+        gap: 8
+    },
+    spacing: {
+        gap: 8
     }
 })

@@ -79,7 +79,7 @@ const EditProfile = () => {
                 setWorkExperience(updatedArray);
                 break;
         }
-    }, []);
+    }, [socialMedia, education, workExperience]);
 
     const handleAddKeyValuePair = useCallback((field: string) => {
         let updatedArray;
@@ -97,7 +97,7 @@ const EditProfile = () => {
                 setWorkExperience(updatedArray);
                 break;
         }
-    }, []);
+    }, [socialMedia, education, workExperience]);
 
     const handleRemoveKeyValuePair = useCallback((field: string, index: number) => {
         let updatedArray;
@@ -118,7 +118,7 @@ const EditProfile = () => {
                 setWorkExperience(updatedArray);
                 break;
         }
-    }, []);
+    }, [socialMedia, education, workExperience]);
 
     const handleProfileUpdate = useCallback(async (file?: ImageInterface) => {
         const accessToken = await getToken();
