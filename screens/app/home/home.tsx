@@ -20,9 +20,8 @@ import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import useErrorHandling from "../../../hooks/useErrorHandling";
 import useSuccessHandling from "../../../hooks/useSuccessHandling";
 import useImagePicker from "../../../hooks/useImagePicker";
-import useSliceSelector from "../../../hooks/useSliceSelector";
 
-import { setCreatePostModal, setIsLoading } from "../../../reducers/app/appSlice";
+import { setCreatePostModal } from "../../../reducers/app/appSlice";
 import { setUserData } from "../../../reducers/auth/authSlice";
 
 import MediaUploadResponseData from "../../../constants/interfaces/apisInterfaces/mediaUploadResponseData";
@@ -42,7 +41,7 @@ const Home = () => {
     const [isPostCreated, setIsPostCreated] = useState(false);
     const [isUploadComplete, setIsUploadComplete] = useState(false);
     const { handleImagePicker } = useImagePicker();
-    const isLoading = useSliceSelector(state => state.app.isLoading);
+    const [isLoading, setIsLoading] = useState(false);
 
     const showUploadButtons = () => {
         setShowButtons(!showButtons)
@@ -53,7 +52,7 @@ const Home = () => {
         if (!accessToken) return;
 
         try {
-            dispatch(setIsLoading(true));
+            setIsLoading(true);
             await requestUtils.request<CreatePostResponse, { title: string, description: string, media?: string[] }>(
                 Apis.newsFeedApi,
                 'POST',
@@ -65,7 +64,7 @@ const Home = () => {
                 },
                 { 'Authorization': `Bearer ${accessToken}` }
             );
-            dispatch(setIsLoading(false));
+            setIsLoading(false);
             handleSuccess('Post Created!');
             setIsPostCreated(true);
             dispatch(setCreatePostModal(false));
@@ -137,7 +136,6 @@ const Home = () => {
         if (!accessToken) return;
 
         try {
-            dispatch(setIsLoading(true));
             const { data } = await requestUtils.request<IProfileData, void>(
                 Apis.profileApi,
                 'GET',
@@ -145,7 +143,6 @@ const Home = () => {
                 { 'Authorization': `Bearer ${accessToken}` }
             );
 
-            dispatch(setIsLoading(false));
             dispatch(setUserData(data));
 
         } catch (error) {
