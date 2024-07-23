@@ -192,7 +192,7 @@ const Home = () => {
     )
 }
 
-export default memo(Home)
+export default memo(Home);
 
 const styles = StyleSheet.create({
     container: {

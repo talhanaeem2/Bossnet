@@ -103,7 +103,7 @@ const UserProfile = () => {
                 </View>
                 <View style={styles.content}>
                     <View style={styles.textContainer}>
-                        <TextBold fontSize={RFS(26)} style={{ textTransform: 'capitalize' }}>
+                        <TextBold fontSize={RFS(26)} style={styles.textCap}>
                             {name}
                         </TextBold>
                         <TextRegular fontSize={RFS(15)}>
@@ -138,6 +138,9 @@ const styles = StyleSheet.create({
     scrollConainer: {
         height: height * 0.42,
         width: '100%'
+    },
+    textCap: {
+        textTransform: 'capitalize'
     },
     scrollSpacing: {
         paddingBottom: RPH(5)

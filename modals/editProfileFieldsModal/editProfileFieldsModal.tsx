@@ -2,36 +2,37 @@ import { memo, useCallback } from "react";
 import { Modal, TouchableWithoutFeedback, View, TextInput, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 
 import TextRegular from "../../components/app/common/textComponent/textRegular/textRegular";
+import TextBold from "../../components/app/common/textComponent/textBold/textBold";
 
 import useSliceSelector from "../../hooks/useSliceSelector";
 
-import EditProfileFieldsModalProps from "./interfaces/editProfileFieldsModalProps";
-import TextBold from "../../components/app/common/textComponent/textBold/textBold";
 import { RFS, RPH } from "../../constants/utils/utils";
 import Icons from "../../constants/icons";
+
+import EditProfileFieldsModalProps from "./interfaces/editProfileFieldsModalProps";
 
 const EditProfileFieldsModal = (props: EditProfileFieldsModalProps) => {
     const {
         isModalVisible,
-        setIsModalVisible,
         editingField,
+        value,
+        firstName,
+        lastName,
+        keyValuePairs,
+        setIsModalVisible,
         setEditValue,
         setFirstName,
         setLastName,
         handleSave,
-        value,
-        firstName,
-        lastName,
         handleAddKeyValuePair,
         handleSaveKeyValuePair,
-        handleRemoveKeyValuePair,
-        keyValuePairs
+        handleRemoveKeyValuePair
     } = props;
     const messages = useSliceSelector(state => state.language.messages);
 
     const handleKeyValueChange = useCallback((index: number, name: string, value: string) => {
         handleSaveKeyValuePair(editingField, index, name, value);
-    }, [editingField, handleSaveKeyValuePair])
+    }, [editingField, handleSaveKeyValuePair]);
 
     const handleAddKeyValuePairWithLimit = useCallback(() => {
         if (keyValuePairs.length < 10) {
@@ -196,7 +197,7 @@ const EditProfileFieldsModal = (props: EditProfileFieldsModalProps) => {
     )
 }
 
-export default memo(EditProfileFieldsModal)
+export default memo(EditProfileFieldsModal);
 
 const styles = StyleSheet.create({
     modalContainer: {

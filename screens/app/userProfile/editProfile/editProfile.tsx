@@ -1,6 +1,6 @@
 import { StyleSheet, View, Image, ScrollView, TouchableOpacity, ImageProps } from "react-native";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { ImagePickerOptions } from "expo-image-picker";
 import moment from "moment";
 
@@ -79,7 +79,7 @@ const EditProfile = () => {
                 setWorkExperience(updatedArray);
                 break;
         }
-    }, [socialMedia, education, workExperience]);
+    }, []);
 
     const handleAddKeyValuePair = useCallback((field: string) => {
         let updatedArray;
@@ -97,7 +97,7 @@ const EditProfile = () => {
                 setWorkExperience(updatedArray);
                 break;
         }
-    }, [socialMedia, education, workExperience]);
+    }, []);
 
     const handleRemoveKeyValuePair = useCallback((field: string, index: number) => {
         let updatedArray;
@@ -118,7 +118,7 @@ const EditProfile = () => {
                 setWorkExperience(updatedArray);
                 break;
         }
-    }, [socialMedia, education, workExperience]);
+    }, []);
 
     const handleProfileUpdate = useCallback(async (file?: ImageInterface) => {
         const accessToken = await getToken();
@@ -187,8 +187,7 @@ const EditProfile = () => {
             dispatch(setIsLoading(false))
             handleError(error);
         }
-    }, [firstName, lastName, editingField, editValue, socialMedia, education, workExperience,
-        getToken, dispatch, handleError, handleSuccess]);
+    }, [firstName, lastName, editingField, editValue, socialMedia, education, workExperience, getToken, dispatch, handleError, handleSuccess]);
 
     const pickImage = async (action: string, options?: ImagePickerOptions) => {
         const selectedImage = await handleImagePicker(action, options);
@@ -280,6 +279,7 @@ const EditProfile = () => {
     );
 
     const extraSpacing = !showButtons ? { paddingBottom: 35 } : { paddingBottom: 20 };
+    const userInitials = useMemo(() => getUserInitials(`${userData?.firstName || ''} ${userData?.lastName || ''}`), [userData]);
     const name = `${userData.firstName} ${userData.lastName}`;
 
     const fieldGroups = [
@@ -317,7 +317,7 @@ const EditProfile = () => {
         <MainWapper>
             <View style={styles.container}>
                 <AppHeader icon={true} />
-                <ScrollView style={{ width: 400, height: 460 }}>
+                <ScrollView>
                     <View style={styles.content}>
                         <TouchableOpacity style={styles.circle} onPress={showUploadButtons}>
                             {userData.profileImage
@@ -329,7 +329,7 @@ const EditProfile = () => {
                                     onPress={showUploadButtons}
                                 >
                                     <TextBold fontSize={16} color='#fff'>
-                                        {getUserInitials(name)}
+                                        {userInitials}
                                     </TextBold>
                                 </TouchableOpacity>
                             }
@@ -337,16 +337,16 @@ const EditProfile = () => {
                                 <Image source={editImgIcon} />
                             </View>
                         </TouchableOpacity>
-                        <TextBold fontSize={23} style={[{ paddingTop: 20 }, extraSpacing]}>
+                        <TextBold fontSize={23} style={[styles.spacing, extraSpacing]}>
                             {messages.editProfile}
                         </TextBold>
                         {fieldGroups.map((group, index) => {
                             return (
-                                <View key={index} style={{ width: '100%', paddingHorizontal: 30 }}>
+                                <View key={index} style={styles.fieldContainer}>
                                     <TextBold style={styles.prefText} fontSize={15} color="rgba(0, 0, 0, 0.35)">
                                         {group.heading}
                                     </TextBold>
-                                    <View style={[styles.editFieldsContainer, { paddingBottom: 16 }]}>
+                                    <View style={styles.editFieldsContainer}>
                                         {group.fields.map((field, fieldIndex) => {
                                             return (
                                                 <EditField
@@ -418,6 +418,13 @@ const styles = StyleSheet.create({
         paddingTop: RPH(4),
         position: "relative"
     },
+    spacing: {
+        paddingTop: 20
+    },
+    fieldContainer: {
+        width: '100%',
+        paddingHorizontal: 30
+    },
     editImage: {
         width: 36,
         height: 25,
@@ -467,7 +474,8 @@ const styles = StyleSheet.create({
         gap: 12
     },
     editFieldsContainer: {
-        display: "flex"
+        display: "flex",
+        paddingBottom: 16
     },
     arrowContainer: {
         display: "flex",

@@ -12,7 +12,7 @@ import UserProfile from '../screens/app/userProfile/userProfile';
 import Notifications from '../screens/app/notifications/notifications';
 import EditProfile from '../screens/app/userProfile/editProfile/editProfile';
 import UserDetails from '../screens/app/userDetails/userDetails';
-import Language from '../screens/language/language';
+import Language from '../screens/app/language/language';
 
 const Stack = createStackNavigator();
 
