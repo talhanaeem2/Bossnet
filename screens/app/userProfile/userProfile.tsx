@@ -1,7 +1,7 @@
 import { StyleSheet, View, Image, TouchableOpacity, Dimensions, ScrollView } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 
 import Card from "../../../components/app/common/card/card";
 import CardItem from "../../../components/app/common/card/interfaces/CardItem";
@@ -9,9 +9,9 @@ import MainWapper from "../../../components/app/mainWrapper/mainWrapper";
 import TextBold from "../../../components/app/common/textComponent/textBold/textBold";
 import TextRegular from "../../../components/app/common/textComponent/textRegular/textRegular";
 
-import { RPW, RPH, getRandomColor, getUserInitials, RFS } from "../../../constants/utils/utils";
-import Icons from "../../../constants/icons";
 import Apis from "../../../constants/apis";
+import Icons from "../../../constants/icons";
+import { RPW, RPH, getUserInitials, RFS, getColorForUser } from "../../../constants/utils/utils";
 
 import useSliceSelector from "../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
@@ -26,9 +26,14 @@ const UserProfile = () => {
     const dispatch = useReducerDispatch();
     const messages = useSliceSelector(state => state.language.messages);
     const currentLanguage = useSliceSelector(state => state.language.language);
-
     const language = currentLanguage === 'en' ? messages.english : messages.bosnia;
     const name = `${userData.firstName} ${userData.lastName}`;
+    const userInitials = useMemo(() => getUserInitials(name), [userData]);
+    const loggedInUserColor = useMemo(() => getColorForUser(userData.userId), []);
+
+    const goBack = () => {
+        navigation.goBack();
+    }
 
     const cardsData: CardItem[][] = [
         [
@@ -81,7 +86,7 @@ const UserProfile = () => {
                 </View>
                 <View style={styles.header}>
                     <View style={styles.btnContainer}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={goBack}>
                             {Icons.backIcon}
                         </TouchableOpacity>
                         <TouchableOpacity>
@@ -93,9 +98,9 @@ const UserProfile = () => {
                             ? <View style={styles.circle}>
                                 <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
                             </View>
-                            : <View style={[styles.circle, { backgroundColor: getRandomColor() }]}>
-                                <TextBold fontSize={16} color='#fff'>
-                                    {getUserInitials(name)}
+                            : <View style={[styles.circle, { backgroundColor: loggedInUserColor }]}>
+                                <TextBold fontSize={40} color='#fff'>
+                                    {userInitials}
                                 </TextBold>
                             </View>
                         }
@@ -207,7 +212,9 @@ const styles = StyleSheet.create({
         width: 137,
         height: 137,
         overflow: "hidden",
-        borderRadius: 70
+        borderRadius: 70,
+        justifyContent: "center",
+        alignItems: "center",
     },
     roundImg: {
         width: "100%",

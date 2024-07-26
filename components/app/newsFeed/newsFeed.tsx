@@ -1,5 +1,5 @@
 import { View, StyleSheet, FlatList, RefreshControl } from "react-native";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 
 import ImageFullScreenModal from "../../../modals/imageFullScreenModal/imageFullScreenModal";
 import CommmentModal from "../../../modals/commentModal/commentModal";
@@ -7,7 +7,7 @@ import NewsFeedItem from "./newsfeedItem";
 import NewsFeedShare from "./newsFeedShare";
 import TextRegular from "../common/textComponent/textRegular/textRegular";
 
-import { RPH } from "../../../constants/utils/utils";
+import { getColorForUser, RPH } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
 import requestUtils from "../../../constants/utils/requestUtils";
 
@@ -29,6 +29,7 @@ const NewsFeed = (props: NewsFeedProps) => {
     const { getToken } = useToken();
     const { handleError } = useErrorHandling();
     const messages = useSliceSelector(state => state.language.messages);
+    const [userColors, setUserColors] = useState<{ [key: string]: string }>({});
 
     const pageSize = 10;
 
@@ -57,6 +58,15 @@ const NewsFeed = (props: NewsFeedProps) => {
                 setIsRefreshing(false);
             }
             setCurrentPage(page);
+
+            const newColors = { ...userColors };
+            data.forEach(post => {
+                const userId = post.userdetail.userId;
+                if (!newColors[userId]) {
+                    newColors[userId] = getColorForUser(userId);
+                }
+            });
+            setUserColors(newColors);
 
         } catch (error) {
             handleError(error);
@@ -105,6 +115,7 @@ const NewsFeed = (props: NewsFeedProps) => {
                         newsFeedPosts={newsFeedPosts}
                         setNewsFeedPosts={setNewsFeedPosts}
                         isLoading={isLoading}
+                        userColors={userColors}
                     />
                 }
                 keyExtractor={(item, index) => `${item._id}_${index}`}

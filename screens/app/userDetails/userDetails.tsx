@@ -17,12 +17,16 @@ const UserDetails = () => {
     const params = route.params as IProfileData;
     const name = `${params.firstName} ${params.lastName}`;
     const userName = params.userName;
-    console.log(params)
+    console.log(params);
+
+    const goBack = () => {
+        navigation.goBack();
+    }
 
     return (
         <MainWapper>
             <View style={styles.header}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={goBack}>
                     {Icons.backIcon}
                 </TouchableOpacity>
                 <View style={styles.headerOptions}>
@@ -32,6 +36,16 @@ const UserDetails = () => {
                     <TouchableOpacity>
                         {Icons.dotsEncircled}
                     </TouchableOpacity>
+                </View>
+            </View>
+            <View style={styles.body}>
+                <View style={styles.details}>
+                    <View>
+
+                    </View>
+                    <View>
+
+                    </View>
                 </View>
             </View>
         </MainWapper>
@@ -51,5 +65,11 @@ const styles = StyleSheet.create({
     headerOptions: {
         flexDirection: 'row',
         gap: 10
+    },
+    body: {
+
+    },
+    details: {
+
     }
 })

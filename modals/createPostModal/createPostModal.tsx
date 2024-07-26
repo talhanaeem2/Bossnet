@@ -1,5 +1,5 @@
 import { Keyboard, Modal, ScrollView, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, Image } from "react-native"
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 
 import TextBold from "../../components/app/common/textComponent/textBold/textBold";
 import MultiButtons from "../../components/app/common/multiButtons/multiButtons";
@@ -9,7 +9,7 @@ import SafeAreaViewComponent from "../../components/app/common/SafeAreaViewCompo
 
 import Apis from "../../constants/apis";
 import Icons from "../../constants/icons";
-import { RPW, RPH, RFS, getRandomColor, getUserInitials, insertAtCursor } from "../../constants/utils/utils";
+import { RPW, RPH, RFS, getUserInitials, insertAtCursor, getColorForUser } from "../../constants/utils/utils";
 
 import useSliceSelector from "../../hooks/useSliceSelector";
 import useReducerDispatch from "../../hooks/useReducerDispatch";
@@ -28,6 +28,7 @@ const CreatePostModal = (props: CreatePostModalProps) => {
     const dispatch = useReducerDispatch();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedOption, setSelectedOption] = useState(messages.public);
+    const loggedInUserColor = useMemo(() => getColorForUser(userData.userId), []);
 
     const handleToggleCreatePostModal = useCallback(() => {
         dispatch(setCreatePostModal(!isCreatePostModalVisible));
@@ -99,7 +100,7 @@ const CreatePostModal = (props: CreatePostModalProps) => {
                                     ? <View style={styles.circle}>
                                         <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
                                     </View>
-                                    : <View style={[styles.circle, { backgroundColor: getRandomColor() }]}>
+                                    : <View style={[styles.circle, { backgroundColor: loggedInUserColor }]}>
                                         <TextBold fontSize={16} color='#fff'>
                                             {getUserInitials(name)}
                                         </TextBold>

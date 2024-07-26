@@ -1,6 +1,6 @@
 import { View, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { memo, useCallback } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 import TextBold from "../common/textComponent/textBold/textBold";
@@ -8,7 +8,7 @@ import TextRegular from "../common/textComponent/textRegular/textRegular";
 
 import Apis from "../../../constants/apis";
 import Icons from "../../../constants/icons";
-import { RPW, RPH, getRandomColor, getUserInitials } from "../../../constants/utils/utils";
+import { RPW, RPH, getUserInitials, getColorForUser } from "../../../constants/utils/utils";
 
 import useSliceSelector from "../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
@@ -24,6 +24,7 @@ const AppHeader = (props: AppHeaderProps) => {
     const userData = useSliceSelector(state => state.auth.userData);
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const dispatch = useReducerDispatch();
+    const loggedInUserColor = useMemo(() => getColorForUser(userData.userId), []);
 
     const handleToggleCreatePostModal = useCallback(() => {
         dispatch(setCreatePostModal(!isCreatePostModalVisible));
@@ -46,7 +47,7 @@ const AppHeader = (props: AppHeaderProps) => {
                     </TouchableOpacity>
                 ) : (
                     <TouchableOpacity
-                        style={[styles.circle, { backgroundColor: getRandomColor() }]}
+                        style={[styles.circle, { backgroundColor: loggedInUserColor }]}
                         onPress={() => navigation.navigate("UserProfile")}
                     >
                         <TextBold fontSize={16} color='#fff'>

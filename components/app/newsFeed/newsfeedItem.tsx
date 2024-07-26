@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { TouchableWithoutFeedback, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -13,7 +13,7 @@ import Shimmer from "../common/shimmer/shimmer";
 
 import Apis from "../../../constants/apis";
 import Icons from "../../../constants/icons";
-import { RPH, RPW, getRandomColor, getUserInitials } from "../../../constants/utils/utils";
+import { RPH, RPW, getUserInitials } from "../../../constants/utils/utils";
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import { setImageFullScreenModal } from "../../../reducers/app/appSlice";
@@ -24,12 +24,15 @@ import FeedPostResponse from "./interfaces/feedPostsResponse";
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
 
 const NewsFeedItem = (props: NewsFeedItemProps & { loadingMore?: boolean }) => {
-    const { item, index, newsFeedPosts, setNewsFeedPosts, isLoading, loadingMore } = props;
+    const { item, index, newsFeedPosts, setNewsFeedPosts, isLoading, loadingMore, userColors } = props;
     const isImageFullScreenModalVisible = useSliceSelector(state => state.app.imageFullScreeenModal.isVisible);
     const navigation = useNavigation<StackNavigationProp<RootStackParamListInterface>>();
     const dispatch = useReducerDispatch();
     const [isMenuVisible, setIsMenuVisible] = useState(false);
     const userData = useSliceSelector(state => state.auth.userData);
+
+    const userId = item?.userdetail.userId;
+    const userBgColor = useMemo(() => userId && userColors && userColors[userId] ? userColors[userId] : '#FFFFFF', [userColors, userId]);
 
     const handleCloseOverlay = useCallback(() => {
         if (setNewsFeedPosts) {
@@ -82,6 +85,7 @@ const NewsFeedItem = (props: NewsFeedItemProps & { loadingMore?: boolean }) => {
     const imageUris = item?.media.map((media) => media.path).filter(uri => uri);
     const datePostedAgo = moment(item?.date_posted).fromNow();
     const name = `${userData.firstName} ${userData.lastName}`;
+    const userInitials = useMemo(() => getUserInitials(name), [userData]);
 
     return (
         <View>
@@ -98,11 +102,11 @@ const NewsFeedItem = (props: NewsFeedItemProps & { loadingMore?: boolean }) => {
                                     <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
                                 </TouchableOpacity>
                                 : <TouchableOpacity
-                                    style={[styles.circle, { backgroundColor: getRandomColor() }]}
+                                    style={[styles.circle, { backgroundColor: userBgColor }]}
                                     onPress={navigateToUserDetails}
                                 >
                                     <TextBold fontSize={16} color='#fff'>
-                                        {getUserInitials(name)}
+                                        {userInitials}
                                     </TextBold>
                                 </TouchableOpacity>
                         }

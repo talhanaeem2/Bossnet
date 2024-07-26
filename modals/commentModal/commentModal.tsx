@@ -1,5 +1,5 @@
 import { Modal, TouchableOpacity, View, TextInput, StyleSheet, Image, FlatList } from "react-native";
-import { useRef, useState, memo, useEffect } from "react";
+import { useRef, useState, memo, useEffect, useMemo } from "react";
 import { Circle, Path } from "react-native-svg";
 import moment from "moment";
 
@@ -16,7 +16,7 @@ import { setCommentModal } from "../../reducers/app/appSlice";
 
 import CommentsModalInterface from "./interfaces/commentsModalInterface";
 import CommentsModalReplyInterface from "./interfaces/CommentsModalReplyInterface";
-import { getRandomColor, getUserInitials } from "../../constants/utils/utils";
+import { getColorForUser, getUserInitials } from "../../constants/utils/utils";
 
 const likedIcon = <IconContainer width="16" height="16" viewBox="0 0 16 16" fill="none">
     <Circle cx="8" cy="8" r="8" fill="#4A5BF6" />
@@ -48,6 +48,7 @@ const CommmentModal = () => {
     const [newText, setNewText] = useState("");
     const messages = useSliceSelector(state => state.language.messages);
     const inputRef = useRef<TextInput>(null);
+    const loggedInUserColor = useMemo(() => getColorForUser(userData.userId), []);
 
     useEffect(() => {
         if (comments.length > 0) {
@@ -150,7 +151,7 @@ const CommmentModal = () => {
                             ? <View style={styles.circle}>
                                 <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
                             </View>
-                            : <View style={[styles.circle, { backgroundColor: getRandomColor() }]}>
+                            : <View style={[styles.circle, { backgroundColor: loggedInUserColor }]}>
                                 <TextBold fontSize={16} color='#fff'>
                                     {getUserInitials(name)}
                                 </TextBold>
@@ -194,7 +195,7 @@ const CommmentModal = () => {
                                             ? <View style={styles.circle}>
                                                 <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
                                             </View>
-                                            : <View style={[styles.circle, { backgroundColor: getRandomColor() }]}>
+                                            : <View style={[styles.circle, { backgroundColor: loggedInUserColor }]}>
                                                 <TextBold fontSize={16} color='#fff'>
                                                     {getUserInitials(name)}
                                                 </TextBold>
@@ -273,7 +274,7 @@ const CommmentModal = () => {
                             ? <View style={styles.circle}>
                                 <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
                             </View>
-                            : <View style={[styles.circle, { backgroundColor: getRandomColor() }]}>
+                            : <View style={[styles.circle, { backgroundColor: loggedInUserColor }]}>
                                 <TextBold fontSize={16} color='#fff'>
                                     {getUserInitials(name)}
                                 </TextBold>

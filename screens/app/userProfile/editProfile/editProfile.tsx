@@ -12,7 +12,7 @@ import ImagePickerButtonsModal from "../../../../modals/imagePickerButtonsModal/
 import EditProfileFieldsModal from "../../../../modals/editProfileFieldsModal/editProfileFieldsModal";
 import Loader from "../../../../components/common/loader";
 
-import { RPH, getRandomColor, getUserInitials } from "../../../../constants/utils/utils";
+import { RPH, getColorForUser, getUserInitials } from "../../../../constants/utils/utils";
 import Apis from "../../../../constants/apis";
 import requestUtils from "../../../../constants/utils/requestUtils";
 
@@ -278,9 +278,10 @@ const EditProfile = () => {
         </TouchableOpacity>
     );
 
-    const extraSpacing = !showButtons ? { paddingBottom: 35 } : { paddingBottom: 20 };
-    const userInitials = useMemo(() => getUserInitials(`${userData?.firstName || ''} ${userData?.lastName || ''}`), [userData]);
     const name = `${userData.firstName} ${userData.lastName}`;
+    const extraSpacing = !showButtons ? { paddingBottom: 35 } : { paddingBottom: 20 };
+    const userInitials = useMemo(() => getUserInitials(name), [userData]);
+    const loggedInUserColor = useMemo(() => getColorForUser(userData.userId), []);
 
     const fieldGroups = [
         {
@@ -325,10 +326,10 @@ const EditProfile = () => {
                                     <Image style={styles.roundImg} source={{ uri: `${Apis.homeUrl}${userData.profileImage}` }} />
                                 </TouchableOpacity>
                                 : <TouchableOpacity
-                                    style={[styles.circle, { backgroundColor: getRandomColor() }]}
+                                    style={[styles.circle, { backgroundColor: loggedInUserColor }]}
                                     onPress={showUploadButtons}
                                 >
-                                    <TextBold fontSize={16} color='#fff'>
+                                    <TextBold fontSize={40} color='#fff'>
                                         {userInitials}
                                     </TextBold>
                                 </TouchableOpacity>

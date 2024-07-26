@@ -6,4 +6,5 @@ export default interface NewsFeedItemProps {
     newsFeedPosts?: FeedPostResponse[];
     setNewsFeedPosts?: React.Dispatch<React.SetStateAction<FeedPostResponse[]>>;
     isLoading: boolean;
+    userColors?: { [key: string]: string };
 }
