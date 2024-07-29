@@ -45,7 +45,7 @@ const PostDotMenu = (props: PostDotMenuProps) => {
                 isMenuVisible && (
                     <View style={styles.menu}>
                         <TouchableOpacity style={styles.menuItem} onPress={() => handleMenuItemPress('delete')}>
-                            {Icons.deleteIcon}
+                            {Icons.delIcon}
                             <TextRegular fontSize={14} color="#AFB1B9">
                                 {messages.delete}
                             </TextRegular>

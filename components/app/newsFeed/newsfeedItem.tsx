@@ -68,7 +68,7 @@ const NewsFeedItem = (props: NewsFeedItemProps & { loadingMore?: boolean }) => {
     }, []);
 
     const handleLongPress = useCallback((index: number | undefined) => {
-        if (setNewsFeedPosts && index) {
+        if (setNewsFeedPosts && index !== undefined) {
             setNewsFeedPosts(prevState => toggleShowOverlay(prevState, index));
         }
     }, [newsFeedPosts, setNewsFeedPosts]);

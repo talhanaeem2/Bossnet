@@ -1,25 +1,22 @@
-import { View, StyleSheet, FlatList, RefreshControl } from "react-native";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react"
+import { FlatList, RefreshControl, StyleSheet, View } from 'react-native'
 
-import ImageFullScreenModal from "../../../modals/imageFullScreenModal/imageFullScreenModal";
-import CommentModal from "../../../modals/commentModal/commentModal";
-import NewsFeedItem from "./newsfeedItem";
-import NewsFeedShare from "./newsFeedShare";
-import TextRegular from "../common/textComponent/textRegular/textRegular";
+import FeedPostResponse from "../../../../components/app/newsFeed/interfaces/feedPostsResponse";
+import TextRegular from "../../../../components/app/common/textComponent/textRegular/textRegular";
+import NewsFeedItem from "../../../../components/app/newsFeed/newsfeedItem";
+import CommentModal from "../../../../modals/commentModal/commentModal";
+import ImageFullScreenModal from "../../../../modals/imageFullScreenModal/imageFullScreenModal";
+import Loader from "../../../../components/common/loader";
 
-import { getColorForUser, RPH } from "../../../constants/utils/utils";
-import Apis from "../../../constants/apis";
-import requestUtils from "../../../constants/utils/requestUtils";
+import Apis from "../../../../constants/apis";
+import requestUtils from "../../../../constants/utils/requestUtils";
+import { RPH } from "../../../../constants/utils/utils";
 
-import useToken from "../../../hooks/useToken";
-import useErrorHandling from "../../../hooks/useErrorHandling";
-import useSliceSelector from "../../../hooks/useSliceSelector";
+import useToken from "../../../../hooks/useToken";
+import useErrorHandling from "../../../../hooks/useErrorHandling";
+import useSliceSelector from "../../../../hooks/useSliceSelector";
 
-import NewsFeedProps from "./interfaces/newsFeedShareProps";
-import FeedPostResponse from "./interfaces/feedPostsResponse";
-
-const NewsFeed = (props: NewsFeedProps) => {
-    const { showUploadButtons, isPostCreated } = props;
+const Posts = () => {
     const [newsFeedPosts, setNewsFeedPosts] = useState<FeedPostResponse[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -29,7 +26,6 @@ const NewsFeed = (props: NewsFeedProps) => {
     const { getToken } = useToken();
     const { handleError } = useErrorHandling();
     const messages = useSliceSelector(state => state.language.messages);
-    const [userColors, setUserColors] = useState<{ [key: string]: string }>({});
 
     const pageSize = 10;
 
@@ -59,23 +55,14 @@ const NewsFeed = (props: NewsFeedProps) => {
             }
             setCurrentPage(page);
 
-            const newColors = { ...userColors };
-            data.forEach(post => {
-                const userId = post.userdetail.userId;
-                if (!newColors[userId]) {
-                    newColors[userId] = getColorForUser(userId);
-                }
-            });
-            setUserColors(newColors);
-
         } catch (error) {
             handleError(error);
         }
-    }, [getToken, isPostCreated, pageSize]);
+    }, [getToken, pageSize]);
 
     useEffect(() => {
         fetchData(1);
-    }, [isPostCreated, fetchData]);
+    }, [fetchData]);
 
     const loadMorePosts = useCallback(() => {
         if (!isFetchingMore && currentPage < totalPages) {
@@ -101,6 +88,10 @@ const NewsFeed = (props: NewsFeedProps) => {
         );
     };
 
+    if (isLoading && !isFetchingMore) {
+        return <Loader />
+    }
+
     return (
         <View style={styles.container}>
             <FlatList
@@ -115,13 +106,11 @@ const NewsFeed = (props: NewsFeedProps) => {
                         newsFeedPosts={newsFeedPosts}
                         setNewsFeedPosts={setNewsFeedPosts}
                         isLoading={isLoading}
-                        userColors={userColors}
                     />
                 }
                 keyExtractor={(item, index) => `${item._id}_${index}`}
                 onEndReached={loadMorePosts}
                 onEndReachedThreshold={0.5}
-                ListHeaderComponent={<NewsFeedShare isLoading={isLoading} showUploadButtons={showUploadButtons} />}
                 initialNumToRender={10}
                 maxToRenderPerBatch={10}
                 windowSize={5}
@@ -134,13 +123,12 @@ const NewsFeed = (props: NewsFeedProps) => {
     )
 }
 
-export default memo(NewsFeed)
+export default memo(Posts);
 
 const styles = StyleSheet.create({
     container: {
         flexDirection: "column",
-        gap: RPH(1.2),
-        paddingBottom: 60
+        gap: RPH(1.2)
     },
     emptyContainer: {
         alignItems: 'center',
@@ -148,4 +136,4 @@ const styles = StyleSheet.create({
         color: '#767676',
         backgroundColor: '#F9F9F9'
     }
-})
+});
