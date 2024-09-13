@@ -1,25 +1,25 @@
-import { View, StyleSheet, FlatList, RefreshControl } from "react-native";
 import { memo, useCallback, useEffect, useState } from "react";
+import { FlatList, RefreshControl, StyleSheet, View } from "react-native";
 
-import ImageFullScreenModal from "../../../modals/imageFullScreenModal/imageFullScreenModal";
 import CommentModal from "../../../modals/commentModal/commentModal";
+import ImageFullScreenModal from "../../../modals/imageFullScreenModal/imageFullScreenModal";
+import TextRegular from "../common/textComponent/textRegular/textRegular";
 import NewsFeedItem from "./newsfeedItem";
 import NewsFeedShare from "./newsFeedShare";
-import TextRegular from "../common/textComponent/textRegular/textRegular";
 
-import { getColorForUser, RPH } from "../../../constants/utils/utils";
 import Apis from "../../../constants/apis";
 import requestUtils from "../../../constants/utils/requestUtils";
+import { getColorForUser, RPH } from "../../../constants/utils/utils";
 
-import useToken from "../../../hooks/useToken";
 import useErrorHandling from "../../../hooks/useErrorHandling";
 import useSliceSelector from "../../../hooks/useSliceSelector";
+import useToken from "../../../hooks/useToken";
 
-import NewsFeedProps from "./interfaces/newsFeedShareProps";
 import FeedPostResponse from "./interfaces/feedPostsResponse";
+import NewsFeedProps from "./interfaces/newsFeedShareProps";
 
 const NewsFeed = (props: NewsFeedProps) => {
-    const { showUploadButtons, isPostCreated } = props;
+    const { showUploadButtons, isPostCreated, userColors, setUserColors } = props;
     const [newsFeedPosts, setNewsFeedPosts] = useState<FeedPostResponse[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -29,11 +29,14 @@ const NewsFeed = (props: NewsFeedProps) => {
     const { getToken } = useToken();
     const { handleError } = useErrorHandling();
     const messages = useSliceSelector(state => state.language.messages);
-    const [userColors, setUserColors] = useState<{ [key: string]: string }>({});
+    const loggedUserId = useSliceSelector(state => state.auth.userData.userId);
+    const searchText = useSliceSelector(state => state.app.searchText);
+    const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible);
 
     const pageSize = 10;
 
     const fetchData = useCallback(async (page: number) => {
+        if (!loggedUserId) return;
         const accessToken = await getToken();
         if (!accessToken) return;
 
@@ -42,7 +45,7 @@ const NewsFeed = (props: NewsFeedProps) => {
 
         try {
             const { data, pagination } = await requestUtils.request<FeedPostResponse[], void>(
-                `${Apis.newsFeedApi}?pageSize=${pageSize}&page=${page}`,
+                `${Apis.newsFeedApi}?pageSize=${pageSize}&page=${page}&search=${searchText}&userId=${loggedUserId}`,
                 'GET',
                 undefined,
                 { 'Authorization': `Bearer ${accessToken}` }
@@ -66,16 +69,16 @@ const NewsFeed = (props: NewsFeedProps) => {
                     newColors[userId] = getColorForUser(userId);
                 }
             });
-            setUserColors(newColors);
+            setUserColors && setUserColors(newColors);
 
         } catch (error) {
             handleError(error);
         }
-    }, [getToken, isPostCreated, pageSize]);
+    }, [getToken, isPostCreated, pageSize, loggedUserId, searchText]);
 
     useEffect(() => {
         fetchData(1);
-    }, [isPostCreated, fetchData]);
+    }, [isPostCreated, fetchData, loggedUserId, searchText]);
 
     const loadMorePosts = useCallback(() => {
         if (!isFetchingMore && currentPage < totalPages) {
@@ -128,7 +131,9 @@ const NewsFeed = (props: NewsFeedProps) => {
                 ListFooterComponent={renderFooter}
                 ListEmptyComponent={renderNoPosts}
             />
-            <CommentModal />
+            {isCommentModalVisible && (
+                <CommentModal />
+            )}
             <ImageFullScreenModal />
         </View>
     )
@@ -140,7 +145,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "column",
         gap: RPH(1.2),
-        paddingBottom: 60
+        paddingBottom: 100
     },
     emptyContainer: {
         alignItems: 'center',

@@ -1,7 +1,7 @@
-import Footer from "../footer/footer"
 import SafeAreaViewComponent from "../common/SafeAreaViewComponent/SafeAreaViewComponent";
+import Footer from "../footer/footer";
+
 import MainWrapperProps from "./interfaces/mainWrapperProps";
-import AppHeader from "../appHeader/appHeader";
 
 const MainWapper = (props: MainWrapperProps) => {
     const { isFooter = true } = props

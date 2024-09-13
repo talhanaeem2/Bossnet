@@ -1,25 +1,25 @@
-import { Keyboard, Modal, ScrollView, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, Image } from "react-native"
 import { memo, useCallback, useMemo, useState } from "react";
+import { Image, Keyboard, Modal, ScrollView, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 
-import TextBold from "../../components/app/common/textComponent/textBold/textBold";
 import MultiButtons from "../../components/app/common/multiButtons/multiButtons";
+import SafeAreaViewComponent from "../../components/app/common/SafeAreaViewComponent/SafeAreaViewComponent";
+import TextBold from "../../components/app/common/textComponent/textBold/textBold";
 import TextRegular from "../../components/app/common/textComponent/textRegular/textRegular";
 import PostVisibilityModal from "../postVisibilityModal/postVisibilityModal";
-import SafeAreaViewComponent from "../../components/app/common/SafeAreaViewComponent/SafeAreaViewComponent";
 
 import Apis from "../../constants/apis";
 import Icons from "../../constants/icons";
-import { RPW, RPH, RFS, getUserInitials, insertAtCursor, getColorForUser } from "../../constants/utils/utils";
+import { RFS, RPH, RPW, getColorForUser, getUserInitials, insertAtCursor } from "../../constants/utils/utils";
 
-import useSliceSelector from "../../hooks/useSliceSelector";
 import useReducerDispatch from "../../hooks/useReducerDispatch";
+import useSliceSelector from "../../hooks/useSliceSelector";
 import { setCreatePostModal } from "../../reducers/app/appSlice";
 
-import CreatePostModalProps from "./interfaces/createPostModalProps";
 import ButtonsInterface from "../../components/app/common/multiButtons/interfaces/buttonsInterface";
+import CreatePostModalProps from "./interfaces/createPostModalProps";
 
 const CreatePostModal = (props: CreatePostModalProps) => {
-    const { images, removeImage, handleImagePicker, uploadImages, setDescription, setTitle, description } = props
+    const { images, removeImage, handleImagePicker, uploadImages, setDescription, description } = props
     const isCreatePostModalVisible = useSliceSelector(state => state.app.createPostModal.isVisible);
     const [selection, setSelection] = useState<{ start: number, end: number }>({ start: 0, end: 0 });
     const userData = useSliceSelector(state => state.auth.userData);
@@ -53,7 +53,7 @@ const CreatePostModal = (props: CreatePostModalProps) => {
         {
             label: messages.camera,
             action: () => handleImagePicker('camera', { allowsEditing: true, allowsMultipleSelection: false }),
-            icon: Icons.cameraIcon,
+            icon: Icons.cameraIcon1,
         },
         {
             label: messages.gif,
@@ -123,11 +123,6 @@ const CreatePostModal = (props: CreatePostModalProps) => {
                                 </View>
                             </View>
                             <View style={{ flexShrink: 1 }}>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder='Title'
-                                    onChangeText={setTitle}
-                                />
                                 <TextInput
                                     style={styles.input}
                                     multiline={true}

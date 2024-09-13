@@ -12,7 +12,7 @@ import ImageInterface from "../../../components/common/interfaces/imageInterface
 import Loader from "../../../components/common/loader";
 
 import Apis from "../../../constants/apis";
-import { RPH } from "../../../constants/utils/utils";
+import { getColorForUser, RPH } from "../../../constants/utils/utils";
 import requestUtils from "../../../constants/utils/requestUtils";
 
 import useToken from "../../../hooks/useToken";
@@ -20,6 +20,7 @@ import useReducerDispatch from "../../../hooks/useReducerDispatch";
 import useErrorHandling from "../../../hooks/useErrorHandling";
 import useSuccessHandling from "../../../hooks/useSuccessHandling";
 import useImagePicker from "../../../hooks/useImagePicker";
+import useSliceSelector from "../../../hooks/useSliceSelector";
 
 import { setCreatePostModal } from "../../../reducers/app/appSlice";
 import { setUserData } from "../../../reducers/auth/authSlice";
@@ -35,13 +36,14 @@ const Home = () => {
     const [showButtons, setShowButtons] = useState(false);
     const { handleError } = useErrorHandling();
     const [fileIds, setFileIds] = useState<string[]>();
-    const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const { handleSuccess } = useSuccessHandling();
     const [isPostCreated, setIsPostCreated] = useState(false);
     const [isUploadComplete, setIsUploadComplete] = useState(false);
     const { handleImagePicker } = useImagePicker();
     const [isLoading, setIsLoading] = useState(false);
+    const loggedInUserId = useSliceSelector(state => state.auth.userData.userId);
+    const [userColors, setUserColors] = useState<{ [key: string]: string }>({});
 
     const showUploadButtons = () => {
         setShowButtons(!showButtons)
@@ -53,11 +55,10 @@ const Home = () => {
 
         try {
             setIsLoading(true);
-            await requestUtils.request<CreatePostResponse, { title: string, description: string, media?: string[] }>(
+            await requestUtils.request<CreatePostResponse, { description: string, media?: string[] }>(
                 Apis.newsFeedApi,
                 'POST',
                 {
-                    title: title,
                     description: description,
                     media: fileIds
 
@@ -73,10 +74,9 @@ const Home = () => {
             handleError(error);
         }
 
-    }, [getToken, title, description, fileIds, isPostCreated, handleError, dispatch]);
+    }, [getToken, description, fileIds, isPostCreated, handleError, dispatch]);
 
     const resetPostState = useCallback(() => {
-        setTitle('');
         setDescription('');
         setFileIds([]);
         setImages([]);
@@ -154,6 +154,15 @@ const Home = () => {
         fetchData();
     }, [fetchData]);
 
+    useEffect(() => {
+        if (loggedInUserId && !userColors[loggedInUserId]) {
+            setUserColors(prevColors => ({
+                ...prevColors,
+                [loggedInUserId]: getColorForUser(loggedInUserId),
+            }));
+        }
+    }, [loggedInUserId, userColors]);
+
     if (isLoading) {
         return (
             <Loader />
@@ -172,7 +181,6 @@ const Home = () => {
                     images={images}
                     handleImagePicker={pickImages}
                     removeImage={removeImage}
-                    setTitle={setTitle}
                     setDescription={setDescription}
                     description={description}
                 />

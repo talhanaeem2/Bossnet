@@ -11,7 +11,9 @@ enum Apis {
     accountVerificationCode = `${baseUrl}password/verify-otp`,
     accountChangePassword = `${baseUrl}reset/password`,
     homeUrl = 'https://app.bosnett.com/',
-    uploadMedia = `${baseUrl}users/media-file`
+    uploadMedia = `${baseUrl}users/media-file`,
+    userComments = `${baseUrl}users/comments`,
+    userSubComments = `${baseUrl}users/sub-comments`
 }
 
 export default Apis

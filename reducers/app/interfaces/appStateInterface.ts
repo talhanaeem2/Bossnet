@@ -7,5 +7,6 @@ export default interface AppStateInterface {
     commentModal: { isVisible: boolean };
     successModal: { isVisible: boolean };
     footerActiveButton: { activeTab: string };
-    newsFeedActiveItem: { postId: string };
+    newsFeedActiveItem: { postId: string, commentsCount: number };
+    searchText: string;
 }

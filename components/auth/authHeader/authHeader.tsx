@@ -86,14 +86,16 @@ export default memo(AuthHeader);
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 15,
+        paddingTop: RPH(2),
         flexDirection: 'column',
         justifyContent: 'center',
         width: '100%'
     },
     iconContainer: {
         alignSelf: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        paddingHorizontal: RPW(4),
+        paddingVertical: RPH(2)
     },
     header: {
         flexDirection: 'row'

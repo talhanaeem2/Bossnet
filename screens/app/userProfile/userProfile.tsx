@@ -86,7 +86,7 @@ const UserProfile = () => {
                 </View>
                 <View style={styles.header}>
                     <View style={styles.btnContainer}>
-                        <TouchableOpacity onPress={goBack}>
+                        <TouchableOpacity onPress={goBack} style={styles.backIcon}>
                             {Icons.backIcon}
                         </TouchableOpacity>
                         <TouchableOpacity>
@@ -144,6 +144,10 @@ const styles = StyleSheet.create({
         height: height * 0.42,
         width: '100%'
     },
+    backIcon: {
+        paddingHorizontal: RPW(4),
+        paddingVertical: RPH(2)
+    },
     textCap: {
         textTransform: 'capitalize'
     },
@@ -193,7 +197,7 @@ const styles = StyleSheet.create({
         height: height * 0.30,
         paddingHorizontal: RPW(4),
         position: 'relative',
-        paddingTop: 30,
+        paddingTop: RPH(3),
         zIndex: 1
     },
     btnContainer: {

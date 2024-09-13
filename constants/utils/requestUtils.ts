@@ -40,7 +40,7 @@ const requestUtils = {
             const successResult = result as IResponse<R>;
             return { data: successResult.data, pagination: successResult.pagination, message: successResult.message };
         } catch (error) {
-            console.error('Request failed:', error);
+            // console.error('Request failed:', error);
             throw error;
         }
     },

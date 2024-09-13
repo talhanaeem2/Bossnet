@@ -35,7 +35,7 @@ interface IconsInterface {
     pinIcon: JSX.Element;
     newPostIcon: JSX.Element;
     galleryIcon: JSX.Element;
-    cameraIcon: JSX.Element;
+    cameraIcon1: JSX.Element;
     gifIcon: JSX.Element;
     atIcon: JSX.Element;
     emojiIcon: JSX.Element;
@@ -65,6 +65,11 @@ interface IconsInterface {
     editHelp: JSX.Element;
     editContact: JSX.Element;
     editPrivacy: JSX.Element;
+    commentlike: JSX.Element;
+    commentUnlike: JSX.Element;
+    commentLikedIcon: JSX.Element;
+    cameraIcon2: JSX.Element;
+    sendIcon: JSX.Element;
 }
 
 export default IconsInterface

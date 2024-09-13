@@ -1,22 +1,22 @@
-import { View, StyleSheet, TouchableOpacity, Image, Pressable, ImageSourcePropType, Share } from "react-native";
 import { memo, useState } from "react";
+import { Image, ImageSourcePropType, Pressable, Share, StyleSheet, TouchableOpacity, View } from "react-native";
 
 import TextRegular from "../common/textComponent/textRegular/textRegular";
 
-import { RPW, RPH } from "../../../constants/utils/utils";
+import { RPH, RPW } from "../../../constants/utils/utils";
 
+import OverlayActionsInterface from "./interfaces/overlayActions";
 import UserActionsInterface from "./interfaces/userActionsInterface";
 import UserActionsProps from "./interfaces/userActionsProps";
-import OverlayActionsInterface from "./interfaces/overlayActions";
 
 import Icons from "../../../constants/icons";
 
-import useSliceSelector from "../../../hooks/useSliceSelector";
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
-import { setActivePostId, setCommentModal } from "../../../reducers/app/appSlice";
+import useSliceSelector from "../../../hooks/useSliceSelector";
+import { setActiveFeedItem, setCommentModal } from "../../../reducers/app/appSlice";
 
 const UserActions = (props: UserActionsProps) => {
-    const { onLongPress, showOverlay, closeOverlay, activeId } = props;
+    const { onLongPress, showOverlay, closeOverlay, activeId, commentsCount } = props;
     const isCommentModalVisible = useSliceSelector(state => state.app.commentModal.isVisible);
     const dispatch = useReducerDispatch();
     const [selectedIcon, setSelectedIcon] = useState<string>('');
@@ -81,8 +81,8 @@ const UserActions = (props: UserActionsProps) => {
 
     const handleComment = () => {
         console.log('Commented!');
-        if (activeId) {
-            dispatch(setActivePostId(activeId))
+        if (activeId && commentsCount) {
+            dispatch(setActiveFeedItem({ postId: activeId, commentsCount: commentsCount }))
         }
         dispatch(setCommentModal(!isCommentModalVisible))
         closeOverlay();

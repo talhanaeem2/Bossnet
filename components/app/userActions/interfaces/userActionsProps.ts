@@ -3,4 +3,5 @@ export default interface UserActionsProps {
     onLongPress?: () => void;
     closeOverlay: () => void;
     activeId: string | undefined;
+    commentsCount: number | undefined;
 }

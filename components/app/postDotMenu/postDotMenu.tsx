@@ -1,13 +1,13 @@
-import { View, StyleSheet, TouchableOpacity } from "react-native"
-import { memo, useEffect } from "react";
+import { memo, useEffect, useMemo } from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 import TextRegular from "../common/textComponent/textRegular/textRegular";
 
 import Icons from "../../../constants/icons";
 import debounce from "../../../constants/utils/debounce";
 
-import PostDotMenuProps from "./interfaces/postDotMenuProps";
 import { RPH, RPW } from "../../../constants/utils/utils";
+import PostDotMenuProps from "./interfaces/postDotMenuProps";
 
 import useSliceSelector from "../../../hooks/useSliceSelector";
 
@@ -19,14 +19,23 @@ const PostDotMenu = (props: PostDotMenuProps) => {
         setIsMenuVisible(activeIndex === index);
     }, [activeIndex, index]);
 
-    const toggleMenu = debounce((isOpen: boolean) => {
-        setIsMenuVisible(isOpen);
-        if (!isOpen) {
-            onMenuPress(-1);
-        } else {
-            onMenuPress(index);
-        }
-    }, 100);
+    const toggleMenu = useMemo(() =>
+        debounce((isOpen: boolean) => {
+            setIsMenuVisible(isOpen);
+            if (!isOpen) {
+                onMenuPress(-1);
+            } else {
+                onMenuPress(index);
+            }
+        }, 100),
+        [index, onMenuPress]
+    );
+
+    useEffect(() => {
+        return () => {
+            toggleMenu.cancel();
+        };
+    }, [toggleMenu]);
 
     const handleIconPress = () => {
         toggleMenu(!isMenuVisible);

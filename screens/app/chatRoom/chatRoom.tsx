@@ -50,7 +50,7 @@ const ChatRoom = () => {
     return (
         <MainWapper>
             <View style={styles.header}>
-                <TouchableOpacity onPress={goBack}>
+                <TouchableOpacity onPress={goBack} style={styles.backIcon}>
                     {Icons.backIcon}
                 </TouchableOpacity>
                 <View style={styles.circle}>
@@ -169,6 +169,10 @@ const styles = StyleSheet.create({
         paddingBottom: RPH(2),
         alignItems: "center",
         backgroundColor: "#fff"
+    },
+    backIcon: {
+        paddingHorizontal: RPW(4),
+        paddingVertical: RPH(2)
     },
     imageContainer: {
         alignItems: "center"

@@ -6,7 +6,6 @@ export default interface CreatePostModalProps {
     handleImagePicker: (action: string, options?: ImagePickerOptions) => Promise<void>;
     removeImage: (index: number) => void;
     uploadImages?: () => void;
-    setTitle?: (value: string) => void;
     setDescription?: (value: string) => void;
     description: string;
 }

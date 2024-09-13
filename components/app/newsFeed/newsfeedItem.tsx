@@ -1,27 +1,27 @@
-import { memo, useCallback, useMemo, useState } from "react";
-import { TouchableWithoutFeedback, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import moment from "moment";
+import { memo, useCallback, useMemo, useState } from "react";
+import { Image, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 
+import PostOptionsModal from "../../../modals/postOptionsModal/postOptionsModal";
 import ReadMore from "../common/readMoreText/readMoreText";
+import Shimmer from "../common/shimmer/shimmer";
 import TextBold from "../common/textComponent/textBold/textBold";
 import TextRegular from "../common/textComponent/textRegular/textRegular";
 import UserActions from "../userActions/userActions";
-import PostOptionsModal from "../../../modals/postOptionsModal/postOptionsModal";
-import Shimmer from "../common/shimmer/shimmer";
 
 import Apis from "../../../constants/apis";
 import Icons from "../../../constants/icons";
-import { RPH, RPW, getUserInitials } from "../../../constants/utils/utils";
+import { RPH, RPW, getColorForUser, getUserInitials } from "../../../constants/utils/utils";
 
 import useReducerDispatch from "../../../hooks/useReducerDispatch";
-import { setImageFullScreenModal } from "../../../reducers/app/appSlice";
 import useSliceSelector from "../../../hooks/useSliceSelector";
+import { setImageFullScreenModal } from "../../../reducers/app/appSlice";
 
-import NewsFeedItemProps from "./interfaces/newsFeedItemProps";
-import FeedPostResponse from "./interfaces/feedPostsResponse";
 import RootStackParamListInterface from "../../../interfaces/RootStackParamListInterface";
+import FeedPostResponse from "./interfaces/feedPostsResponse";
+import NewsFeedItemProps from "./interfaces/newsFeedItemProps";
 
 const NewsFeedItem = (props: NewsFeedItemProps & { loadingMore?: boolean }) => {
     const { item, index, newsFeedPosts, setNewsFeedPosts, isLoading, loadingMore, userColors } = props;
@@ -32,7 +32,14 @@ const NewsFeedItem = (props: NewsFeedItemProps & { loadingMore?: boolean }) => {
     const userData = useSliceSelector(state => state.auth.userData);
 
     const userId = item?.userdetail.userId;
-    const userBgColor = useMemo(() => userId && userColors && userColors[userId] ? userColors[userId] : '#FFFFFF', [userColors, userId]);
+    const userBgColor = useMemo(() => {
+        if (userId && userColors && userColors[userId]) {
+            return userColors[userId];
+        } else if (userId) {
+            return getColorForUser(userId);
+        }
+        return '#FFFFFF';
+    }, [userColors, userId]);
 
     const handleCloseOverlay = useCallback(() => {
         if (setNewsFeedPosts) {
@@ -82,6 +89,7 @@ const NewsFeedItem = (props: NewsFeedItemProps & { loadingMore?: boolean }) => {
     }, [navigation, item?.userdetail]);
 
     const postId = item?._id;
+    const commentsCount = item?.commentsCount;
     const imageUris = item?.media.map((media) => media.path).filter(uri => uri);
     const datePostedAgo = moment(item?.date_posted).fromNow();
     const name = `${userData.firstName} ${userData.lastName}`;
@@ -163,6 +171,7 @@ const NewsFeedItem = (props: NewsFeedItemProps & { loadingMore?: boolean }) => {
                             onLongPress={() => handleLongPress(index)}
                             closeOverlay={handleCloseOverlay}
                             activeId={postId}
+                            commentsCount={commentsCount}
                         />}
                 </View>
             </TouchableWithoutFeedback>

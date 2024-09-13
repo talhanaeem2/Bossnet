@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import AppStateInterface from './interfaces/appStateInterface';
 import ImageFullScreenModalPayload from './interfaces/imageFullScreenModalInterface/imageFullScreenModalPayload';
+import newsFeedItemPayload from './interfaces/newsFeedItemPayload';
 
 const initialState: AppStateInterface = {
     isLoading: false,
@@ -23,8 +24,10 @@ const initialState: AppStateInterface = {
         activeTab: 'Home'
     },
     newsFeedActiveItem: {
-        postId: ''
-    }
+        postId: '',
+        commentsCount: 0
+    },
+    searchText: ''
 };
 
 const appSlice = createSlice({
@@ -55,8 +58,12 @@ const appSlice = createSlice({
         resetActiveTab: (state) => {
             state.footerActiveButton.activeTab = 'Home';
         },
-        setActivePostId(state, action: PayloadAction<string>) {
-            state.newsFeedActiveItem.postId = action.payload
+        setActiveFeedItem(state, action: PayloadAction<newsFeedItemPayload>) {
+            state.newsFeedActiveItem.postId = action.payload.postId,
+                state.newsFeedActiveItem.commentsCount = action.payload.commentsCount
+        },
+        setSearchText(state, action: PayloadAction<string>) {
+            state.searchText = action.payload
         }
     }
 });
@@ -69,7 +76,8 @@ export const {
     setSuccessModal,
     setActiveTab,
     resetActiveTab,
-    setActivePostId
+    setActiveFeedItem,
+    setSearchText
 } = appSlice.actions;
 
 export default appSlice.reducer;
